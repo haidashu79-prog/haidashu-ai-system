@@ -1,0 +1,12 @@
+title: 海大叔 AI 体系 · Haidashu AI System
+description: 一人公司（OPC）+ AI 内容生产线的完整打法：四层架构、7 大技能体系、可落地的硬规格与流水线
+theme: jekyll-theme-cayman
+markdown: kramdown
+show_downloads: false
+lang: zh-CN
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default

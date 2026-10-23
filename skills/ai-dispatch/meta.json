@@ -1,0 +1,19 @@
+{
+  "name": "ai-dispatch",
+  "display_name": "AI 项目台总指挥",
+  "display_description": "一句人话，自动拆单、选工具、派活、验收",
+  "description": "多 AI 工具协同调度技能。以桌面「AI项目台」为物理总线，Marvis 担任总指挥，把目标拆成任务卡并按路由表派给最擅长的执行者，独立验收后归档。",
+  "detail_describe": "读 agents.md 与路由表，明确分工\n把目标拆成任务卡，写进公共区/tasks\n内部子 Agent 与技能优先，外部客户端用任务卡对接\n写审分离，产物归档并更新进度与日报",
+  "author": "海大叔 / OPC 工作室",
+  "type": "办公学习",
+  "scope": [
+    "main"
+  ],
+  "use_cases": [
+    "项目台：帮我做一条口播稿，顺便找配图",
+    "项目台：今天安排",
+    "项目台：收工",
+    "把这件事拆给几个 AI 分工做"
+  ],
+  "version": "1.0.0"
+}
