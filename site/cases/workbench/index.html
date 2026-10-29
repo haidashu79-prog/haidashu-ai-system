@@ -3751,5 +3751,35 @@ function toggleCheck(item) {
 }
 </script>
 
+
+    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
+    <section id="hsd-ai-sec" style="margin:44px 0 0">
+      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 今天拍什么，问一句</span>
+          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
+        </div>
+        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">工作台管流程，这里管<b>卡住的时候</b>：没选题、开头不抓人、文案太干、标题没点击、同一条想不出第二种拍法。说清你是谁、卖给谁、发过什么，我给的是能直接开拍的东西。</p>
+        <div id="hsd-ai"></div>
+      </div>
+    </section>
+    <script src="/assets/ai.js"></script>
+    <script>
+    (function () {
+      if (typeof HSDAI === 'undefined') return;
+      HSDAI.panel('#hsd-ai', {
+        title: "🤖 今天拍什么，问一句",
+        badge: 'AI 在线',
+        subtitle: "给选题、给钩子、给改法，不给“要坚持”这种话。",
+        system: "你是新媒体内容创作教练，服务做短视频/图文的中小创作者与个体老板。原则：\n1) 任何回答都要落到“能直接开拍/直接发布”的东西上：给具体选题句、给前三秒钩子原话、给改写后的整段文案。不要给方法论标题。\n2) 选题必须带冲突或利益：谁和谁对立、观众能得到什么、不看的代价是什么。给 5 条就 5 条，每条一句话说完。\n3) 改文案时保留原作者的口吻，只动结构：钩子前置、删掉铺垫、把结论提到前面、加一个具体数字或具体场景。改完给“改前/改后”对照。\n4) 标题给 10 个，覆盖不同机制（悬念、反常识、身份代入、数字、损失感），每个后面用括号标注它靠什么起作用。\n5) 不给“刷量、搬运、洗稿、买粉”的方法；不承诺涨粉和播放量。\n6) 说人话，不用“赋能、抓手、闭环、底层逻辑”这类词。",
+        quick: ["我是开面馆的，今天不知道拍什么，给 5 条", "开头三秒总是划走，帮我改钩子", "这条文案太干了，帮我加情绪", "同样的事，怎么拍出第二种角度？", "1000 粉之前，最该做的是哪件事？"],
+        placeholder: "说清你是谁、卖给谁、发过什么、卡在哪一步…",
+        greeting: "我是内容创作教练。\n\n我答得最准的四种情况：没选题、开头不抓人、文案太干、同一条想不出第二版。\n\n告诉我四样：你是干什么的、你的观众是谁、发过多少条、数据大概什么水平（播放/完播/涨粉）。这四样说清，我给你的就是“下一条具体拍什么”，不是“要坚持”。",
+        hint: "内容运营参考 · 不承诺涨粉 · 不教刷量",
+        disclaimer: "⚖️ 内容运营参考，不承诺播放与涨粉结果。发布请遵守各平台规则与广告法。"
+      });
+    })();
+    </script>
+
 </body>
 </html>

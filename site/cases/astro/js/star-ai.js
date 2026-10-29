@@ -27,7 +27,9 @@
     1: { t: '最费劲的一型', c: '#C0392B', s: '你们表达爱的方式几乎相反。不是不能在一起，是必须两个人都愿意"翻译"对方。' }
   };
 
-  var signs = (window.ZODIAC_SIGNS || []).map(function (s) {
+  // zodiac-data.js 用 const 声明，是词法全局，不挂在 window 上，必须按裸名取
+  var SRC = (typeof ZODIAC_SIGNS !== 'undefined' && ZODIAC_SIGNS) || window.ZODIAC_SIGNS || [];
+  var signs = SRC.map(function (s) {
     return { name: s.name, range: s.dateRange, element: s.element, ruler: s.ruler, traits: s.traits };
   });
 
@@ -83,7 +85,8 @@
           : a.element === '水' || b.element === '水'
           ? '水象那个人的情绪不是"作"，是他真的在用感受理解世界；另一个人的理性也不是冷血，是他真的在用逻辑保护你。谁也别要求对方换成自己的语言。'
           : a.element === '土' || b.element === '土'
-          ? '土象那个人不是不浪漫，是他的浪漫藏在"这件事我替你做完了"里；另一个人要的浪漫是说出来。两边都没错，只是方式不同。']
+          ? '土象那个人不是不浪漫，是他的浪漫藏在"这件事我替你做完了"里；另一个人要的浪漫是说出来。两边都没错，只是方式不同。'
+          : '风象和火象凑一起，最不缺的是新鲜感，最缺的是收尾。开局都很热，热情退了以后要靠一个具体的事把两个人继续绑在一起——不是靠感觉，是靠一件共同在做的事。']
     ];
 
     var html =

@@ -48,11 +48,61 @@
   function fmt(text) {
     var s = esc(text);
     s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-    s = s.replace(/(^|\n)\s*[·•]\s?/g, '$1· ');
-    var blocks = s.split(/\n{2,}/).map(function (p) {
-      return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
-    }).join('');
-    return blocks;
+
+    var lines = s.split('\n');
+    var out = [];
+    var i = 0;
+
+    function isRow(l) { return /^\s*\|.*\|\s*$/.test(l); }
+    function isSep(l) { return /^\s*\|[\s:|-]+\|\s*$/.test(l); }
+    function cells(l) {
+      return l.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(function (c) { return c.trim(); });
+    }
+
+    while (i < lines.length) {
+      var l = lines[i];
+
+      // markdown 表格：首行是表头，第二行是分隔线
+      if (isRow(l) && i + 1 < lines.length && isSep(lines[i + 1])) {
+        var head = cells(l);
+        i += 2;
+        var body = [];
+        while (i < lines.length && isRow(lines[i])) { body.push(cells(lines[i])); i++; }
+        var t = '<div class="hsdai-tw"><table class="hsdai-t"><thead><tr>' +
+          head.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '</tr></thead><tbody>' +
+          body.map(function (r) {
+            return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+          }).join('') + '</tbody></table></div>';
+        out.push(t);
+        continue;
+      }
+
+      // 列表：连续的 - * · 归成一组；1. 2. 归另一组，两者不混
+      if (/^\s*(?:[-*·]|\d+[.、)])\s+/.test(l)) {
+        var items = [];
+        var ordered = /^\s*\d+[.、)]\s+/.test(l);
+        var sameType = function (x) { return (/^\s*\d+[.、)]\s+/.test(x)) === ordered; };
+        while (i < lines.length && /^\s*(?:[-*·]|\d+[.、)])\s+/.test(lines[i]) && sameType(lines[i])) {
+          items.push(lines[i].replace(/^\s*(?:[-*·]|\d+[.、)])\s+/, ''));
+          i++;
+        }
+        out.push('<' + (ordered ? 'ol' : 'ul') + ' class="hsdai-l">' +
+          items.map(function (x) { return '<li>' + x + '</li>'; }).join('') +
+          '</' + (ordered ? 'ol' : 'ul') + '>');
+        continue;
+      }
+
+      // 普通段落：连续非空行合并，空行断段
+      if (!l.trim()) { i++; continue; }
+      var para = [];
+      while (i < lines.length && lines[i].trim() && !isRow(lines[i]) &&
+             !/^\s*(?:[-*·]|\d+[.、)])\s+/.test(lines[i])) {
+        para.push(lines[i]); i++;
+      }
+      out.push('<p>' + para.join('<br>') + '</p>');
+    }
+
+    return out.join('');
   }
 
   /* ---------- 样式（自动注入一次） ---------- */
@@ -71,6 +121,14 @@
       + '.hsdai-msg.a{align-self:flex-start;background:#FBF6EE;border:1px solid rgba(140,95,50,.14);border-bottom-left-radius:5px;color:var(--ink,#2B2119)}'
       + '.hsdai-msg.a p{margin:0 0 7px}.hsdai-msg.a p:last-child{margin-bottom:0}'
       + '.hsdai-msg.a b{color:var(--brand2,#A34A15)}'
+      + '.hsdai-msg.a ul,.hsdai-msg.a ol{margin:6px 0 8px;padding-left:20px}'
+      + '.hsdai-msg.a li{margin:3px 0}'
+      + '.hsdai-tw{overflow-x:auto;margin:8px 0 10px}'
+      + '.hsdai-t{border-collapse:collapse;width:100%;font-size:12.5px;min-width:340px}'
+      + '.hsdai-t th{background:rgba(194,87,28,.08);color:#A34A15;font-weight:700;text-align:left;'
+      + 'padding:7px 9px;border:1px solid rgba(140,95,50,.16);white-space:nowrap}'
+      + '.hsdai-t td{padding:7px 9px;border:1px solid rgba(140,95,50,.14);vertical-align:top;color:#2B2119}'
+      + '.hsdai-t tbody tr:nth-child(even){background:rgba(245,233,216,.35)}'
       + '.hsdai-msg.e{align-self:flex-start;background:#FFF1EF;border:1px solid rgba(192,57,43,.25);color:#C0392B;font-size:12.5px}'
       + '.hsdai-quick{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}'
       + '.hsdai-quick button{border:1.5px solid rgba(194,87,28,.25);background:#fff;color:var(--brand,#C2571C);'

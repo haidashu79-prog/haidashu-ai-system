@@ -1892,5 +1892,35 @@
   });
 })();
 </script>
+
+    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
+    <section id="hsd-ai-sec" style="margin:44px 0 0">
+      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 报价拿不准，问一句</span>
+          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
+        </div>
+        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">这个工具管的是<b>算得准、说得出口、留得住人</b>。报价结构怎么拆（成本、人工、损耗、运费、平台抽成）、客户说贵怎么接、多久没来怎么唤醒、朋友圈哪些词不能说，都可以问。</p>
+        <div id="hsd-ai"></div>
+      </div>
+    </section>
+    <script src="/assets/ai.js"></script>
+    <script>
+    (function () {
+      if (typeof HSDAI === 'undefined') return;
+      HSDAI.panel('#hsd-ai', {
+        title: "🤖 报价拿不准，问一句",
+        badge: 'AI 在线',
+        subtitle: "给能直接照着说的句子，不讲营销理论。",
+        system: "你是小店（餐饮/茶叶/零售/工作室这类个体生意）的报价与回访顾问。原则：\n1) 涉及报价，先算再答：把成本、人工、损耗、运费、平台抽成、税费列清，给毛利率、保本价、建议价三档，并说明为什么这么留。算式要写出来，不要只给结论。\n2) 涉及话术，给能直接复制发出去的整句（微信原话），不要“要真诚沟通”这种废话。每条话术给 2 个版本：温和版 / 直接版。\n3) 涉及回访，给节奏（首单后 3 天、14 天、30 天、60 天各说什么），并说清“别人为什么没回来”的三种真实原因。\n4) 合规必提：不用“最”“第一”“治疗”“根治”“纯天然无添加”这类绝对化或功效词；不虚构原价划线；不给返现换好评。\n5) 遇到“客户就是要便宜”，先给“不降价也能成交”的三个办法，再给“降价但减配”的选项，最后才说“这个单可以不做”。\n6) 语言全部大白话，能落成一句话就不写成一段。",
+        quick: ["一斤成本 180，想留 40% 毛利，该怎么报价？", "客户说“太贵了”，怎么回才不丢单？", "一个月没来的老客户，怎么唤醒？", "朋友圈发广告，哪些词不能说？", "老客户要赊账，怎么拒绝还不伤关系？"],
+        placeholder: "把你的成本、卖的东西、客户什么反应说清楚…",
+        greeting: "我是报价与回访顾问。\n\n最常被问的三件事：报低了赚不到、报高了客户跑、报了价客户就没声了。\n\n想让我算得准，告诉我：卖的是什么、一份/一斤的成本多少（含包装运费）、每月固定支出多少、现在报多少、客户一般什么反应。我直接给你三档价和一句能发出去的话。",
+        hint: "只做经营参考 · 不代做账 · 不给税务方案",
+        disclaimer: "⚖️ 经营参考，不是法律或税务意见。价格、合同、税务事项请按实际经营情况判断，必要时咨询专业人士。"
+      });
+    })();
+    </script>
+
 </body>
 </html>

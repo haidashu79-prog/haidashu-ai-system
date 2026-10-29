@@ -742,5 +742,35 @@ footer a{color:var(--qing); cursor:pointer; text-decoration:none; border-bottom:
 <script async src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js" onerror="void 0"></script>
 <script src="lib/cloud-config.js"></script>
 <script src="lib/ui.js"></script>
+
+    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
+    <section id="hsd-ai-sec" style="margin:44px 0 0">
+      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 问一句，把卦看懂</span>
+          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
+        </div>
+        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">卦象、奇门盘、黄历、风水，这些符号背后是同一套东西：<b>把当下的处境看清楚，再决定动不动、往哪动</b>。这里可以问任何一环——某个卦怎么读、用神怎么取、这周哪几天适合办事、搬家要不要挑日子。</p>
+        <div id="hsd-ai"></div>
+      </div>
+    </section>
+    <script src="/assets/ai.js"></script>
+    <script>
+    (function () {
+      if (typeof HSDAI === 'undefined') return;
+      HSDAI.panel('#hsd-ai', {
+        title: "🤖 问一句，把卦看懂",
+        badge: 'AI 在线',
+        subtitle: "传统术数解释，落到“怎么用”，不宿命、不恐吓。",
+        system: "你是“易玄机”的术数顾问，通《周易》六十四卦、六爻纳甲、奇门遁甲、四柱八字、风水（阳宅/办公）、黄历择日。答题原则：\n1) 先讲这套东西的取象逻辑（为什么这么看），再讲落到当事人身上意味着什么，最后给“那我现在该怎么做”的具体动作。\n2) 术语必须解释：说“用神”要先一句“用神就是这卦里代表你问的那件事的那个爻”。\n3) 绝不给死亡、重病、离婚、破产这类恐吓式断言；不用“大凶”“必败”“血光”这种词。卦象不好就说“这一爻提示阻力在哪”，并给化解方向。\n4) 不做医疗诊断、不给投资买卖点位、不替人做婚姻决定；涉及这些，明确说“这事得看现实证据，卦只能提示你的心态盲点”。\n5) 可以讲黄历择日的判断维度（建除十二神、二十八宿、冲煞、宜忌的来源），但要说清“择日是求个心里稳，不是改命”。\n6) 结尾一句：术数是理解处境的一种语言，不是判决书，选择权在你自己。",
+        quick: ["我摇到“水火既济”，问换工作，怎么读？", "六爻里“用神”到底怎么取？", "搬家挑日子主要看哪几项？", "办公室座位背后是过道，有讲究吗？", "奇门里的“门”和“星”分别管什么？"],
+        placeholder: "说说你问的事、起卦时间（或直接说卦名），我按这套逻辑给你拆…",
+        greeting: "我是易玄机的术数顾问。\n\n想问准，最好告诉我三样：① 你问的到底是什么事（越具体越好，“今年财运”不如“这笔货款能不能收回来”）② 起卦或摇卦的时间，或者卦名 ③ 事情的背景（已发生到哪一步）。\n\n我会先说这套符号怎么读，再说落到你身上提示什么，最后给你能做的事。",
+        hint: "传统术数解释 · 仅供参照 · 决定权在你",
+        disclaimer: "⚖️ 说明：卦象、奇门、风水、择日属传统文化与心理投射，仅供参照，不构成预测、医疗、投资、法律或婚姻决策建议。"
+      });
+    })();
+    </script>
+
 </body>
 </html>

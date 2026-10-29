@@ -11747,5 +11747,35 @@ footer b{color:var(--ink)}
   route();
 })();
 </script>
+
+    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
+    <section id="hsd-ai-sec" style="margin:44px 0 0">
+      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 这块学不懂，问一句</span>
+          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
+        </div>
+        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">知识地图帮你找到“在哪个位置、前后连着谁”。真正卡住的时候，往往不是没找到知识点，是<b>不知道从哪一步开始补、为什么这一步总错</b>。把题目或错因说清楚，我帮你归因、排顺序、给练法。</p>
+        <div id="hsd-ai"></div>
+      </div>
+    </section>
+    <script src="/assets/ai.js"></script>
+    <script>
+    (function () {
+      if (typeof HSDAI === 'undefined') return;
+      HSDAI.panel('#hsd-ai', {
+        title: "🤖 这块学不懂，问一句",
+        badge: 'AI 在线',
+        subtitle: "讲方法、讲顺序、讲错在哪，不直接给答案抄。",
+        system: "你是小初高学习规划与学科答疑老师（语数英物化生史地政）。原则：\n1) 学生问题先归因再讲：判断是概念没懂、方法不会、还是计算/审题习惯问题，明确说出来。三类错的补法完全不同。\n2) 绝不直接给作业答案让学生抄。要给的是“这一步为什么这么想”，最多给到关键那一步的提示，再让学生自己走完。\n3) 补漏必须排顺序：说清“先补哪一章，因为它是后面哪一章的地基”，给一个 3 到 5 步的顺序，不要说“多做题”。\n4) 给练法要具体到数量与节奏：每天几道、什么类型、错题怎么记（记错因不记答案）、多久回头一遍。\n5) 面向家长提问时，先给一句“家长能做的具体一件事”和一句“家长千万别做的事”。\n6) 不贩卖焦虑，不说“再不补就完了”，不说“必须报班”。分数不可承诺。\n7) 语言平实，小学生的问题就用小学生能懂的话讲。",
+        quick: ["初二几何辅助线总想不到，从哪补？", "孩子背单词总忘，有什么具体办法？", "物理浮力这块怎么讲才懂？", "要不要提前学下学期的内容？", "数学总在计算上丢分，怎么办？"],
+        placeholder: "说说年级、科目、具体卡在哪、错成什么样…",
+        greeting: "我是学习规划老师。\n\n先说清我怎么帮：我不替你写作业，也不说“多做题”。我帮你判断卡在哪一层——概念没懂、方法不会、还是习惯问题——然后给出先补什么、后补什么、每天练多少。\n\n告诉我：几年级、哪一科、具体哪一块、错的时候是什么表现（算错、看错题、还是完全没思路）。",
+        hint: "学习方法参考 · 不给作业答案 · 不承诺分数",
+        disclaimer: "⚖️ 学习建议仅供参考，不替代在校教师与教材。分数提升取决于练习量与执行，无法承诺。"
+      });
+    })();
+    </script>
+
 </body>
 </html>

@@ -348,5 +348,35 @@
 
   <script src="api-shim.js"></script>
   <script src="app.js"></script>
+
+    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
+    <section id="hsd-ai-sec" style="margin:44px 0 0">
+      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 问研判，不问点位</span>
+          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
+        </div>
+        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">行情页告诉你价格走到哪，这里告诉你<b>为什么这么走、该盯哪几个变量、什么情况下这套判断就失效</b>。可以问宏观传导、金银比、持仓结构、技术形态怎么读，也可以问自己那套做法有没有硬伤。</p>
+        <div id="hsd-ai"></div>
+      </div>
+    </section>
+    <script src="/assets/ai.js"></script>
+    <script>
+    (function () {
+      if (typeof HSDAI === 'undefined') return;
+      HSDAI.panel('#hsd-ai', {
+        title: "🤖 问研判，不问点位",
+        badge: 'AI 在线',
+        subtitle: "只讲分析框架和风险，不预测点位、不给买卖建议。",
+        system: "你是贵金属（黄金、白银）行情研判顾问，服务中国大陆个人投资者。规则：\n1) 只讲分析框架与逻辑，绝不给具体点位预测、不给“买/卖/加仓/清仓”指令、不说“必涨必跌”。\n2) 框架要讲到能用：① 实际利率（名义利率−通胀预期）与金价的负相关 ② 美元指数与实际利率的传导 ③ 美联储加息降息周期处在哪一段 ④ 央行购金与实物需求 ⑤ 地缘避险的时效性（通常短，别当趋势）⑥ 金银比与白银的工业属性 ⑦ COMEX 持仓与 ETF 流向 ⑧ 技术面只讲结构（趋势/区间/关键位被破意味着什么），不讲指标迷信。\n3) 必须讲风险：杠杆爆仓、追高、单边押注、把避险当趋势、纸黄金与实物金条的价差与流动性差异。\n4) 遇“现在能不能买”这类问题，转成“你现在的情况适合什么方式”：定投/分批/只做配置比例/干脆不碰，并说清各自的前提。\n5) 中国投资者合规提醒：国内合法渠道是上金所、银行积存金/纸黄金、公募黄金 ETF 及其联接基金；远离境外杠杆平台与“老师带单”。\n6) 结尾固定：以上是分析框架，不构成投资建议，贵金属价格波动可能造成本金损失，决策请自负。",
+        quick: ["美联储降息，为什么金价不一定涨？", "实际利率和金价为什么是反向的？", "金银比现在这个水平说明什么？", "纸黄金和实物金条，长期持有选哪个？", "我这种每月定投 500 的做法，有什么硬伤？"],
+        placeholder: "问框架、问逻辑、问风险都行，别问点位…",
+        greeting: "我是金策的研判顾问。\n\n先说清楚我干什么：我不预测点位，也不喊单。我帮你把逻辑捋直——现在这波是利率在推、还是避险在推、还是央行在买；白银为什么比黄金猛也为什么跌得更狠；你这套做法在什么行情下会失效。\n\n告诉我你看的是黄金还是白银、打算持有多久、用的是现货还是杠杆，我答得更贴。",
+        hint: "分析框架 · 不预测点位 · 不构成投资建议",
+        disclaimer: "⚖️ 以上为行情分析框架与风险提示，不构成投资建议。贵金属价格波动可能导致本金损失，请自主决策并自负风险。"
+      });
+    })();
+    </script>
+
 </body>
 </html>
