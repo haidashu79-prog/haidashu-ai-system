@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="普法工委法律专家团：8 位法律顾问 + 11 个场景自助包 + 9 份文书范本，新媒体IP运营、变现、合作合规护航。">
+<title>法律护航 · 普法工委法律自助助手｜智脑网</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%23C2571C' stroke-width='2'/><circle cx='16' cy='16' r='2.2' fill='%23C2571C'/></svg>">
+<style>
+:root{
+  --bg:#FBF6EE; --bg2:#F5E9D8;
+  --ink:#2B2119; --dim:#7C6A57; --dim2:#A8998A;
+  --cyan:#C2571C; --cyan-d:rgba(194,87,28,.16);
+  --blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --red:#C0392B;
+  --line:rgba(140,95,50,.16); --grid:rgba(194,87,28,.055);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 44px);margin-inline:auto}
+::selection{background:rgba(194,87,28,.28);color:#fff}
+
+/* ── 导航（与全站一致） ── */
+#nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(253,249,243,.66);border-bottom:1px solid transparent;transition:.25s}
+#nav.solid{border-bottom-color:var(--line)}
+.nav-in{width:min(1120px,100% - 44px);margin-inline:auto;height:62px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.mark{width:30px;height:30px;border-radius:9px;border:1px solid rgba(194,87,28,.4);display:grid;place-items:center;position:relative;background:rgba(194,87,28,.06)}
+.mark i{width:5px;height:5px;border-radius:50%;background:var(--cyan);position:absolute;box-shadow:0 0 8px var(--cyan)}
+.mark i:nth-child(1){top:6px;left:7px}.mark i:nth-child(2){top:13px;left:13px;width:7px;height:7px}.mark i:nth-child(3){top:19px;left:8px;background:var(--red);box-shadow:0 0 6px var(--red)}
+.bt{font-size:13.5px;font-weight:600;letter-spacing:.02em}
+.bs{font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;color:var(--dim2)}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links a{padding:8px 12px;border-radius:8px;font-size:13px;color:var(--dim);transition:.2s}
+.nav-links a:hover{color:var(--ink);background:rgba(194,87,28,.08)}
+.nav-links a.cur{color:var(--cyan);background:var(--cyan-d)}
+
+/* ── 页头 ── */
+.hero{padding:52px 0 26px;position:relative}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--cyan);margin-bottom:14px}
+.kicker b{color:var(--dim2);font-weight:400;margin-left:8px}
+h1{font-size:clamp(26px,4.4vw,40px);line-height:1.28;font-weight:700;letter-spacing:.01em}
+h1 .grad{background:linear-gradient(96deg,#2B2119 4%,var(--cyan) 44%,var(--blue) 68%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 26px rgba(194,87,28,.2))}
+.lead{margin-top:16px;max-width:720px;font-size:15px;color:var(--dim)}
+.lead b{color:var(--ink)}
+.badges{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;padding:6px 12px;border:1px solid var(--line);border-radius:20px;color:var(--dim)}
+.badge b{color:var(--cyan)}
+
+/* ── 区块 ── */
+.sec{padding:34px 0 6px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
+.sec-num{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.12em}
+.sec-head h2{font-size:20px;font-weight:700}
+.sec-sub{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim2)}
+
+/* 专家卡 */
+.team{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.expert{background:linear-gradient(180deg,rgba(194,87,28,.05),rgba(194,87,28,.015));border:1px solid var(--line);border-radius:14px;padding:18px;transition:.22s;position:relative}
+.expert:hover{border-color:rgba(194,87,28,.4);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(194,87,28,.28),0 18px 46px -18px rgba(194,87,28,.55)}
+.expert .top{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:16px;font-weight:700;color:#ffffff;background:linear-gradient(135deg,var(--cyan),var(--blue));box-shadow:0 6px 18px -6px rgba(194,87,28,.5)}
+.expert.lead-x .avatar{background:linear-gradient(135deg,var(--gold),#f0d48a)}
+.expert h3{font-size:16px}
+.expert h3 small{font-size:10.5px;font-weight:400;color:var(--cyan);background:var(--cyan-d);border-radius:5px;padding:2px 8px;margin-left:8px;letter-spacing:.06em}
+.expert p{font-size:13px;color:var(--dim)}
+.expert .fl{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9px;color:var(--dim2);letter-spacing:.12em}
+
+/* 场景包 */
+.scenes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.scene{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px 10px;text-align:center;transition:.2s}
+.scene:hover{border-color:rgba(194,87,28,.4)}
+.scene .ic{font-size:20px;display:block;margin-bottom:5px}
+.scene b{font-size:12.5px;font-weight:500;display:block}
+.scene s{text-decoration:none;font-size:10px;color:var(--dim2);display:block;margin-top:2px}
+
+/* 文书范本 */
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.doc{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px 14px;font-size:13.5px;transition:.2s}
+.doc:hover{border-color:rgba(194,87,28,.4)}
+.doc .ic{font-size:16px;flex:none}
+.doc s{text-decoration:none;color:var(--dim);font-size:11px;margin-left:auto;font-family:var(--mono)}
+
+/* 用法 + 红线 */
+.duo{display:grid;grid-template-columns:1.2fr .8fr;gap:13px}
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h3{font-size:15.5px;margin-bottom:12px}
+.panel h3 .em{color:var(--cyan)}
+.panel p{font-size:13.5px;color:var(--dim)}
+.panel .say{margin-top:12px;background:rgba(194,87,28,.06);border:1px solid rgba(194,87,28,.22);border-radius:10px;padding:12px 14px;font-size:13.5px}
+.panel .say b{color:var(--cyan)}
+.redline{border-color:rgba(224,84,63,.34)}
+.redline h3 .em{color:#C0392B}
+.redline li{list-style:none;font-size:13px;color:var(--dim);padding:5px 0 5px 24px;position:relative;line-height:1.6}
+.redline li::before{content:"⚠";position:absolute;left:2px;color:var(--red);font-size:12px}
+.redline li b{color:var(--ink)}
+
+/* 免责 */
+.disclaim{margin:30px 0 46px;border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--dim2);line-height:1.8}
+.disclaim b{color:var(--dim)}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--dim2)}
+
+/* ── 手机 ── */
+@media(max-width:820px){
+  .nav-in{height:auto;min-height:56px;padding:9px 0;flex-wrap:wrap;row-gap:7px}
+  .nav-links{width:100%;margin-left:0;justify-content:space-between;flex-wrap:wrap;gap:5px}
+  .nav-links a{flex:1 1 21%;text-align:center;font-size:12px;padding:8px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero{padding:36px 0 18px}
+  .team{grid-template-columns:1fr}
+  .scenes{grid-template-columns:repeat(2,1fr)}
+  .docs{grid-template-columns:1fr}
+  .duo{grid-template-columns:1fr}
+  .expert .fl{display:none}
+}
+
+/* ===== 暖色主题同步（与首页 site.css 一致） ===== */
+:root{
+  --bg:#FBF6EE; --bg2:#F5E9D8; --bg3:#F5E9D8;
+  --ink:#2B2119; --ink2:#4A3A2B; --txt:#2B2119; --text:#2B2119;
+  --dim:#7C6A57; --sub:#7C6A57; --dim2:#A8998A;
+  --card:#ffffff; --card2:#FBF7F1; --panel:#ffffff; --panel2:#ffffff;
+  --cyan:#C2571C; --cyan-d:rgba(194,87,28,.10);
+  --blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --amber:#E0892B;
+  --red:#C0392B; --green:#2F9E6B; --mag:#C2571C;
+  --brand:#C2571C; --brand-d:rgba(194,87,28,.10);
+  --line:rgba(140,95,50,.16); --line2:rgba(140,95,50,.08);
+  --grid:rgba(194,87,28,.05);
+  --glow:0 8px 28px -14px rgba(120,70,30,.20);
+}
+body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed !important;color:var(--ink) !important}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+.sky,.bg,.stars,.aurora,.nebula{background:none !important;opacity:0 !important}
+h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-in">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div>
+        <div class="bt">智脑网 · 海大叔</div>
+        <div class="bs">AI 新媒体 IP 智慧生态</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../">生态首页</a>
+      <a href="../zhinao/">智脑AI</a>
+      <a href="../factory/">工具工厂</a>
+      <a href="../templates/">模板库</a>
+      <a href="../aixinshou/">AI 学习</a>
+      <a href="../legal/" class="cur">法律护航</a>
+      <a href="../experts/">六位专家</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">LEGAL SELF-HELP<b>生态第五件 · 保障</b></div>
+    <h1>普法工委法律自助助手<br><span class="grad">新媒体 IP 的合规护栏</span></h1>
+    <p class="lead">把整个普法工委装进一个网页：<b>智能问答</b>开口直接说事、<b>文书工坊</b>填空出文书、<b>赔偿计算器</b>算清该拿多少、<b>范本文档</b>能填能带走、<b>案例库</b>全是真实案号。内嵌 15 部法律逐条全文（民法典 1260 条经程序校验），全团输出不止给法律依据，必给可落地方案。</p>
+    <div class="badges">
+      <span class="badge"><b>7</b> 大功能</span>
+      <span class="badge"><b>15</b> 部法条全文</span>
+      <span class="badge"><b>9</b> 份文书范本</span>
+      <span class="badge"><b>真实案号</b> 判例库</span>
+      <span class="badge"><b>90 天</b> 强制时效复核</span>
+    </div>
+  </header>
+
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">01</span><h2>法律自助助手</h2><span class="sec-sub">/ 问事 · 写文书 · 算赔偿 · 查案例</span></div>
+    <iframe id="pufa-app" src="./app.html" title="普法工委法律自助助手" loading="lazy" style="width:100%;height:calc(100vh - 230px);min-height:620px;border:1px solid var(--line);border-radius:14px;background:var(--bg)"></iframe>
+    <p style="margin-top:10px;font-size:12px;color:var(--dim2)">助手里点不动？<a href="./app.html" target="_blank" style="color:var(--cyan)">打开独立全屏版 →</a></p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">02</span><h2>红线与定位</h2><span class="sec-sub">/ 务必先读</span></div>
+    <div class="duo">
+      <div class="panel">
+        <h3>开口第一句，直接说事</h3>
+        <p>在 WorkBuddy 里安装「普法工委法律专家团」后，不用客套、不用组织语言，像跟懂行的人当面聊一样，把事说清楚就行。</p>
+        <div class="say">例如：<b>"我被公司无故辞退了，能拿多少赔偿？"</b><br>全团输出不止给法律依据，必给可落地方案——A 最优 / B 备选 / C 兜底，附成本·周期·预期结果对比表、可复制话术和带截止日的执行清单。</div>
+      </div>
+      <div class="panel redline">
+        <h3 class="em">转介红线 · 我们不碰这些</h3>
+        <ul>
+          <li><b>涉刑案件</b>——一律转介执业律师</li>
+          <li><b>大额纠纷（≥5 万）</b>——转介律师或 12348 法律援助</li>
+          <li><b>房产过户、未成年人</b>——专项律师办理</li>
+          <li><b>群体性纠纷</b>——转介法律援助机构</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaim">
+    <b>定位声明：</b>本团队定位是普法员 + 自助向导，不是律师——出"参考材料"，不出"律师函"；不承诺结果；不替代律师。内嵌法律库含 15 部法律逐条全文（民法典 7 编 1260 条，条号经程序校验连续）、真实案号判例库与场景包，按 90 天强制复核铁律更新时效。每服务一次填一张《服务记录单》；当事人档案只记案件画像，严禁存证件号。
+  </div>
+
+  <footer>
+    <div>© 2026 海大叔 · AI 新媒体 IP 智慧生态</div>
+    <div>普法员不是律师 · 输出仅供参考 · 不承诺结果</div>
+  </footer>
+
+</div>
+
+<script>
+  var nav = document.getElementById('nav');
+  addEventListener('scroll', function(){ nav.classList.toggle('solid', scrollY > 20); }, {passive:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>体检报告解读 · 海大叔案例</title>
+<meta name="description" content="把体检报告的数值填进来，逐项用大白话告诉你哪项偏了、为什么会偏、要不要紧、下一步查什么。参考区间按性别区分，不诊断、不卖药。">
+<meta name="theme-color" content="#FBF6EE">
+<style>
+:root{--bg:#FBF6EE;--card:#fff;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;--brand:#C2571C;--brand2:#A34A15;--line:rgba(140,95,50,.16);--ok:#2F9E6B;--warn:#D98324;--bad:#C0392B;--soft:rgba(194,87,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#FDF9F3,#F8EEE1 45%,#F3E5D2);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 110px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0;font-size:13px}
+.top a{color:var(--dim);text-decoration:none}
+.top .tag{font-size:11.5px;color:var(--brand);background:var(--soft);border:1px solid rgba(194,87,28,.18);border-radius:20px;padding:3px 10px}
+.hero{padding:6px 0 4px}
+.hero h1{font-size:27px;letter-spacing:-.6px;line-height:1.25}
+.hero p{color:var(--dim);font-size:14px;margin-top:9px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(120,70,30,.05),0 10px 26px rgba(120,70,30,.06);margin-top:14px}
+.card>h2{font-size:16px;margin-bottom:4px}
+.card>h2 .n{display:inline-flex;width:22px;height:22px;border-radius:7px;background:var(--soft);color:var(--brand);align-items:center;justify-content:center;font-size:12.5px;margin-right:8px;font-weight:700}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:12px}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field label{flex:1 1 120px;font-size:12.5px;color:var(--dim)}
+.field input,.field select{width:100%;margin-top:5px;padding:10px 11px;font-size:15px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-family:inherit;outline:none}
+.field input:focus,.field select:focus{border-color:var(--brand)}
+details{border-top:1px solid var(--line);padding:10px 0}
+details:first-of-type{border-top:0}
+details>summary{list-style:none;cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:"展开";font-size:11.5px;font-weight:400;color:var(--dim2)}
+details[open]>summary::after{content:"收起"}
+.row{display:grid;grid-template-columns:1fr 118px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(140,95,50,.10)}
+.row:last-child{border-bottom:0}
+.row .nm{font-size:13.5px}
+.row .nm i{display:block;font-style:normal;font-size:11.5px;color:var(--dim2);margin-top:2px}
+.row input,.row select{width:100%;padding:8px 9px;font-size:14px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-family:inherit;outline:none;text-align:center}
+.row input:focus,.row select:focus{border-color:var(--brand)}
+.row input.fill{border-color:rgba(194,87,28,.5);background:#FFFBF6}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(251,246,238,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.bar .in{max-width:880px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.btn{flex:1;border:0;border-radius:13px;padding:13px 16px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;background:var(--brand);color:#fff}
+.btn.ghost{flex:0 0 auto;background:#fff;color:var(--dim);border:1.5px solid var(--line);font-weight:500;font-size:14px;padding:13px 14px}
+.btn:active{transform:translateY(1px)}
+#result{display:none}
+#result.on{display:block}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.sum .s{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center}
+.sum .s b{display:block;font-size:24px;line-height:1.15}
+.sum .s span{font-size:11.5px;color:var(--dim)}
+.sum .s.ok b{color:var(--ok)}.sum .s.mild b{color:var(--warn)}.sum .s.bad b{color:var(--bad)}
+.verdict{margin-top:14px;background:var(--soft);border:1px solid rgba(194,87,28,.18);border-radius:13px;padding:13px 15px;font-size:13.5px;line-height:1.75}
+.verdict b{color:var(--brand)}
+.itm{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:12px;padding:13px 14px;margin-top:11px;background:#fff}
+.itm.bad{border-left-color:var(--bad)}
+.itm.mild{border-left-color:var(--warn)}
+.itm.ok{background:#FCFAF6;border-left-color:var(--ok)}
+.itm .h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.itm .h .nm{font-size:14.5px;font-weight:600}
+.itm .h .val{font-size:15px;font-weight:700}
+.itm .h .val.mild{color:var(--warn)}.itm .h .val.bad{color:var(--bad)}
+.itm .h .ref{font-size:11.5px;color:var(--dim2)}
+.itm .pill{font-size:11px;border-radius:20px;padding:2px 8px;background:rgba(217,131,36,.12);color:#A9670F;border:1px solid rgba(217,131,36,.25)}
+.itm.bad .pill{background:rgba(192,57,43,.10);color:var(--bad);border-color:rgba(192,57,43,.22)}
+.itm p{font-size:13px;color:var(--ink);margin-top:8px}
+.itm p.q{color:var(--dim);font-size:12.5px}
+.itm p.adv{background:#FBF6EE;border-radius:9px;padding:8px 10px;font-size:12.5px;color:var(--dim);margin-top:8px}
+.itm p.adv b{color:var(--ink)}
+.ul{margin:10px 0 0 18px;font-size:13.5px;line-height:1.9}
+.ul li::marker{color:var(--brand)}
+.disc{margin-top:16px;background:#FFF8F0;border:1px solid rgba(194,87,28,.22);border-radius:13px;padding:13px 15px;font-size:12.5px;color:var(--dim);line-height:1.8}
+.disc b{color:var(--bad)}
+.empty{text-align:center;color:var(--dim2);font-size:13.5px;padding:26px 0}
+@media(max-width:520px){.hero h1{font-size:22px}.row{grid-template-columns:1fr 100px}.sum .s b{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/cases/">← 返回案例库</a>
+    <span class="tag">医疗体系案例 · 不诊断不开药</span>
+  </div>
+
+  <div class="hero">
+    <h1>🩺 体检报告解读</h1>
+    <p>体检报告上那些箭头，到底要不要紧？把数值照抄进来，一项一项给你说清楚：偏了多少、通常什么原因、要不要马上去医院、下次什么时候复查。</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span>基本信息</h2>
+    <div class="sub">参考区间跟性别、年龄有关，填错会判错。</div>
+    <div class="field">
+      <label>性别<select id="sex"><option value="m">男</option><option value="f">女</option></select></label>
+      <label>年龄（岁）<input id="age" type="number" inputmode="numeric" placeholder="如 38" min="1" max="110"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span>照抄报告数值</h2>
+    <div class="sub">只填报告上有的项，没做的空着就行。参考区间已按性别预置，你的报告和这里不一致时以报告为准。</div>
+    <div id="groups"></div>
+  </div>
+
+  <div id="result"></div>  <div class="card">
+    <h2><span class="n">AI</span>问专家</h2>
+    <div class="sub">算完还想追问？直接问。答的是这一行的专业口径，不是网上抄来的套话。</div>
+    <div id="hsd-ai"></div>
+  </div>
+
+</div>
+
+<div class="bar">
+  <div class="in">
+    <button class="btn" id="go">出解读</button>
+    <button class="btn ghost" id="reset">清空</button>
+  </div>
+</div>
+
+<script src="/assets/ai.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  /* 指标库：ref 为参考区间；hi2/lo2 是"明显异常"阈值（达到就该尽快看医生）；
+     m=这项是什么；hi/lo=偏高/偏低的常见原因；adv=怎么做 */
+  var DB = [
+    {g:'一般检查', k:'sbp', n:'收缩压（高压）', u:'mmHg', ref:[90,139], hi2:160, lo2:85,
+      m:'心脏泵血时血管里的最高压力。', hi:'常见于盐吃多、体重上升、长期紧张、熬夜；也可能有家族因素。', lo:'偏低常见于体质偏瘦、脱水、贫血。',
+      adv:'连续测 3 天、每天早晚各一次再判断，别用一次结果给自己定性。'},
+    {g:'一般检查', k:'dbp', n:'舒张压（低压）', u:'mmHg', ref:[60,89], hi2:100, lo2:55,
+      m:'心脏放松时血管里的最低压力。', hi:'多见于压力大、睡眠差、喝酒多的人；低压高往往比高压高更提示血管紧张。', lo:'偏低伴头晕、乏力要留意。',
+      adv:'少盐、减重 3–5 公斤对低压下降最明显。'},
+    {g:'一般检查', k:'bmi', n:'BMI 体重指数', u:'kg/m²', ref:[18.5,23.9], hi2:28, lo2:17,
+      m:'体重(kg)÷身高(m)²，粗略看胖瘦。', hi:'超重、肥胖会连带血脂、血糖、尿酸、脂肪肝一起出问题。', lo:'偏瘦要排查营养、甲状腺、消化道吸收。',
+      adv:'先减 5% 体重，多数指标会一起好转——这是性价比最高的一件事。'},
+
+    {g:'血常规', k:'wbc', n:'白细胞计数 WBC', u:'×10⁹/L', ref:[3.5,9.5], hi2:11, lo2:3,
+      m:'身体的边防部队，感染时会升高。', hi:'常见于细菌感染、炎症、应激、吸烟；明显升高要排查感染灶。', lo:'常见于病毒感染后、某些药物影响、免疫或造血问题。',
+      adv:'轻度偏离先 2 周复查；伴发热、反复口腔溃疡、皮下瘀点请血液科门诊。'},
+    {g:'血常规', k:'rbc', n:'红细胞计数 RBC', u:'×10¹²/L', ref:{m:[4.3,5.8],f:[3.8,5.1]}, hi2:6.2, lo2:3.3,
+      m:'负责把氧气运到全身的细胞。', hi:'常见于长期缺氧、吸烟、脱水（血液浓缩）。', lo:'偏低常提示贫血，女性多见铁摄入不足或月经量多。',
+      adv:'红细胞低务必一起看血红蛋白，两者结合才判断得了贫血类型。'},
+    {g:'血常规', k:'hgb', n:'血红蛋白 HGB', u:'g/L', ref:{m:[130,175],f:[115,150]}, hi2:180, lo2:100,
+      m:'真正装氧气的"货车"，判断贫血就看它。', hi:'偏高见于脱水、吸烟、高原居住，也可能有血液系统问题。', lo:'偏低就是贫血，常见缺铁、慢性失血（胃溃疡、痔疮、月经多）。',
+      adv:'贫血别只补铁，先找"为什么丢血"——尤其 40 岁以上男性贫血，必须查消化道。'},
+    {g:'血常规', k:'plt', n:'血小板 PLT', u:'×10⁹/L', ref:[125,350], hi2:450, lo2:90,
+      m:'管凝血的零件。', hi:'偏高见于炎症、缺铁、脾切除后。', lo:'偏低要留意牙龈出血、皮肤瘀斑；低于 90 需尽快就诊。',
+      adv:'血小板异常别自行吃阿司匹林这类药，先问医生。'},
+    {g:'血常规', k:'neut', n:'中性粒细胞百分比', u:'%', ref:[40,75], hi2:85, lo2:30,
+      m:'打细菌的主力。', hi:'细菌感染、应激、用激素后可升高。', lo:'病毒感染、某些药物后可降低。',
+      adv:'单看百分比意义有限，要和白细胞总数一起看。'},
+    {g:'血常规', k:'lym', n:'淋巴细胞百分比', u:'%', ref:[20,50], hi2:60, lo2:12,
+      m:'管病毒免疫和"记忆"的部队。', hi:'病毒感染（如感冒后）、慢性炎症时可升高。', lo:'见于免疫低下、用激素、某些感染。',
+      adv:'感冒刚好的报告，这项偏高很常见，一个月后复查多半恢复。'},
+
+    {g:'肝功能', k:'alt', n:'谷丙转氨酶 ALT', u:'U/L', ref:{m:[9,50],f:[7,40]}, hi2:120, lo2:null,
+      m:'肝细胞里的酶，肝细胞破了就漏到血里，是最灵敏的肝损伤信号。', hi:'常见于脂肪肝、喝酒、熬夜、某些药（止痛药、保健品）、乙肝；剧烈运动后也会短暂升高。', lo:'偏低一般无临床意义。',
+      adv:'超标 2 倍以内先戒酒、停可疑保健品、减重，1 个月复查；超 120 查乙肝两对半 + 肝脏 B 超。'},
+    {g:'肝功能', k:'ast', n:'谷草转氨酶 AST', u:'U/L', ref:{m:[15,40],f:[13,35]}, hi2:100, lo2:null,
+      m:'不只肝有，心肌和肌肉里也有。', hi:'除了肝，剧烈运动、肌肉损伤、喝酒都会让它升高。', lo:'偏低一般无意义。',
+      adv:'AST 高但 ALT 不高，要想到"不是肝的事"——回忆一下近期有没有大量运动或肌肉酸痛。'},
+    {g:'肝功能', k:'ggt', n:'γ-谷氨酰转肽酶 GGT', u:'U/L', ref:{m:[10,60],f:[7,45]}, hi2:150, lo2:null,
+      m:'对酒精和胆道问题特别敏感。', hi:'喝酒、脂肪肝、胆结石、长期吃某些药（如安眠药）都会升高。', lo:'偏低无意义。',
+      adv:'GGT 单独高、ALT 正常，十有八九和酒有关。停酒 4 周再查一次。'},
+    {g:'肝功能', k:'tbil', n:'总胆红素 TBIL', u:'μmol/L', ref:[3.4,20.5], hi2:34, lo2:null,
+      m:'红细胞"退休"后的代谢产物，靠肝处理。', hi:'轻度升高常见于熬夜、疲劳、体质性（吉尔伯特综合征）；明显升高要查胆道和肝。', lo:'偏低无意义。',
+      adv:'只是轻度高、其他肝功都正常、眼白不黄，多半没事，别自己吓自己。'},
+    {g:'肝功能', k:'alb', n:'白蛋白 ALB', u:'g/L', ref:[40,55], hi2:null, lo2:32,
+      m:'肝造的主要蛋白，管着血管里的水分。', hi:'脱水时会假性升高。', lo:'长期偏低提示营养不足、慢性肝病或肾脏漏蛋白。',
+      adv:'偏低要看尿常规有没有蛋白，两者一起才说明问题。'},
+
+    {g:'肾功能', k:'crea', n:'肌酐 CREA', u:'μmol/L', ref:{m:[57,97],f:[41,73]}, hi2:130, lo2:null,
+      m:'肌肉代谢的废物，靠肾排，是肾功能的主指标。', hi:'偏高提示肾滤过下降；健身增肌、大量吃肉、脱水也会轻度升高。', lo:'偏低多见于肌肉量少的女性或老人，一般不处理。',
+      adv:'超 130 必须查尿常规 + 肾脏 B 超 + 尿微量白蛋白，别只看一次数值。'},
+    {g:'肾功能', k:'bun', n:'尿素氮 BUN', u:'mmol/L', ref:[3.1,8.0], hi2:10.5, lo2:2.5,
+      m:'蛋白分解的废物，受饮食影响大。', hi:'前一晚吃太多肉、脱水、消化道出血都会升高。', lo:'偏低见于低蛋白饮食、肝功差。',
+      adv:'单独偏高先别慌，清淡饮食 3 天后复查，多半回落。'},
+    {g:'肾功能', k:'ua', n:'尿酸 UA', u:'μmol/L', ref:{m:[208,428],f:[155,357]}, hi2:540, lo2:null,
+      m:'嘌呤代谢的终点，高了会结晶在关节里（痛风）。', hi:'常见于喝酒（尤其啤酒）、海鲜内脏吃多、喝含糖饮料、肥胖、熬夜。', lo:'偏低少见，多与药物有关。',
+      adv:'超 540 或有痛风发作史，需要医生评估是否用药；日常先戒啤酒和含糖饮料，每天喝够 2 升水。'},
+
+    {g:'血脂血糖', k:'tc', n:'总胆固醇 TC', u:'mmol/L', ref:[0,5.2], hi2:7.2, lo2:null,
+      m:'血脂总量。', hi:'吃油多、遗传、甲状腺功能低都会高。', lo:'偏低见于营养不良、甲亢。',
+      adv:'看血脂重点不是总胆固醇，是下面的低密度脂蛋白。'},
+    {g:'血脂血糖', k:'tg', n:'甘油三酯 TG', u:'mmol/L', ref:[0,1.7], hi2:5.6, lo2:null,
+      m:'最受"吃"影响的一项，喝酒和糖都能把它顶上去。', hi:'喝酒、主食和甜食过量、久坐。', lo:'偏低少见。',
+      adv:'这项最听话：戒酒 + 少吃精米面和甜食 + 每周 3 次快走，一个月能降一半。超 5.6 要防胰腺炎，尽快就医。'},
+    {g:'血脂血糖', k:'ldl', n:'低密度脂蛋白 LDL-C', u:'mmol/L', ref:[0,3.4], hi2:4.9, lo2:null,
+      m:'俗称"坏胆固醇"，是血管斑块的主要原料，最该盯的一项。', hi:'动物油、内脏、遗传。', lo:'偏低一般无需处理。',
+      adv:'有高血压/糖尿病/吸烟/家族史的人，目标要压到 2.6 甚至 1.8 以下——这个目标得医生定。'},
+    {g:'血脂血糖', k:'hdl', n:'高密度脂蛋白 HDL-C', u:'mmol/L', ref:[1.0,3.0], hi2:null, lo2:0.9,
+      m:'俗称"好胆固醇"，越高越好。', hi:'运动多的人会高，是好事。', lo:'偏低提示运动太少、吸烟、腹型肥胖，心血管风险上升。',
+      adv:'这项"低"不是吃药吃上去的，是靠有氧运动练上去的。'},
+    {g:'血脂血糖', k:'glu', n:'空腹血糖 GLU', u:'mmol/L', ref:[3.9,6.1], hi2:7.0, lo2:3.5,
+      m:'空腹 8 小时以上的血糖。', hi:'6.1–7.0 属于"空腹血糖受损"（糖尿病前期），≥7.0 需复查确诊。', lo:'偏低见于吃太少、用药、胰岛素问题，伴心慌出汗要当心。',
+      adv:'6.1–7.0 这一段是能逆转的窗口期：减重 5%、主食换粗粮、每周 150 分钟运动。'},
+    {g:'血脂血糖', k:'hba1c', n:'糖化血红蛋白 HbA1c', u:'%', ref:[4.0,6.0], hi2:6.5, lo2:null,
+      m:'过去 2–3 个月的平均血糖，比一次空腹血糖更靠谱。', hi:'≥6.5 是糖尿病诊断标准之一（需复查确认）。', lo:'偏低见于贫血、失血。',
+      adv:'这项不用空腹，复查很方便。5.7–6.4 属于糖尿病前期。'},
+
+    {g:'甲状腺', k:'tsh', n:'促甲状腺激素 TSH', u:'mIU/L', ref:[0.27,4.2], hi2:10, lo2:0.1,
+      m:'大脑给甲状腺下的"指令"，是最敏感的那一项。', hi:'偏高提示甲减倾向（乏力、怕冷、体重涨、便秘）。', lo:'偏低提示甲亢倾向（心慌、怕热、手抖、瘦）。',
+      adv:'TSH 异常要连 FT3、FT4 一起看；女性备孕务必查这项，目标区间更严。'},
+    {g:'甲状腺', k:'ft3', n:'游离 T3 FT3', u:'pmol/L', ref:[3.1,6.8], hi2:9, lo2:2.5,
+      m:'真正起作用的甲状腺激素之一。', hi:'甲亢。', lo:'甲减、重症、营养不良。',
+      adv:'单独看意义不大，跟 TSH 一起判断。'},
+    {g:'甲状腺', k:'ft4', n:'游离 T4 FT4', u:'pmol/L', ref:[12,22], hi2:28, lo2:9,
+      m:'另一项活性甲状腺激素。', hi:'甲亢。', lo:'甲减。',
+      adv:'甲状腺结节很常见，重点看 B 超描述里的边界、回声、钙化，不是看血。'},
+
+    {g:'尿常规', k:'upro', n:'尿蛋白 PRO', u:'', type:'sel',
+      opts:['阴性','±','+','++','+++'], ref:['阴性'], bad:['++','+++'], mid:['±','+'],
+      m:'肾的"筛子"漏不漏。', hi:'阳性常见于剧烈运动后、发热、站立过久（生理性），也可能提示肾炎、糖尿病肾病、高血压肾损。', lo:'',
+      adv:'一次阳性不算数。复查清晨第一次尿；连续两次阳性，查尿微量白蛋白/肌酐比值。'},
+    {g:'尿常规', k:'ublo', n:'尿隐血 BLD', u:'', type:'sel',
+      opts:['阴性','±','+','++','+++'], ref:['阴性'], bad:['++','+++'], mid:['±','+'],
+      m:'尿里有没有肉眼看不见的血。', hi:'常见于尿路感染、结石、剧烈运动、女性经期污染；反复阳性要排查泌尿系问题。', lo:'',
+      adv:'女性避开经期复查；男性或反复阳性，做泌尿系 B 超。'},
+
+    {g:'其他', k:'hcy', n:'同型半胱氨酸 HCY', u:'μmol/L', ref:[0,15], hi2:30, lo2:null,
+      m:'和脑卒中风险相关的一项。', hi:'偏高常见于叶酸/B12 不足、吸烟、肾功能下降。', lo:'偏低无意义。',
+      adv:'偏高可在医生指导下补叶酸，同时戒烟。'},
+    {g:'其他', k:'afp', n:'甲胎蛋白 AFP', u:'ng/mL', ref:[0,7], hi2:20, lo2:null,
+      m:'肝癌筛查常用指标，肝炎/怀孕时也会高。', hi:'轻中度升高常见于肝炎活动期、脂肪肝；明显升高需做肝脏增强影像。', lo:'无意义。',
+      adv:'这一项偏高不要自己在网上查，直接挂消化内科或肝病科。'},
+    {g:'其他', k:'cea', n:'癌胚抗原 CEA', u:'ng/mL', ref:[0,5], hi2:10, lo2:null,
+      m:'肿瘤标志物之一，吸烟者本身就会偏高。', hi:'吸烟、肠道炎症、肝胆问题都可轻度升高。', lo:'无意义。',
+      adv:'标志物不是诊断。轻度升高 1 个月复查趋势，比单次数值重要得多。'}
+  ];
+
+  var GROUPS = [];
+  DB.forEach(function(it){ if (GROUPS.indexOf(it.g) < 0) GROUPS.push(it.g); });
+
+  var sexEl = document.getElementById('sex');
+  var ageEl = document.getElementById('age');
+
+  function refOf(it){
+    var r = it.ref;
+    if (Array.isArray(r)) return r;
+    return r[sexEl.value] || r.m;
+  }
+  function refText(it){
+    if (it.type === 'sel') return '正常为阴性';
+    var r = refOf(it);
+    if (r[1] == null) return '＞ ' + r[0];
+    if (r[0] === 0) return '＜' + r[1];
+    return r[0] + ' – ' + r[1];
+  }
+
+  /* —— 渲染录入区 —— */
+  function render(){
+    var box = document.getElementById('groups');
+    box.innerHTML = GROUPS.map(function(g, gi){
+      var items = DB.filter(function(it){ return it.g === g; });
+      return '<details' + (gi < 2 ? ' open' : '') + '><summary>' + g +
+        ' <span style="font-weight:400;font-size:11.5px;color:#A8998A">' + items.length + ' 项</span></summary>' +
+        items.map(function(it){
+          var input;
+          if (it.type === 'sel'){
+            input = '<select data-k="' + it.k + '"><option value="">—</option>' +
+              it.opts.map(function(o){ return '<option>' + o + '</option>'; }).join('') + '</select>';
+          } else {
+            input = '<input data-k="' + it.k + '" type="number" step="0.01" inputmode="decimal" placeholder="—">';
+          }
+          return '<div class="row"><div class="nm">' + it.n +
+            '<i>' + (it.u ? it.u + ' · ' : '') + '参考 ' + refText(it) + '</i></div>' + input + '</div>';
+        }).join('') + '</details>';
+    }).join('');
+
+    box.querySelectorAll('input,select').forEach(function(el){
+      el.addEventListener('input', function(){
+        el.classList.toggle('fill', !!el.value);
+      });
+      el.addEventListener('change', function(){
+        el.classList.toggle('fill', !!el.value);
+      });
+    });
+  }
+
+  /* —— 判定一项 —— */
+  function judge(it, raw){
+    if (raw === '' || raw == null) return null;
+    if (it.type === 'sel'){
+      if (it.bad.indexOf(raw) >= 0) return {lv:'bad', dir:'高'};
+      if (it.mid.indexOf(raw) >= 0) return {lv:'mild', dir:'高'};
+      return {lv:'ok', dir:''};
+    }
+    var v = parseFloat(raw);
+    if (isNaN(v)) return null;
+    var r = refOf(it), lo = r[0], hi = r[1];
+    if (hi != null && v > hi){
+      if (it.hi2 != null && v >= it.hi2) return {lv:'bad', dir:'高', v:v};
+      return {lv:'mild', dir:'高', v:v};
+    }
+    if (lo != null && v < lo){
+      if (it.lo2 != null && v <= it.lo2) return {lv:'bad', dir:'低', v:v};
+      return {lv:'mild', dir:'低', v:v};
+    }
+    return {lv:'ok', dir:'', v:v};
+  }
+
+  var LVNAME = {ok:'正常', mild:'轻度偏离', bad:'需重视'};
+
+  function build(){
+    var age = parseInt(ageEl.value, 10);
+    var rows = [];
+    DB.forEach(function(it){
+      var el = document.querySelector('[data-k="' + it.k + '"]');
+      if (!el) return;
+      var j = judge(it, el.value);
+      if (j) rows.push({it:it, j:j, raw:el.value});
+    });
+
+    var out = document.getElementById('result');
+    if (!rows.length){
+      out.className = 'on';
+      out.innerHTML = '<div class="card"><div class="empty">还没有填任何数值。至少填 3 项再看解读，才有意义。</div></div>';
+      out.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+
+    var cnt = {ok:0, mild:0, bad:0};
+    rows.forEach(function(r){ cnt[r.j.lv]++; });
+    var abn = rows.filter(function(r){ return r.j.lv !== 'ok'; });
+
+    /* 结论一句话 */
+    var verdict;
+    if (!abn.length){
+      verdict = '填进来的 <b>' + rows.length + ' 项全部在参考区间内</b>。这份报告目前没看出需要处理的异常——继续保持，按报告的"建议复查时间"常规体检就行。';
+    } else if (cnt.bad){
+      verdict = '有 <b>' + cnt.bad + ' 项达到"需重视"</b>，' + cnt.mild + ' 项轻度偏离。需重视的项建议 1 个月内挂对应科室复查确认，不要拖到明年体检。';
+    } else {
+      verdict = '有 <b>' + cnt.mild + ' 项轻度偏离参考区间</b>，没有达到"需重视"。这类多数和近期作息、饮食、体重、运动有关，先调生活方式，3 个月后复查同一组指标看趋势。';
+    }
+    if (age && age >= 45 && !abn.length){
+      verdict += ' 45 岁以后即使全部正常，也建议每年查一次血压、血脂、血糖、便隐血。';
+    }
+
+    /* 排序：需重视 → 轻度偏离 → 正常 */
+    var order = {bad:0, mild:1, ok:2};
+    abn.sort(function(a,b){ return order[a.j.lv] - order[b.j.lv]; });
+
+    var itemsHtml = abn.map(function(r){
+      var it = r.it, j = r.j;
+      var unitTxt = it.u ? ' ' + it.u : '';
+      var valTxt = j.v != null ? (j.v + unitTxt) : r.raw;
+      var body = '';
+      body += '<p><b>是什么：</b>' + it.m + '</p>';
+      if (j.dir === '高' && it.hi) body += '<p class="q"><b>为什么会偏高：</b>' + it.hi + '</p>';
+      if (j.dir === '低' && it.lo) body += '<p class="q"><b>为什么会偏低：</b>' + it.lo + '</p>';
+      body += '<p class="adv"><b>下一步：</b>' + it.adv + '</p>';
+      return '<div class="itm ' + j.lv + '">' +
+        '<div class="h"><span class="nm">' + it.n + '</span>' +
+        '<span class="val ' + j.lv + '">' + valTxt + '</span>' +
+        '<span class="pill">' + LVNAME[j.lv] + (j.dir ? ' · 偏' + j.dir : '') + '</span>' +
+        '<span class="ref">参考 ' + refText(it) + '</span></div>' + body + '</div>';
+    }).join('');
+
+    /* 复查清单 */
+    var recheck = [];
+    if (cnt.bad){
+      recheck.push('<li><b>1 个月内</b>去对应科室复查：' +
+        abn.filter(function(r){return r.j.lv==='bad';}).map(function(r){return r.it.n;}).join('、') + '</li>');
+    }
+    if (cnt.mild){
+      recheck.push('<li><b>3 个月后</b>复查这组：' +
+        abn.filter(function(r){return r.j.lv==='mild';}).map(function(r){return r.it.n;}).join('、') + '</li>');
+    }
+    recheck.push('<li>复查前一晚别喝酒、别剧烈运动、空腹 8 小时以上——这三件事能让一半的"假异常"消失。</li>');
+    recheck.push('<li>把这次报告留着，下次对比"同一项的走势"，比单次数值有用得多。</li>');
+
+    /* 问医生 */
+    var qs = [];
+    if (cnt.bad) qs.push('这几项达到需要处理的水平了吗？需要现在用药，还是先观察？');
+    if (abn.some(function(r){ return r.it.k === 'upro' || r.it.k === 'ublo'; }))
+      qs.push('尿检异常需要做尿微量白蛋白/肌酐比值或泌尿系 B 超吗？');
+    if (abn.some(function(r){ return ['alt','ast','ggt','tbil'].indexOf(r.it.k) >= 0; }))
+      qs.push('肝功能异常要不要查乙肝两对半、丙肝和肝脏 B 超？我最近吃的哪些药/保健品要停？');
+    if (abn.some(function(r){ return ['glu','hba1c'].indexOf(r.it.k) >= 0; }))
+      qs.push('我这个血糖水平算糖尿病前期吗？需要做糖耐量试验吗？');
+    if (abn.some(function(r){ return ['ldl','tc','tg'].indexOf(r.it.k) >= 0; }))
+      qs.push('按我的整体风险，低密度脂蛋白应该压到多少？现在需要吃药吗？');
+    if (abn.some(function(r){ return ['tsh','ft3','ft4'].indexOf(r.it.k) >= 0; }))
+      qs.push('甲状腺需要做 B 超吗？如果是备孕/怀孕，目标值要调到多少？');
+    qs.push('这些异常里，哪一项最需要先处理？下一次复查放在什么时候？');
+    qs = qs.slice(0, 6);
+
+    out.className = 'on';
+    out.innerHTML =
+      '<div class="card">' +
+        '<h2><span class="n">3</span>结论</h2>' +
+        '<div class="sum">' +
+          '<div class="s ok"><b>' + cnt.ok + '</b><span>正常</span></div>' +
+          '<div class="s mild"><b>' + cnt.mild + '</b><span>轻度偏离</span></div>' +
+          '<div class="s bad"><b>' + cnt.bad + '</b><span>需重视</span></div>' +
+        '</div>' +
+        '<div class="verdict">' + verdict + '</div>' +
+      '</div>' +
+      (abn.length ? '<div class="card"><h2><span class="n">4</span>逐项说清楚</h2>' +
+        '<div class="sub">已按严重程度排序。正常项不展开。</div>' + itemsHtml + '</div>' : '') +
+      '<div class="card"><h2><span class="n">5</span>复查清单</h2><ul class="ul">' + recheck.join('') + '</ul></div>' +
+      '<div class="card"><h2><span class="n">6</span>下次见医生，就问这几句</h2>' +
+        '<div class="sub">照着念就行，医生一听就知道你不是来瞎问的。</div>' +
+        '<ul class="ul">' + qs.map(function(q){ return '<li>' + q + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="disc"><b>必须说清楚：</b>这个工具只做"翻译"，把报告上的数字翻成大白话，' +
+        '<b>不做诊断、不给治疗方案、不推荐任何药品或保健品</b>。参考区间取自常见成人区间，' +
+        '不同医院、不同仪器会有差异，以你报告上印的为准。任何一项"需重视"，都请去正规医院对应科室面诊——' +
+        '线上任何解读都代替不了一次面诊。</div>';
+
+    out.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  document.getElementById('go').addEventListener('click', build);
+  document.getElementById('reset').addEventListener('click', function(){
+    document.querySelectorAll('#groups input,#groups select').forEach(function(el){
+      el.value = ''; el.classList.remove('fill');
+    });
+    document.getElementById('result').className = '';
+    document.getElementById('result').innerHTML = '';
+    ageEl.value = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  sexEl.addEventListener('change', render);
+
+  render();
+})();
+</script>
+
+<script>
+(function(){
+  if(!window.HSDAI) return;
+  var sys = '你是体检报告解读的专业助手，懂临床检验医学。用户会贴指标数值或问某个指标什么意思。\n' +
+  '【必须守住的边界】\n' +
+  '1. 你不是医生，不做诊断、不下结论、不开药、不推荐任何药品和保健品品牌。\n' +
+  '2. 任何"需重视"级别的异常，都要明确说"请去正规医院对应科室面诊"。\n' +
+  '3. 参考区间因医院、仪器、性别、年龄而异，回答时说明"以报告上印的为准"。\n' +
+  '4. 涉及肿瘤标志物、心脏、肾功能的问题，只解释含义和下一步该查什么，绝不说"你这是XX病"。\n' +
+  '【回答结构】是什么 → 偏高/偏低的常见原因（按概率排序）→ 要不要紧（分轻度/需关注/尽快就医三档）→ 下一步具体查什么、多久复查。\n' +
+  '说人话，短句，不超过 350 字。不要用"建议您保持良好的生活习惯"这种废话，要给具体动作（戒什么、减多少、查哪一项）。';
+  HSDAI.panel('#hsd-ai', {
+    title: '🩺 问检验科',
+    badge: 'AI 在线',
+    subtitle: '报告上哪个箭头看不懂、两项指标为什么互相矛盾、复查该查什么，都可以问。',
+    system: sys,
+    quick: ['转氨酶高了两倍，要紧吗？', '血红蛋白偏低但红细胞正常，说明什么？', '尿酸 480 要不要吃药？', '血糖 6.5 还能逆转吗？', '甲状腺结节要查什么？'],
+    placeholder: '例：我 45 岁男性，ALT 78，GGT 120，平时每周喝三次酒，该怎么查？',
+    greeting: '我是体检报告解读助手。你可以直接把看不懂的那项发给我（带上数值、单位、性别、年龄），我说清它偏了多少、通常什么原因、下一步该查什么。\n\n先说清楚：我不做诊断、不开药。真正的判断要面诊。',
+    hint: '不诊断 · 不开药 · 只解释和指路',
+    disclaimer: '⚖️ 这个助手只做"翻译"和"指路"，不做诊断。任何一项需要重视的异常，请到正规医院对应科室面诊——线上解读代替不了一次面诊。'
+  });
+})();
+</script>
+
+</body>
+</html>

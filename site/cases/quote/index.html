@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>茶叶小店 · 报价与回访助手</title>
+<style>
+  :root{
+    --bg:#f6f2e8; --card:#ffffff; --ink:#2c2a26; --sub:#7d7468;
+    --line:#e6dfd0; --tea:#3f6b4a; --tea-d:#2f5238; --brown:#8a5a2b;
+    --red:#c0392b; --red-bg:#fdecea; --amber:#a9761c; --amber-bg:#fdf6e3;
+    --green-bg:#eaf3ec; --purple:#6b4a9e; --purple-bg:#f4eefb; --radius:16px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;
+    font-size:17px; line-height:1.65; padding-bottom:96px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 14px;}
+  header{background:var(--tea-d); color:#fff; padding:16px 14px 14px;}
+  header h1{margin:0; font-size:21px; font-weight:700; letter-spacing:.5px;}
+  header p{margin:4px 0 0; font-size:14px; color:#cfe0d3; line-height:1.4;}
+  .banner{margin:10px 0 0; padding:10px 12px; border-radius:12px; font-size:15px; display:none;}
+  .banner.show{display:block;}
+  .banner.warn{background:var(--amber-bg); color:var(--amber); border:1px solid #eadfc0;}
+  .banner.err{background:var(--red-bg); color:var(--red); border:1px solid #f3cdc8;}
+  .setup{background:var(--card); border-radius:var(--radius); margin:12px 0; padding:14px; border:1px solid var(--line);}
+  .setup summary{font-size:17px; font-weight:700; color:var(--tea-d); cursor:pointer; list-style:none;}
+  .setup summary::-webkit-details-marker{display:none;}
+  .setup summary:before{content:"▸ "; color:var(--tea);}
+  .setup[open] summary:before{content:"▾ ";}
+  .setup .small{font-size:14px; color:var(--sub); margin:6px 0 10px;}
+  .tabs{display:flex; gap:8px; margin:12px 0; position:sticky; top:0; z-index:20; background:var(--bg); padding:8px 0;}
+  .tab{
+    flex:1; min-height:58px; border:2px solid var(--line); background:var(--card); color:var(--ink);
+    border-radius:14px; font-size:17px; font-weight:700; font-family:inherit; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.2;
+  }
+  .tab small{font-size:12px; font-weight:400; color:var(--sub); margin-top:2px;}
+  .tab.on{background:var(--tea); border-color:var(--tea); color:#fff;}
+  .tab.on small{color:#dcebe0;}
+  .card{background:var(--card); border-radius:var(--radius); padding:16px; margin:0 0 14px; border:1px solid var(--line);}
+  .card h2{margin:0 0 4px; font-size:19px; color:var(--tea-d);}
+  .card .lead{margin:0 0 14px; font-size:15px; color:var(--sub);}
+  label{display:block; font-size:16px; font-weight:700; margin:0 0 6px;}
+  .hint{font-size:14px; color:var(--sub); margin:-2px 0 8px; line-height:1.45;}
+  input[type=text], input[type=number], input[type=date], select, textarea{
+    width:100%; font-family:inherit; font-size:18px; color:var(--ink);
+    background:#fdfcf9; border:2px solid var(--line); border-radius:12px;
+    padding:13px 12px; min-height:54px; outline:none;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--tea); background:#fff;}
+  textarea{min-height:110px; line-height:1.7;}
+  .row{display:flex; gap:10px;}
+  .row > div{flex:1; min-width:0;}
+  .field{margin-bottom:16px;}
+  .field:last-child{margin-bottom:0;}
+  .btn{
+    display:block; width:100%; min-height:60px; border:none; border-radius:14px;
+    font-family:inherit; font-size:19px; font-weight:700; cursor:pointer; padding:14px;
+  }
+  .btn-main{background:var(--tea); color:#fff; box-shadow:0 3px 0 var(--tea-d);}
+  .btn-main:active{transform:translateY(2px); box-shadow:0 1px 0 var(--tea-d);}
+  .btn-main[disabled]{background:#b9c6bc; box-shadow:0 3px 0 #9aa79d; cursor:not-allowed;}
+  .btn-brown{background:var(--brown); color:#fff;}
+  .btn-ghost{background:#fff; color:var(--tea-d); border:2px solid var(--tea);}
+  .btn-sm{min-height:46px; font-size:16px; border-radius:12px;}
+  .btn-danger{background:#fff; color:var(--red); border:2px solid #e8b4ae;}
+  .btns{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+  .btns .btn{flex:1; min-width:120px;}
+  .levels{display:flex; gap:8px; flex-wrap:wrap;}
+  .level{
+    flex:1; min-width:96px; min-height:62px; border:2px solid var(--line); background:#fdfcf9;
+    border-radius:12px; font-family:inherit; font-size:16px; font-weight:700; color:var(--ink);
+    cursor:pointer; padding:8px 6px; line-height:1.25;
+  }
+  .level span{display:block; font-size:12px; font-weight:400; color:var(--sub); margin-top:3px;}
+  .level.on{border-color:var(--tea); background:var(--green-bg); color:var(--tea-d);}
+  .result{display:none; margin-top:6px;}
+  .result.show{display:block;}
+  .price-box{display:flex; gap:10px; margin:14px 0;}
+  .price-item{flex:1; text-align:center; background:var(--green-bg); border-radius:12px; padding:12px 6px; border:1px solid #cfe2d4;}
+  .price-item .k{font-size:13px; color:var(--sub); display:block;}
+  .price-item .v{font-size:26px; font-weight:800; color:var(--tea-d); line-height:1.25;}
+  .price-item .v i{font-size:14px; font-style:normal; font-weight:600;}
+  .price-item.vip{background:#fdf6e3; border-color:#ecdfba;}
+  .price-item.vip .v{color:var(--amber);}
+  .price-item.grp{background:var(--purple-bg); border-color:#e0d3ef;}
+  .price-item.grp .v{color:var(--purple);}
+  .price-item.floor{background:#fdecea; border-color:#f3cdc8;}
+  .price-item.floor .v{color:var(--red);}
+  .calc-line{font-size:15px; color:var(--sub); background:#faf8f2; border-radius:10px; padding:10px 12px; margin-bottom:12px;}
+  .calc-line b{color:var(--ink);}
+  .msg{font-size:15px; border-radius:10px; padding:10px 12px; margin-top:10px; display:none; line-height:1.55;}
+  .msg.show{display:block;}
+  .msg.bad{background:var(--red-bg); color:var(--red);}
+  .msg.ok{background:var(--green-bg); color:var(--tea-d);}
+  .msg.tip{background:var(--amber-bg); color:var(--amber);}
+  .msg.info{background:var(--purple-bg); color:var(--purple);}
+  .switchline{display:flex; align-items:flex-start; gap:10px; background:var(--amber-bg); border:1px solid #eadfc0; border-radius:12px; padding:12px; margin:12px 0; font-size:15px; color:#8a6216;}
+  .switchline input{width:26px; height:26px; min-height:26px; margin:2px 0 0; flex:0 0 26px;}
+  .switchline b{display:block; color:#6b4a10;}
+  table{width:100%; border-collapse:collapse; font-size:15px;}
+  th,td{padding:10px 6px; text-align:left; border-bottom:1px solid var(--line); vertical-align:middle;}
+  th{font-size:13px; color:var(--sub); font-weight:700;}
+  tr.over td{background:#fff6f5;}
+  tr.very td{background:var(--red-bg);}
+  tr.demo td{opacity:.92;}
+  .days{font-weight:800; font-size:17px;}
+  .days.warn{color:var(--amber);}
+  .days.bad{color:var(--red);}
+  .chip{display:inline-block; font-size:11px; padding:1px 6px; border-radius:6px; background:#eee7d8; color:var(--sub); margin-left:4px; font-weight:400;}
+  .chip.red{background:#f6d4cf; color:#9c2a1e;}
+  .chip.blue{background:#dde7f3; color:#2f5273;}
+  .chip.grey{background:#eee7d8; color:#7d7468;}
+  .sub2{font-size:12px; color:var(--sub); line-height:1.45; display:block;}
+  .del{border:none; background:#f3efe6; color:var(--sub); border-radius:8px; padding:8px 10px; font-family:inherit; font-size:14px; cursor:pointer;}
+  .empty{text-align:center; color:var(--sub); font-size:15px; padding:22px 10px; line-height:1.7;}
+  .stat{display:flex; gap:10px; margin:0 0 14px;}
+  .stat div{flex:1; background:var(--bg); border-radius:12px; padding:12px 8px; text-align:center;}
+  .stat .n{font-size:26px; font-weight:800; color:var(--tea-d); display:block; line-height:1.2;}
+  .stat .n.red{color:var(--red);}
+  .stat .t{font-size:13px; color:var(--sub);}
+  .badlist{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+  .badlist span{background:#f6d4cf; color:#9c2a1e; border-radius:8px; padding:4px 9px; font-size:14px; font-weight:700;}
+  .badlist.warnl span{background:var(--amber-bg); color:var(--amber);}
+  .footbar{
+    position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line);
+    padding:8px 12px calc(8px + env(safe-area-inset-bottom)); display:flex; gap:8px; z-index:30;
+  }
+  .footbar button{
+    flex:1; min-height:48px; border-radius:12px; border:1px solid var(--line); background:#faf8f2;
+    font-family:inherit; font-size:14px; font-weight:700; color:var(--ink); cursor:pointer;
+    white-space:nowrap; padding:4px 6px;
+  }
+  .footbar button.dan{color:var(--red); border-color:#eed3cf;}
+  .note{font-size:13px; color:var(--sub); text-align:center; padding:6px 0 18px; line-height:1.6;}
+  .hide{display:none !important;}
+  .blocktitle{font-size:15px; font-weight:800; color:var(--tea-d); margin:16px 0 6px; padding-top:12px; border-top:1px dashed var(--line);}
+  .blocktitle:first-child{border-top:none; padding-top:0; margin-top:0;}
+  .kv{display:flex; gap:8px; font-size:15px; padding:8px 10px; background:var(--bg); border-radius:10px; margin-bottom:6px; flex-wrap:wrap;}
+  .kv .k{color:var(--sub); flex:0 0 auto;}
+  .kv .v{font-weight:700; word-break:break-all;}
+  .kv .v.risk{color:var(--red);}
+  code.sent{display:block; background:#faf8f2; border-left:4px solid var(--tea); padding:8px 10px; border-radius:8px; font-family:inherit; font-size:15px; margin:6px 0;}
+  .sline{display:flex; gap:8px; align-items:flex-start; border-bottom:1px dashed var(--line); padding:8px 0;}
+  .sline:last-child{border-bottom:none;}
+  .sno{flex:0 0 52px; font-weight:800; color:var(--tea); font-size:14px;}
+  .stxt{flex:1; font-size:15px;}
+  .stxt em{font-style:normal; background:var(--amber-bg); color:var(--amber); border-radius:4px; padding:0 3px;}
+  .suse{flex:0 0 auto;}
+  details.zone{border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-top:12px; background:#fdfcf9;}
+  details.zone summary{font-size:15px; font-weight:700; color:var(--red); cursor:pointer;}
+  .cntline{font-size:14px; font-weight:700; color:var(--tea-d); background:var(--green-bg); border:1px solid #cfe2d4; border-radius:10px; padding:8px 12px; margin:10px 0 0; line-height:1.5;}
+  .shortbox{background:var(--green-bg); border:2px solid #bcd9c4; border-radius:12px; padding:12px 14px; font-size:20px; font-weight:700; line-height:1.65; word-break:break-all; color:var(--tea-d);}
+  .shortbox.dead{background:var(--red-bg); border-color:#f3cdc8; color:var(--red); font-size:18px;}
+  .longbox{background:#fdfcf9; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:16px; line-height:1.75; margin-top:8px; word-break:break-all; color:#3c3a35;}
+  .longbox.dead{background:var(--red-bg); border-color:#f3cdc8; color:var(--red);}
+  details.foldbox{border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-top:12px; background:#fdfcf9;}
+  details.foldbox summary{font-size:15px; font-weight:700; color:var(--tea-d); cursor:pointer; list-style:none;}
+  details.foldbox summary::-webkit-details-marker{display:none;}
+  details.foldbox summary:before{content:"▸ "; color:var(--tea);}
+  details.foldbox[open] summary:before{content:"▾ ";}
+  @media (max-width:360px){ .price-item .v{font-size:21px;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>茶叶小店 · 报价与回访助手</h1>
+    <p>三件事：出报价 · 看谁该回访 · 生成回访话术。数据只存在你这台手机上。</p>
+    <div class="banner warn" id="bnStore">这个浏览器不让存数据，关掉就没了。请点底部「导出备份」存起来。</div>
+    <div class="banner err" id="bnErr">页面出了点小状况。别慌，先点底部「导出备份」，再刷新页面。</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <details class="setup" id="setupBox">
+    <summary>第一步：填一下你自己的店铺信息（只填一次）</summary>
+    <div class="small">填完会自动记住。不填也能用，报价单上会写"本店"。</div>
+    <div class="field">
+      <label for="shopName">店名</label>
+      <input type="text" id="shopName" placeholder="比如：青山茶行" autocomplete="off">
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="bossXing">我姓什么</label>
+        <input type="text" id="bossXing" placeholder="比如：陈" autocomplete="off">
+        <div class="hint">话术里会写成"我是小陈"。</div>
+      </div>
+      <div class="field">
+        <label for="shopTel">微信 / 电话</label>
+        <input type="text" id="shopTel" placeholder="选填" autocomplete="off">
+      </div>
+    </div>
+  </details>
+
+  <div class="tabs">
+    <button class="tab on" id="tabPrice" data-page="price">报价<small>算该卖多少钱</small></button>
+    <button class="tab" id="tabVisit" data-page="visit">回访<small>谁该联系了</small></button>
+    <button class="tab" id="tabTalk" data-page="talk">话术<small>发给客户的话</small></button>
+  </div>
+
+  <!-- ================= 报价区 ================= -->
+  <div id="page-price">
+
+    <div class="msg tip show" style="border-radius:12px; border:1px solid #eadfc0;">
+      注意：这里的加价倍数（2 倍 / 2.5 倍 / 3 倍）是<strong>示例数据，请换成你自己的</strong>。你的真实价格表还没给我，所以只能当"怎么算"的参考。
+    </div>
+
+    <div class="card">
+      <h2>出一份报价</h2>
+      <p class="lead">照着点：填品名 → 填成本 → 定最低可让价 → 点绿色大按钮。</p>
+
+      <div class="field">
+        <label for="pName">茶品名（你店里怎么叫）</label>
+        <input type="text" id="pName" placeholder="例：明前龙井" autocomplete="off">
+        <div class="hint">内部叫法照实填，带产地、等级、年份的也照填——下面会自动给你转成能对外说的名字。</div>
+      </div>
+
+      <div class="field">
+        <label for="pPub">可对外名称（发客户只能用它）</label>
+        <input type="text" id="pPub" placeholder="例：今年春季的绿茶" autocomplete="off">
+        <div class="hint" id="pubHint">填完品名会自动推荐。名字里带"明前/古树/特级/山头"这类词的，没凭据不许出现在客户面前。</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="pSpec">规格（必填，要带单位）</label>
+          <input type="text" id="pSpec" placeholder="例：250克／罐" autocomplete="off">
+          <div class="hint">带斤 / 克 / 两 / 罐 / 盒 / 份 / 泡，空着或没单位不许出单。</div>
+        </div>
+        <div class="field">
+          <label for="pCost">成本（必填，一罐进价）</label>
+          <input type="number" id="pCost" inputmode="decimal" placeholder="例：42" min="0" step="0.1">
+          <div class="hint">含包装、摊下来的运费。</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>这茶主要卖给谁</label>
+        <div class="levels" id="levels">
+          <button type="button" class="level on" data-level="口粮" data-mult="2.0">口粮<span>自己天天喝（按2倍）</span></button>
+          <button type="button" class="level" data-level="送礼" data-mult="2.5">送礼<span>带盒子送人（按2.5倍）</span></button>
+          <button type="button" class="level" data-level="礼盒" data-mult="3.0">礼盒<span>高档成套（按3倍）</span></button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="pMult">按成本的几倍卖</label>
+          <input type="number" id="pMult" inputmode="decimal" value="2.0" min="1" max="10" step="0.1">
+          <div class="hint">不确定就别改。</div>
+        </div>
+        <div class="field">
+          <label for="pFloor">最低可让价（必填）</label>
+          <input type="number" id="pFloor" inputmode="decimal" placeholder="例：70" min="0" step="0.1">
+          <div class="hint">你的底线，再低就不卖。客户看不到这个数。</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pTaste">这茶喝着什么味、怎么泡（选填）</label>
+        <input type="text" id="pTaste" placeholder="例：香气扬，汤水顺，90度水泡20秒就出汤" autocomplete="off">
+        <div class="hint">只说香型、口感、怎么泡、适合谁、配什么点心。<strong>别写产地、等级、年份、疗效</strong>——写了工具会替你删。</div>
+      </div>
+
+      <div class="field">
+        <label for="pWho">适合谁喝（选填）</label>
+        <input type="text" id="pWho" placeholder="例：平时喝得淡一点的人，配瓜子米糕都行" autocomplete="off">
+      </div>
+
+      <button class="btn btn-main" id="btnCalc">算出该卖多少钱</button>
+
+      <div class="result" id="priceResult">
+        <div class="price-box">
+          <div class="price-item"><span class="k">建议零售价</span><span class="v" id="vRetail">0<i>元</i></span></div>
+          <div class="price-item vip"><span class="k">熟客价</span><span class="v" id="vVip">0<i>元</i></span></div>
+          <div class="price-item grp"><span class="k">团购价</span><span class="v" id="vGroup">0<i>元</i></span></div>
+          <div class="price-item floor"><span class="k">最低可让价</span><span class="v" id="vFloor">0<i>元</i></span></div>
+        </div>
+
+        <div class="calc-line" id="calcLine"></div>
+        <div class="msg" id="priceWarn"></div>
+
+        <div class="switchline">
+          <input type="checkbox" id="swPrice">
+          <label for="swPrice" style="margin:0; font-weight:400;">
+            <b>我的成本和价格我自己核对过了（打开才能把带价的话复制发客户）</b>
+            这个开关默认关着。真实价格表还没到位之前，带价的话别往外发；核完再打开。
+          </label>
+        </div>
+
+        <div class="blocktitle">内部版（自己看，别外发）</div>
+        <div class="kv"><span class="k">成本 / 倍数</span><span class="v" id="kCost">-</span></div>
+        <div class="kv"><span class="k">让价空间</span><span class="v" id="kRoom">-</span></div>
+        <div class="kv"><span class="k">底线</span><span class="v" id="kFloor">-</span></div>
+
+        <div class="blocktitle">对外版（复制发客户，只有现价、带单位、不带任何比较）</div>
+        <label for="quoteText">一段话直接发</label>
+        <div class="hint">价格和单位都在句子里，复制就走，不用自己拼。</div>
+        <textarea id="quoteText" readonly></textarea>
+        <div class="msg" id="priceCheck"></div>
+        <div class="btns">
+          <button class="btn btn-brown btn-sm" id="btnCopyQuote">复制这段话</button>
+          <button class="btn btn-ghost btn-sm" id="btnSaveQuote">存进报价记录</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>报价记录</h2>
+      <p class="lead">出过的报价会存一份，方便回头查。</p>
+      <div id="quoteListWrap"><div class="empty">还没有记录。上面出一份报价，点「存进报价记录」就会出现在这里。</div></div>
+      <div class="btns" id="quoteTools" style="display:none;">
+        <button class="btn btn-ghost btn-sm" id="btnExportQuotes">导出成表格</button>
+        <button class="btn btn-danger btn-sm" id="btnClearQuotes">清空记录</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= 回访区 ================= -->
+  <div id="page-visit" class="hide">
+
+    <div class="card">
+      <h2>每晚一句话记账（最快）</h2>
+      <p class="lead">嘴上怎么说就怎么写，一句一行。工具替你拆成 客户 / 茶品 / 规格 / 金额。</p>
+      <textarea id="dictText" placeholder="例：&#10;老李 2斤龙井 480&#10;张姐 1斤白毫 380&#10;还有个小伙子问了没买"></textarea>
+      <div class="hint">认不出来也没事，会先给你看它认成了什么，你确认了才加进去。</div>
+      <button class="btn btn-main" id="btnParse">拆开看看</button>
+      <div id="parseBox"></div>
+    </div>
+
+    <div class="card">
+      <h2>谁该回访了</h2>
+      <p class="lead">一个人一个人填也行。超过 60 天没买的自动标红。</p>
+
+      <div class="stat">
+        <div><span class="n" id="stTotal">0</span><span class="t">客户总数</span></div>
+        <div><span class="n red" id="stOver">0</span><span class="t">超过60天该回访</span></div>
+        <div><span class="n" id="stVery">0</span><span class="t">超过180天</span></div>
+      </div>
+
+      <div class="field">
+        <label for="cName">客户怎么称呼（必填）</label>
+        <input type="text" id="cName" placeholder="比如：王姐" autocomplete="off">
+        <div class="hint">写你平时叫的名字。同名会自动更新，不会重复。</div>
+      </div>
+
+      <div class="field">
+        <label for="cDate">上次购买日期（必填；只问没买的填上次问的日期）</label>
+        <input type="date" id="cDate">
+        <div class="hint">点一下弹日历，选那天。</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="cTimes">买过几次</label>
+          <input type="number" id="cTimes" inputmode="numeric" placeholder="例：3" min="0" step="1">
+        </div>
+        <div class="field">
+          <label for="cAmount">累计金额（元）</label>
+          <input type="number" id="cAmount" inputmode="decimal" placeholder="例：1280" min="0" step="0.1">
+        </div>
+      </div>
+      <div class="hint" style="margin-top:-8px;">这两个数决定谁先招呼。<strong>钱多的排前面</strong>，不是时间久的排前面。</div>
+
+      <div class="field" style="margin-top:14px;">
+        <label>这个客户是哪种</label>
+        <div class="levels" id="cTypes">
+          <button type="button" class="level on" data-type="已买">已买<span>买过的老客</span></button>
+          <button type="button" class="level" data-type="只问没买">只问没买<span>问过还没下单</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>要不要拦一下（可以勾，不是必填）</label>
+        <div class="hint">拦下来的人，机器不许自己追。<strong>退 / 诉</strong> 直接不进名单；<strong>不满</strong> 留在名单里但要你点头才发。</div>
+        <div class="levels" id="cFlags">
+          <button type="button" class="level on" data-flag="">不拦<span>正常客户</span></button>
+          <button type="button" class="level" data-flag="退">退<span>退过货 / 要退过</span></button>
+          <button type="button" class="level" data-flag="诉">诉<span>说投诉 / 找工商 / 差评</span></button>
+          <button type="button" class="level" data-flag="不满">不满<span>抱怨过但没退</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cItem">上次买的什么（选填，只给话术用，不占名单格子）</label>
+        <input type="text" id="cItem" placeholder="例：茉莉花茶" autocomplete="off">
+      </div>
+
+      <button class="btn btn-main" id="btnAddCust">加进名单</button>
+      <div class="msg" id="custMsg"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+        <h2 style="margin:0;">名单</h2>
+        <button class="btn btn-ghost btn-sm" id="btnSort" style="max-width:170px;">排序：累计金额</button>
+      </div>
+      <div class="hint" id="sortHint">默认按累计金额从高到低——钱多的先招呼。点右边按钮可以切成"按多久没买"。</div>
+      <div id="custListWrap"></div>
+      <div id="moreWrap" class="btns" style="display:none;">
+        <button class="btn btn-ghost btn-sm" id="btnMore">再看 20 人</button>
+      </div>
+      <div id="overWrap"></div>
+
+      <details class="zone" id="holdZone">
+        <summary id="holdTitle">要退 / 要投诉的客户（0 人，默认不打扰）</summary>
+        <div class="hint">这些人正在气头上，机器不许自动追。你想联系，点每行的「纳入回访」。</div>
+        <div id="holdList"></div>
+      </details>
+
+      <div class="btns" id="custTools" style="display:none;">
+        <button class="btn btn-brown btn-sm" id="btnCopyList">复制该回访名单</button>
+        <button class="btn btn-ghost btn-sm" id="btnExportCust">导出成表格</button>
+      </div>
+      <div class="btns hide" id="demoTools">
+        <button class="btn btn-danger btn-sm" id="btnDelDemo">删掉全部示例客户</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= 话术区 ================= -->
+  <div id="page-talk" class="hide">
+
+    <div class="card">
+      <h2>生成一段回访话术</h2>
+      <p class="lead">选客户 → 选多久没买 → 点生成。出来的是<strong>模板＋变量</strong>两块，把关的人一眼能看出变量有没有问题。</p>
+
+      <div class="field">
+        <label for="tPick">从名单里选一个客户</label>
+        <select id="tPick"><option value="">不选，我自己填称呼</option></select>
+        <div class="hint">选了会自动带称呼、可对外茶名、档位。</div>
+      </div>
+
+      <div class="field">
+        <label for="tName">怎么称呼他（必填）</label>
+        <input type="text" id="tName" placeholder="比如：王姐" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label>多久没买了</label>
+        <div class="levels" id="tiers">
+          <button type="button" class="level on" data-tier="A">60–90天<span>随口问一句</span></button>
+          <button type="button" class="level" data-tier="B">90–180天<span>找个由头</span></button>
+          <button type="button" class="level" data-tier="C">一年以上<span>唤醒，不尴尬</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="tItem">上次买的茶（填内部叫法，工具自动转可对外名称）</label>
+        <input type="text" id="tItem" placeholder="例：明前龙井" autocomplete="off">
+      </div>
+
+      <button class="btn btn-main" id="btnTalk">生成一段话</button>
+
+      <div class="result" id="talkResult">
+        <div class="blocktitle">① 模板（固定骨架，{}里是变量，把关的人只审这一块）</div>
+        <code class="sent" id="tplText"></code>
+        <div class="blocktitle">② 变量（这次填进去的具体值，重点看这块）</div>
+        <div id="varBox"></div>
+        <div class="blocktitle">③ 短版（≤40 字，默认发这条：一句问话 + 一个由头，不解释不推销）</div>
+        <div class="shortbox" id="shortBox"></div>
+        <div class="msg" id="shortWarn"></div>
+        <details class="foldbox" id="longFold">
+          <summary>④ 稍长版（同一档的另一条说法，想多说两句再点开）</summary>
+          <div class="longbox" id="longBox"></div>
+          <div class="btns"><button class="btn btn-ghost btn-sm" id="btnCopyLong">复制稍长版</button></div>
+        </details>
+        <textarea id="talkText" readonly class="hide"></textarea>
+        <div class="msg" id="talkCheck"></div>
+        <div class="btns">
+          <button class="btn btn-brown btn-sm" id="btnCopyTalk">复制短版</button>
+          <button class="btn btn-ghost btn-sm" id="btnNextTalk">换一条</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>这些话不能写（盾的禁用词表）</h2>
+      <p class="lead">红词命中：能换的直接换成标准句，只能删的整句删掉。<strong>不给"改成什么"的，就别自己编。</strong></p>
+      <div class="cntline" id="wcLine">本页词表共 0 个词</div>
+      <div class="blocktitle">产地 / 山头 / 采摘 / 等级 / 年份 / 工艺（可以换，用右栏标准句）</div>
+      <div class="badlist" id="badL2"></div>
+      <div class="blocktitle">认证 / 硬功效 / 百分百（只能删，没有替代句）</div>
+      <div class="badlist" id="badL3"></div>
+      <div class="blocktitle">价格比较（整条压掉，不许发）</div>
+      <div class="badlist" id="badL1"></div>
+      <div class="blocktitle">要小心但不是红线（提示一下）</div>
+      <div class="badlist warnl" id="badWarn"></div>
+
+      <div class="blocktitle">能放心用的（白名单：这几类不用凭据）</div>
+      <div class="hint">
+        香型（清香/豆香/栗香/兰花香/火香）· 口感（厚、顺、回甘、生津、化得快）· 耐泡几道（写自己实测的道数）·
+        怎么泡（水温、器具、快出汤）· 适合谁（新手/老茶客/送人/办公室/冬天）· 我自己的事（哪天到的货、我天天喝哪款）· 销量（回头客占几成，须真实）
+      </div>
+      <div class="msg bad show" style="margin-top:10px;">
+        白名单里也<strong>不许配绝对量</strong>："耐泡"能说，"十泡有余香"不能说；"回甘好"能说，"回甘最强"不能说。
+        带 { } 的数字（开几年、回头客几成、泡几道）<strong>没真数就不要说这一句</strong>——工具不会给你编数字。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>标准句库（盾给的 S-01 ～ S-24，照抄不改字）</h2>
+      <p class="lead">带 { } 的要填真值。填不出来就换 S-01 / S-03 这种纯口感句，它们不需要任何数字。</p>
+      <div id="sentList"></div>
+    </div>
+
+  </div>
+
+  <div class="note">数据存在你这台手机上（浏览器本地）。换手机、清缓存就没了，记得点下面「导出备份」。</div>
+</div>
+
+<div class="footbar">
+  <button id="btnBackup">导出备份</button>
+  <button id="btnDemo">载入示例</button>
+  <button id="btnClearAll" class="dan">清空全部</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     一、词表：直接取自 D-05 盾 · 禁用词表 v1.2（139 个 BLOCK）
+     处置档：LEVEL_1 整条压掉 / LEVEL_2 可换（给标准句）/ LEVEL_3 只能删
+     ========================================================= */
+  var L1 = "L1", L2 = "L2", L3 = "L3";
+
+  var SENT = {
+    "S-01": "这款汤感厚，泡到第五道还有味道。",
+    "S-02": "这款香气偏沉稳，不是一冲就散的那种。",
+    "S-03": "芽头嫩，涩感低，入口顺。",
+    "S-04": "香气比较张扬，跟常见口粮茶不是一路。",
+    "S-05": "开袋是清晰的{香型}香，不是香精那种甜。",
+    "S-06": "这是{年份}春天到的货，就这一批。",
+    "S-07": "春季批次，香气偏清，芽头嫩，涩感低。",
+    "S-08": "这是我们店里价位最高的一档。",
+    "S-09": "这道工序是我们自己盯着做的。",
+    "S-10": "陈香明显，汤色偏深红，入口很柔。",
+    "S-11": "这批是今年春天到的，我自己天天在喝。",
+    "S-12": "这款焙火重一点，冬天买的人多。",
+    "S-13": "吃完油腻的喝这个，嘴里清爽。",
+    "S-14": "开了{年数}年，{几}成是回头客。",
+    "S-15": "{价位区间}这个价位里，我卖得最多的一款。",
+    "S-16": "{品类}，{规格}，{价格}。",
+    "S-17": "配料表上只有茶叶。",
+    "S-18": "我自己泡过，{几}道还有味。",
+    "S-19": "喝完嘴里回甜，能留一会儿。",
+    "S-20": "回头客占{几}成，有几个从我开店买到现在。",
+    "S-21": "这款是我们今年卖得最多的一款。",
+    "S-22": "{礼盒名}配手提袋，{价格}。",
+    "S-23": "这款{价格}元，{规格}。",
+    "S-24": "泡的时间短一点，涩感会低很多。"
+  };
+  /* 有前提、不能乱套的句子 */
+  var SENT_NOTE = {
+    "S-05": "要填香型：豆香/栗香/兰花香/陈香/火香。填不出来换 S-01。",
+    "S-06": "年份必须是真的，拿不准换 S-07。",
+    "S-10": "前提：你自己喝出陈味了。喝不出就是假话，整句删。",
+    "S-14": "两个数都要真。说不出就换 S-15 或 S-02。",
+    "S-15": "价位和销量都要真。",
+    "S-16": "纯事实句，一点评价都不带。",
+    "S-17": "前提：配料真的只有茶叶。不是就删。",
+    "S-18": "填自己实测的道数，往少说。拿不准换 S-01。",
+    "S-20": "说不出成数就只说后半句。",
+    "S-22": "说清是什么、多少钱，不评价。"
+  };
+
+  var WORDS = [];
+  function addW(list, group, lv, s){
+    for(var i=0;i<list.length;i++){
+      WORDS.push({ w:list[i], g:group, lv:lv, s:s || null });
+    }
+  }
+  /* —— 139 个 BLOCK —— */
+  addW(["古树","大树","老树","乔木","单株","纯料","古茶园","母树"], "产地/树龄", L2, "S-01");
+  addW(["野生","野放","荒山"], "产地/树龄", L2, "S-04");
+  addW(["核心产区","核心山场","正山","山场","名山","山头","原产地"], "产地/树龄", L2, "S-02");
+  addW(["高山云雾","海拔"], "产地/树龄", L2, "S-03");
+  addW(["老班章","冰岛","易武","曼松","昔归","那卡","景迈","布朗山","牛栏坑","慧苑","马头岩","天心岩","狮峰","梅家坞","桐木关","猴坑"], "山头地名", L2, "S-05");
+  addW(["明前","雨前","社前","头采","头春","头茶"], "采摘时间", L2, "S-07");
+  addW(["头批","头一批","头道","头一道","头水","早春","春尖","清明前","谷雨前"], "采摘时间", L2, "S-07");
+  addW(["特级","一级","宫廷","贡品","御用","特供","内供","专供"], "等级", L2, "S-08");
+  addW(["上品","珍品"], "等级", L2, "S-08");
+  addW(["大师作","名家监制"], "等级", L2, "S-09");
+  addW(["年份","陈化","老茶","私藏","珍藏"], "年份/陈化", L2, "S-10");
+  addW(["古法","纯手工","手工","日晒"], "工艺", L2, "S-11");
+  addW(["老丛","丛味"], "工艺", L2, "S-01");
+  addW(["正岩","半岩","洲茶","荒野"], "工艺", L2, "S-02");
+  addW(["有机","绿色食品","无公害","地理标志","原产地保护","非遗","非遗传承人","金奖","老字号"], "认证", L3, null);
+  addW(["降三高","降血压","降血脂","降血糖","减肥","瘦身","排毒","治病","抗癌","防癌","护肝","助眠","解酒","刮油","消脂","消炎","增强免疫","抗衰老"], "硬功效", L3, null);
+  addW(["陈年","陈茶","多年陈"], "年份/陈化", L3, null);
+  addW(["暖胃","养生","调理"], "软功效", L2, "S-12");
+  addW(["去火","清热解毒","祛湿"], "软功效", L2, "S-13");
+  addW(["最好","最佳","最强","第一"], "绝对化", L2, "S-14");
+  addW(["顶级","极品","至尊","唯一","独家"], "绝对化", L2, "S-15");
+  addW(["国家级","世界级","万能","极致","绝对"], "绝对化", L2, "S-16");
+  addW(["纯天然","无添加","零添加"], "绝对化", L2, "S-17");
+  addW(["百分百","100%"], "绝对化", L3, null);
+  addW(["原价","划线价","史上最低","全网最低","亏本","跳楼价"], "价格比较", L1, null);
+
+  /* 会误伤的（WARN）与白名单软词 */
+  var WARN_WORDS = ["耐泡","回甘","香气","汤色"];
+  var SOFT_ABS = /(耐泡|回甘|香气|汤色)[^。，,；;]{0,8}(最|十泡|十道|九泡|八泡|七泡|有余香|无敌|顶级|第一)/;
+
+  /* 豁免：盾点名的安全说法，先遮掉再扫 */
+  var SAFE_PAT = [/第一次/g, /第一回/g, /第一泡/g, /第一天/g, /第一杯/g, /配料只有茶叶/g];
+
+  function scanText(text){
+    var t = String(text || "");
+    for(var i=0;i<SAFE_PAT.length;i++){ t = t.replace(SAFE_PAT[i], "〇〇〇"); }
+    var hits = [], seen = {};
+    for(var j=0;j<WORDS.length;j++){
+      var w = WORDS[j];
+      if(t.indexOf(w.w) > -1 && !seen[w.w]){ seen[w.w] = 1; hits.push(w); }
+    }
+    var soft = SOFT_ABS.test(t);
+    return { hits: hits, soft: soft };
+  }
+  function wordsOf(hits, lv){
+    var out = [];
+    for(var i=0;i<hits.length;i++){ if(hits[i].lv === lv) out.push(hits[i].w); }
+    return out;
+  }
+  /* 句级处理：L3 删句；L2 且标准句无 { } → 整句换成标准句；标准句带 { } → 只提示，不动 */
+  function splitSentences(text){
+    var parts = [], buf = "", i, ch;
+    for(i=0;i<text.length;i++){
+      ch = text.charAt(i);
+      buf += ch;
+      if(ch === "。" || ch === "！" || ch === "？" || ch === "\n" || ch === "；"){
+        parts.push(buf); buf = "";
+      }
+    }
+    if(buf) parts.push(buf);
+    return parts;
+  }
+  function processText(text, masks){
+    var res = { text: text, removed: [], swapped: [], needManual: [], hardBlock: [] };
+    /* 先把不构成"茶的声明"的变量遮掉（比如客户名里的"古树"），别拿它当违规 */
+    var masked = String(text || ""), store = [];
+    if(masks){
+      for(var mi=0; mi<masks.length; mi++){
+        var m = masks[mi];
+        if(m && masked.indexOf(m) > -1){
+          var ph = "〇" + mi + "〇";
+          masked = masked.split(m).join(ph);
+          store.push([ph, m]);
+        }
+      }
+    }
+    var sc = scanText(masked);
+    if(!sc.hits.length && !sc.soft){ return res; }
+
+    var l1 = wordsOf(sc.hits, L1);
+    if(l1.length){ res.hardBlock = l1; return res; }
+
+    var sents = splitSentences(masked);
+    var l3words = wordsOf(sc.hits, L3);
+    var out = [];
+    for(var i=0;i<sents.length;i++){
+      var s = sents[i], dirty = false, k;
+      for(k=0;k<l3words.length;k++){
+        if(s.indexOf(l3words[k]) > -1){ dirty = true; res.removed.push({ w:l3words[k], s:s.trim() }); break; }
+      }
+      if(dirty) continue;
+      var swapped = false;
+      for(k=0;k<sc.hits.length;k++){
+        var h = sc.hits[k];
+        if(h.lv !== L2 || !h.s || s.indexOf(h.w) === -1) continue;
+        var std = SENT[h.s];
+        if(std.indexOf("{") > -1){
+          if(!res.needManual.length || res.needManual[0].w !== h.w) res.needManual.push({ w:h.w, s:h.s, txt:std });
+          swapped = true; break;
+        }
+        res.swapped.push({ w:h.w, s:h.s, txt:std, from:s.trim() });
+        out.push(std);
+        swapped = true; break;
+      }
+      if(!swapped) out.push(s);
+    }
+    var txt = out.join("");
+    if(sc.soft) res.needManual.push({ w:"白名单配了绝对量", s:"-", txt:"把数字或「最」去掉，只留感受。" });
+    for(var r=0;r<store.length;r++){ txt = txt.split(store[r][0]).join(store[r][1]); }
+    res.text = txt;
+    return res;
+  }
+
+  /* 报价里的短描述（怎么喝 / 适合谁）：按逗号切片段处理，删掉带禁词的片段，别连累好句子 */
+  function processDesc(text){
+    var res = { text: "", removed: [], suggest: [], hardBlock: [] };
+    if(!text) return res;
+    var frags = String(text).split(/[，,、。；;]/);
+    var keep = [];
+    for(var i=0;i<frags.length;i++){
+      var f = frags[i].replace(/^\s+|\s+$/g,"");
+      if(!f) continue;
+      var sc = scanText(f);
+      if(!sc.hits.length){ keep.push(f); continue; }
+      var l1 = wordsOf(sc.hits, L1);
+      if(l1.length){ res.hardBlock = l1; return res; }
+      var l3 = wordsOf(sc.hits, L3);
+      if(l3.length){ res.removed.push({ w:l3[0], s:f, hard:true }); continue; }
+      res.removed.push({ w:sc.hits[0].w, s:f, hard:false });
+      if(sc.hits[0].s && !res.suggest.length){
+        res.suggest.push({ w:sc.hits[0].w, s:sc.hits[0].s, txt:SENT[sc.hits[0].s] });
+      }
+    }
+    res.text = keep.join("，");
+    return res;
+  }
+
+  /* 可对外名称对照表（D-05 盾 1.7 起手版） */
+  var PUB_MAP = {
+    "明前龙井":"今年春季的绿茶","西湖龙井":"龙井绿茶","狮峰龙井":"龙井绿茶","梅家坞龙井":"龙井绿茶",
+    "特级龙井":"绿茶（店里最高一档）","雨前龙井":"春季批次绿茶","太平猴魁":"太平猴魁","猴坑猴魁":"绿茶",
+    "云南古树普洱":"普洱生茶","老班章":"普洱生茶","冰岛":"普洱生茶","易武":"普洱生茶","昔归":"普洱生茶",
+    "那卡":"普洱生茶","曼松":"普洱生茶","景迈":"普洱生茶","三年陈白茶":"白茶","老白茶":"白茶",
+    "陈年白茶":"白茶","白毫银针":"白茶","正山小种":"红茶","金骏眉":"红茶","大红袍":"乌龙茶（岩茶）",
+    "牛栏坑肉桂":"武夷岩茶","马头岩肉桂":"武夷岩茶","铁观音":"铁观音","高山云雾绿茶":"绿茶",
+    "有机红茶":"红茶","手工炭焙乌龙":"炭焙乌龙","特级肉桂":"肉桂（店里最高一档）",
+    "明前特级碧螺春":"今年春季的绿茶","古法日晒白茶":"白茶","碧螺春":"碧螺春","安吉白茶":"安吉白茶",
+    "六安瓜片":"六安瓜片","黄山毛峰":"黄山毛峰"
+  };
+  function pubNameOf(raw){
+    var n = String(raw || "").replace(/\s/g,"");
+    if(!n) return "";
+    if(PUB_MAP[n]) return PUB_MAP[n];
+    for(var k in PUB_MAP){ if(PUB_MAP.hasOwnProperty(k) && n.indexOf(k) > -1) return PUB_MAP[k]; }
+    /* 没有对照的：把不能对外的词剥掉，只剩品类名 */
+    var out = n, sc = scanText(n), hit = false;
+    for(var i=0;i<sc.hits.length;i++){
+      out = out.split(sc.hits[i].w).join("");
+      hit = true;
+    }
+    return hit ? (out || "这款茶") : n;
+  }
+
+  /* =========================================================
+     二、小工具
+     ========================================================= */
+  function $(id){ return document.getElementById(id); }
+  function esc(s){
+    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  }
+  function todayStr(){
+    var d = new Date();
+    return d.getFullYear() + "年" + (d.getMonth()+1) + "月" + d.getDate() + "日";
+  }
+  function todayISO(){
+    var d = new Date(), m = d.getMonth()+1, dd = d.getDate();
+    return d.getFullYear() + "-" + (m<10?"0":"") + m + "-" + (dd<10?"0":"") + dd;
+  }
+  function fmtDate(s){
+    if(!s) return "";
+    var p = String(s).split("-");
+    if(p.length !== 3) return s;
+    return p[0] + "年" + Number(p[1]) + "月" + Number(p[2]) + "日";
+  }
+  function daysSince(dateStr){
+    if(!dateStr) return null;
+    var p = String(dateStr).split("-");
+    if(p.length !== 3) return null;
+    var t = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+    if(isNaN(t.getTime())) return null;
+    var n = new Date();
+    var today = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+    var d = Math.floor((today.getTime() - t.getTime()) / 86400000);
+    if(d < 0) return null;
+    return d;
+  }
+  function money(n){
+    var v = Math.round(Number(n) * 10) / 10;
+    return (v % 1 === 0) ? String(v) : v.toFixed(1);
+  }
+  function num(s){ var v = parseFloat(String(s).replace(/[^\d.\-]/g,"")); return isNaN(v) ? 0 : v; }
+
+  var storageOK = true;
+  function load(key, fb){
+    try{ var s = window.localStorage.getItem(key); if(!s) return fb; var v = JSON.parse(s); return (v==null)?fb:v; }
+    catch(e){ return fb; }
+  }
+  function save(key, val){
+    try{ window.localStorage.setItem(key, JSON.stringify(val)); return true; }
+    catch(e){ storageOK = false; $("bnStore").className = "banner warn show"; return false; }
+  }
+  var K_SET="teaShop_settings_v2", K_CUST="teaShop_customers_v2", K_QUOTE="teaShop_quotes_v2", K_SW="teaShop_price_switch_v2";
+
+  var settings = load(K_SET, {shop:"", xing:"", tel:""});
+  var customers = load(K_CUST, []);
+  var quotes = load(K_QUOTE, []);
+  if(!Array.isArray(customers)) customers = [];
+  if(!Array.isArray(quotes)) quotes = [];
+  /* 老数据迁移：以前只有"要退要投诉"一个类型，现在拆成 退 / 诉 / 不满 三个标记。
+     老数据统一按「诉」处理——宁可少追一个，别追错一个。 */
+  for(var mig=0; mig<customers.length; mig++){
+    var mc = customers[mig];
+    if(mc.flag == null) mc.flag = (mc.type === "要退要投诉") ? "诉" : "";
+    if(mc.type === "要退要投诉") mc.type = "已买";
+    if(mc.hold == null) mc.hold = false;
+  }
+  var priceSwitchOn = load(K_SW, false) === true;
+
+  try{ window.localStorage.setItem("teaShop_probe","1"); window.localStorage.removeItem("teaShop_probe"); }
+  catch(e){ storageOK = false; $("bnStore").className = "banner warn show"; }
+
+  /* ============ 店铺信息 ============ */
+  function fillSettings(){
+    $("shopName").value = settings.shop || "";
+    $("bossXing").value = settings.xing || "";
+    $("shopTel").value = settings.tel || "";
+    if(!settings.shop && !settings.xing){ $("setupBox").open = true; }
+  }
+  function readSettings(){
+    settings.shop = $("shopName").value.trim();
+    settings.xing = $("bossXing").value.trim();
+    settings.tel = $("shopTel").value.trim();
+    save(K_SET, settings);
+  }
+  ["shopName","bossXing","shopTel"].forEach(function(id){
+    $(id).addEventListener("change", readSettings);
+    $(id).addEventListener("blur", readSettings);
+  });
+  function shopNameWord(){ return settings.shop || "本店"; }
+  function selfShort(){ return settings.xing ? ("小"+settings.xing) : "开茶店的"; }
+  /* 自我介绍整句：有店名有姓 → 我是青山茶行的小陈；缺哪样就自动降级 */
+  function introWord(){
+    var s = settings.shop || "", x = settings.xing || "";
+    if(s && x) return "我是" + s + "的小" + x;
+    if(s) return "我是" + s + "的";
+    if(x) return "我是开茶店的小" + x;
+    return "我是开茶店的";
+  }
+
+  /* ============ 切页 ============ */
+  var tabs = document.querySelectorAll(".tab");
+  for(var ti=0; ti<tabs.length; ti++){
+    tabs[ti].addEventListener("click", function(){
+      var page = this.getAttribute("data-page");
+      for(var j=0;j<tabs.length;j++) tabs[j].className = "tab" + (tabs[j]===this ? " on" : "");
+      $("page-price").className = (page==="price") ? "" : "hide";
+      $("page-visit").className = (page==="visit") ? "" : "hide";
+      $("page-talk").className = (page==="talk") ? "" : "hide";
+      window.scrollTo(0,0);
+      if(page==="talk") refreshPick();
+      if(page==="visit") renderCust();
+    });
+  }
+
+  /* =========================================================
+     三、报价区
+     ========================================================= */
+  var curLevel = "口粮", curMult = 2.0;
+
+  var levelBtns = document.querySelectorAll("#levels .level");
+  for(var li=0; li<levelBtns.length; li++){
+    levelBtns[li].addEventListener("click", function(){
+      for(var k=0;k<levelBtns.length;k++) levelBtns[k].className = "level";
+      this.className = "level on";
+      curLevel = this.getAttribute("data-level");
+      curMult = parseFloat(this.getAttribute("data-mult"));
+      $("pMult").value = curMult.toFixed(1);
+    });
+  }
+
+  /* 品名改动 → 推荐可对外名称 */
+  function autoPub(){
+    var raw = $("pName").value.trim();
+    var pub = pubNameOf(raw);
+    if(pub && pub !== raw){
+      $("pPub").value = pub;
+      $("pubHint").className = "msg info show";
+      $("pubHint").textContent = "已推荐：" + raw + " → " + pub + "。发客户只能用右边这个。";
+    } else if(!raw){
+      $("pubHint").className = "hint";
+      $("pubHint").textContent = "填完品名会自动推荐。名字里带\"明前/古树/特级/山头\"这类词的，没凭据不许出现在客户面前。";
+    } else {
+      $("pubHint").className = "msg ok show";
+      $("pubHint").textContent = "这个名字本身没有不能对外的词，可以直接用。";
+    }
+  }
+  $("pName").addEventListener("change", autoPub);
+  $("pName").addEventListener("blur", autoPub);
+
+  var UNIT_RE = /(斤|克|g|G|两|罐|盒|份|泡|袋|提|饼|包|瓶|支|套|只)/;
+
+  function nicePrice(x){
+    if(!(x > 0)) return 0;
+    if(x < 40) return Math.ceil(x/2)*2;
+    return Math.ceil((x+2)/10)*10 - 2;
+  }
+
+  function calcPrice(){
+    var nameRaw = $("pName").value.trim();
+    var pub = $("pPub").value.trim() || pubNameOf(nameRaw);
+    var spec = $("pSpec").value.trim();
+    var costRaw = $("pCost").value.trim();
+    var floorRaw = $("pFloor").value.trim();
+    var multRaw = $("pMult").value.trim();
+    var warnEl = $("priceWarn");
+
+    var p = [];
+    if(!nameRaw) p.push("还没填茶品名");
+    if(!spec) p.push("还没填规格（多少克／什么包装）");
+    else if(!UNIT_RE.test(spec)) p.push("规格里要带单位（斤/克/两/罐/盒/份/泡），现在只有数字");
+    if(!costRaw) p.push("还没填成本（一罐进价多少元，只能填数字）");
+
+    var cost = num(costRaw);
+    if(costRaw && cost <= 0) p.push("成本要填一个大于 0 的数字");
+    if(cost > 5000) p.push("成本填到 " + cost + " 元太离谱了（你平时一单才 100–300 元），是不是多打了个 0");
+
+    var floor = num(floorRaw);
+    if(!floorRaw) p.push("还没定最低可让价 —— 这是你的底线，不填不许出单");
+    else if(floor <= 0) p.push("最低可让价要填一个大于 0 的数字");
+    else if(floor < cost) p.push("最低可让价（" + money(floor) + " 元）比成本（" + money(cost) + " 元）还低，这一单做了是赔钱");
+
+    if(p.length){
+      warnEl.className = "msg bad show";
+      warnEl.textContent = "先等一下：" + p.join("；") + "。";
+      $("priceResult").className = "result";
+      return;
+    }
+
+    var mult = parseFloat(multRaw);
+    if(isNaN(mult) || mult <= 1){ mult = curMult; $("pMult").value = mult.toFixed(1); }
+    var multNote = "";
+    if(mult > 10){ multNote = "倍数填到 10 倍以上了，我按 10 倍算了。你是不是想填 2 倍？"; mult = 10; }
+
+    var retail = nicePrice(cost * mult);
+    var vip = Math.round(retail * 0.9);
+    var group = Math.round(retail * 0.8);
+    if(vip >= retail) vip = retail - 2;
+    if(vip <= cost * 1.1) vip = Math.ceil(cost * 1.15);
+    if(group < cost * 1.25) group = Math.ceil(cost * 1.25);
+    if(group >= vip) group = vip - 2;
+    if(group < cost * 1.15) group = Math.ceil(cost * 1.15);
+
+    $("vRetail").textContent = money(retail);
+    $("vRetail").innerHTML = money(retail) + '<i>元</i>';
+    $("vVip").innerHTML = money(vip) + '<i>元</i>';
+    $("vGroup").innerHTML = money(group) + '<i>元</i>';
+    $("vFloor").innerHTML = money(floor) + '<i>元</i>';
+
+    var profit = retail - cost;
+    var rate = Math.round(profit / retail * 100);
+    $("calcLine").innerHTML = "成本 " + money(cost) + " 元，按 " + mult.toFixed(1) + " 倍算，一罐赚 <b>" + money(profit) + " 元</b>，毛利率 <b>" + rate + "%</b>。熟客价 9 折、团购价 8 折。";
+
+    /* 内部版三行 */
+    $("kCost").textContent = "成本 " + money(cost) + " 元 × " + mult.toFixed(1) + " 倍 = " + money(retail) + " 元";
+    var room = retail - floor;
+    $("kRoom").innerHTML = "零售 " + money(retail) + " − 底线 " + money(floor) + " = <b>" + money(room) + " 元</b>（最多让这么多）";
+    $("kFloor").textContent = "低于 " + money(floor) + " 元不卖。熟客价 " + money(vip) + " / 团购价 " + money(group) + (vip < floor || group < floor ? "  ← 有档已经贴到/低于底线，注意" : "  都还在底线上");
+
+    /* 红线判断：对外价有没有让穿 */
+    var below = [];
+    if(vip < floor) below.push("熟客价 " + money(vip) + " 元");
+    if(group < floor) below.push("团购价 " + money(group) + " 元");
+    var redline = below.length > 0;
+
+    /* 对外文字：只有现价 + 单位，三行成句，复制就走，不带任何比较 */
+    var tasteRes = processDesc($("pTaste").value.trim());
+    var whoRes = processDesc($("pWho").value.trim());
+    var pubRes = processDesc(pub);
+
+    var pubFinal = pubRes.text.trim() || "这款茶";
+    var lines = [];
+    lines.push(pubFinal + "，" + money(retail) + " 元，" + spec + "。");
+    lines.push("老客给我，" + money(vip) + " 元，" + spec + "。");
+    lines.push("团购 5 份起，一份 " + money(group) + " 元，" + spec + "。");
+    if(tasteRes.text) lines.push("怎么喝：" + tasteRes.text + "。");
+    if(whoRes.text) lines.push("适合：" + whoRes.text + "。");
+    var txt = lines.join("\n");
+    $("quoteText").value = txt;
+
+    /* 自检 */
+    var chk = $("priceCheck");
+    var allHit = scanText(txt);
+    var notes = [];
+    if(pubRes.removed.length) notes.push("品名按可对外名称处理成了「" + pubFinal + "」");
+    var rm = tasteRes.removed.concat(whoRes.removed);
+    if(rm.length){
+      var hard = rm.filter(function(x){return x.hard;});
+      notes.push("删掉了 " + rm.length + " 个片段（" + rm.map(function(x){return x.w;}).join("、") + "）" +
+        (hard.length ? "，其中 " + hard.length + " 个是要有证才能说的声明，只能删" : ""));
+    }
+    if(rm.length || allHit.hits.length || allHit.soft){
+      chk.className = "msg bad show";
+      chk.innerHTML = "这段话里有不能说的词，已经替你删掉了：<b>" +
+        (rm.map(function(x){return x.w;}).join("、") || allHit.hits.map(function(x){return x.w;}).join("、") || "配了绝对量") + "</b>。" +
+        (notes.length ? "（" + notes.join("；") + "）" : "");
+    } else {
+      chk.className = "msg ok show";
+      chk.textContent = "检查过：只有现价和单位，没有产地/等级/年份/疗效/绝对化/原价划线价。";
+    }
+
+    /* 有可以照抄的标准句就摆出来 */
+    var sug = tasteRes.suggest.concat(whoRes.suggest);
+    var manual = tasteRes.needManual || [];
+    var oldTip = document.getElementById("manualTip");
+    if(oldTip) oldTip.parentNode.removeChild(oldTip);
+    if(sug.length){
+      var mEl = document.createElement("div");
+      mEl.className = "msg tip show";
+      mEl.id = "manualTip";
+      mEl.innerHTML = "想让这段更像话，照抄盾的标准句：" + sug.map(function(x){
+        return "<br><b>" + x.s + "</b>　" + esc(x.txt) + (SENT_NOTE[x.s] ? "（" + esc(SENT_NOTE[x.s]) + "）" : "");
+      }).join("");
+      chk.parentNode.insertBefore(mEl, chk);
+    }
+
+    /* 红线警告 */
+    if(redline){
+      warnEl.className = "msg bad show";
+      warnEl.innerHTML = "这个价已经让穿底线了：<b>" + below.join("、") + "</b> 低于你的最低可让价 " + money(floor) + " 元。" +
+        "要么把倍数调高，要么把底线调低——但底线调低之前想清楚，这一单还赚不赚钱。";
+    } else if(multNote){
+      warnEl.className = "msg tip show";
+      warnEl.textContent = multNote;
+    } else {
+      warnEl.className = "msg";
+      warnEl.textContent = "";
+    }
+
+    /* 复制按钮跟开关走 */
+    var canCopy = priceSwitchOn && !redline;
+    $("btnCopyQuote").disabled = !canCopy;
+    $("btnCopyQuote").textContent = redline ? "让穿底线了，不能复制" : (priceSwitchOn ? "复制这段话" : "先打开上面的开关");
+    $("btnSaveQuote").disabled = !canCopy;
+
+    $("priceResult").className = "result show";
+  }
+  $("btnCalc").addEventListener("click", calcPrice);
+
+  $("swPrice").checked = priceSwitchOn;
+  $("swPrice").addEventListener("change", function(){
+    priceSwitchOn = this.checked;
+    save(K_SW, priceSwitchOn);
+    if($("priceResult").className.indexOf("show") > -1) calcPrice();
+  });
+
+  function copyText(text, btn, oldLabel){
+    function done(ok){
+      if(!btn) return;
+      btn.textContent = ok ? "已复制，去发吧" : "没复制上，长按文字自己选";
+      setTimeout(function(){ btn.textContent = oldLabel; }, 2200);
+    }
+    if(!text){ done(false); return; }
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ legacy(); });
+      } else { legacy(); }
+    }catch(e){ legacy(); }
+    function legacy(){
+      try{
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta); done(!!ok);
+      }catch(e2){ done(false); }
+    }
+  }
+  $("btnCopyQuote").addEventListener("click", function(){
+    if(!priceSwitchOn){
+      $("priceWarn").className = "msg tip show";
+      $("priceWarn").textContent = "先把上面那个开关打开（确认你核过自己的成本和价格），才能把带价的话复制去发客户。";
+      return;
+    }
+    copyText($("quoteText").value, this, "复制这段话");
+  });
+
+  function saveQuote(){
+    if(!priceSwitchOn || $("btnSaveQuote").disabled){
+      $("priceWarn").className = "msg tip show";
+      $("priceWarn").textContent = "先出报价、并打开价格开关，才能存记录。";
+      return;
+    }
+    var name = $("pPub").value.trim() || pubNameOf($("pName").value.trim());
+    if(!name) return;
+    quotes.unshift({
+      id:"q"+Date.now(), date: todayStr(), name: name, raw: $("pName").value.trim(),
+      spec: $("pSpec").value.trim(), level: curLevel, cost: $("pCost").value.trim(),
+      retail: $("vRetail").textContent, vip: $("vVip").textContent,
+      group: $("vGroup").textContent, floor: $("vFloor").textContent
+    });
+    if(quotes.length > 200) quotes = quotes.slice(0,200);
+    save(K_QUOTE, quotes); renderQuotes();
+    $("priceWarn").className = "msg ok show";
+    $("priceWarn").textContent = "存好了，下面「报价记录」里能看到。";
+  }
+  $("btnSaveQuote").addEventListener("click", saveQuote);
+
+  function renderQuotes(){
+    var wrap = $("quoteListWrap");
+    if(!quotes.length){
+      wrap.innerHTML = '<div class="empty">还没有记录。上面出一份报价，点「存进报价记录」就会出现在这里。</div>';
+      $("quoteTools").style.display = "none";
+      return;
+    }
+    $("quoteTools").style.display = "flex";
+    var h = '<table><thead><tr><th>茶品（对外名）</th><th>价格</th><th></th></tr></thead><tbody>';
+    for(var i=0;i<quotes.length;i++){
+      var q = quotes[i];
+      h += '<tr><td><b>' + esc(q.name) + '</b>';
+      h += '<span class="sub2">' + esc(q.spec||"") + (q.spec?" · ":"") + esc(q.date) + '</span></td>';
+      h += '<td>零售 <b>' + esc(q.retail) + '</b><span class="sub2">熟客 ' + esc(q.vip) + ' · 团购 ' + esc(q.group) + ' · 底线 ' + esc(q.floor) + '</span></td>';
+      h += '<td><button class="del" data-qid="' + esc(q.id) + '">删</button></td></tr>';
+    }
+    h += '</tbody></table>';
+    wrap.innerHTML = h;
+    var dels = wrap.querySelectorAll("[data-qid]");
+    for(var d=0; d<dels.length; d++){
+      dels[d].addEventListener("click", function(){
+        var id = this.getAttribute("data-qid");
+        quotes = quotes.filter(function(x){ return x.id !== id; });
+        save(K_QUOTE, quotes); renderQuotes();
+      });
+    }
+  }
+  $("btnClearQuotes").addEventListener("click", function(){
+    if(!confirm("清空所有报价记录？这个删了找不回来。")) return;
+    quotes = []; save(K_QUOTE, quotes); renderQuotes();
+  });
+  $("btnExportQuotes").addEventListener("click", function(){
+    if(!quotes.length) return;
+    var rows = [["日期","茶品(对外名)","内部叫法","规格","等级","成本","建议零售价","熟客价","团购价","最低可让价"]];
+    for(var i=0;i<quotes.length;i++){
+      var q = quotes[i];
+      rows.push([q.date,q.name,q.raw,q.spec,q.level,q.cost,q.retail,q.vip,q.group,q.floor]);
+    }
+    downloadCSV(rows, "报价记录.csv");
+  });
+
+  /* =========================================================
+     四、回访区
+     ========================================================= */
+  var curType = "已买";
+  var curFlag = "";
+  var sortByAmount = true;
+  var pageSize = 20, shownCount = 20;
+
+  var typeBtns = document.querySelectorAll("#cTypes .level");
+  for(var cyi=0; cyi<typeBtns.length; cyi++){
+    typeBtns[cyi].addEventListener("click", function(){
+      for(var k=0;k<typeBtns.length;k++) typeBtns[k].className = "level";
+      this.className = "level on";
+      curType = this.getAttribute("data-type");
+    });
+  }
+
+  /* 拦截三档：退 / 诉 一律不进名单（除非人工点过「纳入」）；不满 留在名单里，但行上盖章 */
+  var flagBtns = document.querySelectorAll("#cFlags .level");
+  for(var fbi=0; fbi<flagBtns.length; fbi++){
+    flagBtns[fbi].addEventListener("click", function(){
+      for(var k=0;k<flagBtns.length;k++) flagBtns[k].className = "level";
+      this.className = "level on";
+      curFlag = this.getAttribute("data-flag") || "";
+    });
+  }
+  function isHardBlock(c){ return c.flag === "退" || c.flag === "诉"; }
+  function isSoftBlock(c){ return c.flag === "不满"; }
+  /* 能不能自动进名单 / 自动被复制：退了、要投诉的不行；人工点过「纳入」的才行 */
+  function canAutoPick(c){ return !(isHardBlock(c) && !c.hold); }
+
+  function upsertCustomer(obj){
+    var found = -1;
+    for(var i=0;i<customers.length;i++){ if(customers[i].name === obj.name){ found = i; break; } }
+    if(found > -1){
+      var c = customers[found];
+      c.date = obj.date;
+      if(obj.item) c.item = obj.item;
+      if(obj.times != null) c.times = obj.times;
+      if(obj.amount != null) c.amount = obj.amount;
+      if(obj.type) c.type = obj.type;
+      if(obj.flag != null) c.flag = obj.flag;
+      c.demo = false;
+      return { updated:true, c:c };
+    }
+    var row = {
+      id:"c"+Date.now()+"_"+Math.floor(Math.random()*1000),
+      name: obj.name, date: obj.date, item: obj.item || "",
+      times: (obj.times == null ? 1 : obj.times),
+      amount: (obj.amount == null ? 0 : obj.amount),
+      type: obj.type || "已买", flag: obj.flag || "", demo: !!obj.demo, hold: false
+    };
+    customers.push(row);
+    return { updated:false, c:row };
+  }
+
+  function addCustomer(){
+    var name = $("cName").value.trim();
+    var date = $("cDate").value;
+    var item = $("cItem").value.trim();
+    var timesRaw = $("cTimes").value.trim();
+    var amountRaw = $("cAmount").value.trim();
+    var msg = $("custMsg");
+    msg.className = "msg bad";
+
+    if(!name){ msg.className="msg bad show"; msg.textContent = "客户名还没填。写个你平时怎么叫他就行。"; return; }
+    if(!date){ msg.className="msg bad show"; msg.textContent = "上次购买日期还没选。点一下那个框，弹日历选那天。"; return; }
+    var d = daysSince(date);
+    if(d === null){ msg.className="msg bad show"; msg.textContent = "这个日期不对（是不是选了以后的日期？）。重新选一下。"; return; }
+    if(timesRaw && num(timesRaw) < 0){ msg.className="msg bad show"; msg.textContent = "买过几次不能是负数。"; return; }
+    if(amountRaw && num(amountRaw) < 0){ msg.className="msg bad show"; msg.textContent = "累计金额不能是负数。"; return; }
+
+    var r = upsertCustomer({
+      name:name, date:date, item:item,
+      times: timesRaw ? Math.round(num(timesRaw)) : null,
+      amount: amountRaw ? num(amountRaw) : null,
+      type: curType, flag: curFlag
+    });
+    save(K_CUST, customers);
+    $("cName").value=""; $("cItem").value=""; $("cTimes").value=""; $("cAmount").value="";
+    for(var fr=0; fr<flagBtns.length; fr++){ flagBtns[fr].className = "level" + (fr===0 ? " on" : ""); }
+    curFlag = "";
+    renderCust(); refreshPick();
+    msg.className = "msg ok show";
+    if(r.updated){ msg.textContent = "名单里已经有「" + name + "」了，我把他的记录更新了，没重复加。"; }
+    else if(curFlag === "退" || r.c.flag === "退"){
+      msg.textContent = "加好了。他标了「退」，默认不进回访名单——机器不许自己追。名单下面「拦下来的人」里能看到他，想联系就点「纳入回访」。";
+    }
+    else if(curFlag === "诉" || r.c.flag === "诉"){
+      msg.textContent = "加好了。他标了「诉」，默认不进回访名单。要不要联系你自己定，工具不替你决定。";
+    }
+    else if(curFlag === "不满" || r.c.flag === "不满"){
+      msg.textContent = "加好了。他留在名单里，但行上盖了「不满」的章——发之前先想好怎么说。";
+    }
+    else if(curType === "只问没买") msg.textContent = "加好了。他只问没买，可以追一下。";
+    else msg.textContent = "加好了。" + (d > 60 ? ("他已经 " + d + " 天没买了，该联系了。") : ("才 " + d + " 天，先放着。"));
+  }
+  $("btnAddCust").addEventListener("click", addCustomer);
+  $("cName").addEventListener("keydown", function(e){ if(e.key === "Enter") addCustomer(); });
+
+  function sortedCustomers(){
+    var arr = customers.slice();
+    arr.sort(function(a,b){
+      if(sortByAmount){
+        var da = Number(a.amount)||0, db = Number(b.amount)||0;
+        if(db !== da) return db - da;
+      }
+      var x = daysSince(a.date), y = daysSince(b.date);
+      if(x === null) x = -1;
+      if(y === null) y = -1;
+      return y - x;
+    });
+    return arr;
+  }
+
+  function renderCust(){
+    var total = customers.length, over = 0, very = 0, holds = 0;
+    for(var i=0;i<customers.length;i++){
+      var c = customers[i];
+      if(isHardBlock(c)){ holds++; continue; }
+      var d = daysSince(c.date);
+      if(d !== null && d > 60) over++;
+      if(d !== null && d > 180) very++;
+    }
+    $("stTotal").textContent = total;
+    $("stOver").textContent = over;
+    $("stVery").textContent = very;
+
+    var wrap = $("custListWrap");
+
+    /* 拦下来的人：退 / 诉 不进名单，在这里单独列一行，不让它消失 */
+    var holdArr = customers.filter(function(x){ return isHardBlock(x); });
+    var nTui = 0, nSu = 0;
+    for(var hz=0; hz<holdArr.length; hz++){
+      if(holdArr[hz].flag === "退") nTui++; else nSu++;
+    }
+    $("holdTitle").textContent = "拦下来的人（" + holdArr.length + " 人：退 " + nTui + " · 诉 " + nSu + "，默认不追）";
+    if(!holdArr.length){
+      $("holdList").innerHTML = '<div class="hint">现在没有。有的话记在这里，工具不会自动追。</div>';
+    } else {
+      var hh = '<table><tbody>';
+      for(var q=0;q<holdArr.length;q++){
+        var hc = holdArr[q];
+        hh += '<tr><td><b>' + esc(hc.name) + '</b><span class="chip red">' + esc(hc.flag) + '</span><span class="sub2">上次 ' + esc(fmtDate(hc.date)) + (hc.amount ? " · 累计 "+money(hc.amount)+"元" : "") + '</span></td>';
+        hh += '<td>' + (hc.hold ? '<span class="chip blue">已纳入</span>' : '<button class="del" data-hold="'+esc(hc.id)+'">纳入回访</button>') + '</td></tr>';
+      }
+      hh += '</tbody></table>';
+      $("holdList").innerHTML = hh;
+      var hb = $("holdList").querySelectorAll("[data-hold]");
+      for(var h=0; h<hb.length; h++){
+        hb[h].addEventListener("click", function(){
+          var id = this.getAttribute("data-hold");
+          for(var m=0;m<customers.length;m++){ if(customers[m].id === id){ customers[m].hold = true; break; } }
+          save(K_CUST, customers); renderCust(); refreshPick();
+        });
+      }
+    }
+
+    if(!total){
+      wrap.innerHTML = '<div class="empty">名单里还没有人。<br>用上面「每晚一句话记账」最快，说一句就出来一行。</div>';
+      $("custTools").style.display = "none";
+      $("moreWrap").style.display = "none";
+      $("overWrap").innerHTML = "";
+      return;
+    }
+
+    var arr = sortedCustomers().filter(canAutoPick);
+
+    var h = '<table><thead><tr><th>客户 / 累计</th><th>多久没买</th><th></th></tr></thead><tbody>';
+    var shown = 0;
+    for(var j=0;j<arr.length && shown<shownCount;j++){
+      var cu = arr[j];
+      var dd = daysSince(cu.date);
+      if(dd === null) continue;
+      var isOver = dd > 60, isVery = dd > 180;
+      shown++;
+      var cls = isVery ? "very" : (isOver ? "over" : "");
+      if(cu.demo) cls += " demo";
+      h += '<tr class="' + cls + '">';
+      h += '<td><b>' + esc(cu.name) + '</b>';
+      if(cu.demo) h += '<span class="chip">示例</span>';
+      if(cu.type === "只问没买") h += '<span class="chip blue">只问没买</span>';
+      if(isSoftBlock(cu)) h += '<span class="chip red">不满</span>';
+      if(isHardBlock(cu)) h += '<span class="chip red">' + esc(cu.flag) + '·已纳入</span>';
+      h += '<span class="sub2">买过 ' + (cu.times||0) + ' 次 · 累计 ' + money(cu.amount) + ' 元</span>';
+      h += '<span class="sub2">上次 ' + esc(fmtDate(cu.date)) + '</span></td>';
+      h += '<td><span class="days ' + (isVery?"bad":(isOver?"warn":"")) + '">' + dd + ' 天</span>';
+      if(isVery) h += '<span class="chip red">急</span>';
+      else if(isOver) h += '<span class="chip red">该回访</span>';
+      h += '</td>';
+      h += '<td><button class="del" data-cid="' + esc(cu.id) + '">删</button></td></tr>';
+    }
+    h += '</tbody></table>';
+    if(!shown) h = '<div class="empty">名单里还没有人。</div>';
+    wrap.innerHTML = h;
+
+    var totalShown = 0;
+    for(var s=0;s<arr.length;s++){ if(daysSince(arr[s].date) !== null) totalShown++; }
+    if(totalShown > shownCount){
+      $("moreWrap").style.display = "flex";
+      $("btnMore").textContent = "再看 20 人（还有 " + (totalShown - shownCount) + " 人）";
+    } else {
+      $("moreWrap").style.display = "none";
+    }
+
+    /* 该回访名单（金额排序下的前几位，供复制） */
+    $("custTools").style.display = "flex";
+    var ov = arr.filter(function(c){
+      var d2 = daysSince(c.date);
+      return d2 !== null && d2 > 60 && c.type !== "要退要投诉";
+    });
+    if(ov.length){
+      var oh = '<div class="msg tip show" style="margin-top:12px;">该回访 <b>' + ov.length + '</b> 人。前 5 个：';
+      for(var o=0;o<ov.length && o<5;o++){
+        oh += "<br>" + (o+1) + ". " + esc(ov[o].name) + "（" + daysSince(ov[o].date) + " 天，累计 " + money(ov[o].amount) + " 元）";
+      }
+      oh += '</div>';
+      $("overWrap").innerHTML = oh;
+    } else {
+      $("overWrap").innerHTML = "";
+    }
+
+    var dels = wrap.querySelectorAll("[data-cid]");
+    for(var k=0;k<dels.length;k++){
+      dels[k].addEventListener("click", function(){
+        var id = this.getAttribute("data-cid");
+        if(!confirm("把这个人从名单里删掉？")) return;
+        customers = customers.filter(function(x){ return x.id !== id; });
+        save(K_CUST, customers); renderCust(); refreshPick();
+      });
+    }
+
+    var demoN = customers.filter(function(x){ return x.demo; }).length;
+    $("demoTools").className = demoN ? "btns" : "btns hide";
+    $("btnDelDemo").textContent = "删掉全部示例客户（" + demoN + " 个）";
+  }
+
+  $("btnMore").addEventListener("click", function(){ shownCount += pageSize; renderCust(); });
+
+  $("btnSort").addEventListener("click", function(){
+    sortByAmount = !sortByAmount;
+    this.textContent = sortByAmount ? "排序：累计金额" : "排序：多久没买";
+    this.className = "btn btn-sm " + (sortByAmount ? "btn-ghost" : "btn-main");
+    $("sortHint").textContent = sortByAmount
+      ? "默认按累计金额从高到低——钱多的先招呼。"
+      : "现在按多久没买排。这个只是换个看法，别拿它当默认。";
+    shownCount = pageSize;
+    renderCust();
+  });
+
+  /* —— 一句话记账 —— */
+  function parseLine(seg){
+    var s = String(seg).replace(/^[今天早上晚上刚又还,，。；;\s]+/g,"").trim();
+    if(!s) return null;
+    var isAsk = /(问了没买|问过没买|没买|只是问|问了没|看看|逛逛)/.test(s);
+    var tokens = s.split(/[\s,，、]+/).filter(function(x){ return x; });
+    if(!tokens.length) return null;
+
+    var name = tokens[0].replace(/[\d\.]/g,"")
+      .replace(/^(还有|另外|然后|以及|其中|一个是|有个|一个|一位|一单)/,"")
+      .replace(/(问了没买|问过没买|问了没|没买|只是问|看看|逛逛|买了|拿了|要了)/g,"");
+    if(!name) name = "没写名字的客户";
+    if(name.length > 6) name = name.slice(0,6);
+    var amount = null, spec = "", itemParts = [];
+
+    for(var i=1;i<tokens.length;i++){
+      var tk = tokens[i];
+      var mMoney = tk.match(/^(\d+(\.\d+)?)(元|块)?$/);
+      var mSpec = tk.match(/^(\d+(\.\d+)?)(斤|克|g|G|两|盒|罐|份|提|袋|饼|包|瓶|套|只)$/);
+      if(mSpec && !spec){ spec = mSpec[1] + mSpec[3]; continue; }
+      if(mMoney && !spec && amount === null){ amount = parseFloat(mMoney[1]); continue; }
+      if(mMoney && amount === null){ amount = parseFloat(mMoney[1]); continue; }
+      itemParts.push(tk);
+    }
+    /* 没识别出规格时，从品名里挖 "2斤" */
+    var joined = itemParts.join("");
+    var mIn = joined.match(/(\d+(?:\.\d+)?)(斤|克|g|G|两|盒|罐|份|提|袋|饼|包|瓶|套|只)/);
+    if(mIn && !spec){ spec = mIn[1] + mIn[2]; joined = joined.replace(mIn[0], ""); }
+    if(amount === null){
+      var mNum = s.match(/(\d+(\.\d+)?)\s*(元|块)/);
+      if(mNum) amount = parseFloat(mNum[1]);
+    }
+    if(isAsk && amount === null) amount = 0;
+    return {
+      name: name, item: joined || "", spec: spec,
+      amount: (amount === null ? 0 : amount),
+      times: (isAsk ? 0 : 1),
+      type: (isAsk ? "只问没买" : "已买"),
+      raw: s
+    };
+  }
+
+  var pendingParse = [];
+  $("btnParse").addEventListener("click", function(){
+    var raw = $("dictText").value.trim();
+    var box = $("parseBox");
+    if(!raw){
+      box.innerHTML = '<div class="msg bad show">先把话写进去。比如：老李 2斤龙井 480</div>';
+      return;
+    }
+    var segs = raw.split(/[。；;\n]/).filter(function(x){ return x.trim(); });
+    var rows = [];
+    for(var i=0;i<segs.length;i++){
+      var r = parseLine(segs[i]);
+      if(r && r.name) rows.push(r);
+    }
+    if(!rows.length){
+      box.innerHTML = '<div class="msg bad show">一句都没认出来。格式照这个写：客户名 规格+茶名 金额，例如「老李 2斤龙井 480」。</div>';
+      return;
+    }
+    pendingParse = rows;
+    var h = '<div class="blocktitle">认成了这样（错的地方先别确认，回去改原话）</div><table><thead><tr><th>客户</th><th>茶品/规格</th><th>金额</th><th>类型</th></tr></thead><tbody>';
+    for(var j=0;j<rows.length;j++){
+      var x = rows[j];
+      h += '<tr><td><b>' + esc(x.name) + '</b></td><td>' + esc((x.item||"-") + (x.spec?" "+x.spec:"")) + '</td>';
+      h += '<td>' + (x.amount ? money(x.amount) + " 元" : "-") + '</td>';
+      h += '<td style="font-size:13px">' + esc(x.type) + '</td></tr>';
+    }
+    h += '</tbody></table>';
+    var isAsk = /(问了没买|问过没买|没买|只是问)/.test(raw);
+    if(isAsk) h += '<div class="msg tip show">里面有"问了没买"的，我按「只问没买」记，金额算 0。这类人没有购买日期，先按今天记。</div>';
+    h += '<div class="btns"><button class="btn btn-main btn-sm" id="btnConfirmParse">确认，加进名单</button></div>';
+    box.innerHTML = h;
+    $("btnConfirmParse").addEventListener("click", function(){
+      var today = todayISO();
+      for(var k=0;k<pendingParse.length;k++){
+        var r = pendingParse[k];
+        upsertCustomer({
+          name: r.name, date: today, item: r.item ? (r.item + (r.spec ? " " + r.spec : "")) : "",
+          times: r.times, amount: r.amount, type: r.type
+        });
+      }
+      save(K_CUST, customers);
+      $("dictText").value = "";
+      box.innerHTML = '<div class="msg ok show">加好了 ' + pendingParse.length + ' 条。日期先用今天，回头可以在名单里改。</div>';
+      pendingParse = [];
+      renderCust(); refreshPick();
+    });
+  });
+
+  function overListText(){
+    var arr = sortedCustomers().filter(function(c){ return c.type !== "要退要投诉"; });
+    var out = [];
+    for(var i=0;i<arr.length;i++){
+      var d = daysSince(arr[i].date);
+      if(d !== null && d > 60){
+        out.push((out.length+1) + ". " + arr[i].name + "（" + d + " 天，累计 " + money(arr[i].amount) + " 元）");
+      }
+    }
+    if(!out.length) return "";
+    return "该回访的 " + out.length + " 个人，钱多的在前：\n" + out.join("\n");
+  }
+  $("btnCopyList").addEventListener("click", function(){
+    var t = overListText();
+    if(!t){ alert("现在没有超过 60 天没买的客户。"); return; }
+    copyText(t, this, "复制该回访名单");
+  });
+  $("btnExportCust").addEventListener("click", function(){
+    if(!customers.length) return;
+    var arr = sortedCustomers();
+    var rows = [["客户","上次日期","距今天数","买过几次","累计金额","类型","上次买的茶","是否该回访"]];
+    for(var i=0;i<arr.length;i++){
+      var d = daysSince(arr[i].date);
+      if(d === null) continue;
+      rows.push([arr[i].name, arr[i].date, d+"天", arr[i].times||0, money(arr[i].amount),
+        arr[i].type, arr[i].item||"",
+        arr[i].type==="要退要投诉" ? (arr[i].hold?"人工纳入":"不打扰") : (d>60?(d>180?"急，超过180天":"该回访"):"还早")]);
+    }
+    downloadCSV(rows, "客户回访名单.csv");
+  });
+
+  /* =========================================================
+     五、话术区
+     ========================================================= */
+  /* 每档三对：s = 短版（≤40 字，一句问话 + 一个由头，不解释不推销不提价），l = 稍长版（折叠着） */
+  var TALK = {
+    A: [
+      { s:"{c}，上次那款{t}快喝完了吧？新到一款给你留了。",
+        l:"{c}好，我是{x}。上次您拿的那款{t}应该喝得差不多了，新到的一款香气比上回扬一点、冲出来更顺。您要方便，我给您留两罐，不合适也没事，说一声就行。" },
+      { s:"{c}，天凉了，泡茶水温高一点。那罐还剩多少？",
+        l:"{c}好，天凉了，泡茶水温可以高一点，出汤快一点就不苦。您家里那罐{t}还剩多少？不够了跟我说，我给您留着。" },
+      { s:"{c}，最近喝着还顺口吗？有一款香气接近的，给你留了。",
+        l:"{c}，打扰一下，我是{x}。上次那款{t}您说喜欢它回甘的味道，这回同一路子的我又试了几泡，第二泡第三泡更甜一些。要不要给您留两罐？配点瓜子、米糕正合适。" }
+    ],
+    B: [
+      { s:"{c}，好久没聊了。那款{t}还有吗？新到一款口感很接近。",
+        l:"{c}，好久没跟您聊了，我是{x}。翻本子看到您的记录，想着问问那款{t}喝完没有。最近到了一批香气偏花香的，冲得淡一点，平时随手喝正好，配点坚果、米糕都搭。" },
+      { s:"{c}，天凉了，泡茶水温高一点更出味。到新茶了，给你留一份？",
+        l:"{c}，{i}。跟您说一声，最近店里换了几款新茶，口感都比之前柔和一点，适合平时喝惯了浓茶、想换换口味的。您哪天方便，我给您各装一小份试试，喝着不喜欢也没关系。" },
+      { s:"{c}，前阵子忙，没顾上问你。你爱喝的那种到了，留了半斤。",
+        l:"{c}您好，{i}。上次给您那款{t}，天凉了泡的时候水别太烫，85 度左右、快出汤，甜味更明显。您要是喝完了，跟我说一声，我给您送过去。" }
+    ],
+    C: [
+      { s:"{c}，好久不见，店还开着。留了一小份试喝，路过顺手拿。",
+        l:"{c}，冒昧打扰一下，{i}。好久没见您了，不是来推东西的。这两年店里换了几款茶，我给您留了一小份试喝装，您哪天路过顺手拿走，喝着不喜欢也没事。" },
+      { s:"{c}，{t}到货了，给你寄一小份？你以前就爱喝这口。",
+        l:"{c}好，好久不见了，{i}。想着您可能不记得我了，就说一声：店里还开着，茶叶也换了新的。您要是还想喝以前那种口感的，跟我说个大概的味道，我给您找一款相近的，先拿一点试试。" },
+      { s:"{c}，有阵子没见了。新到一款口感像你以前喝的那种，留了一份。",
+        l:"{c}，打扰一下，{i}。翻到您以前的记录，知道您那时候喜欢{t}这一类。现在有一款口感接近、香气更清一点的，您要是有兴趣，我给您寄一小份，喝着好再说，不好就算了，不用有负担。" }
+    ]
+  };
+  var curTier = "A";
+  var variantIdx = { A:0, B:0, C:0 };
+
+  var tierBtns = document.querySelectorAll("#tiers .level");
+  for(var tbi=0; tbi<tierBtns.length; tbi++){
+    tierBtns[tbi].addEventListener("click", function(){
+      for(var k=0;k<tierBtns.length;k++) tierBtns[k].className = "level";
+      this.className = "level on";
+      curTier = this.getAttribute("data-tier");
+      variantIdx[curTier] = 0;
+    });
+  }
+  function setTier(t){
+    curTier = t;
+    for(var k=0;k<tierBtns.length;k++){
+      tierBtns[k].className = "level" + (tierBtns[k].getAttribute("data-tier")===t ? " on" : "");
+    }
+    variantIdx[t] = 0;
+  }
+
+  function refreshPick(){
+    var sel = $("tPick");
+    var arr = sortedCustomers();
+    var h = '<option value="">不选，我自己填称呼</option>';
+    for(var i=0;i<arr.length;i++){
+      if(arr[i].type === "要退要投诉" && !arr[i].hold) continue;
+      var d = daysSince(arr[i].date);
+      if(d === null) continue;
+      var tag = d > 180 ? "（" + d + "天，很急）" : (d > 60 ? "（" + d + "天，该回访）" : "（" + d + "天）");
+      h += '<option value="' + esc(arr[i].id) + '">' + esc(arr[i].name) + tag + '</option>';
+    }
+    sel.innerHTML = h;
+  }
+
+  $("tPick").addEventListener("change", function(){
+    var id = this.value;
+    if(!id) return;
+    for(var i=0;i<customers.length;i++){
+      if(customers[i].id === id){
+        var c = customers[i];
+        $("tName").value = c.name;
+        $("tItem").value = c.item || "";
+        var d = daysSince(c.date);
+        if(d !== null){
+          if(d > 180) setTier("C");
+          else if(d > 90) setTier("B");
+          else setTier("A");
+        }
+        break;
+      }
+    }
+  });
+
+  function lengthOf(s){ return String(s).replace(/\s/g,"").length; }
+  var lastShort = "", lastLong = "";
+
+  function fillTpl(t, name, itemPub){
+    return String(t)
+      .replace(/\{c\}/g, name)
+      .replace(/\{t\}/g, itemPub)
+      .replace(/\{x\}/g, selfShort())
+      .replace(/\{i\}/g, introWord());
+  }
+  /* 模板只显示骨架：变量位置写成中文占位符，方便把关的人一眼看出哪儿塞了什么 */
+  function skeletonOf(t){
+    return String(t)
+      .replace(/\{c\}/g, "{客户名}")
+      .replace(/\{t\}/g, "{茶品名}")
+      .replace(/\{x\}/g, "{我的自称}")
+      .replace(/\{i\}/g, "{自我介绍}");
+  }
+  function varRow(k, v, hits){
+    var risk = hits && hits.length;
+    return '<div class="kv"><span class="k">' + k + '</span><span class="v' + (risk ? " risk" : "") + '">' +
+      esc(v || "（空）") + (risk ? ' ← 有「' + esc(hits.join("、")) + '」，别让它出现在客户眼前' : '') + '</span></div>';
+  }
+  /* scanText 返回的是对象，这里只取词 */
+  function hitWords(t){
+    var h = scanText(t).hits, out = [];
+    for(var i=0;i<h.length;i++) out.push(h[i].w);
+    return out;
+  }
+
+  function buildTalk(){
+    var name = $("tName").value.trim();
+    var itemRaw = $("tItem").value.trim();
+    var msg = $("talkCheck");
+    var sw = $("shortWarn");
+    if(!name){
+      msg.className = "msg bad show";
+      msg.textContent = "先填个称呼，比如\"王姐\"。不知道叫啥就写\"您好\"也行。";
+      $("talkResult").className = "result";
+      return;
+    }
+
+    var pair = TALK[curTier][variantIdx[curTier] % TALK[curTier].length];
+    /* 茶名一律走可对外名称 */
+    var itemPub = itemRaw ? pubNameOf(itemRaw) : "那款茶";
+    var itemIsPub = !itemRaw || itemPub === itemRaw;
+
+    var shortRaw = fillTpl(pair.s, name, itemPub);
+    var longRaw  = fillTpl(pair.l, name, itemPub);
+
+    /* ① 模板骨架 */
+    $("tplText").textContent = skeletonOf(pair.s);
+
+    /* ② 变量：一个一个摊开，看有没有塞不能对外的名称或价格 */
+    var nameHits = hitWords(name), itemHits = hitWords(itemRaw);
+    var priceHit = /[¥￥]|元|块钱|\d{2,}/.test(name) || /[¥￥]|元|块钱/.test(itemRaw);
+    var vh = "";
+    vh += varRow("客户名", name, nameHits);
+    vh += varRow("茶品名", itemRaw ? (itemRaw + " → " + itemPub) : "（没填，用\"那款茶\"）", itemHits);
+    if(!itemIsPub) vh += '<div class="sub2" style="margin:-2px 0 8px 2px;">内部叫法已按盾的可对外名称换过一次，客户看到的是右边那个。</div>';
+    vh += varRow("我的自称", introWord(), null);
+    vh += varRow("档位", ({A:"60–90 天",B:"90–180 天",C:"一年以上"})[curTier], null);
+    if(priceHit) vh += '<div class="msg tip show">变量里带了价格或数字。价格只能出现在报价单里，回访话术里一个字都不提。</div>';
+    $("varBox").innerHTML = vh;
+
+    /* ③④ 处理违规：L3 删句、L2 换盾的标准句、L1 整条压掉。
+       客户名和自称只是称呼、不是对茶的声明，先遮掉再扫——
+       否则"古树张总"这种叫法会把整句问候当成违规句换掉，招呼就没了。 */
+    var rs = processText(shortRaw, [name, introWord()]), rl = processText(longRaw, [name, introWord()]);
+    var sOut = rs.hardBlock.length ? "" : rs.text.trim();
+    var lOut = rl.hardBlock.length ? "" : rl.text.trim();
+
+    var sb = $("shortBox");
+    if(!sOut){ sb.className = "shortbox dead"; sb.textContent = "这句不能用，重写。"; }
+    else { sb.className = "shortbox"; sb.textContent = sOut; }
+
+    var lb = $("longBox");
+    var longHead = '<div class="sub2" style="margin-bottom:6px;">骨架：' + esc(skeletonOf(pair.l)) + '</div>';
+    if(!lOut){ lb.className = "longbox dead"; lb.innerHTML = longHead + "这句不能用，重写。"; }
+    else { lb.className = "longbox"; lb.innerHTML = longHead + esc(lOut); }
+
+    /* 短版字数：超 40 字就提醒 */
+    if(!sOut){
+      sw.className = "msg bad show";
+      sw.textContent = "短版被删空了。改一下称呼或茶名（那里面带了不能对外的词），再点一次。";
+    } else if(lengthOf(sOut) > 40){
+      sw.className = "msg tip show";
+      sw.textContent = "短版 " + lengthOf(sOut) + " 字，超过 40 字了。删掉一句再发——短别人才回。";
+    } else {
+      sw.className = "msg ok show";
+      sw.textContent = "短版 " + lengthOf(sOut) + " 字（上限 40 字），可以发。";
+    }
+
+    var notes = [];
+    var rm = rs.removed.concat(rl.removed);
+    var sp = rs.swapped.concat(rl.swapped);
+    var mn = rs.needManual.concat(rl.needManual);
+    if(rm.length) notes.push("整句删了 " + rm.length + " 处（" + rm[0].w + " 这类：要有证才能说的声明，换词也算保留声明，只能删）");
+    if(sp.length) notes.push("换了 " + sp.length + " 句成盾的标准句 " + sp[0].s + "：" + sp[0].txt);
+    if(mn.length) notes.push("有一处要你自己定：" + mn[0].w + " → " + mn[0].txt + (SENT_NOTE[mn[0].s] || ""));
+    if(rs.hardBlock.length || rl.hardBlock.length) notes.push("有价格比较词（" + (rs.hardBlock.join("、") || rl.hardBlock.join("、")) + "），整条压掉，不许发");
+
+    var sc2 = scanText(sOut + lOut);
+    if(sc2.hits.length || sc2.soft){
+      msg.className = "msg bad show";
+      msg.innerHTML = "还有不能说的词：<b>" + (sc2.hits.map(function(x){return x.w;}).join("、") || "白名单配了绝对量") + "</b>。";
+    } else if(!sOut && !lOut){
+      msg.className = "msg bad show";
+      msg.textContent = "短版和长版都被拦掉了。称呼或茶名里带了不能对外的词，改掉再来。";
+    } else {
+      msg.className = "msg ok show";
+      msg.textContent = "检查过：没有产地/等级/年份/疗效/绝对化/价格比较，也没有报价。" + (notes.length ? "（" + notes.join("；") + "）" : "");
+    }
+
+    lastShort = sOut || lOut;
+    lastLong = lOut || sOut;
+    $("talkText").value = lastShort;
+    if(sOut && lengthOf(sOut) <= 40) $("longFold").open = false;
+    $("talkResult").className = "result show";
+  }
+
+  $("btnTalk").addEventListener("click", function(){ variantIdx[curTier] = 0; buildTalk(); });
+  $("btnNextTalk").addEventListener("click", function(){
+    variantIdx[curTier] = (variantIdx[curTier] + 1) % TALK[curTier].length;
+    buildTalk();
+  });
+  $("btnCopyTalk").addEventListener("click", function(){
+    if(!lastShort){ $("talkCheck").className = "msg bad show"; $("talkCheck").textContent = "还没生成内容。"; return; }
+    copyText(lastShort, this, "复制短版");
+  });
+  $("btnCopyLong").addEventListener("click", function(){
+    if(!lastLong){ $("talkCheck").className = "msg bad show"; $("talkCheck").textContent = "还没生成内容。"; return; }
+    copyText(lastLong, this, "复制稍长版");
+  });
+
+  /* =========================================================
+     六、数据：备份 / 清空 / 示例 / 表格
+     ========================================================= */
+  function downloadFile(content, filename, mime){
+    try{
+      var blob = new Blob([content], {type: mime || "text/plain;charset=utf-8"});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+    }catch(e){
+      alert("这个浏览器不让下载文件。可以截图保存，或者点右上角\"在浏览器中打开\"再试。");
+    }
+  }
+  function downloadCSV(rows, filename){
+    var out = "\ufeff";
+    for(var i=0;i<rows.length;i++){
+      var line = [];
+      for(var j=0;j<rows[i].length;j++){
+        var v = String(rows[i][j] == null ? "" : rows[i][j]);
+        if(v.indexOf(",") > -1 || v.indexOf('"') > -1 || v.indexOf("\n") > -1){
+          v = '"' + v.replace(/"/g,'""') + '"';
+        }
+        line.push(v);
+      }
+      out += line.join(",") + "\r\n";
+    }
+    downloadFile(out, filename, "text/csv;charset=utf-8");
+  }
+
+  $("btnBackup").addEventListener("click", function(){
+    var data = { 导出时间: todayStr(), 店铺信息: settings, 客户名单: customers, 报价记录: quotes, 价格开关: priceSwitchOn };
+    downloadFile(JSON.stringify(data, null, 2), "茶叶小店_数据备份_" + todayISO() + ".json", "application/json;charset=utf-8");
+  });
+
+  $("btnClearAll").addEventListener("click", function(){
+    if(!confirm("清空所有客户名单和报价记录？删了找不回来，建议先点「导出备份」。")) return;
+    if(!confirm("真的清空了？再点一次确定。")) return;
+    customers = []; quotes = [];
+    save(K_CUST, customers); save(K_QUOTE, quotes);
+    renderCust(); renderQuotes(); refreshPick();
+    alert("清空了。店铺信息和价格开关还在。");
+  });
+
+  function demoCustomers(){
+    var base = [
+      ["王姐", 212, "红茶", 6, 1860],
+      ["李哥", 148, "茉莉花茶", 3, 640],
+      ["张阿姨", 97, "乌龙茶", 2, 520],
+      ["陈总", 75, "礼盒装", 4, 2400],
+      ["小刘", 41, "茉莉花茶", 1, 260],
+      ["周老师", 12, "红茶", 1, 180]
+    ];
+    var n = new Date(), out = [];
+    for(var i=0;i<base.length;i++){
+      var d = new Date(n.getFullYear(), n.getMonth(), n.getDate() - base[i][1]);
+      var mm = d.getMonth()+1, dd = d.getDate();
+      out.push({
+        id:"cd"+i+"_"+Date.now(), name:base[i][0],
+        date: d.getFullYear()+"-"+(mm<10?"0":"")+mm+"-"+(dd<10?"0":"")+dd,
+        item:base[i][2], times:base[i][3], amount:base[i][4],
+        type:"已买", demo:true, hold:false
+      });
+    }
+    return out;
+  }
+  $("btnDemo").addEventListener("click", function(){
+    var demo = demoCustomers(), added = 0;
+    for(var k=0;k<demo.length;k++){
+      var exist = false;
+      for(var m=0;m<customers.length;m++){ if(customers[m].name === demo[k].name){ exist = true; break; } }
+      if(!exist){ customers.push(demo[k]); added++; }
+    }
+    save(K_CUST, customers);
+    renderCust(); refreshPick();
+    alert("加了 " + added + " 个示例客户，名字后面标着「示例」。这些是假名字、假金额，只是让你看看怎么用。看明白了点「删掉全部示例客户」。");
+  });
+  $("btnDelDemo").addEventListener("click", function(){
+    if(!confirm("把示例客户全删掉？你自己填的客户不会动。")) return;
+    customers = customers.filter(function(x){ return !x.demo; });
+    save(K_CUST, customers); renderCust(); refreshPick();
+  });
+
+  /* =========================================================
+     七、自查表渲染
+     ========================================================= */
+  (function renderWordBoxes(){
+    var l2=[], l3=[], l1=[], seen={};
+    for(var i=0;i<WORDS.length;i++){
+      var w = WORDS[i];
+      if(seen[w.w]) continue;
+      seen[w.w] = 1;
+      if(w.lv === L1) l1.push(w.w);
+      else if(w.lv === L3) l3.push(w.w);
+      else l2.push(w.w);
+    }
+    function fill(id, arr){
+      var h = "";
+      for(var i=0;i<arr.length;i++) h += "<span>" + esc(arr[i]) + "</span>";
+      $(id).innerHTML = h;
+    }
+    fill("badL2", l2);
+    fill("badL3", l3);
+    fill("badL1", l1);
+    $("badWarn").innerHTML = "<span>耐泡 + 绝对量</span><span>回甘 + 最强</span><span>十泡有余香</span><span>老客都说好</span><span>客人都说最好</span>";
+
+    /* 标准句库 */
+    var sh = "";
+    var ids = Object.keys(SENT).sort();
+    for(var j=0;j<ids.length;j++){
+      var id = ids[j];
+      var t = SENT[id].replace(/\{([^}]+)\}/g, "<em>{$1}</em>");
+      sh += '<div class="sline"><div class="sno">' + id + '</div><div class="stxt">' + t +
+        (SENT_NOTE[id] ? '<span class="sub2">' + esc(SENT_NOTE[id]) + '</span>' : '') + '</div></div>';
+    }
+    $("sentList").innerHTML = sh;
+  })();
+
+  window.onerror = function(){
+    $("bnErr").className = "banner err show";
+    return true;
+  };
+
+  /* ============ 启动 ============ */
+  fillSettings();
+  $("cDate").max = todayISO();
+  renderCust();
+  renderQuotes();
+  refreshPick();
+  currentWordCountReport();
+
+  function currentWordCountReport(){
+    var seen = {}, l1 = 0, l2 = 0, l3 = 0, total = 0;
+    for(var i=0;i<WORDS.length;i++){
+      var w = WORDS[i];
+      if(seen[w.w]) continue;
+      seen[w.w] = 1; total++;
+      if(w.lv === L1) l1++;
+      else if(w.lv === L3) l3++;
+      else l2++;
+    }
+    var el = $("wcLine");
+    if(el){
+      el.textContent = "本页词表共 " + total + " 个词：" + l2 + " 个能换（换成盾的标准句）· " +
+        l3 + " 个只能删（认证 / 硬功效 / 百分百这类，整句删掉，不给替代说法）· " +
+        l1 + " 个整条压掉（原价、划线价这类）。";
+    }
+    return total;
+  }
+
+  window.addEventListener("offline", function(){
+    var b = $("bnStore");
+    b.className = "banner warn show";
+    b.textContent = "现在没网，也不影响用——这个工具不用联网。数据都存在你手机上。";
+  });
+  window.addEventListener("online", function(){
+    var b = $("bnStore");
+    b.className = "banner warn";
+    b.textContent = "这个浏览器不让存数据，关掉就没了。请点底部「导出备份」存起来。";
+  });
+})();
+</script>
+</body>
+</html>

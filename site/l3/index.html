@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>L3 智脑 · 神经中枢实时监控</title>
+<meta name="description" content="海大叔 L3 智脑神经中枢监控：自运转数据、自我学习进度、自我升级进度与实时事件流。">
+<style>
+  :root{
+    --bg:#04060d; --panel:rgba(10,18,34,.72); --panel2:rgba(8,14,28,.9);
+    --line:rgba(0,229,255,.28); --line2:rgba(255,61,240,.30);
+    --txt:#dbeaff; --sub:#6f8bb5; --cyan:#00e5ff; --mag:#ff3df0;
+    --green:#39ff14; --amber:#ffb454; --red:#ff4d6d;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(0,229,255,.10), transparent 60%),
+      radial-gradient(900px 600px at 100% 0%, rgba(255,61,240,.10), transparent 55%),
+      radial-gradient(800px 800px at 50% 120%, rgba(57,255,20,.06), transparent 60%),
+      var(--bg);
+    color:var(--txt);
+    font-family:"SF Mono",ui-monospace,Menlo,Consolas,"PingFang SC",monospace;
+    overflow-x:hidden; -webkit-text-size-adjust:100%;
+  }
+  #stars{position:fixed;inset:0;z-index:0;}
+  .scan{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,229,255,.035) 0 1px,transparent 1px 3px);
+    mix-blend-mode:screen;animation:scanmove 8s linear infinite;}
+  @keyframes scanmove{from{background-position:0 0}to{background-position:0 120px}}
+  .wrap{position:relative;z-index:2;padding:18px 24px 34px;max-width:1440px;margin:0 auto;}
+  a{color:var(--cyan);text-decoration:none;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;color:var(--sub);}
+  .topbar .back{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--txt);}
+  .topbar .back:active{transform:scale(.97);}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(6px);
+    border-radius:14px;padding:14px 20px;box-shadow:0 0 30px rgba(0,229,255,.12) inset;}
+  .brand{display:flex;align-items:center;gap:16px;min-width:0;}
+  .brand .ttl{font-size:20px;font-weight:800;letter-spacing:2px;color:#fff;text-shadow:0 0 14px var(--cyan);}
+  .brand .ttl b{color:var(--mag);text-shadow:0 0 14px var(--mag);}
+  .brand .sub{font-size:11px;color:var(--sub);letter-spacing:1px;margin-top:3px;}
+  .core{position:relative;width:96px;height:96px;flex:0 0 auto;}
+  .core svg{width:96px;height:96px;}
+  .core .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .core .pct b{font-size:22px;color:var(--cyan);text-shadow:0 0 12px var(--cyan);}
+  .core .pct s{font-size:9px;color:var(--sub);text-decoration:none;letter-spacing:1px;}
+  .meta{font-size:12px;color:var(--sub);display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+  .meta b{color:var(--txt);}
+  .blink{animation:blink 1.1s steps(2) infinite;}
+  @keyframes blink{50%{opacity:.25}}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;}
+  .panel{position:relative;background:var(--panel);backdrop-filter:blur(6px);
+    border:1px solid var(--line);border-radius:14px;padding:16px 18px 18px;
+    box-shadow:0 0 26px rgba(0,229,255,.08) inset;
+    clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));}
+  .panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--cyan);opacity:.8;}
+  .panel::before{top:8px;left:8px;border-right:none;border-bottom:none;}
+  .panel::after{bottom:8px;right:8px;border-left:none;border-top:none;}
+  .panel h2{margin:0 0 12px;font-size:14px;letter-spacing:1px;color:#fff;
+    text-shadow:0 0 10px var(--cyan);display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .panel h2 .tag{font-size:10px;color:var(--sub);letter-spacing:2px;}
+  .big{font-size:34px;font-weight:800;color:var(--cyan);text-shadow:0 0 16px var(--cyan);line-height:1;}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed rgba(0,229,255,.18);font-size:13px;}
+  .row:last-child{border-bottom:none;}
+  .row .k{color:var(--sub);}
+  .row .v{font-weight:700;color:var(--txt);text-align:right;}
+  .bar{height:13px;background:rgba(0,229,255,.08);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:10px 0 4px;position:relative;}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--mag));
+    box-shadow:0 0 14px var(--cyan);border-radius:8px;transition:width .7s ease;position:relative;}
+  .bar > i::after{content:"";position:absolute;top:0;right:0;bottom:0;width:40px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.55));animation:shimmer 1.6s linear infinite;}
+  @keyframes shimmer{from{opacity:0;transform:translateX(-40px)}50%{opacity:1}to{opacity:0;transform:translateX(40px)}}
+  .blab{font-size:11px;color:var(--sub);display:flex;justify-content:space-between;letter-spacing:1px;}
+  .list{margin:8px 0 0;padding:0;list-style:none;font-size:12px;max-height:170px;overflow:auto;}
+  .list li{padding:5px 0;border-bottom:1px solid rgba(0,229,255,.14);color:var(--sub);}
+  .list li b{color:var(--cyan);font-weight:700;}
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;border:1px solid currentColor;}
+  .pill.g{color:var(--green);}
+  .pill.r{color:var(--red);}
+  .pill.a{color:var(--amber);}
+  .pill.on{color:var(--green);} .pill.off{color:var(--red);}
+  .spark{width:100%;height:82px;margin-top:8px;background:rgba(0,229,255,.05);border:1px solid var(--line);border-radius:10px;}
+
+  /* 扩展区 */
+  .extra{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;margin-top:16px;}
+  .kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:12.5px;}
+  .kv .k{color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .kv .v{color:var(--txt);font-weight:700;}
+  .days{display:flex;align-items:flex-end;gap:5px;height:78px;margin-top:10px;}
+  .days .d{flex:1;background:linear-gradient(180deg,var(--cyan),rgba(0,229,255,.15));border-radius:3px 3px 0 0;position:relative;min-height:2px;}
+  .days .d span{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--sub);white-space:nowrap;}
+  .kinds{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px;}
+  .chipk{font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid rgba(0,229,255,.3);color:var(--sub);}
+  .chipk b{color:var(--cyan);}
+  .kwcloud{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:170px;overflow:auto;}
+  .kw{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(0,229,255,.22);color:var(--sub);}
+  .kw.on{color:#04121a;background:linear-gradient(90deg,var(--cyan),#7bf0ff);border-color:transparent;font-weight:700;}
+
+  .feed{margin-top:16px;border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:14px 18px;
+    box-shadow:0 0 26px rgba(255,61,240,.08) inset;}
+  .vstat{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin-top:14px;}
+  .vstat>div{background:rgba(0,229,255,.045);border:1px solid var(--line);border-radius:9px;padding:10px 8px;text-align:center;}
+  .vstat b{display:block;font-size:17px;color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.5);word-break:break-all;}
+  .vstat s{display:block;font-size:10px;color:var(--sub);text-decoration:none;margin-top:5px;letter-spacing:1px;}
+  .vtop{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:11px;color:var(--sub);margin-top:8px;}
+  .vtop .n{color:var(--cyan);}
+  .feed h2{margin:0 0 10px;font-size:13px;letter-spacing:2px;color:#fff;text-shadow:0 0 10px var(--mag);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .tools select,.tools input{background:rgba(0,229,255,.06);border:1px solid var(--line);color:var(--txt);
+    border-radius:8px;padding:6px 9px;font-size:12px;font-family:inherit;outline:none;max-width:190px;}
+  .ev{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,61,240,.14);font-size:12px;align-items:baseline;}
+  .ev:last-child{border-bottom:none;}
+  .ev .ts{color:var(--sub);white-space:nowrap;width:150px;flex:0 0 auto;}
+  .ev .kd{color:var(--cyan);white-space:nowrap;width:92px;flex:0 0 auto;font-weight:700;}
+  .ev .dt{color:var(--txt);word-break:break-word;}
+  .pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:12px;font-size:12px;color:var(--sub);}
+  .pager button{background:rgba(0,229,255,.08);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:5px 12px;font-family:inherit;font-size:12px;cursor:pointer;}
+  .pager button:disabled{opacity:.35;cursor:not-allowed;}
+  .cursor{display:inline-block;width:8px;height:14px;background:var(--green);vertical-align:middle;animation:blink 1s steps(2) infinite;box-shadow:0 0 8px var(--green);}
+  .foot{text-align:center;color:var(--sub);font-size:11px;letter-spacing:1px;margin-top:18px;line-height:1.8;}
+  .err{color:var(--amber);font-size:12px;}
+  .notice{margin-top:12px;border:1px dashed rgba(255,180,84,.4);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--amber);display:none;}
+
+  @media(max-width:1000px){
+    .grid{grid-template-columns:1fr;}
+    .extra{grid-template-columns:1fr;}
+  }
+  @media(max-width:640px){
+    .wrap{padding:12px 12px calc(26px + env(safe-area-inset-bottom));}
+    header{padding:12px 12px;gap:12px;}
+    .brand{gap:12px;}
+    .brand .ttl{font-size:15px;letter-spacing:1px;}
+    .brand .sub{font-size:9px;letter-spacing:.5px;}
+    .core{width:64px;height:64px;} .core svg{width:64px;height:64px;}
+    .core .pct b{font-size:15px;} .core .pct s{font-size:8px;}
+    .meta{font-size:11px;gap:10px;width:100%;}
+    .panel{padding:14px 14px 16px;}
+    .big{font-size:28px;}
+    .row{font-size:12.5px;}
+    .ev{flex-wrap:wrap;gap:4px 8px;}
+    .ev .ts{width:auto;font-size:11px;}
+    .ev .kd{width:auto;}
+    .ev .dt{width:100%;}
+    .tools select,.tools input{max-width:100%;flex:1;}
+  }
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="scan"></div>
+<div class="wrap">
+  <div class="topbar">
+    <a class="back" href="/zhinao/">← 智脑网</a>
+    <span id="src-tag">数据源 —</span>
+  </div>
+
+  <header>
+    <div class="brand">
+      <div class="core">
+        <svg viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="42" fill="none" stroke="rgba(0,229,255,.18)" stroke-width="1"/>
+          <circle cx="48" cy="48" r="36" fill="none" stroke="rgba(255,61,240,.25)" stroke-width="1" stroke-dasharray="4 6">
+            <animateTransform attributeName="transform" type="rotate" from="0 48 48" to="360 48 48" dur="14s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="48" cy="48" r="30" fill="none" stroke="rgba(57,255,20,.22)" stroke-width="1" stroke-dasharray="2 8">
+            <animateTransform attributeName="transform" type="rotate" from="360 48 48" to="0 48 48" dur="20s" repeatCount="indefinite"/>
+          </circle>
+          <circle id="core-ring" cx="48" cy="48" r="42" fill="none" stroke="#00e5ff" stroke-width="3"
+            stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"
+            style="filter:drop-shadow(0 0 6px #00e5ff);transition:stroke-dashoffset .7s;transform:rotate(-90deg);transform-origin:48px 48px;"/>
+        </svg>
+        <div class="pct"><b id="core-pct">0%</b><s>学习进度</s></div>
+      </div>
+      <div>
+        <div class="ttl">L3 纯脑 · <b>神经中枢</b>监控</div>
+        <div class="sub">SELF-RUN / SELF-LEARN / SELF-EVOLVE</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span>核心 v<b id="m-ver">—</b></span>
+      <span>数据时点 <b id="m-up">—</b></span>
+      <span id="m-eng">引擎 —</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>① 自运转数据 <span class="tag">RUNNING</span></h2>
+      <div class="big" id="r-count">—</div>
+      <div class="blab"><span>自治闭环累计圈数</span><span id="r-tick">—</span></div>
+      <div class="row"><span class="k">今日激活</span><span class="v" id="r-today">—</span></div>
+      <div class="row"><span class="k">记忆链（事件）总数</span><span class="v" id="r-events">—</span></div>
+      <div class="row"><span class="k">挂载节点</span><span class="v" id="r-mounts">—</span></div>
+      <div class="row"><span class="k">模型通道 成功/失败</span><span class="v" id="r-model">—</span></div>
+      <ul class="list" id="r-recent"><li>加载中…</li></ul>
+    </div>
+
+    <div class="panel">
+      <h2>② 自我学习进度 <span class="tag">LEARNING</span></h2>
+      <div class="bar"><i id="l-bar" style="width:0%"></i></div>
+      <div class="blab"><span>体系补课 <b id="l-done">0</b>/<span id="l-total">0</span></span><span id="l-pct">0%</span></div>
+      <div class="row"><span class="k">累计入库（补课）</span><span class="v" id="l-added">—</span></div>
+      <div class="row"><span class="k">知识库主库 items</span><span class="v" id="l-kb">—</span></div>
+      <div class="row"><span class="k">补课轮次 / 最近</span><span class="v" id="l-round">—</span></div>
+      <div class="row" style="border:none;padding-top:10px"><span class="k" style="color:var(--mag)">综合认知资产（全源·含向量块）</span><span class="v" id="l-all" style="font-size:20px;color:var(--mag);text-shadow:0 0 12px var(--mag)">—</span></div>
+      <ul class="list" id="l-knowbreak" style="max-height:150px"></ul>
+    </div>
+
+    <div class="panel">
+      <h2>③ 自我升级进度 <span class="tag">EVOLVING</span></h2>
+      <div class="row"><span class="k">自改成功 / 回退</span><span class="v"><span class="pill g" id="u-ok">0</span> <span class="pill r" id="u-rb">0</span></span></div>
+      <div class="row"><span class="k">待审提案</span><span class="v" id="u-prop">—</span></div>
+      <div class="row"><span class="k">基准 知识库/评分</span><span class="v" id="u-bench">—</span></div>
+      <div class="blab"><span>进化曲线（覆盖度 / 知识库）</span><span id="u-cyc">—</span></div>
+      <svg class="spark" id="u-spark" viewBox="0 0 300 82" preserveAspectRatio="none"></svg>
+      <ul class="list" id="u-recent" style="max-height:120px"></ul>
+    </div>
+  </div>
+
+  <div class="extra">
+    <div class="panel">
+      <h2>④ 近 14 日运转强度 <span class="tag">RHYTHM</span></h2>
+      <div class="days" id="day-bars"></div>
+      <div class="kinds" id="kind-chips"></div>
+    </div>
+    <div class="panel">
+      <h2>⑤ 知识源全量盘点 <span class="tag">ALL SOURCES</span></h2>
+      <div class="kv" id="ksrc"></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>⑥ 向量记忆库 <span class="tag">VECTOR MEMORY · CHROMA</span></h2>
+    <div class="big" id="v-chunks">—</div>
+    <div class="blab"><span>语义块（chroma embeddings）</span><span id="v-coll">—</span></div>
+    <div class="vstat">
+      <div><b id="v-srcs">—</b><s>源文件</s></div>
+      <div><b id="v-chars">—</b><s>总字数</s></div>
+      <div><b id="v-dim">—</b><s>向量维度</s></div>
+      <div><b id="v-size">—</b><s>库体积</s></div>
+      <div><b id="v-index">—</b><s>HNSW 索引</s></div>
+      <div><b id="v-queue">—</b><s>待落盘队列</s></div>
+    </div>
+    <div class="blab" style="margin-top:14px"><span>Top 来源（按语义块数）</span><span id="v-write">—</span></div>
+    <div class="vtop" id="v-top"></div>
+  </div>
+
+  <div class="panel" style="margin-top:16px">
+    <h2>⑦ 体系补课关键词（全部 <span id="kw-total">0</span> · 已学 <span id="kw-done">0</span> · 待学 <span id="kw-left">0</span>） <span class="tag">KEYWORDS</span></h2>
+    <div class="kwcloud" id="kwcloud"></div>
+  </div>
+
+  <div class="feed">
+    <h2>◢ 实时事件流 · LIVE FEED
+      <span class="tools">
+        <select id="f-kind"><option value="">全部类型</option></select>
+        <input id="f-q" placeholder="搜事件内容…">
+      </span>
+    </h2>
+    <div id="feed-list"><div class="err">加载中…</div></div>
+    <div class="pager">
+      <button id="pg-prev">上一页</button>
+      <span id="pg-info">—</span>
+      <button id="pg-next">下一页</button>
+    </div>
+    <div style="margin-top:8px;color:var(--green);font-size:12px;">L3 &gt; 监控中<span class="cursor"></span></div>
+  </div>
+  <div class="notice" id="notice"></div>
+  <div class="foot">
+    只读神经监控 · 不写入脑数据 · 数据源 = 脑 data/ 目录全量快照<br>
+    © 2026 郭国海（海大叔）· 海大叔AI新媒体工作室
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?'':s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const fmtWan = n => { n=Number(n)||0; return n>=10000? (n/10000).toFixed(2)+' 万字' : num(n)+' 字'; };
+const vCollName = c => (c && c.name) ? c.name : 'kb_self';
+const num = n => (typeof n==='number'? n.toLocaleString('en-US') : n);
+
+function setCore(pct){
+  const c=$('core-ring'); c.setAttribute('stroke-dashoffset', 264*(1-Math.min(100,Math.max(0,pct))/100));
+  $('core-pct').textContent = (pct||0).toFixed(1)+'%';
+}
+
+/* ---------- 数据加载：本机实时 → 站内快照 → 兜底 ---------- */
+let SNAP=null, EVENTS=[];
+
+async function tryLive(){
+  // 仅在本机打开时探实时接口，避免线上访客产生无谓的 localhost 请求
+  const h=location.hostname;
+  if(!(h==='localhost'||h==='127.0.0.1'||h==='')) return null;
+  const eps=['http://localhost:8787/api/snapshot','http://127.0.0.1:8787/api/snapshot'];
+  for(const ep of eps){
+    try{
+      const r=await fetch(ep+'?t='+Date.now(),{cache:'no-store'});
+      if(!r.ok) continue;
+      const d=await r.json();
+      if(d && d.running) return d;
+    }catch(e){}
+  }
+  return null;
+}
+
+function mergeSources(liveK, snapK){
+  const src=Object.assign({},(liveK&&liveK.sources)||{});
+  Object.entries((snapK&&snapK.sources)||{}).forEach(([k,v])=>{
+    src[k]=Math.max(src[k]||0, v||0);
+  });
+  const total=Object.values(src).reduce((a,b)=>a+b,0);
+  return {sources:src, total:total};
+}
+
+async function boot(){
+  let live=null;
+  try{ live=await tryLive(); }catch(e){}
+  let snap=null, events=[];
+  try{
+    const r=await fetch('snapshot.json?t='+Date.now(),{cache:'no-store'});
+    if(r.ok) snap=await r.json();
+  }catch(e){}
+  try{
+    const r=await fetch('events.json?t='+Date.now(),{cache:'no-store'});
+    if(r.ok) events=await r.json();
+  }catch(e){}
+
+  if(live && snap){
+    // 实时数值优先，明细沿用快照
+    snap.running=Object.assign({}, snap.running, live.running);
+    snap.learning=Object.assign({}, snap.learning, live.learning, {
+      kw_list:snap.learning.kw_list, done_keywords:snap.learning.done_keywords, pending_keywords:snap.learning.pending_keywords});
+    snap.upgrade=Object.assign({}, snap.upgrade, live.upgrade, {
+      selfapply_recent:snap.upgrade.selfapply_recent, proposals_recent:snap.upgrade.proposals_recent,
+      bench_history:snap.upgrade.bench_history, curve:live.upgrade.curve&&live.upgrade.curve.length?live.upgrade.curve:snap.upgrade.curve});
+    snap.knowledge_all=mergeSources(live.knowledge_all, snap.knowledge_all);
+    snap.generated_at=live.now||snap.generated_at;
+    snap.source='live';
+  }else if(live && !snap){
+    snap=live; snap.source='live';
+  }
+
+  if(!snap){ showEmpty(); return; }
+  if(!events.length && snap.running.recent_events) events=snap.running.recent_events.slice();
+  EVENTS=events.slice().reverse();   // 最新事件在前
+  if((!snap.running.recent_events||!snap.running.recent_events.length) && EVENTS.length>=8) snap.running.recent_events=EVENTS.slice(0,8).reverse();
+  if(snap.source==='live'){
+    $('src-tag').textContent='● 本机实时同步';
+  }else{
+    $('src-tag').textContent='◌ 站内全量快照 · '+ (snap.generated_at||'');
+  }
+  render(snap);
+  buildFilters(EVENTS);
+  applyFilter();
+  if(snap.source!=='live'){
+    $('notice').style.display='block';
+    $('notice').textContent='当前展示的是发布时抓取的完整快照（'+ (snap.generated_at||'') +'）。要看秒级实时，请在本机运行 L3 智脑服务后刷新本页。';
+  }
+}
+
+function showEmpty(){
+  $('src-tag').textContent='数据不可用';
+  $('r-count').textContent='—';
+  $('feed-list').innerHTML='<div class="err">快照数据读取失败，请稍后重试。</div>';
+}
+
+function render(d){
+  $('m-ver').textContent=d.version||'—';
+  $('m-up').textContent=d.generated_at||'—';
+  // 引擎是否在线：实时模式看 engine_online；快照模式按最近一条事件的新鲜度判断
+  let eng=!!(d.running&&d.running.engine_online);
+  if(!eng){
+    const last=(EVENTS&&EVENTS[0]&&EVENTS[0].ts)||(d.running&&d.running.last_tick)||'';
+    const t=last?new Date(String(last).replace(' ','T').replace(/([+-]\d{2})(\d{2})$/,'$1:$2')).getTime():NaN;
+    if(!isNaN(t)) eng=(Date.now()-t)<36*3600*1000;
+  }
+  $('m-eng').innerHTML=(eng?'<span style="color:var(--green)">●</span> 引擎激活':'<span style="color:var(--amber)">●</span> 待机');
+
+  const R=d.running||{}, L=d.learning||{}, U=d.upgrade||{}, K=d.knowledge_all||{sources:{},total:0};
+
+  $('r-count').textContent=num(R.tick_count||0);
+  $('r-tick').textContent='最近 '+(R.last_tick||'—');
+  $('r-today').innerHTML=R.today_ticked?'<span class="pill on">已激活</span>':'<span class="pill off">未激活</span>';
+  $('r-events').textContent=num(R.events_total||0);
+  $('r-mounts').textContent=num(R.mounts||0);
+  $('r-model').textContent=num(R.model_ok||0)+' / '+num(R.model_fail||0);
+  const rl=$('r-recent'); rl.innerHTML='';
+  (R.recent_events||[]).slice(-8).reverse().forEach(e=>{
+    const li=document.createElement('li');
+    li.innerHTML='<b>'+esc(e.kind)+'</b> '+esc(e.detail);
+    rl.appendChild(li);
+  });
+
+  $('l-done').textContent=num(L.done||0);
+  $('l-total').textContent=num(L.total||0);
+  $('l-pct').textContent=(L.pct||0)+'%';
+  $('l-bar').style.width=(L.pct||0)+'%';
+  setCore(L.pct||0);
+  $('l-added').textContent=num(L.added_total||0);
+  $('l-kb').textContent=num(L.kb_count||0);
+  $('l-all').textContent=num(K.total||0);
+  $('l-round').textContent='第'+(L.round||0)+'轮 / '+(L.last_at||'—');
+  const kl=$('l-knowbreak'); kl.innerHTML='';
+  Object.entries(K.sources||{}).forEach(([k,v])=>{
+    const li=document.createElement('li');
+    li.innerHTML='<b>'+esc(k)+'</b> '+num(v);
+    kl.appendChild(li);
+  });
+
+  $('u-ok').textContent=num(U.apply_ok||0);
+  $('u-rb').textContent=num(U.apply_rollback||0);
+  $('u-prop').textContent=num(U.proposals||0);
+  const b=U.bench||{};
+  $('u-bench').textContent=(b.kb||0)+' / '+(b.score||0);
+  const cur=U.curve||[];
+  $('u-cyc').textContent=cur.length?('周期 '+cur[0].cycle+'→'+cur[cur.length-1].cycle):'—';
+  drawSpark(cur);
+  const ur=$('u-recent'); ur.innerHTML='';
+  (U.selfapply_recent||[]).slice(-8).reverse().forEach(x=>{
+    const li=document.createElement('li');
+    li.innerHTML='<b>'+(x.ok===false?'回退':'落地')+'</b> '+esc(x.detail||x.kind||'');
+    ur.appendChild(li);
+  });
+
+  // 近14日
+  const days=R.days||[];
+  const max=Math.max(1,...days.map(x=>x.n));
+  const db=$('day-bars'); db.innerHTML='';
+  days.forEach(x=>{
+    const div=document.createElement('div');
+    div.className='d';
+    div.style.height=Math.max(4,(x.n/max)*100)+'%';
+    div.title=x.day+'：'+x.n+' 条';
+    const s=document.createElement('span');
+    s.textContent=(x.day||'').slice(5);
+    div.appendChild(s);
+    db.appendChild(div);
+  });
+  const kc=$('kind-chips'); kc.innerHTML='';
+  (R.kind_breakdown||[]).slice(0,12).forEach(x=>{
+    const s=document.createElement('span');
+    s.className='chipk'; s.innerHTML=esc(x.kind)+' <b>'+num(x.n)+'</b>';
+    kc.appendChild(s);
+  });
+
+  // 知识源
+  const ks=$('ksrc'); ks.innerHTML='';
+  Object.entries(K.sources||{}).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{
+    const kd=document.createElement('div'); kd.className='k'; kd.textContent=k;
+    const vd=document.createElement('div'); vd.className='v'; vd.textContent=num(v);
+    ks.appendChild(kd); ks.appendChild(vd);
+  });
+
+  // 向量记忆库（chroma）
+  const V=d.vector||{};
+  const vKey=Object.keys(K.sources||{}).find(k=>/chroma|向量/.test(k));
+  const vChunks=V.chunks||K.vector_chunks||(vKey?K.sources[vKey]:0);
+  $('v-chunks').textContent=num(vChunks);
+  const vc=(V.collections||[])[0];
+  $('v-coll').textContent=(vc?vCollName(vc):'kb_self')+' 集合 · '+(V.instances||['self']).length+' 个实例';
+  const vSrcs=V.srcs||K.vector_srcs||0;
+  $('v-srcs').textContent=vSrcs?num(vSrcs):'—';
+  const vChars=V.chars||K.vector_chars||0;
+  $('v-chars').textContent=vChars?fmtWan(vChars):'—';
+  const vDim=V.dim||K.vector_dim||0;
+  $('v-dim').textContent=vDim?(vDim+' 维'):'—';
+  const vdb = V.db_bytes ? (V.db_bytes/1048576).toFixed(1) : (K.vector_db_mb||0);
+  $('v-size').textContent=vdb?(vdb+' MB'):'—';
+  const vidx = V.index_bytes ? (V.index_bytes/1048576).toFixed(1) : (K.vector_index_mb||0);
+  $('v-index').textContent=vidx?(vidx+' MB'):'—';
+  $('v-queue').textContent=V.queue===undefined?'—':num(V.queue);
+  $('v-write').textContent=V.last_write?'最近写入 '+(V.last_write||''):'';
+  const vt=$('v-top'); vt.innerHTML='';
+  (V.top_src||[]).forEach(x=>{
+    const a=document.createElement('div'); a.className='n'; a.textContent=(x.src||'').split('/').pop().slice(0,42);
+    a.title=x.src||'';
+    const b=document.createElement('div'); b.className='n'; b.textContent=num(x.n)+' 块';
+    vt.appendChild(a); vt.appendChild(b);
+  });
+
+  // 关键词
+  const kwl=L.kw_list||[];
+  $('kw-total').textContent=num(kwl.length||L.total||0);
+  const doneN=kwl.filter(x=>x.done).length;
+  $('kw-done').textContent=num(doneN||L.done||0);
+  $('kw-left').textContent=num((kwl.length-doneN)||0);
+  const kc2=$('kwcloud'); kc2.innerHTML='';
+  kwl.slice().sort((a,b)=>(b.done?1:0)-(a.done?1:0)).forEach(x=>{
+    const s=document.createElement('span');
+    s.className='kw'+(x.done?' on':'');
+    s.textContent=x.kw;
+    kc2.appendChild(s);
+  });
+}
+
+function drawSpark(curve){
+  const svg=$('u-spark'); const W=300,H=82,pad=8;
+  svg.innerHTML='';
+  if(!curve||curve.length<2) return;
+  const xs=curve.map(c=>c.cycle);
+  const ysC=curve.map(c=>c.coverage||0);
+  const ysK=curve.map(c=>c.kb||0);
+  const xmin=Math.min(...xs),xmax=Math.max(...xs);
+  const sx=v=>pad+(xmax===xmin?0:(v-xmin)/(xmax-xmin))*(W-2*pad);
+  function line(vals,color,fill){
+    const ymin=Math.min(...vals),ymax=Math.max(...vals);
+    const sy=v=>H-pad-(ymax===ymin?0.5:(v-ymin)/(ymax-ymin))*(H-2*pad);
+    const pts=curve.map((c,i)=>sx(c.cycle)+','+sy(vals[i]));
+    if(fill){
+      const area=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+      area.setAttribute('points',sx(xmin)+','+(H-pad)+' '+pts.join(' ')+' '+sx(xmax)+','+(H-pad));
+      area.setAttribute('fill',fill); svg.appendChild(area);
+    }
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    poly.setAttribute('points',pts.join(' '));
+    poly.setAttribute('fill','none'); poly.setAttribute('stroke',color); poly.setAttribute('stroke-width','2');
+    poly.setAttribute('style','filter:drop-shadow(0 0 5px '+color+')');
+    svg.appendChild(poly);
+    const last=curve.length-1;
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',sx(curve[last].cycle)); c.setAttribute('cy',sy(vals[last]));
+    c.setAttribute('r','3'); c.setAttribute('fill',color);
+    svg.appendChild(c);
+  }
+  line(ysK,'rgba(255,61,240,.85)',null);
+  line(ysC,'#00e5ff','rgba(0,229,255,.16)');
+}
+
+/* ---------- 事件流 ---------- */
+let PER=30, PAGE=1, FILTERED=[];
+function buildFilters(ev){
+  const kinds=[...new Set(ev.map(e=>e.kind))].filter(Boolean).sort();
+  const sel=$('f-kind');
+  kinds.forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o); });
+  sel.onchange=()=>{ applyFilter(); };
+  $('f-q').oninput=()=>{ applyFilter(); };
+  $('pg-prev').onclick=()=>{ if(PAGE>1){PAGE--; renderFeed();} };
+  $('pg-next').onclick=()=>{ if(PAGE*PER<FILTERED.length){PAGE++; renderFeed();} };
+}
+function applyFilter(){
+  const k=$('f-kind').value, q=$('f-q').value.trim().toLowerCase();
+  FILTERED=EVENTS.filter(e=>(!k||e.kind===k)&&(!q||(e.detail||'').toLowerCase().includes(q)||(e.kind||'').toLowerCase().includes(q)));
+  PAGE=1; renderFeed();
+}
+function renderFeed(){
+  const list=EVENTS.length?FILTERED:EVENTS;
+  if(!EVENTS.length){ $('feed-list').innerHTML='<div class="err">暂无事件数据</div>'; return; }
+  const total=list.length;
+  const pages=Math.max(1,Math.ceil(total/PER));
+  if(PAGE>pages) PAGE=pages;
+  const start=(PAGE-1)*PER;
+  const slice=list.slice(start,start+PER);
+  const fl=$('feed-list'); fl.innerHTML='';
+  if(!slice.length){ fl.innerHTML='<div class="err">没有匹配的事件</div>'; }
+  slice.forEach(e=>{
+    const div=document.createElement('div'); div.className='ev';
+    div.innerHTML='<span class="ts">'+esc(e.ts)+'</span><span class="kd">'+esc(e.kind)+'</span><span class="dt">'+esc(e.detail)+'</span>';
+    fl.appendChild(div);
+  });
+  $('pg-info').textContent='第 '+PAGE+' / '+pages+' 页 · 共 '+num(total)+' 条';
+  $('pg-prev').disabled=PAGE<=1;
+  $('pg-next').disabled=PAGE>=pages;
+}
+
+/* 星场 */
+(function(){
+  const c=$('stars'),x=c.getContext('2d'); let st=[];
+  function rs(){c.width=innerWidth;c.height=innerHeight;st=[];
+    for(let i=0;i<90;i++)st.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+.3,a:Math.random(),s:Math.random()*.02+.004});}
+  function draw(){x.clearRect(0,0,c.width,c.height);
+    for(const p of st){p.y+=p.s*c.height*0.02; if(p.y>c.height)p.y=0; x.beginPath();
+      x.arc(p.x,p.y,p.r,0,7); x.fillStyle='rgba(0,229,255,'+(p.a*.6+.2)+')'; x.fill();}
+    requestAnimationFrame(draw);}
+  rs(); draw(); addEventListener('resize',rs);
+})();
+boot();
+</script>
+<script src="/assist.js" defer></script>
+</body>
+</html>

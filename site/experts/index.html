@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>六位专家 · 智脑网</title>
+<meta name="description" content="六个岗位，共用一颗商业脑子：账房参谋、一人公司总管、IP 操盘手、生态架构师、升级教练、决策参谋。点一下就开问。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%23C2571C' stroke-width='2'/><circle cx='16' cy='16' r='2.2' fill='%23C2571C'/></svg>">
+<style>
+:root{
+  --bg:#FBF6EE;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;
+  --cyan:#C2571C;--red:#C0392B;
+  --line:rgba(140,95,50,.16);--grid:rgba(194,87,28,.055);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 44px);margin-inline:auto}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1100px 560px at 16% -10%,rgba(194,87,28,.12),transparent 62%),
+  radial-gradient(820px 460px at 90% 4%,rgba(224,84,63,.10),transparent 60%),
+  linear-gradient(180deg,#FBF6EE,#050810 50%,#FBF6EE)}
+.grid{position:absolute;left:-30%;right:-30%;bottom:-6%;height:56%;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:56px 56px;transform:perspective(560px) rotateX(66deg);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent)}
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 4px);opacity:.5}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(253,249,243,.62);border-bottom:1px solid transparent;transition:.3s}
+nav.solid{background:rgba(253,249,243,.92);border-bottom-color:var(--line)}
+.nav-in{width:min(1120px,100% - 44px);margin:0 auto;height:62px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-size:14px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.brand i{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(224,84,63,.9)}
+.brand small{font-size:11px;color:var(--dim2);font-weight:400}
+.nav-links{display:flex;gap:22px;font-size:13px;color:var(--dim)}
+.nav-links a:hover,.nav-links a.on{color:var(--ink)}
+.nav-cta{font-size:12.5px;border:1px solid rgba(140,95,50,.28);border-radius:100px;padding:7px 15px;color:var(--ink);white-space:nowrap}
+.nav-cta.hi{background:var(--red);border-color:var(--red);color:#fff}
+
+.hero{padding:120px 0 46px}
+.eb{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--dim);display:flex;align-items:center;gap:9px}
+.eb b{color:var(--cyan);font-size:9px}
+h1{font-size:clamp(34px,6.4vw,58px);line-height:1.12;letter-spacing:-.03em;font-weight:650;margin:18px 0 18px}
+h1 em{font-style:normal;background:linear-gradient(96deg,#2B2119 10%,#a7f0ff 56%,#C2571C 96%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{max-width:620px;font-size:15px;color:#a8b6c2}
+.lead b{color:var(--ink);font-weight:600}
+.note{margin-top:20px;display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:7px 15px;background:rgba(255,255,255,.02)}
+.note i{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+
+main{padding-bottom:8px}
+.exs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:10px 0 54px}
+.ex{border:1px solid var(--line);border-radius:14px;padding:22px 20px 18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));display:flex;flex-direction:column;transition:.28s;position:relative;overflow:hidden}
+.ex:hover{border-color:rgba(194,87,28,.4);transform:translateY(-3px);box-shadow:0 14px 40px -22px rgba(194,87,28,.6)}
+.ex:target{border-color:var(--cyan)}
+.ex-top{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--dim2)}
+.ex-top .no{color:rgba(194,87,28,.72);font-size:13px;letter-spacing:.04em}
+.ex-top .tag{margin-left:auto;font-family:var(--sans);letter-spacing:0;font-size:11px;color:#93a3b1;border:1px solid var(--line);border-radius:5px;padding:3px 7px;white-space:nowrap}
+.ex h2{font-size:20px;font-weight:650;letter-spacing:-.02em;margin:13px 0 9px}
+.desc{font-size:13px;color:#93a3b1;line-height:1.75;margin-bottom:16px}
+.scs{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.sc{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:#b7c4d0;border:1px solid rgba(140,95,50,.12);border-radius:8px;padding:8px 11px;background:rgba(194,87,28,.03);transition:.2s}
+.sc:hover{border-color:rgba(194,87,28,.42);background:rgba(194,87,28,.08);color:#eaf6fb}
+.sc .q{flex:1;min-width:0;white-space:normal;line-height:1.5}
+.sc .ar{font-family:var(--mono);font-size:11px;color:var(--dim2);margin-top:2px}
+.sc:hover .ar{color:var(--cyan)}
+.ask{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600;color:#ffffff;background:var(--cyan);border-radius:100px;padding:10px 16px;transition:.24s}
+.ask:hover{background:#8ceeff;box-shadow:0 0 26px -6px rgba(194,87,28,.75)}
+.ask span{font-family:var(--mono)}
+
+.how{border-top:1px solid var(--line);padding:44px 0 20px}
+.how h3{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim2);margin-bottom:20px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.step{border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;background:rgba(255,255,255,.02)}
+.step b{display:block;font-size:14px;margin-bottom:7px}
+.step p{font-size:12.5px;color:#93a3b1;line-height:1.75}
+.step .n{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.14em;display:block;margin-bottom:9px}
+
+.end{padding:26px 0 62px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:12px 22px;border-radius:100px;background:var(--red);color:#fff;transition:.24s}
+.btn:hover{background:#c9462f;transform:translateY(-1px)}
+.btn.ghost{background:transparent;border:1px solid rgba(140,95,50,.28);color:var(--ink)}
+.btn.ghost:hover{background:rgba(255,255,255,.05)}
+footer{border-top:1px solid var(--line);padding:22px 0 34px;font-size:12px;color:var(--dim2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer a:hover{color:var(--ink)}
+
+@media(max-width:980px){.exs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+  .exs{grid-template-columns:1fr;gap:13px}
+  .steps{grid-template-columns:1fr}
+  .nav-links{display:flex;gap:2px;font-size:12px}
+  .nav-links a{padding:5px 7px}
+  .nav-cta{display:none}
+  .brand small{display:none}
+  .hero{padding:100px 0 34px}
+  .sc{font-size:12px}
+}
+
+/* ── 内部页通栏头图（暗色科幻统一） ── */
+.hero-fig{max-width:1120px;margin:34px auto 6px;padding:0 20px;box-sizing:border-box;position:relative}
+.hero-fig .frame{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#05080f;box-shadow:0 26px 64px -34px rgba(0,0,0,.95)}
+.hero-fig img{display:block;width:100%;height:auto;aspect-ratio:1800/760;object-fit:cover;opacity:.96}
+.hero-fig .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(253,249,243,.5),transparent 28%,transparent 66%,rgba(253,249,243,.62))}
+.hero-fig .cap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(180,215,230,.66);text-transform:uppercase}
+@media(max-width:720px){.hero-fig{margin-top:22px;padding:0 14px}.hero-fig img{aspect-ratio:16/10;border-radius:12px}.hero-fig .cap{font-size:10px;left:10px;bottom:9px}}
+
+
+/* ── 手机端导航加固（换行不裁切、加大点击区） ── */
+@media(max-width:740px){
+  .nav-in{height:auto !important;min-height:58px;flex-wrap:wrap;row-gap:6px;padding:8px 0}
+  .nav-links{width:100%;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-left:0 !important}
+  .nav-links a{flex:1 1 auto;text-align:center;font-size:12.5px !important;padding:9px 6px !important}
+}
+</style>
+<style id="nav7-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:5px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 21% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+</style>
+<style id="nav8-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:4px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 23% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* ===== 暖色主题同步（与首页 site.css 一致） ===== */
+:root{
+  --bg:#FBF6EE; --bg2:#F5E9D8; --bg3:#F5E9D8;
+  --ink:#2B2119; --ink2:#4A3A2B; --txt:#2B2119; --text:#2B2119;
+  --dim:#7C6A57; --sub:#7C6A57; --dim2:#A8998A;
+  --card:#ffffff; --card2:#FBF7F1; --panel:#ffffff; --panel2:#ffffff;
+  --cyan:#C2571C; --cyan-d:rgba(194,87,28,.10);
+  --blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --amber:#E0892B;
+  --red:#C0392B; --green:#2F9E6B; --mag:#C2571C;
+  --brand:#C2571C; --brand-d:rgba(194,87,28,.10);
+  --line:rgba(140,95,50,.16); --line2:rgba(140,95,50,.08);
+  --grid:rgba(194,87,28,.05);
+  --glow:0 8px 28px -14px rgba(120,70,30,.20);
+}
+body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed !important;color:var(--ink) !important}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+.sky,.bg,.stars,.aurora,.nebula{background:none !important;opacity:0 !important}
+h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
+</style>
+</head>
+<body>
+<div class="bg"><div class="grid"></div><div class="scan"></div></div>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/"><i></i>智脑网<small>海大叔 · AI 新媒体工作室</small></a>
+    <div class="nav-links">
+      <a href="/">生态首页</a>
+      <a href="/zhinao/">智脑AI</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/templates/">模板库</a>
+      <a href="/aixinshou/">AI 学习</a>
+      <a href="/legal/">法律护航</a>
+      <a href="/experts/" class="cur">六位专家</a>
+      <a href="/future/">未来舱</a>
+    </div>
+    <a class="nav-cta hi" href="/zhinao/">直接问它 →</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eb"><b>●</b> 6 POSTS · 1 BRAIN</div>
+  <h1>六个岗位<br><em>共用一颗脑子</em></h1>
+  <p class="lead">不是六个机器人，是同一颗商业脑子的六个岗位。<b>你遇到哪类事，就点那个岗位</b>，它直接给结论、给步骤。</p>
+  <div class="note"><i></i>答案出自海大叔自己的档案，不联网瞎编</div>
+</header>
+<figure class="hero-fig"><div class="frame"><img src="/img/experts-hero.webp" width="1800" height="760" alt="六个岗位围绕一颗商业脑子" loading="lazy" decoding="async"><span class="cap">SIX POSTS / ONE BRAIN</span></div></figure>
+
+
+<main class="wrap">
+  <div class="exs">
+      <article class="ex" id="money">
+        <div class="ex-top">
+          <span class="no">01</span>
+          <span class="en">MONEY</span>
+          <span class="tag">商业模式大脑</span>
+        </div>
+        <h2>账房参谋</h2>
+        <p class="desc">管钱的那位。付费人是谁、价怎么报、成本怎么压、现金流怎么排、这生意能不能放大，都由他先算一遍。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=money&q=%E6%88%91%E5%81%9A%E4%BA%86%E5%8D%81%E5%B9%B4%E8%A3%85%E4%BF%AE%EF%BC%8C%E6%83%B3%E5%9C%A8%E7%BD%91%E4%B8%8A%E6%8E%A5%E5%8D%95%EF%BC%8C%E8%BF%99%E7%94%9F%E6%84%8F%E5%88%B0%E5%BA%95%E8%83%BD%E4%B8%8D%E8%83%BD%E6%88%90%E7%AB%8B%EF%BC%9F" title="一套能不能做的判断 + 第一批客户从哪来"><span class="q">做了十年装修，想在网上接单</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=money&q=%E5%AE%A2%E6%88%B7%E4%B8%80%E7%9B%B4%E7%A0%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E5%AE%88%E4%BB%B7%E8%BF%98%E6%98%AF%E8%AE%A9%E4%BB%B7%EF%BC%9F%E4%B8%89%E6%A1%A3%E6%8A%A5%E4%BB%B7%E6%80%8E%E4%B9%88%E8%AE%BE%EF%BC%9F" title="三档报价怎么设 + 让价的底线在哪"><span class="q">报价总被客户砍</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=money&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%EF%BC%8C%E6%94%B6%E5%85%A5%E5%BF%BD%E9%AB%98%E5%BF%BD%E4%BD%8E%EF%BC%8C%E7%8E%B0%E9%87%91%E6%B5%81%E6%80%8E%E4%B9%88%E6%8E%92%E6%89%8D%E4%B8%8D%E5%B4%A9%EF%BC%9F" title="现金流的排法与安全线 + 先砍哪笔支出"><span class="q">收入忽高忽低</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=money">直接问账房参谋 <span>→</span></a>
+      </article>
+      <article class="ex" id="opc">
+        <div class="ex-top">
+          <span class="no">02</span>
+          <span class="en">OPC</span>
+          <span class="tag">一人公司运营</span>
+        </div>
+        <h2>一人公司总管</h2>
+        <p class="desc">管公司怎么一个人跑起来的那位。注册、经营范围、公私账、合同、交付边界、外包与工具替代，都是他的活。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=opc&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%20AI%20%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%B3%A8%E5%86%8C%E4%B8%AA%E4%BD%93%E6%88%B7%E8%BF%98%E6%98%AF%E4%B8%80%E4%BA%BA%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%9F%E7%BB%8F%E8%90%A5%E8%8C%83%E5%9B%B4%E6%80%8E%E4%B9%88%E5%86%99%EF%BC%9F" title="一张对照表 + 该选哪个，为什么"><span class="q">想注册，不知道选什么主体</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=opc&q=%E9%92%B1%E9%83%BD%E8%BF%9B%E6%88%91%E7%A7%81%E4%BA%BA%E5%8D%A1%EF%BC%8C%E5%85%AC%E7%A7%81%E8%B4%A6%E6%80%8E%E4%B9%88%E5%88%86%E5%BC%80%E6%89%8D%E5%AE%89%E5%85%A8%EF%BC%9F" title="公私账怎么分 + 每月怎么走账"><span class="q">钱都进私人卡</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=opc&q=%E5%AE%A2%E6%88%B7%E8%A6%81%E6%88%91%E5%87%BA%E5%90%88%E5%90%8C%EF%BC%8C%E4%BA%A4%E4%BB%98%E8%BE%B9%E7%95%8C%E6%80%8E%E4%B9%88%E5%86%99%E6%89%8D%E4%B8%8D%E8%83%8C%E9%94%85%EF%BC%9F" title="合同必备条款 + 边界怎么写才不吃亏"><span class="q">客户要签合同</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=opc">直接问一人公司总管 <span>→</span></a>
+      </article>
+      <article class="ex" id="ip">
+        <div class="ex-top">
+          <span class="no">03</span>
+          <span class="en">IP</span>
+          <span class="tag">新媒体 IP 运营</span>
+        </div>
+        <h2>IP 操盘手</h2>
+        <p class="desc">管账号的那位。定位一句话、选题、内容配比、涨粉到转化、私域承接。写文案只是他手里的一项手艺。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=ip&q=%E6%88%91%E4%BB%80%E4%B9%88%E9%83%BD%E8%83%BD%E5%81%9A%E4%B8%80%E7%82%B9%EF%BC%8C%E8%B4%A6%E5%8F%B7%E5%AE%9A%E4%BD%8D%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%B4%EF%BC%9F" title="一句能说清的定位 + 三个可讲的方向"><span class="q">什么都会一点，定位说不清</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=ip&q=%E5%8F%91%E4%BA%86%E4%BA%94%E5%8D%81%E6%9D%A1%E6%B2%A1%E6%B5%81%E9%87%8F%EF%BC%8C%E5%85%88%E4%BB%8E%E5%93%AA%E6%9F%A5%E8%B5%B7%EF%BC%9F" title="先查哪三项 + 怎么改内容配比"><span class="q">发了五十条没流量</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=ip&q=%E6%9C%89%E5%87%A0%E5%8D%83%E7%B2%89%E4%BD%86%E6%B2%A1%E4%BA%BA%E4%B9%B0%EF%BC%8C%E7%A7%81%E5%9F%9F%E6%80%8E%E4%B9%88%E6%89%BF%E6%8E%A5%EF%BC%9F" title="私域承接路径 + 第一次转化的动作"><span class="q">有几千粉没人买</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=ip">直接问IP 操盘手 <span>→</span></a>
+      </article>
+      <article class="ex" id="eco">
+        <div class="ex-top">
+          <span class="no">04</span>
+          <span class="en">ECO</span>
+          <span class="tag">AI 新媒体 IP 智慧生态</span>
+        </div>
+        <h2>生态架构师</h2>
+        <p class="desc">管系统怎么自己转的那位。IP、内容、客户、工具、数据怎么连起来，插件和专家怎么挂、怎么互相调。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=eco&q=%E6%88%91%E4%B9%B0%E4%BA%86%E5%8D%81%E5%87%A0%E4%B8%AA%20AI%20%E5%B7%A5%E5%85%B7%EF%BC%8C%E6%80%8E%E4%B9%88%E4%B8%B2%E6%88%90%E4%B8%80%E6%9D%A1%E6%B5%81%E6%B0%B4%E7%BA%BF%EF%BC%9F" title="一条能跑通的最小流水线 + 先留哪三个"><span class="q">买了一堆 AI 工具用不起来</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=eco&q=%E6%88%91%E7%9A%84%E5%AE%A2%E6%9C%8D%E5%92%8C%E8%AE%B0%E8%B4%A6%E8%83%BD%E4%B8%8D%E8%83%BD%E5%90%84%E6%8C%82%E4%B8%80%E4%B8%AA%E4%B8%93%E5%AE%B6%EF%BC%9F%E6%80%8E%E4%B9%88%E6%8C%82%EF%BC%9F" title="挂载方式 + 三行配置怎么填"><span class="q">想让专家进自己业务</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=eco&q=%E6%80%8E%E4%B9%88%E8%AE%A9%E8%BF%99%E5%A5%97%E7%B3%BB%E7%BB%9F%E8%B6%8A%E7%94%A8%E8%B6%8A%E5%87%86%EF%BC%8C%E4%B8%8D%E7%94%A8%E6%88%91%E5%A4%A9%E5%A4%A9%E6%95%99%EF%BC%9F" title="哪些该固化成档案 + 怎么定口径"><span class="q">系统越用越乱</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=eco">直接问生态架构师 <span>→</span></a>
+      </article>
+      <article class="ex" id="auto">
+        <div class="ex-top">
+          <span class="no">05</span>
+          <span class="en">AUTO</span>
+          <span class="tag">自动学习 · 干活</span>
+        </div>
+        <h2>升级教练</h2>
+        <p class="desc">管长本事的那位。重复活怎么交出去、干完怎么回流成档案、短板怎么补、每月怎么复盘。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=auto&q=%E6%88%91%E6%AF%8F%E5%A4%A9%E5%86%99%E7%A8%BF%E5%9B%9E%E6%B6%88%E6%81%AF%E5%81%9A%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%93%AA%E4%BA%9B%E6%B4%BB%E8%83%BD%E5%85%88%E4%BA%A4%E7%BB%99%E7%B3%BB%E7%BB%9F%EF%BC%9F" title="哪几件先交出去 + 交给什么"><span class="q">每天忙到没时间想事</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=auto&q=%E6%AF%8F%E6%9C%88%E6%80%8E%E4%B9%88%E5%A4%8D%E7%9B%98%E6%89%8D%E7%9F%A5%E9%81%93%E5%93%AA%E4%B8%80%E6%AD%A5%E5%9C%A8%E8%B5%9A%E9%92%B1%EF%BC%9F" title="复盘的三张表 + 每月看哪几个数"><span class="q">不知道哪一步在赚钱</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=auto&q=%E6%88%91%E4%B8%8D%E4%BC%9A%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%9F%AD%E6%9D%BF%E8%AF%A5%E6%80%8E%E4%B9%88%E8%A1%A5%E6%89%8D%E4%B8%8D%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4%EF%BC%9F" title="只补哪一项 + 用工具替代哪些"><span class="q">短板太多不知道补哪个</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=auto">直接问升级教练 <span>→</span></a>
+      </article>
+      <article class="ex" id="judge">
+        <div class="ex-top">
+          <span class="no">06</span>
+          <span class="en">JUDGE</span>
+          <span class="tag">判断与决策</span>
+        </div>
+        <h2>决策参谋</h2>
+        <p class="desc">管拍板的那位。这单接不接、要不要降价、这个客户值不值得留、什么时候该停，他给判断也给退路。</p>
+        <div class="scs">
+        <a class="sc" href="/zhinao/?expert=judge&q=%E8%BF%99%E4%B8%AA%E5%AE%A2%E6%88%B7%E8%A6%81%E6%B1%82%E5%A4%9A%E4%BB%B7%E6%A0%BC%E5%8F%88%E4%BD%8E%EF%BC%8C%E8%BF%99%E5%8D%95%E6%8E%A5%E4%B8%8D%E6%8E%A5%EF%BC%9F" title="接不接的判断线 + 怎么体面拒"><span class="q">客户要求多、价格低</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=judge&q=%E5%90%8C%E8%A1%8C%E9%83%BD%E5%9C%A8%E9%99%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E4%B8%8D%E8%AF%A5%E8%B7%9F%EF%BC%9F" title="该不该跟 + 不降价怎么守住"><span class="q">同行都在降价</span><span class="ar">→</span></a>
+        <a class="sc" href="/zhinao/?expert=judge&q=%E5%81%9A%E4%BA%86%E5%8D%8A%E5%B9%B4%E6%B2%A1%E8%B5%B7%E8%89%B2%EF%BC%8C%E6%98%AF%E5%9D%9A%E6%8C%81%E8%BF%98%E6%98%AF%E6%8D%A2%E6%96%B9%E5%90%91%EF%BC%9F" title="三个判断信号 + 什么时候该停"><span class="q">做了半年没起色</span><span class="ar">→</span></a>
+        </div>
+        <a class="ask" href="/zhinao/?expert=judge">直接问决策参谋 <span>→</span></a>
+      </article>
+  </div>
+
+  <section class="how">
+    <h3>三步用完</h3>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><b>选岗位</b><p>看哪张卡说的事最像你现在的处境，就点它。</p></div>
+      <div class="step"><span class="n">02</span><b>说人话</b><p>不用写得好，把情况一句一句讲清楚就行。</p></div>
+      <div class="step"><span class="n">03</span><b>照着做</b><p>它先给结论，再给三步。做完一步再回来问下一步。</p></div>
+    </div>
+  </section>
+
+  <div class="end">
+    <a class="btn" href="/zhinao/">直接问智脑 →</a>
+    <a class="btn ghost" href="/aixinshou/">我是新手，先学基础</a>
+  </div>
+</main>
+
+<footer class="wrap">
+  <span>智脑网 · 一人公司辅助外挂</span>
+  <span><a href="/">首页</a> · <a href="/zhinao/">智脑</a> · <a href="/aixinshou/">学习站</a></span>
+</footer>
+
+<script>
+addEventListener('scroll', () => document.getElementById('nav').classList.toggle('solid', scrollY > 12), { passive: true });
+</script>
+<script src="/assist.js" defer></script>
+</body>
+</html>

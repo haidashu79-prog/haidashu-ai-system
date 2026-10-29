@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>一人公司陪跑 · 海大叔案例</title>
+<meta name="description" content="一个人开公司/做个体，五个工具合一：业务体检、定价计算、现金流跑道、30 天启动清单、个体户还是一人公司。">
+<meta name="theme-color" content="#FBF6EE">
+<style>
+:root{--bg:#FBF6EE;--card:#fff;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;--brand:#C2571C;--brand2:#A34A15;--line:rgba(140,95,50,.16);--ok:#2F9E6B;--warn:#D98324;--bad:#C0392B;--soft:rgba(194,87,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#FDF9F3,#F8EEE1 45%,#F3E5D2);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0;font-size:13px}
+.top a{color:var(--dim);text-decoration:none}
+.top .tag{font-size:11.5px;color:var(--brand);background:var(--soft);border:1px solid rgba(194,87,28,.18);border-radius:20px;padding:3px 10px}
+.hero{padding:6px 0 10px}
+.hero h1{font-size:27px;letter-spacing:-.6px;line-height:1.25}
+.hero p{color:var(--dim);font-size:14px;margin-top:9px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1.5px solid var(--line);background:#fff;color:var(--dim);border-radius:22px;padding:8px 15px;font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(120,70,30,.05),0 10px 26px rgba(120,70,30,.06);margin-top:12px}
+.card>h2{font-size:16px;margin-bottom:4px}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:12px;line-height:1.7}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field label{flex:1 1 150px;font-size:12.5px;color:var(--dim)}
+.field input,.field select{width:100%;margin-top:5px;padding:10px 11px;font-size:15px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-family:inherit;outline:none}
+.field input:focus,.field select:focus{border-color:var(--brand)}
+.btn{border:0;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;background:var(--brand);color:#fff;width:100%;margin-top:14px}
+.btn.sm{width:auto;padding:9px 16px;font-size:13.5px;margin-top:10px}
+.q{padding:11px 0;border-bottom:1px dashed rgba(140,95,50,.12)}
+.q:last-child{border-bottom:0}
+.q .t{font-size:13.5px;margin-bottom:8px}
+.q .sc{display:flex;gap:6px}
+.q .sc button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 0;font-size:13px;font-family:inherit;color:var(--dim);cursor:pointer}
+.q .sc button.on{background:var(--soft);border-color:var(--brand);color:var(--brand);font-weight:700}
+.grpname{font-size:13px;font-weight:700;color:var(--brand);margin:16px 0 4px}
+.grpname:first-child{margin-top:0}
+.res{display:none}.res.on{display:block}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.big .b{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;text-align:center}
+.big .b b{display:block;font-size:22px;line-height:1.2;letter-spacing:-.5px}
+.big .b span{display:block;font-size:11.5px;color:var(--dim);margin-top:3px}
+.big .b.r b{color:var(--bad)}.big .b.y b{color:#A9670F}.big .b.g b{color:var(--ok)}
+.verdict{border-radius:14px;padding:15px 16px;margin-top:12px;font-size:13.5px;line-height:1.8}
+.verdict .lv{font-size:18px;font-weight:700;display:block;margin-bottom:5px}
+.verdict.g{background:rgba(47,158,107,.09);border:1px solid rgba(47,158,107,.25)}.verdict.g .lv{color:var(--ok)}
+.verdict.y{background:rgba(217,131,36,.10);border:1px solid rgba(217,131,36,.28)}.verdict.y .lv{color:#A9670F}
+.verdict.r{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25)}.verdict.r .lv{color:var(--bad)}
+.ul{margin:10px 0 0 18px;font-size:13.5px;line-height:1.95}
+.ul li::marker{color:var(--brand)}
+.ul li b{color:var(--ink)}
+.memo{background:#FBF6EE;border:1px dashed rgba(140,95,50,.3);border-radius:12px;padding:14px;font-size:12.8px;line-height:1.9;white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;margin-top:10px}
+.copy{border:1.5px solid var(--brand);color:var(--brand);background:#fff;border-radius:11px;padding:9px 16px;font-size:13px;font-family:inherit;cursor:pointer;margin-top:10px}
+.week{margin-top:14px}
+.week .wh{font-size:13px;font-weight:700;color:var(--brand);padding-bottom:6px;border-bottom:1px solid var(--line)}
+.task{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px dashed rgba(140,95,50,.10);font-size:13.3px;cursor:pointer}
+.task:last-child{border-bottom:0}
+.task input{width:18px;height:18px;accent-color:var(--brand);margin-top:1px;flex:0 0 auto}
+.task.done .tx{text-decoration:line-through;color:var(--dim2)}
+.task i{font-style:normal;display:block;font-size:11.5px;color:var(--dim2);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12.8px;margin-top:10px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600;font-size:12px;background:#FBF6EE}
+td b{color:var(--ink)}
+.empty{text-align:center;color:var(--dim2);font-size:13.5px;padding:24px 0}
+@media(max-width:520px){.hero h1{font-size:22px}.big{grid-template-columns:1fr}.big .b{display:flex;align-items:baseline;gap:10px;text-align:left}.big .b span{margin:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/cases/">← 返回案例库</a>
+    <span class="tag">一人公司 · 陪跑工具</span>
+  </div>
+
+  <div class="hero">
+    <h1>🧍 一人公司陪跑</h1>
+    <p>一个人干，最怕三件事：不知道自己缺什么、报价报低了、钱烧完了才发现。这里五个工具，把这三件事全算清楚——不讲课，直接出数。</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-p="chk">① 业务体检</button>
+    <button class="tab" data-p="price">② 定价计算</button>
+    <button class="tab" data-p="run">③ 现金跑道</button>
+    <button class="tab" data-p="plan">④ 30 天启动</button>
+    <button class="tab" data-p="entity">⑤ 个体户还是公司</button>
+    <button class="tab" data-p="ask">⑥ 问顾问</button>
+  </div>
+
+  <!-- ① 业务体检 -->
+  <div class="pane on" id="p-chk">
+    <div class="card">
+      <h2>业务体检 · 18 项</h2>
+      <div class="sub">每项按真实情况打 1–5 分（1 = 完全没有，5 = 已经很稳）。别美化，这项是给你自己看的。</div>
+      <div id="qbox"></div>
+      <button class="btn" id="chkGo">出体检报告</button>
+    </div>
+    <div class="res" id="chkRes"></div>
+  </div>
+
+  <!-- ② 定价 -->
+  <div class="pane" id="p-price">
+    <div class="card">
+      <h2>定价计算 · 你的最低报价是多少</h2>
+      <div class="sub">大多数一人公司亏在报价上：按"同行都收这个价"定价，算完自己的工时才发现是在给自己发最低工资。</div>
+      <div class="field">
+        <label>每月想拿到手多少钱（元）<input id="pTake" type="number" inputmode="numeric" placeholder="税后、交完社保后"></label>
+        <label>每月最多能交付几单<input id="pDeals" type="number" inputmode="numeric" placeholder="如 6"></label>
+        <label>每单大概占用多少小时<input id="pHours" type="number" inputmode="numeric" placeholder="含沟通、改稿、售后"></label>
+        <label>每月固定成本（元）<input id="pFixed" type="number" inputmode="numeric" placeholder="房租/软件/交通/社保/会计"></label>
+        <label>税费与平台抽成合计（%）<input id="pTax" type="number" inputmode="numeric" placeholder="如 6（小规模3%+平台3%）"></label>
+        <label>每月可投入工作时长（小时）<input id="pCap" type="number" inputmode="numeric" placeholder="一般按 160 算"></label>
+      </div>
+      <button class="btn" id="priceGo">算我的报价</button>
+    </div>
+    <div class="res" id="priceRes"></div>
+  </div>
+
+  <!-- ③ 跑道 -->
+  <div class="pane" id="p-run">
+    <div class="card">
+      <h2>现金跑道 · 你还能撑几个月</h2>
+      <div class="sub">跑道 = 手头现金 ÷ 每月净流出。这个数字比任何计划书都重要。</div>
+      <div class="field">
+        <label>手头可动用现金（元）<input id="rCash" type="number" inputmode="numeric"></label>
+        <label>每月生活开销（元）<input id="rLive" type="number" inputmode="numeric"></label>
+        <label>每月业务支出（元）<input id="rBiz" type="number" inputmode="numeric"></label>
+        <label>目前每月收入（元）<input id="rIn" type="number" inputmode="numeric" placeholder="没有就填 0"></label>
+      </div>
+      <button class="btn" id="runGo">算跑道</button>
+    </div>
+    <div class="res" id="runRes"></div>
+  </div>
+
+  <!-- ④ 30 天 -->
+  <div class="pane" id="p-plan">
+    <div class="card">
+      <h2>30 天启动清单</h2>
+      <div class="sub">勾选会自动存在你这台设备上，关掉网页再来还在。做不完不要紧，跳过去的那几条就是你的短板。</div>
+      <div id="planBox"></div>
+      <button class="btn sm" id="planReset" style="border:1.5px solid var(--line);background:#fff;color:var(--dim);font-weight:500">清空全部勾选</button>
+    </div>
+  </div>
+
+  <!-- ⑤ 主体 -->
+  <div class="pane" id="p-entity">
+    <div class="card">
+      <h2>个体户，还是一人有限公司</h2>
+      <div class="sub">这不是"哪个高级"的问题，是"你怕不怕被追到家"的问题。先看表，再按你的情况出结论。</div>
+      <table>
+        <thead><tr><th>对比项</th><th>个体工商户</th><th>一人有限公司</th></tr></thead>
+        <tbody>
+          <tr><td><b>承担责任</b></td><td>无限责任：生意欠的钱，要用你个人和家庭财产还</td><td>有限责任：一般以注册资本为限，但一人公司要能证明公司财产独立于个人，否则法院可能判你连带</td></tr>
+          <tr><td><b>注册难度</b></td><td>简单，线上就能办，几天下来</td><td>要章程、要地址、要银行户，一两周</td></tr>
+          <tr><td><b>成本</b></td><td>低，很多地方免登记费</td><td>要记账报税、要审计（部分情况）、代理记账一年两三千起</td></tr>
+          <tr><td><b>税</b></td><td>经营所得，5%–35% 累进，可申请核定征收</td><td>企业所得税（小微有优惠）+ 分红个税 20%</td></tr>
+          <tr><td><b>能不能开专票</b></td><td>可以开，但部分大企业采购要求一般纳税人资质</td><td>更顺畅，接企业单更容易过审</td></tr>
+          <tr><td><b>注销</b></td><td>相对简单</td><td>要清算、要公告，麻烦，可能拖几个月</td></tr>
+          <tr><td><b>适合谁</b></td><td>小买卖、门店、手艺活、客户主要是个人</td><td>接企业单、有合同风险、以后想融资或加合伙人</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:16px" class="field">
+        <label>你的客户主要是
+          <select id="eCust"><option value="person">个人消费者</option><option value="biz">企业/单位</option><option value="mix">两者都有</option></select>
+        </label>
+        <label>这行会不会出现"交付出问题被索赔"
+          <select id="eRisk"><option value="low">基本不会</option><option value="mid">有可能，金额不大</option><option value="high">会，金额可能很大</option></select>
+        </label>
+        <label>预计年收入
+          <select id="eRev"><option value="low">30 万以内</option><option value="mid">30–100 万</option><option value="high">100 万以上</option></select>
+        </label>
+        <label>以后想不想拉合伙人/融资
+          <select id="eGrow"><option value="no">不想，就我一个人</option><option value="maybe">不确定</option><option value="yes">想</option></select>
+        </label>
+      </div>
+      <button class="btn" id="entityGo">给我结论</button>
+    </div>
+    <div class="res" id="entityRes"></div>
+  </div>
+  <!-- ⑥ AI 问答 -->
+  <div class="pane" id="p-ask">
+    <div class="card">
+      <h2>问陪跑顾问</h2>
+      <div class="sub">报价、获客、注册主体、合同要点、一个人怎么撑住——答的是做过很多遍的口径，不是网上抄的。</div>
+      <div id="hsd-ai"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/assets/ai.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  /* ============ Tab ============ */
+  var tabs = document.getElementById('tabs');
+  tabs.addEventListener('click', function(e){
+    var b = e.target.closest('.tab'); if (!b) return;
+    tabs.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('on'); });
+    var el = document.getElementById('p-' + b.dataset.p);
+    if (el) el.classList.add('on');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  function money(n){
+    if (n == null || isNaN(n)) return '—';
+    if (Math.abs(n) >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + ' 万';
+    return Math.round(n).toLocaleString('zh-CN');
+  }
+  function num(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+
+  /* ============ ① 业务体检 ============ */
+  var QS = [
+    ['定位', [
+      ['我能一句话说清我帮谁、解决什么问题', '说不清，就是还没定位；客户也听不懂，就不会找你'],
+      ['我知道客户为什么选我，而不是选别人', '答"因为我便宜"，等于没有护城河'],
+      ['我能明确描述目标客户（行业/规模/角色）', '"所有人"都是客户，等于没有客户'],
+      ['我做过 5 个以上真实付费客户的交付', '没交付过就定价，是在猜']
+    ]],
+    ['产品', [
+      ['我有一份能标准交付的服务或产品', '每次都要重做的，那是项目，不是产品'],
+      ['我能说清交付物是什么、多久交付', '说不清交付边界，客户就会无限加需求'],
+      ['我有报价单或服务说明（写在纸上的）', '口头报价，出纠纷时你没有凭证'],
+      ['我有可复用的模板或流程', '没有模板，你卖的是工时，永远有天花板']
+    ]],
+    ['获客', [
+      ['我说得清客户从哪来', '"靠朋友介绍"不算渠道，那叫运气'],
+      ['我至少有 2 个获客渠道', '只有一个渠道，等于把命交给平台'],
+      ['我每周固定做获客动作', '没订单的时候才想起来找客户，已经晚了'],
+      ['我手上有一批可联系的老客户/潜在客户名单', '名单是你的资产，比任何流量都值钱']
+    ]],
+    ['钱与风险', [
+      ['我算得清自己的成本结构（含时间成本）', '不算时间成本，就会接到"看起来赚钱其实亏"的单'],
+      ['我按预付款/合同收款，不长期垫资', '垫资的活，赚的是纸面利润'],
+      ['我有基本的合同或服务协议模板', '口头约定，出事时一分钱都要不回来'],
+      ['我有社保或至少一份医疗险', '一个人干，病一次就归零'],
+      ['我每月能算清赚了多少、花在哪', '算不清账，等于不知道自己在不在赚钱'],
+      ['我有一笔至少 3 个月的备用金', '没有备用金，第一个淡季就把你逼回打工']
+    ]]
+  ];
+
+  var scores = {};
+  var qbox = document.getElementById('qbox');
+  var html = '', qi = 0;
+  QS.forEach(function(g){
+    html += '<div class="grpname">' + g[0] + '</div>';
+    g[1].forEach(function(q){
+      qi++;
+      html += '<div class="q" data-i="' + qi + '"><div class="t">' + qi + '. ' + q[0] +
+        '</div><div class="sc">' +
+        [1,2,3,4,5].map(function(v){ return '<button data-q="' + qi + '" data-v="' + v + '">' + v + '</button>'; }).join('') +
+        '</div></div>';
+    });
+  });
+  qbox.innerHTML = html;
+
+  qbox.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-q]'); if (!b) return;
+    var i = b.dataset.q;
+    scores[i] = parseInt(b.dataset.v, 10);
+    b.parentNode.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+  });
+
+  document.getElementById('chkGo').addEventListener('click', function(){
+    var res = document.getElementById('chkRes');
+    var keys = Object.keys(scores);
+    if (keys.length < 6){
+      res.className = 'on';
+      res.innerHTML = '<div class="card"><div class="empty">先至少打 6 项分（一共 18 项）。只挑好答的答，报告会骗你。</div></div>';
+      return;
+    }
+    var total = 0, cnt = 0, weak = [], all = [];
+    QS.forEach(function(g){
+      g[1].forEach(function(q, idx){
+        var i = all.length + 1;
+        all.push({g: g[0], t: q[0], why: q[1], v: scores[i] || null});
+      });
+    });
+    all.forEach(function(a){ if (a.v){ total += a.v; cnt++; } });
+    var avg = total / cnt;
+    var pct = Math.round((avg / 5) * 100);
+    weak = all.filter(function(a){ return a.v && a.v <= 2; });
+    var mid = all.filter(function(a){ return a.v === 3; });
+
+    var lv, cls, say;
+    if (avg >= 4){ lv = '业务底子已经成型'; cls = 'g';
+      say = '平均 ' + avg.toFixed(1) + ' 分，说明你该有的东西基本都有。现在缺的不是"再学一套方法"，是把已经跑通的那件事<b>复制更多次</b>，或者涨价。'; }
+    else if (avg >= 3){ lv = '能跑，但还站不稳'; cls = 'y';
+      say = '平均 ' + avg.toFixed(1) + ' 分。已经是真生意了，但有几块明显薄弱——这些薄弱项会在某个时点集中爆发，通常是你接到一个大单的时候。'; }
+    else { lv = '还在"有个想法"的阶段'; cls = 'r';
+      say = '平均 ' + avg.toFixed(1) + ' 分。这不是能力问题，是顺序问题：先把定位和"卖出去一单"跑通，再谈定价、合同、规模。现在最该做的不是学更多，是去接第一单。'; }
+
+    /* 按组算短板 */
+    var byG = {};
+    all.forEach(function(a){
+      if (!byG[a.g]) byG[a.g] = {s:0, c:0};
+      if (a.v){ byG[a.g].s += a.v; byG[a.g].c++; }
+    });
+    var gRank = Object.keys(byG).map(function(g){
+      return {g: g, avg: byG[g].s / byG[g].c};
+    }).sort(function(a,b){ return a.avg - b.avg; });
+
+    var fix = weak.slice(0, 4).map(function(a){
+      return '<li><b>' + a.t + '</b><br><span style="color:#7C6A57">为什么重要：' + a.why + '</span></li>';
+    });
+
+    res.className = 'on';
+    res.innerHTML =
+      '<div class="card"><h2>体检结果</h2>' +
+      '<div class="big">' +
+        '<div class="b ' + cls + '"><b>' + pct + '</b><span>总分（满分100）</span></div>' +
+        '<div class="b ' + cls + '"><b>' + avg.toFixed(1) + '</b><span>平均分</span></div>' +
+        '<div class="b ' + (weak.length >= 4 ? 'r' : weak.length >= 2 ? 'y' : 'g') + '"><b>' + weak.length + '</b><span>明显薄弱项</span></div>' +
+      '</div>' +
+      '<div class="verdict ' + cls + '"><span class="lv">' + lv + '</span>' + say + '</div>' +
+      '<div style="margin-top:14px;font-size:13px;color:#7C6A57">四块分别平均：' +
+        gRank.map(function(x){ return x.g + ' <b style="color:' + (x.avg < 3 ? '#C0392B' : x.avg < 4 ? '#A9670F' : '#2F9E6B') + '">' + x.avg.toFixed(1) + '</b>'; }).join(' · ') +
+      '</div></div>' +
+      (fix.length ? '<div class="card"><h2>这 4 项先补，别补别的</h2>' +
+        '<div class="sub">一次补一个，补完再回来重新打分。</div><ul class="ul">' + fix.join('') + '</ul></div>' : '') +
+      (mid.length ? '<div class="card"><h2>中间项（3 分）也可以往上推</h2><ul class="ul">' +
+        mid.slice(0,4).map(function(a){ return '<li>' + a.t + '</li>'; }).join('') + '</ul></div>' : '') +
+      '<div class="card" style="background:#FFF8F0;border-color:rgba(194,87,28,.22)"><div style="font-size:12.5px;color:#7C6A57;line-height:1.85">' +
+      '这份体检只看结构，不看行业。同一个分数，做装修和做咨询的短板可能不一样——但缺的那几块，通常是同一批。</div></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ============ ② 定价 ============ */
+  document.getElementById('priceGo').addEventListener('click', function(){
+    var take = num('pTake'), deals = num('pDeals'), hours = num('pHours'),
+        fixed = num('pFixed'), tax = num('pTax') / 100, cap = num('pCap') || 160;
+    var res = document.getElementById('priceRes');
+    if (!take || !deals || !hours){
+      res.className = 'on';
+      res.innerHTML = '<div class="card"><div class="empty">「想拿到手多少」「每月几单」「每单几小时」这三项必须填，缺一个就算不出。</div></div>';
+      return;
+    }
+    var need = take + fixed;                       // 每月必须覆盖的总额
+    var perDealNet = need / deals;                 // 每单必须净贡献
+    var price = perDealNet / (1 - tax);            // 含税报价
+    var hourly = price / hours;                    // 每小时有效价
+    var loadHours = deals * hours;                 // 实际要占用的总工时
+    var over = loadHours > cap;
+
+    // 保本价：只覆盖成本 + 最低工资（按每月 5000 生活）
+    var floorNet = (fixed + 5000) / deals;
+    var floorPrice = floorNet / (1 - tax);
+    // 安心价：留 20% 余量给返工、议价、拖延
+    var safePrice = price * 1.2;
+
+    var cls = hourly >= 150 ? 'g' : hourly >= 80 ? 'y' : 'r';
+
+    var notes = [];
+    if (over) notes.push('<li><b>工时不够：</b>' + deals + ' 单 × ' + hours + ' 小时 = ' + loadHours +
+      ' 小时，超过你每月能投入的 ' + cap + ' 小时。要么减少单数，要么提高单价——<b>靠加班是补不回来的</b>。</li>');
+    if (hourly < 80) notes.push('<li><b>每小时不到 80 块</b>，这个价意味着你的时间比很多体力活还便宜。要么提价，要么把每单工时压下来（做模板、砍沟通、限定修改次数）。</li>');
+    if (tax > 0) notes.push('<li>报价里已经含了 ' + Math.round(tax * 100) + '% 的税费和抽成。<b>别报完价再从里面扣税</b>，那是自己贴。</li>');
+    notes.push('<li>这个价是<b>下限</b>，不是标准价。谈客户时报 <b>' + money(safePrice) + '</b>，被压价时最多让到 ' + money(price) + '，再低就不接。</li>');
+    notes.push('<li>把「含几次修改」写进报价单。第二次以后的修改按小时另计——这一条能救你一半的工期。</li>');
+
+    res.className = 'on';
+    res.innerHTML =
+      '<div class="card"><h2>你的报价</h2>' +
+      '<div class="big">' +
+        '<div class="b ' + cls + '"><b>' + money(price) + '</b><span>每单最低报价</span></div>' +
+        '<div class="b ' + (hourly >= 150 ? 'g' : hourly >= 80 ? 'y' : 'r') + '"><b>' + Math.round(hourly) + '</b><span>每小时有效价（元）</span></div>' +
+        '<div class="b ' + (over ? 'r' : 'g') + '"><b>' + loadHours + '</b><span>每月要干的小时</span></div>' +
+      '</div>' +
+      '<div class="verdict ' + cls + '"><span class="lv">' +
+        (hourly >= 150 ? '这个价能养活你' : hourly >= 80 ? '这个价偏紧，但能跑' : '这个价在给自己发最低工资') +
+      '</span>每月要覆盖 ' + money(need) + '（想赚 ' + money(take) + ' + 固定成本 ' + money(fixed) + '），摊到 ' + deals +
+      ' 单上，每单必须净赚 ' + money(perDealNet) + '，含税报价就是 ' + money(price) + '。</div>' +
+      '<div class="big" style="grid-template-columns:1fr 1fr">' +
+        '<div class="b"><b style="font-size:16px">' + money(floorPrice) + '</b><span>保本价（只够活着）</span></div>' +
+        '<div class="b g"><b style="font-size:16px">' + money(safePrice) + '</b><span>建议对外报的价</span></div>' +
+      '</div></div>' +
+      '<div class="card"><h2>算完之后要注意的</h2><ul class="ul">' + notes.join('') + '</ul></div>' +
+      '<div class="card"><h2>报价单模板（复制给你用）</h2>' +
+      '<div class="memo" id="pm">服务内容：＿＿＿＿＿＿（写清做什么、不做什么）\n' +
+      '交付物：＿＿＿＿＿＿（几个文件/几次会议/什么格式）\n' +
+      '交付周期：＿＿ 个工作日（从收到预付款之日起算）\n' +
+      '报价：＿＿＿＿ 元（含税），预付 50%，交付验收后付清\n' +
+      '含修改：＿＿ 次（超出按 ' + Math.round(hourly) + ' 元/小时另计）\n' +
+      '不包含：＿＿＿＿＿＿（第三方费用、加急、超出范围的需求）\n' +
+      '生效：本报价 ' + 14 + ' 天内有效</div>' +
+      '<button class="copy" data-cp="pm">复制报价单模板</button></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ============ ③ 跑道 ============ */
+  document.getElementById('runGo').addEventListener('click', function(){
+    var cash = num('rCash'), live = num('rLive'), biz = num('rBiz'), inc = num('rIn');
+    var res = document.getElementById('runRes');
+    if (!cash || (!live && !biz)){
+      res.className = 'on';
+      res.innerHTML = '<div class="card"><div class="empty">填「手头现金」和至少一项月支出。</div></div>';
+      return;
+    }
+    var burn = live + biz;
+    var net = burn - inc;
+    var runway = net > 0 ? cash / net : Infinity;
+    var cls = net <= 0 ? 'g' : runway < 3 ? 'r' : runway < 6 ? 'y' : runway < 12 ? 'y' : 'g';
+
+    var txt;
+    if (net <= 0){
+      txt = '每月收入 <b>' + money(inc) + '</b> 已经覆盖支出 <b>' + money(burn) + '</b>，还有结余 <b>+' + money(-net) + '</b>。这是最健康的状态——现在该做的是把结余变成备用金，而不是把钱都花掉。';
+    } else {
+      txt = '每月净流出 <b>' + money(net) + '</b>，手头 <b>' + money(cash) + '</b> 能撑 <b>' + runway.toFixed(1) + ' 个月</b>。' +
+        (runway < 3 ? '不到 3 个月——<b>这是危险区</b>。现在就做两件事：把所有能延后的支出延后，同时去催所有应收款。'
+         : runway < 6 ? '不到半年。半年内你必须让收入覆盖 <b>' + money(burn) + '</b>，或者先把支出砍下来。'
+         : runway < 12 ? '半年到一年，够你试一次。建议把支出再砍 20%，把跑道拉到一年以上。'
+         : '一年以上，你有从容试错的空间。这时候反而要小心——跑道太长容易让人不着急。');
+    }
+
+    var todo = [];
+    todo.push('<li><b>报销顺序：</b>先砍"不产生收入的支出"（会员、软件、办公用品），最后才砍"能带来客户的支出"（推广、样品）。</li>');
+    if (net > 0) todo.push('<li><b>催款清单：</b>把所有未收的钱列出来，今天就开始催。应收款不是钱，到账了才是。</li>');
+    todo.push('<li><b>跑道低于 3 个月时的三个动作：</b>暂停所有非必要采购；接一单快钱（哪怕利润低）；找一个人借你 3 个月生活费，而不是借来做生意。</li>');
+    todo.push('<li><b>给自己定个日期：</b>' + (net > 0 ? new Date(Date.now() + runway * 30 * 864e5).toLocaleDateString('zh-CN') : '—') +
+      ' 是跑道见底的日子。在那之前一个月，必须做决定——是收缩，还是换方向。</li>');
+
+    res.className = 'on';
+    res.innerHTML =
+      '<div class="card"><h2>跑道结果</h2>' +
+      '<div class="big">' +
+        '<div class="b ' + cls + '"><b>' + (net <= 0 ? '∞' : runway.toFixed(1) + ' 月') + '</b><span>还能撑多久</span></div>' +
+        '<div class="b"><b>' + money(burn) + '</b><span>每月总支出</span></div>' +
+        '<div class="b ' + (net <= 0 ? 'g' : 'y') + '"><b>' + (net > 0 ? '−' + money(net) : '+' + money(-net)) + '</b><span>每月净流出/结余</span></div>' +
+      '</div>' +
+      '<div class="verdict ' + cls + '"><span class="lv">' +
+        (net <= 0 ? '已经能自己养活自己' : runway < 3 ? '危险：三个月内见底' : runway < 12 ? '偏紧，需要主动压缩' : '安全') +
+      '</span>' + txt + '</div></div>' +
+      '<div class="card"><h2>接下来做什么</h2><ul class="ul">' + todo.join('') + '</ul></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ============ ④ 30 天清单 ============ */
+  var PLAN = [
+    ['第 1 周 · 把话说清楚', [
+      ['写出一句话定位：我帮【谁】解决【什么问题】，交付【什么】', '写不出来就再问自己：别人为什么要为一个"什么都能做"的人付钱'],
+      ['找 3 个已经买过类似服务的人，问他们当初为什么付钱', '别问朋友"你觉得怎么样"，要问付过钱的人"你当时在纠结什么"'],
+      ['列出你现有的全部技能和资源（包括不要钱的：人脉、场地、设备）', '一人公司的起点是"我已经有的东西"，不是"我想学的东西"'],
+      ['定一个人群切口：先只服务一类人', '切口越窄，越容易被记住，报价也越高'],
+      ['把定位写成 3 句话发出去（朋友圈/群里/公众号都行）', '不发出去，就没人知道你在做这个']
+    ]],
+    ['第 2 周 · 把产品做出来', [
+      ['写清交付物：客户最终拿到什么、几份、什么格式', '这就是你的"产品说明书"，也是防止无限加需求的边界'],
+      ['做一份报价单（三个档位：基础/标准/全套）', '只报一个价，客户只能砍价；给三档，客户会挑'],
+      ['做一套可复用的模板或流程（下次能省一半时间）', '没有模板，你卖的是工时，做多少赚多少'],
+      ['写一份最简单的服务协议（范围、付款、修改次数、违约）', '不用请律师，把这几条写清就能挡住 80% 的纠纷'],
+      ['准备一个收款方式（对公或个体户，能开发票）', '只收微信转账，接企业单会被卡']
+    ]],
+    ['第 3 周 · 把第一单卖出去', [
+      ['列 30 个潜在客户名单，写下名字和联系方式', '名单是你的真实资产。没有名单，一切方法都是空的'],
+      ['给其中 10 个人发第一条消息（不推销，只问一个问题）', '例："你现在做 XX 的时候最烦哪一步？"——先了解，再报价'],
+      ['做一份能直接发出去的"案例/样片"，哪怕是你自己练手的', '没有案例，客户只能靠想象，想象通常是打折的'],
+      ['主动报出第一个价，并且不解释、不道歉', '第一单最容易犯的错：报完价马上说"可以再便宜点"'],
+      ['收到预付款再开工', '不预付的单，是别人的项目，不是你的生意']
+    ]],
+    ['第 4 周 · 把钱和风险管起来', [
+      ['算清这一单实际花了多少小时，折成时薪', '你会发现很多"赚了"的单其实亏了'],
+      ['单独的账户收付款，不和自己的生活费混在一起', '混在一起，你永远不知道自己在不在赚钱'],
+      ['把这个月的账记完：收入、支出、应收', '一张纸就够，关键是每个月都记'],
+      ['留出 3 个月备用金（没有就先记账，定个目标日期）', '备用金是一个人公司唯一的保险'],
+      ['回看这 30 天：哪一步最卡？下一步只改那一件', '一次只改一件事，同时改五件等于没改']
+    ]]
+  ];
+
+  var KEY = 'hsd_solo_plan_v1';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+
+  function savePlan(){
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+  }
+
+  var planBox = document.getElementById('planBox');
+  var pi = 0;
+  planBox.innerHTML = PLAN.map(function(w){
+    return '<div class="week"><div class="wh">' + w[0] + '</div>' +
+      w[1].map(function(t){
+        pi++;
+        var id = 't' + pi;
+        return '<label class="task' + (saved[id] ? ' done' : '') + '" data-id="' + id + '">' +
+          '<input type="checkbox"' + (saved[id] ? ' checked' : '') + '>' +
+          '<span class="tx">' + t[0] + '<i>' + t[1] + '</i></span></label>';
+      }).join('') + '</div>';
+  }).join('');
+
+  planBox.addEventListener('change', function(e){
+    if (e.target.type !== 'checkbox') return;
+    var lab = e.target.closest('.task');
+    var id = lab.dataset.id;
+    saved[id] = e.target.checked;
+    lab.classList.toggle('done', e.target.checked);
+    savePlan();
+  });
+
+  document.getElementById('planReset').addEventListener('click', function(){
+    saved = {};
+    savePlan();
+    planBox.querySelectorAll('input').forEach(function(i){ i.checked = false; });
+    planBox.querySelectorAll('.task').forEach(function(l){ l.classList.remove('done'); });
+  });
+
+  /* ============ ⑤ 主体选择 ============ */
+  document.getElementById('entityGo').addEventListener('click', function(){
+    var cust = document.getElementById('eCust').value;
+    var risk = document.getElementById('eRisk').value;
+    var rev = document.getElementById('eRev').value;
+    var grow = document.getElementById('eGrow').value;
+
+    var scoreCo = 0, why = [];
+    if (cust === 'biz'){ scoreCo += 2; why.push('你的客户是企业/单位——对方采购通常要求开票、要求对公账户，个体户在资质审核上更容易被卡。'); }
+    if (cust === 'mix'){ scoreCo += 1; why.push('客户里有企业，至少要有能对公开票的主体，否则这部分生意做不了。'); }
+    if (risk === 'high'){ scoreCo += 3; why.push('<b>这行一旦交付出问题会被索赔，而且是"可能很大"的金额</b>——这是最硬的一条理由：个体户是无限责任，赔不起的时候要用房子和存款还。'); }
+    if (risk === 'mid'){ scoreCo += 1; why.push('存在中等索赔风险，有限公司能多一道隔离，但一人公司必须做到账户分开、财务独立，否则这道隔离会被打穿。'); }
+    if (rev === 'high'){ scoreCo += 1; why.push('年收入百万以上，税务筹划空间和企业形象都会推着你走公司。'); }
+    if (grow === 'yes'){ scoreCo += 2; why.push('以后要加合伙人或融资，个体户结构上做不到，早晚要改，不如一开始就选对。'); }
+    if (cust === 'person' && risk === 'low' && grow === 'no'){ scoreCo -= 2; why.push('客户是个人、风险低、也不打算扩张——这种情况个体户更轻，没必要给自己上记账报税的负担。'); }
+
+    var pick, cls, say;
+    if (scoreCo >= 4){ pick = '一人有限公司'; cls = 'g'; }
+    else if (scoreCo >= 1){ pick = '一人有限公司（保守起见）'; cls = 'y'; }
+    else { pick = '个体工商户'; cls = 'g'; }
+
+    say = pick.indexOf('公司') >= 0
+      ? '按你的情况，<b>建议注册一人有限公司</b>。理由不是"公司更正规"，是<b>责任隔离</b>——你怕的那件事（赔不起）正好是公司能挡住的。代价是必须记账报税，一年两三千代账费，这笔钱不能省。'
+      : '按你的情况，<b>个体工商户就够了</b>。客户是个人、不会有大额索赔、也不打算扩张——这种结构下，个体户更轻更省，省下的精力放在接单上更值。';
+
+    var must = pick.indexOf('公司') >= 0
+      ? ['<b>账户必须分开：</b>公司账户只走公司收支，个人生活费从工资/分红走。一人公司如果账户混用，法院可以直接判你连带责任——那道隔离就白做了。',
+         '<b>每年做审计报告：</b>一人公司法定要求（部分情形豁免，问你的代账）。这是证明"公司财产独立"的关键证据。',
+         '<b>注册资本别写太高：</b>认缴不是不用交，写 100 万就是承诺赔 100 万，写 10 万够用就写 10 万。',
+         '<b>别忘了零申报：</b>没收入也要报，忘了报上黑名单，恢复很麻烦。']
+      : ['<b>经营所得要报个税：</b>5%–35% 累进，很多地方可申请核定征收，去税务大厅问一句能省不少。',
+         '<b>无限责任要清楚：</b>生意欠的钱要用个人和家庭财产还。所以别做需要垫资、需要担保的活。',
+         '<b>能开票：</b>个体户也能开票、也能开对公户，接小企业单是够的。',
+         '<b>注销相对简单：</b>这也是个体户的一个实际优势——试错成本低。'];
+
+    var res = document.getElementById('entityRes');
+    res.className = 'on';
+    res.innerHTML =
+      '<div class="card"><h2>结论</h2>' +
+      '<div class="verdict ' + cls + '"><span class="lv">' + pick + '</span>' + say + '</div>' +
+      (why.length ? '<div style="margin-top:14px;font-size:13px;color:#7C6A57;line-height:1.9"><b style="color:#2B2119">为什么：</b><ul class="ul">' +
+        why.map(function(w){ return '<li>' + w + '</li>'; }).join('') + '</ul></div>' : '') +
+      '</div>' +
+      '<div class="card"><h2>选了它，这几件事必须做到</h2><ul class="ul">' +
+        must.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="card" style="background:#FFF8F0;border-color:rgba(194,87,28,.22)"><div style="font-size:12.5px;color:#7C6A57;line-height:1.85">' +
+      '<b style="color:#C0392B">说明：</b>这是结构和风险层面的参考，不是法律或税务意见。各地政策差异很大（尤其核定征收、小微优惠），' +
+      '真正注册前请去当地政务服务中心问一次，或者找一位代账会计聊 20 分钟——这 20 分钟能省你几个月。</div></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* 复制按钮（事件委托） */
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-cp]'); if (!b) return;
+    var el = document.getElementById(b.dataset.cp); if (!el) return;
+    if (navigator.clipboard) navigator.clipboard.writeText(el.innerText);
+    var old = b.textContent;
+    b.textContent = '已复制 ✓';
+    setTimeout(function(){ b.textContent = old; }, 1800);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  if(!window.HSDAI) return;
+  var sys = '你是一人公司陪跑顾问，专门帮"一个人干一门生意"的人解决四件事：定位、报价、获客、风险隔离。\n' +
+  '【专业口径】\n' +
+  '1. 定价：不按同行报，按"每月想拿到手多少 + 固定成本"倒推，除以可交付单数，加上税费抽成，得到最低报价；再检查工时是否够。提醒把"含几次修改"写进报价单。\n' +
+  '2. 定位：一句话说清"帮谁解决什么问题、交付什么"。说不清就是没定位，客户也记不住。切口越窄越容易被记住、越能提价。\n' +
+  '3. 获客：至少两个渠道，只有一个等于把命交给平台。名单是资产，比流量值钱。\n' +
+  '4. 主体：个体户是无限责任；一人公司是有限责任，但必须做到账户分开、财务独立，否则隔离会被打穿。按客户类型、索赔风险、收入规模、是否扩张来选。\n' +
+  '5. 现金流：跑道 = 现金 ÷ 每月净流出。低于 3 个月是危险区，先砍不产生收入的支出，先催应收款。\n' +
+  '【必须守住的边界】不代写合同、不给具体税务筹划方案（各地差异大，让他问代账或税务大厅）、不承诺收入。\n' +
+  '【语气】像带过很多人的老手，直接、具体、不鸡汤。给数字和动作。不超过 400 字。';
+  HSDAI.panel('#hsd-ai', {
+    title: '🧍 问陪跑顾问',
+    badge: 'AI 在线',
+    subtitle: '报价怎么定、客户从哪来、要不要注册公司、一个人怎么撑住，都可以问。',
+    system: sys,
+    quick: ['我该报多少钱一单？', '个体户和一人公司到底选哪个？', '客户只有熟人介绍怎么办？', '怎么算清自己到底赚没赚？', '接了大单做不完，接还是不接？'],
+    placeholder: '例：我做平面设计，每月想拿到手 1.5 万，现在报 800 一单，一直在忙但没钱剩。',
+    greeting: '我是一人公司陪跑顾问。三件事我答得最准：报价报低了、客户来源太单一、结构和风险没搭好。\n\n说清你做什么、每月想赚多少、现在怎么报价、客户从哪来，我给你算。',
+    hint: '不代写合同 · 不给具体税务方案',
+    disclaimer: '⚖️ 经营参考，不是法律或税务意见。各地注册与税收政策差异大，落地前请去当地政务服务中心问一次，或找代账会计聊 20 分钟。'
+  });
+})();
+</script>
+
+</body>
+</html>

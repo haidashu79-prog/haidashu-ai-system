@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>产品体系 · 九个模块一套班子 · 海大叔 AI新媒体IP智慧生态</title>
+<meta name="description" content="海大叔产品体系：九块配成一套完整的班子。手、班、脑、嘴、盾、库、本事、教练、眼，缺哪块补哪块。同时开放认证交付伙伴申请：你负责找人报价收款，交付在总部，成单按比例分成。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+/* 九模块统一卡：每张卡结构一致，高度由 flex 拉齐 */
+.mods{grid-auto-rows:1fr}
+.mod{padding:22px}
+.mod .top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mod .glyph{flex:none;width:36px;height:36px;border-radius:11px;background:var(--brand-d);color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:17px;border:1px solid var(--brand-dd)}
+.mod .no{font-family:var(--mono);font-size:11.5px;color:var(--dim2);letter-spacing:.1em}
+.mod h3{font-size:16.5px;margin:0 0 3px;display:block}
+.mod .role{font-size:11.5px;color:var(--brand);font-weight:600;letter-spacing:.02em;margin-bottom:8px}
+.mod p{font-size:13px;line-height:1.72}
+.mod .sell{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:12px;color:var(--dim);line-height:1.85}
+.mod .sell b{color:var(--ink2);font-weight:600}
+.mod .links{margin-top:14px}
+.mod .links a{flex:1;text-align:center;justify-content:center}
+
+/* 咬合链 */
+.chain{display:grid;gap:12px;margin-top:24px}
+.link-row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
+.link-row .st{flex:none;width:30px;height:30px;border-radius:9px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--brand);font-weight:700}
+.link-row .tx{flex:1;min-width:0;font-size:13.5px;color:var(--ink2)}
+.link-row .tx s{display:block;text-decoration:none;color:var(--dim);font-size:12.5px;margin-top:3px}
+.link-row .miss{flex:none;font-size:11.5px;font-weight:700;color:#fff;background:var(--brand);padding:5px 12px;border-radius:999px;white-space:nowrap}
+
+/* 三种买法 */
+.buys{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.buy{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.buy.pick{border-color:var(--brand);border-width:2px}
+.buy .tag{font-family:var(--mono);font-size:11px;color:var(--brand);letter-spacing:.12em;margin-bottom:8px}
+.buy h3{font-size:17px;margin-bottom:6px}
+.buy .amt{font-family:var(--mono);font-size:26px;font-weight:800;color:var(--brand);line-height:1.2}
+.buy .amt small{font-family:var(--sans);font-size:12px;font-weight:500;color:var(--dim)}
+.buy p{font-size:12.5px;color:var(--dim);margin-top:8px;flex:1}
+
+/* 价格表 */
+.pt-wrap{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.pt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.pt{width:100%;border-collapse:collapse;min-width:720px;font-size:13.5px}
+table.pt th,table.pt td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:top}
+table.pt th:nth-child(3),table.pt td:nth-child(3){white-space:nowrap;color:var(--ink2);font-weight:600}
+table.pt th{background:var(--card2);font-size:12px;color:var(--dim);font-weight:600;letter-spacing:.04em;white-space:nowrap}
+table.pt td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+table.pt td.pr{font-family:var(--mono);color:var(--brand);font-weight:700;white-space:nowrap}
+table.pt tr:last-child td{border-bottom:0}
+table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;margin-top:2px;white-space:normal}
+
+/* 分成账 */
+.split{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}
+.split th,.split td{padding:10px 12px;border-bottom:1px solid var(--line2);text-align:left}
+.split th{font-size:11.5px;color:var(--dim);font-weight:600;background:var(--card2)}
+.split td:first-child{color:var(--ink2)}
+.split td.n{font-family:var(--mono);color:var(--brand);font-weight:700;white-space:nowrap}
+
+/* 红线 */
+.no-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.no-item{background:var(--card);border:1px solid var(--line);border-left:3px solid #C0392B;border-radius:12px;padding:14px 16px;font-size:13px;color:var(--ink2);line-height:1.7}
+.no-item b{display:block;color:var(--ink);margin-bottom:3px;font-size:13.5px}
+
+.qr-sec{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.qr-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 24px;text-align:center;box-shadow:var(--shadow);max-width:420px;margin-inline:auto}
+.qr-frame{display:inline-block;background:#fff;border:1px solid var(--line2);border-radius:14px;padding:12px}
+.qr-frame img{width:220px;height:220px;display:block;border-radius:8px}
+
+.note{font-size:12px;color:var(--dim2);line-height:1.85;margin-top:14px}
+@media(max-width:760px){
+  .buys{grid-template-columns:1fr}
+  .no-list{grid-template-columns:1fr}
+  .link-row{flex-wrap:wrap}
+  .link-row .miss{order:3;margin-left:44px}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <nav class="nav-links" id="nav">
+      <a href="/">首页</a>
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/" class="active">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </nav>
+    <a class="nav-cta" href="#apply">加入合伙人</a>
+    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+  </div>
+</header>
+
+<!-- 首屏 -->
+<section style="padding-top:58px">
+  <div class="wrap">
+    <span class="eyebrow">产品体系 · 九个模块</span>
+    <h1 class="h2" style="font-size:clamp(26px,4.6vw,42px)">九个模块，配成一套完整的班子</h1>
+    <p class="lead">这九个模块不是九个独立的产品，它们是同一套体系里的九个部件。整套可以一起配齐，也可以只补你缺的那一块。下面我把每个部件管什么、怎么干、能给你什么，全部写明；最后一段写给想靠这套东西做本地生意的人——你负责找人，交付由总部来。</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#modules">看九个模块 →</a>
+      <a class="btn btn-ghost" href="#apply">我想做合伙人</a>
+    </div>
+  </div>
+</section>
+
+<!-- 一句真相 -->
+<section style="padding-top:6px">
+  <div class="wrap">
+    <div class="card" style="border-left:3px solid var(--brand)">
+      <h3 style="font-size:16px">开店的人缺的从来不是一个工具，是一整个班子的活没人干</h3>
+      <p style="margin-top:8px;font-size:13.5px;line-height:1.85">所以我不单卖零件。我把这一整套配齐：有人干活的手、有分工的班底、能做判断的脑子、能把人引来的嘴、能把关的盾、能沉淀的库、自己能学会的本事、有人盯着的教练、看得清方向的眼。缺哪一块，这套东西就转不起来——这句话不是话术，你在下面那条链子上会自己看出来。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 九模块 -->
+<section id="modules" style="padding-top:26px">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:26px">
+      <span class="eyebrow">九个部件</span>
+      <h2 class="h2">左边是你缺什么，右边是我拿什么补</h2>
+      <p class="lead">每张卡的结构都一样：它管哪件事、它具体怎么干、它能给你什么。</p>
+    </div>
+    <div class="mods" id="mods"></div>
+  </div>
+</section>
+
+<!-- 咬合链 -->
+<section style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:8px">
+      <span class="eyebrow">九块怎么咬合</span>
+      <h2 class="h2">缺一环，这套东西就转不动</h2>
+      <p class="lead">这条链子就是整套售卖的全部理由。客户会自己顺着它往下走，每停在一步，下一步缺什么他自己会感觉到。</p>
+    </div>
+    <div class="chain" id="chain"></div>
+    <p class="note">用法：不用一次买九块。从任何一块进去，顺着链子往下带就行。客户停在哪一环，就说明他下一块缺什么。</p>
+  </div>
+</section>
+
+<!-- 交付 -->
+<section style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:22px">
+      <span class="eyebrow">怎么交付</span>
+      <h2 class="h2">每一块给什么、几天、要你配合什么</h2>
+      <p class="lead">先说清楚，省得来回问。</p>
+    </div>
+    <div class="pt-wrap" style="margin-top:0">
+      <div class="pt-scroll">
+        <table class="pt">
+          <thead><tr><th>模块</th><th>你拿到什么</th><th>多久</th><th>要你配合什么</th></tr></thead>
+          <tbody>
+            <tr><td>手 · 工具</td><td>能打开的链接或能装的插件，加一页使用说明</td><td>当天到 3–5 天</td><td>填一张表（5 个问题）</td></tr>
+            <tr><td>班 · 专家团</td><td>装好的班子，加每个角色干什么的一张卡</td><td>3–5 天</td><td>说清你每天干哪几件事</td></tr>
+            <tr><td>脑 · 智脑</td><td>挂好的脑，你的规矩记成账，加一次复查</td><td>随团一起</td><td>告诉我你最怕出什么错</td></tr>
+            <tr><td>嘴 · 新媒体</td><td>诊断单 / 30 个选题加发布节奏 / 一条能跑的生产线</td><td>1 天 / 7 天 / 15 天</td><td>出一次镜，或给一段录音</td></tr>
+            <tr><td>盾 · 风险盾牌</td><td>风险标记清单加修改建议、AI 过滤规则包、避坑知识库文档</td><td>1–3 天 / 3–5 天</td><td>给宣传文案和业务流程材料，说清所属行业</td></tr>
+            <tr><td>库 · 资产保险柜</td><td>统一归档资料库、可复用模板包、资产迁移配置文档</td><td>3–7 天</td><td>给历史 SOP、话术、案例、过往项目资料</td></tr>
+            <tr><td>本事 · 培训</td><td>一天课上带走一个能用的东西 / 三周每周一个成品</td><td>1 天 / 3 周</td><td>带电脑，肯动手</td></tr>
+            <tr><td>教练 · 陪跑</td><td>每周对练、每天成品、每周一页看板、结案复盘</td><td>3 个月</td><td>每周固定半小时</td></tr>
+            <tr><td>眼 · 项目包</td><td>三个方向的报告（成本、难点、适不适合）加启动清单</td><td>7 天</td><td>说清你有多少钱、多少时间</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 谁能交付 → 引出合伙人 -->
+<section>
+  <div class="wrap">
+    <div class="center" style="margin-bottom:22px">
+      <span class="eyebrow">谁能交付</span>
+      <h2 class="h2">前六块可以交出去，后三块交不出去</h2>
+      <p class="lead">这一栏决定这套东西是我一个人干，还是能带人一起干。看懂这一栏，你就明白合伙人从哪进来。</p>
+    </div>
+    <div class="grid c3">
+      <div class="card">
+        <h3><span class="ic">🤝</span>可以交出去的（6 块）</h3>
+        <p>手、班、嘴、盾、库、本事。这几块能做成标准件，别人也能学会：工具最容易交出去，班子可以按行业模板套，新媒体流程最标准化，常规合规扫描可以外放，基础归档可以外放，培训带出师就能讲。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ic">🔒</span>交不出去的（3 块）</h3>
+        <p>脑、教练、眼。智脑要技术底子，陪跑靠判断力，项目包靠真跑过。这三块留在总部——别人抄得走前六块的形，抄不走这三块的判断力，因为它们交不出去。</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--brand)">
+        <h3><span class="ic">🚪</span>所以有一条路给你</h3>
+        <p>把前六块做成标准件，交给本地的人去卖、去交付前端；后三块留在总部。你要做的不是学会全部九块，是把人找到、把需求问清、把价报出去——活由总部干。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 合伙人 -->
+<section id="partner" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:26px">
+      <span class="eyebrow">认证交付伙伴 · 招募</span>
+      <h2 class="h2">你负责找到人，活由总部干</h2>
+      <p class="lead">这不是招代理，不收加盟费，不划区域，也不许发展下级。你拿的是单笔成交的分成，交付和责任都在总部这头。</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--brand);margin-bottom:22px">
+      <h3 style="font-size:16px">先划清一件事：这不是招商，也不是代理</h3>
+      <div class="grid c2" style="margin-top:14px;gap:14px">
+        <div>
+          <p style="font-size:13px;line-height:2"><b style="color:var(--ink)">我们不做的五件事：</b><br>不卖代理资格 ｜ 不收加盟费 ｜ 不划区域 ｜ 不发展下级 ｜ 不按人头计酬</p>
+        </div>
+        <div>
+          <p style="font-size:13px;line-height:2"><b style="color:var(--ink)">你能拿到的是什么：</b><br>是「通过考核的交付能力」，不是「赚钱资格」。准入看考核，不看交钱——你不需要先买一批货、也不需要先买一套系统才能开始。</p>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--dim);margin-top:12px">这条界线不是我客气，是这套模式能不能长期做下去的前提。卖资格的钱来自「想赚同一笔钱的人」，卖交付能力的钱来自「真的用了的人」。前者叫募资，后者才叫经营。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:22px">
+      <h3 style="font-size:16px">这套东西的钱从哪来（四层，每层都对应真实使用者）</h3>
+      <div class="grid c4" style="margin-top:14px;gap:12px">
+        <div style="background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px">
+          <div class="no" style="font-family:var(--mono);font-size:11px;color:var(--brand)">第一层</div>
+          <div style="font-size:13.5px;font-weight:700;margin:4px 0">前端资料，免费</div>
+          <p style="font-size:12px;color:var(--dim);line-height:1.75">用来筛人、也用来统一交付标准。不靠它赚钱。</p>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px">
+          <div class="no" style="font-family:var(--mono);font-size:11px;color:var(--brand)">第二层</div>
+          <div style="font-size:13.5px;font-weight:700;margin:4px 0">工具，按年或按次</div>
+          <p style="font-size:12px;color:var(--dim);line-height:1.75">低客单、走量。客户先用得起，才谈后面。</p>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px">
+          <div class="no" style="font-family:var(--mono);font-size:11px;color:var(--brand)">第三层</div>
+          <div style="font-size:13.5px;font-weight:700;margin:4px 0">陪跑与定制</div>
+          <p style="font-size:12px;color:var(--dim);line-height:1.75">主要利润在这一层，靠的是真干活，不是靠拉人。</p>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px">
+          <div class="no" style="font-family:var(--mono);font-size:11px;color:var(--brand)">第四层</div>
+          <div style="font-size:13.5px;font-weight:700;margin:4px 0">伙伴服务分成</div>
+          <p style="font-size:12px;color:var(--dim);line-height:1.75">放大的一层。分佣绑在真实订单上，只做一级。</p>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--dim);margin-top:14px">这张结构图的作用是自证：全程没有任何一笔钱，来自「想赚同一笔钱的人」。</p>
+    </div>
+
+    <div class="card" style="margin-bottom:26px">
+      <h3 style="font-size:16px">我们给自己定的五条自检，有一条打钩就停</h3>
+      <div class="no-list" style="grid-template-columns:1fr;margin-top:14px">
+        <div class="no-item" style="border-left-color:#C0392B"><b>① 收入里超过三成来自资格费</b>不是来自终端客户付费——那就不是在卖东西，是在募资。停。</div>
+        <div class="no-item" style="border-left-color:#C0392B"><b>② 成为伙伴要先交一笔钱</b>或者先买一批货、一套系统——这是入门费的做法。停。</div>
+        <div class="no-item" style="border-left-color:#C0392B"><b>③ 分佣能穿透到第三层</b>哪怕改名叫团队奖、见点奖、管理津贴。停。</div>
+        <div class="no-item" style="border-left-color:#C0392B"><b>④ 讲不清终端客户为什么愿意付钱</b>而不是去用免费的——那这套东西就是空的。停。</div>
+        <div class="no-item" style="border-left-color:#C0392B"><b>⑤ 宣传里出现「躺赚」「管道收益」「团队裂变」「总部全程扶持」</b>——这四句话一出现，性质就变了。停。</div>
+      </div>
+      <p style="font-size:12.5px;color:var(--dim);margin-top:12px">这五条我公开写在这里，是让来谈的人拿它来查我。查出来我做不到，你可以直接不来。</p>
+    </div>
+
+    <div class="grid c2">
+      <div class="card">
+        <h3><span class="ic">①</span>你具体干什么（四件事）</h3>
+        <p style="line-height:2">找到人 → 问清他最烦的那件活 → 把价报出去 → 收款。<br>四件事之外的事都不用你管：方案怎么设计、工具怎么造、班子怎么搭、内容怎么产、风险怎么筛，全部由总部交付。你不需要懂技术，一句代码都不用会。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ic">②</span>你拿什么（按成交额分成）</h3>
+        <p style="line-height:2">按单笔成交额的比例分成，成单即结，不压款、不拖账。客户续费、加购、升档，你照样有份——所以你把一个客户服务好，比天天找新的划算。</p>
+      </div>
+    </div>
+
+    
+
+    <h3 style="font-size:19px;margin:44px 0 6px">为什么客户更愿意信你，而不是信我</h3>
+    <p class="lead" style="margin-top:0">因为你在本地，这三件事我做不到。</p>
+    <div class="grid c3" style="margin-top:20px">
+      <div class="card"><h3><span class="ic">🚶</span>你能上门</h3><p>见一面，胜过十条视频。隔着屏幕讲一百遍，不如坐到他对面五分钟。</p></div>
+      <div class="card"><h3><span class="ic">🤝</span>你本来就认识他</h3><p>熟人不会担心你收钱跑路。这份信任我花钱买不到，你天生就有。</p></div>
+      <div class="card"><h3><span class="ic">📞</span>出了问题找得到人</h3><p>这是客户最在意的一点，也是网上卖课的人给不了的。</p></div>
+    </div>
+
+    <h3 style="font-size:19px;margin:44px 0 6px">凭什么这东西卖得出去</h3>
+    <p class="lead" style="margin-top:0">伙伴最怕的是「我讲不明白、卖不出去」。这五条专门解决这个怕。</p>
+    <div class="chain" style="margin-top:20px">
+      <div class="link-row"><div class="st">1</div><div class="tx">客户的痛是真的，不用你编<s>每个开店的人每天都在回消息、写介绍、算报价。你不用说服他「你需要 AI」，只要问一句「这事烦不烦」，他自己会说。</s></div></div>
+      <div class="link-row"><div class="st">2</div><div class="tx">第一步很小，客户敢试，你也敢开口<s>你不用一上来就让他押一大笔。先用一件小事证明有用，再往下谈，你第一句话的门槛低到不用鼓起勇气。</s></div></div>
+      <div class="link-row"><div class="st">3</div><div class="tx">一个客户能做好几次<s>他先把最疼的那一块用起来，觉得顺了自然会往外扩。你不需要天天找新客户，把老客户服务深就够了。</s></div></div>
+      <div class="link-row"><div class="st">4</div><div class="tx">你不用会技术，一句代码都不用懂<s>你负责找人、问需求、报价、收款；交付是总部的事。这不是安慰话，每一块都标了「你交到哪一步为止」。</s></div></div>
+      <div class="link-row"><div class="st">5</div><div class="tx">你卖的东西真能帮到人，这是你能长期干下去的原因<s>客户用完真的省了时间，他会跟别人提你一句。这生意靠转介绍，不靠你天天求人。</s></div></div>
+    </div>
+
+    <h3 style="font-size:19px;margin:44px 0 6px">六条红线，写死不商量</h3>
+    <p class="lead" style="margin-top:0">这些不是客气话。谁碰了，合作当场结束。</p>
+    <div class="no-list">
+      <div class="no-item"><b>① 不卖代理资格</b>不收加盟费、不搞区域授权、不发展下级。这套东西只做单级，拉人头的事一律不碰。</div>
+      <div class="no-item"><b>② 不承诺收入</b>不承诺涨粉、不承诺省多少小时、不承诺回本周期。承诺就是给双方埋雷。</div>
+      <div class="no-item"><b>③ 不出专业结论</b>法律、医疗、投资上的结论一律不做。盾模块只做风险标记，不做担保。</div>
+      <div class="no-item"><b>④ 不代运营账号</b>账号必须是客户自己的人。代运营一旦出问题，责任说不清。</div>
+      <div class="no-item"><b>⑤ 不接扛不住的单</b>要私有化部署、要 SLA、要赔付的大企业单不接，一个人接不住。</div>
+      <div class="no-item"><b>⑥ 不承诺资产变现</b>库模块只做归档和萃取，不承诺复用资产能带来业绩增长。资产是客户的，增长靠客户自己用。</div>
+    </div>
+
+    <h3 style="font-size:19px;margin:44px 0 6px">谁适合来做，谁别来</h3>
+    <div class="grid c2" style="margin-top:20px">
+      <div class="card">
+        <h3><span class="ic">✅</span>适合这三种人</h3>
+        <p style="line-height:2">① 本地有熟人圈子的人：开店的朋友、做生意的亲戚、行业里的老同事。<br>② 手上已经有客户、想给客户多一个解决方案的人：设计、装修、财务、培训、保险。<br>③ 愿意学、愿意跑、肯把话说清楚的人。不需要技术背景。</p>
+      </div>
+      <div class="card">
+        <h3><span class="ic">⛔</span>这三种人别来</h3>
+        <p style="line-height:2">① 想交一笔钱就等着分钱的人——这里没有保底，交了钱不干活就是零。<br>② 想靠拉人头赚钱的人——这套只做单级，你要找下级，这里没有。<br>③ 想三分钟热度试一把的人——客户要的是能长期找得到的人。</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:26px;border-left:3px solid var(--brand)">
+      <h3 style="font-size:16px">一句话记住你怎么介绍自己</h3>
+      <p style="margin-top:8px;font-size:15px;color:var(--ink2);line-height:1.9">「我不卖 AI。我帮你把每天最烦的那件活，交给机器干。你先试一次，觉得省事了再说钱。」</p>
+      <p style="margin-top:10px;font-size:12.5px;color:var(--dim)">说完这句，客户要么问「怎么试」，要么问「多少钱」——两个都是好信号。他开始问细节，就说明他信了。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 申请 -->
+<section class="qr-sec" id="apply">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:24px">
+      <span class="eyebrow">申请加入</span>
+      <h2 class="h2">先聊一次，合适再往下走</h2>
+      <p class="lead">我不批量招人。你先说清你在哪个城市、手上有哪些客户、每周能拿出多少时间，我再告诉你这套东西在你那儿能不能落地。</p>
+    </div>
+    <div class="qr-card">
+      <div class="qr-frame"><img src="/promo/wechat-qr.jpg" alt="海大叔微信二维码"></div>
+      <p style="margin-top:16px;font-size:14px;color:var(--ink2)">微信扫码，备注「合伙人」通过更快</p>
+      <p style="font-size:12.5px;color:var(--dim);margin-top:4px">备注合伙人，先领一份《九个模块说明 + 分成规则》</p>
+      <div class="btn-row" style="justify-content:center;margin-top:18px">
+        <a class="btn btn-primary" href="/cases/">先看能跑通的案例</a>
+        <a class="btn btn-ghost" href="#modules">回看九个模块</a>
+      </div>
+    </div>
+    <p class="note" style="text-align:center;max-width:640px;margin-inline:auto">本页所有内容为产品与合作的说明，不构成收益承诺，也不构成法律、医疗、投资意见。涉及合同、金额与责任的最终条款，以双方签署的书面协议为准。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <div class="foot-links">
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="#apply">合伙人</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </div>
+    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+  </div>
+</footer>
+
+<script>
+var MODS=[
+ {g:'手',n:'AI 工具工厂',role:'谁干活',d:'你每天重复干、又特别烦的那件事，做成一个打开就能用的工具。它能做成网页链接，也能做成插件装进你天天用的软件里（公众号、微信、表格、设计软件）。这是整套的手——所有活最后都要落到这儿。',sell:'现成工具箱，按职业打包 5 件 ｜ 按你的生意改一套 ｜ 单独做一个插件，装进你日常用的软件',tryUrl:'/factory/',tryText:'去工厂造一个'},
+ {g:'班',n:'专家团',role:'谁分工',d:'工具是一件一件的，班子是有人分工的：有人管选题、有人管写稿、有人管回客户、有人管对账、有人专门挑错。你只做拍板那一下。一个人干不过来，往往不是不努力，是没有分工。',sell:'按行业搭一套（零售 / 教培 / 装修 / 设计 / 顾问）｜ 按你现有流程定制 ｜ 从零设计一套新的',tryUrl:'#apply',tryText:'问怎么搭'},
+ {g:'脑',n:'智脑',role:'怎么判断',d:'装上之后，它记得住你的行话、你的客户、你踩过的坑；它会提醒你上次这么干亏过；它每天开工前先替你想一遍今天该先干哪三件；它把你定的规矩记成账，下次自动照做。用得越久，越像你自己的人。',sell:'随专家团一起装 ｜ 单独给已有系统挂一个 ｜ 按年做一次体检和调校',tryUrl:'/zhinao/',tryText:'先问一句'},
+ {g:'嘴',n:'新媒体 IP 运营 + 智慧生态',role:'人从哪来',d:'三层一起做：第一层把你这个人立起来（定位、人设、讲什么）；第二层把内容批量产出来（选题、口播、图文、一键发六个平台）；第三层让 AI 搜得到你，有人问「本地哪家做得好」，答案里有你。',sell:'账号诊断 ｜ 90 天内容作战表 ｜ 装一条内容生产线 ｜ GEO 布局，让 AI 推荐你',tryUrl:'/materials/',tryText:'看内容素材'},
+ {g:'盾',n:'风险盾牌',role:'风险把关',d:'文案、宣传物料、业务流程方案做出来之后，先过一遍筛子：标出广告法用词、行业红线、业务踩坑点，出一张修改清单。它只做风险标记，不出法律、医疗、投资的结论——那是专业人士的事。它的作用是别让前面几块产出的东西给业务埋雷。',sell:'业务合规扫描，排查现有物料和流程 ｜ AI 输出过滤规则配置 ｜ 行业避坑知识库录入',tryUrl:'/cases/legal',tryText:'看法律案例'},
+ {g:'库',n:'资产保险柜',role:'资产沉淀',d:'跑出来的 SOP、选题、话术、踩坑案例、工具配置，统一归档。做这件事只有一个目的：不让经验随人走。业务跑通之后换个赛道、开条新业务，不用从零重来，直接从库里萃取能用的。',sell:'业务资产归档库搭建 ｜ 跨项目模板萃取 ｜ 旧业务资产迁到新项目',tryUrl:'#apply',tryText:'问怎么归档'},
+ {g:'本',n:'培训',role:'自己会不会',d:'不想一直靠别人的，就学会自己做。教的都是真手艺：怎么搭一个有分工的班子、怎么给班子装脑子、怎么写出一眼不像 AI 写的稿子、怎么从选题一路发到六个平台、怎么把插件装进你日常用的软件。',sell:'一天小班，现场做出一个能带走的 ｜ 三周陪学，边学边做 ｜ 给团队做内训',tryUrl:'/learn/',tryText:'先学一课'},
+ {g:'教',n:'落地陪跑',role:'有人盯',d:'绝大多数人不是不会买，是买了不用。陪跑解决的就是这个：每周固定对练一次，每天给你成品，每周给你一页看板，卡住当场解决。三个月后你能自己跑，不用再找我。',sell:'3 个月陪跑 ｜ 单月加练 ｜ 陪跑结束转年度维护',tryUrl:'#apply',tryText:'问陪跑怎么排'},
+ {g:'眼',n:'AI 创业项目打包',role:'往哪走',d:'想干点事但不知道干啥。我把自己真跑过的项目摊开：要花多少钱、多久见到回头钱、难点在哪、你适不适合。三个方向摆在桌上，不合适我直接说别干。方向错了，前面八块全白搭。',sell:'项目选择报告，三个方向选一个 ｜ 启动包，含工具、流程、首批客户怎么找 ｜ 30 天带跑',tryUrl:'/cases/',tryText:'看已跑通的'}
+];
+var box=document.getElementById('mods');
+MODS.forEach(function(m,i){
+  var d=document.createElement('div'); d.className='mod';
+  d.innerHTML='<div class="top"><span class="glyph">'+m.g+'</span><div><div class="no">0'+(i+1)+'</div><h3>'+m.n+'</h3><div class="role">'+m.role+'</div></div></div>'+
+    '<p>'+m.d+'</p>'+
+    '<div class="sell"><b>能给你什么：</b>'+m.sell+'</div>'+
+    '<div class="links"><a class="try" href="'+m.tryUrl+'">'+m.tryText+' →</a></div>';
+  box.appendChild(d);
+});
+
+var CHAIN=[
+ ['01','买了工具，用了两周','东西是好，但没人来用啊','缺「嘴」'],
+ ['02','内容做起来了，客户来了','活干不完了','缺「手」和「班」'],
+ ['03','班子上线，事情变多，产出大量文案方案','产出这么多东西，怕踩坑惹麻烦','缺「盾」'],
+ ['04','风险把过关，继续往前推','每天不知道先干哪件','缺「脑」'],
+ ['05','脑子给了建议，但自己不会改','想自己会弄','缺「本事」'],
+ ['06','学会了，但没人盯就松','需要有人推我一把','缺「教练」'],
+ ['07','业务跑顺，手里攒了一堆经验素材','经验散得到处都是，换个业务又得重来','缺「库」'],
+ ['08','经验能复用了，想再开一条线','下一个做什么','缺「眼」']
+];
+var cb=document.getElementById('chain');
+CHAIN.forEach(function(c){
+  var d=document.createElement('div'); d.className='link-row';
+  d.innerHTML='<div class="st">'+c[0]+'</div><div class="tx">'+c[1]+'<s>「'+c[2]+'」</s></div><div class="miss">'+c[3]+'</div>';
+  cb.appendChild(d);
+});
+
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
+document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+</script>
+</body>
+</html>

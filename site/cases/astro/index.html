@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>海大叔·星语 — 塔罗与星座陪伴</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="app">
+  <div class="brand">
+    <span class="logo">🌙 海大叔·星语</span>
+    <span class="sub">温柔陪你抽张牌、看看星</span>
+  </div>
+  <span class="badge-disc">⚖️ 娱乐参考 · 心理投射 · 非预测吉凶/医疗/投资建议</span>
+</header>
+
+<nav class="app" id="nav">
+  <button data-page="home" class="active">🏠 首页</button>
+  <button data-page="tarot">🔮 塔罗占卜</button>
+  <button data-page="fortune">⭐ 星座运势</button>
+  <button data-page="astro">🪐 星座档案</button>
+  <button data-page="library">📖 牌义库</button>
+  <button data-page="match">💑 星座配对</button>
+  <button data-page="aichat">🤖 问星语</button>
+  <button data-page="settings">⚙️ 设置</button>
+</nav>
+
+<main>
+  <!-- 首页 -->
+  <section class="page show" id="page-home">
+    <h2 class="title">今天想算点什么？</h2>
+    <p class="lead" id="home-quote">慢慢来，宇宙偏爱认真生活的人。</p>
+    <div class="cards">
+      <div class="card" onclick="showPage('tarot')"><div class="emoji">🔮</div><div class="t">塔罗占卜</div><div class="d">选个牌阵，抽几张牌，听星语说说话</div></div>
+      <div class="card" onclick="showPage('fortune')"><div class="emoji">⭐</div><div class="t">星座运势</div><div class="d">看看今天和这周，星给你捎的话</div></div>
+      <div class="card" onclick="showPage('astro')"><div class="emoji">🪐</div><div class="t">星座档案</div><div class="d">生日一填，看看你的太阳/月亮/上升</div></div>
+      <div class="card" onclick="showPage('library')"><div class="emoji">📖</div><div class="t">塔罗牌义库</div><div class="d">78 张牌的意思，随手查</div></div>
+      <div class="card" onclick="showPage('match')"><div class="emoji">💑</div><div class="t">星座配对</div><div class="d">两个人的星座放一起，看合不合</div></div>
+      <div class="card" onclick="showPage('aichat')"><div class="emoji">🤖</div><div class="t">问星语</div><div class="d">占星知识、配对、星盘，随便问</div></div>
+    </div>
+    <div class="notice" style="margin-top:20px">💡 AI 问答已经接进站内（不用填任何钥匙、不用注册），打开就能问；断网时用内置内容陪你。</div>
+  </section>
+
+  <!-- 塔罗占卜 -->
+  <section class="page" id="page-tarot">
+    <h2 class="title">🔮 塔罗占卜</h2>
+    <p class="lead">先选个牌阵，心里默念你的问题，再点「开始抽牌」。</p>
+    <div id="spread-list" class="cards"></div>
+    <div id="tarot-stage"></div>
+  </section>
+
+  <!-- 星座运势 -->
+  <section class="page" id="page-fortune">
+    <h2 class="title">⭐ 星座运势</h2>
+    <p class="lead">选一个星座，看看星语给它的话。</p>
+    <div id="sign-list" class="sign-grid"></div>
+    <div class="row" style="align-items:center;margin-top:14px">
+      <div class="toggle" id="fortune-toggle">
+        <button data-mode="daily" class="active">今日</button>
+        <button data-mode="weekly">本周</button>
+      </div>
+    </div>
+    <div id="fortune-result"></div>
+  </section>
+
+  <!-- 星座档案 -->
+  <section class="page" id="page-astro">
+    <h2 class="title">🪐 星座档案</h2>
+    <p class="lead">填一下你的出生信息，星语帮你看看太阳/月亮/上升。（离线估算，仅供娱乐）</p>
+    <div class="panel">
+      <div class="row">
+        <div><label>出生日期</label><input type="date" id="b-date"></div>
+        <div><label>出生时间</label><input type="time" id="b-time"></div>
+        <div><label>出生城市</label><select id="b-city"></select></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn" id="btn-astro">✨ 生成我的星座档案</button></div>
+    </div>
+    <div id="astro-result"></div>
+  </section>
+
+  <!-- 牌义库 -->
+  <section class="page" id="page-library">
+    <h2 class="title">📖 塔罗牌义库</h2>
+    <p class="lead">78 张牌的意思都在这里，随手查。</p>
+    <div class="row">
+      <div style="flex:2"><input type="text" id="lib-search" placeholder="搜牌名 / 关键词…"></div>
+      <div><select id="lib-filter">
+        <option value="all">全部 78 张</option>
+        <option value="major">大阿尔卡那 22</option>
+        <option value="权杖">权杖（火）</option>
+        <option value="圣杯">圣杯（水）</option>
+        <option value="宝剑">宝剑（风）</option>
+        <option value="星币">星币（土）</option>
+      </select></div>
+    </div>
+    <div id="lib-list"></div>
+    <div id="lib-detail"></div>
+  </section>
+
+  <!-- 设置 -->
+  <section class="page" id="page-settings">
+    <h2 class="title">⚙️ 设置</h2>
+    <div class="panel">
+      <h3 style="margin:0 0 6px">AI 解读钥匙（选填）</h3>
+      <p class="muted" style="margin:0 0 8px">填了自己的钥匙（Key），星语就能联网给你更灵活的解读；不填或断网，会自动用内置内容兜底。</p>
+      <label>选择服务商</label>
+      <select id="provider-select">
+        <option value="deepseek">DeepSeek（默认·便宜·国内可直连）</option>
+        <option value="qwen">通义千问 Qwen</option>
+        <option value="glm">智谱 GLM</option>
+        <option value="kimi">Kimi 月之暗面</option>
+      </select>
+      <label>API Key</label>
+      <div class="row">
+        <div style="flex:3"><input type="password" id="ai-key" placeholder="sk-... 填你自己的钥匙"></div>
+        <div style="flex:1"><button class="btn ghost" id="btn-test-ai">测试连接</button></div>
+      </div>
+      <span class="status" id="ai-status"></span>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin:0 0 6px">激活付费功能</h3>
+      <p class="muted" style="margin:0 0 8px">高级牌阵、周运详版、合盘、年度运势、AI 深度解读为付费项。输入激活码解锁（本版为本地占位，不联网、不扣费）。</p>
+      <div class="row">
+        <div style="flex:3"><input type="text" id="activate-code" placeholder="输入激活码（测试期任意非空即可）"></div>
+        <div style="flex:1"><button class="btn" id="btn-activate">激活</button></div>
+      </div>
+      <span class="status" id="activate-status"></span>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin:0 0 6px">关于 & 定价</h3>
+      <p class="muted" style="margin:0">海大叔·星语 · 一个温柔的塔罗与星座陪伴工具。</p>
+      <div class="kv" style="margin-top:8px">
+        <span class="chip">买断 39–69 元（早鸟 29.9）</span>
+        <span class="chip">会员 19–29 元/月 · 199 元/年</span>
+        <span class="chip">单次 AI 精读 6.6–19.9 元</span>
+      </div>
+      <p class="muted" style="margin-top:8px">免费功能永久免费（78 牌义库 + 3 个基础牌阵 + 每日/周简版运势 + 星座档案）。付费项解锁高级牌阵、周运详版、合盘、年度运势与 AI 深度解读。</p>
+      <div style="margin-top:12px"><button class="btn ghost small" id="btn-clear">🧹 清除本地数据</button></div>
+    </div>
+  </section>
+
+  <!-- 星座配对 -->
+  <section class="page" id="page-match">
+    <h2 class="title">💑 星座配对</h2>
+    <p class="lead">选两个人的星座，先看元素关系给了什么底子，再让星语细说。</p>
+    <div class="panel">
+      <div class="row">
+        <div><label>第一个人的太阳星座</label><select id="mt-a"></select></div>
+        <div><label>第二个人的太阳星座</label><select id="mt-b"></select></div>
+      </div>
+      <button class="btn small" id="mt-go" style="margin-top:14px">看这对合不合</button>
+      <p class="muted" style="margin-top:10px;font-size:12px">按太阳星座的元素关系看，是最粗的一层。要准，得排合盘看行星相位。</p>
+    </div>
+    <div id="mt-result"></div>
+  </section>
+
+  <!-- AI 问答 -->
+  <section class="page" id="page-aichat">
+    <h2 class="title">🤖 问星语</h2>
+    <p class="lead">占星这块，随便问。星座性格、元素关系、行星宫位、合盘配对，答的是逻辑不是套话。</p>
+    <div id="hsd-ai"></div>
+  </section>
+
+  <div class="disc-footer">
+    ⚖️ 免责声明：本应用所有占卜、运势、星盘内容仅供<strong>娱乐参考与心理投射</strong>，不构成任何预测、医疗、投资、法律或专业建议。人生选择请结合现实、自己做主。<br>
+    © 2026 郭国海（海大叔）
+  </div>
+</main>
+
+<script src="data/tarot-data.js"></script>
+<script src="data/zodiac-data.js"></script>
+<script src="data/spreads.js"></script>
+<script src="data/cities.js"></script>
+<script src="js/app.js"></script>
+<script src="/assets/ai.js"></script>
+<script src="js/star-ai.js"></script>
+</body>
+</html>

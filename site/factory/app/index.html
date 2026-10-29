@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>AI 工具工厂 · 海大叔｜说句人话，当场造个工具</title>
+<meta name="description" content="不用学 AI、不用装软件、不用注册。想要什么小工具，用大白话讲一句，几秒钟造出来，直接就能用。海大叔·高级开发工程师智作团出品。" />
+<meta name="format-detection" content="telephone=no" />
+<meta property="og:title" content="AI 工具工厂 · 海大叔｜说句人话，当场造个工具" />
+<meta property="og:description" content="想要什么小工具，用大白话讲一句，几秒钟造出来，直接就能用。" />
+<meta property="og:type" content="website" />
+<style>
+:root{
+  --ink:#2B2119;
+  --ink2:#7C6A57;
+  --ink3:#A8998A;
+  --line:rgba(140,95,50,.16);
+  --card:#ffffff;
+  --bg:#FBF6EE;
+  --brand:#C2571C;
+  --brand2:#E0892B;
+  --soft:#FBF7F1;
+  --soft2:#F5E9D8;
+  --ok:#2F9E6B;
+  --r:18px;
+  --maxw:880px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:76px;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+button{font-family:inherit}
+
+/* ── 顶部标语条 ── */
+.slogan{
+  background:#eef2f7;color:#ffffff;font-weight:800;font-size:13.5px;
+  letter-spacing:.04em;padding:9px 16px;text-align:center;line-height:1.5;
+}
+
+/* ── 导航 ── */
+.nav{
+  position:sticky;top:0;z-index:30;
+  background:rgba(253,249,243,.92);
+  backdrop-filter:saturate(180%) blur(12px);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:0 18px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:15.5px;letter-spacing:.2px}
+.brand .mark{
+  width:26px;height:26px;border-radius:8px;flex:0 0 auto;
+  background:linear-gradient(140deg,var(--brand),var(--brand2));
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  box-shadow:0 3px 10px rgba(226,87,11,.3);
+}
+.brand em{font-style:normal;color:var(--ink3);font-weight:700;font-size:12.5px}
+.nav-links{display:flex;align-items:center;flex-wrap:wrap;row-gap:4px;gap:6px 14px;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.nav-links a:hover{color:var(--brand)}
+.nav-cta{
+  padding:8px 15px;border-radius:999px;color:#ffffff;font-weight:800;font-size:13.5px;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  box-shadow:0 6px 16px rgba(226,87,11,.26);white-space:nowrap;
+}
+@media(max-width:620px){
+  .nav-in{height:auto;min-height:56px;padding:9px 18px;flex-wrap:wrap;row-gap:7px;justify-content:flex-start}
+  .nav-links{width:100%;justify-content:space-between;gap:6px}
+  .nav-links a{padding:9px 8px;font-size:13px;flex:1 1 auto;text-align:center}
+}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
+
+/* ── 首屏 ── */
+.hero{padding:34px 0 8px;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 13px;border-radius:999px;background:#ffffff;border:1px solid var(--line);
+  font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--ok);font-style:normal}
+h1{
+  margin:16px 0 12px;font-size:clamp(27px,7vw,42px);line-height:1.2;
+  font-weight:900;letter-spacing:-.5px;
+}
+h1 .grad{
+  background:linear-gradient(120deg,var(--brand),var(--brand2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lead{
+  margin:0 auto;max-width:560px;color:var(--ink2);
+  font-size:clamp(14.5px,3.7vw,16.5px);line-height:1.8;
+}
+.lead b{color:var(--ink);font-weight:800}
+
+/* ── 造工具卡 ── */
+.maker{
+  margin:24px auto 0;background:var(--card);border:1px solid var(--line);
+  border-radius:22px;padding:16px;text-align:left;
+  box-shadow:0 14px 40px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.25);
+}
+.maker-label{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:0 0 10px;font-size:14.5px;font-weight:800;color:var(--ink);
+}
+.maker-label span{font-size:12px;font-weight:700;color:var(--ok);background:#0f211c;padding:3px 9px;border-radius:999px}
+textarea#need{
+  width:100%;min-height:96px;resize:vertical;
+  background:#FBF6EE;border:1.5px solid var(--line);border-radius:14px;
+  padding:14px 15px;font-size:16px;line-height:1.65;color:var(--ink);
+  font-family:inherit;transition:border-color .15s,background .15s;
+}
+textarea#need::placeholder{color:var(--ink3)}
+textarea#need:focus{outline:none;border-color:var(--brand);background:#ffffff;box-shadow:0 0 0 4px rgba(226,87,11,.09)}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.examples .ex{
+  padding:7px 13px;border-radius:999px;background:var(--soft);
+  border:1px solid #E8D9C4;color:#D98B4A;font-size:13px;font-weight:700;cursor:pointer;
+  transition:.14s;user-select:none;
+}
+.examples .ex:hover{background:var(--soft2);border-color:var(--brand2);color:var(--brand)}
+.examples .ex:active{transform:scale(.97)}
+.maker-row{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+#genBtn{
+  flex:1 1 200px;min-width:170px;padding:16px 20px;border:0;border-radius:14px;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));color:#ffffff;
+  font-size:17px;font-weight:900;cursor:pointer;letter-spacing:.3px;
+  box-shadow:0 10px 24px rgba(226,87,11,.28);transition:.14s;
+}
+#genBtn:hover{filter:brightness(1.05)}
+#genBtn:active{transform:translateY(1px)}
+#genBtn:disabled{opacity:.62;cursor:default;box-shadow:none}
+.gen-status{font-size:13px;color:var(--ink3);font-weight:600}
+
+/* 预览区 */
+.preview-wrap{display:none;margin-top:16px;border-top:1px dashed var(--line);padding-top:16px}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.preview-head b{font-size:14.5px}
+.preview-tools{display:flex;gap:8px}
+.tbtn{
+  padding:8px 13px;border-radius:10px;border:1.5px solid var(--line);
+  background:#ffffff;color:var(--ink2);font-size:13px;font-weight:700;cursor:pointer;transition:.14s;
+}
+.tbtn:hover{border-color:var(--brand);color:var(--brand)}
+iframe#preview{
+  width:100%;height:430px;border:1px solid var(--line);border-radius:16px;background:#ffffff;display:block;
+}
+.maker-note{
+  margin-top:12px;font-size:12.5px;color:#D98B4A;background:var(--soft);
+  border:1px dashed #E8D9C4;border-radius:12px;padding:10px 13px;line-height:1.7;
+}
+.maker-note b{color:var(--brand)}
+
+/* ── 区块通用 ── */
+section{padding:38px 0 0}
+.sec-head{margin-bottom:16px}
+.sec-head h2{
+  margin:0 0 6px;font-size:clamp(19px,5vw,25px);font-weight:900;letter-spacing:-.3px;
+}
+.sec-head p{margin:0;color:var(--ink2);font-size:14.5px;line-height:1.75}
+.kicker{
+  display:block;font-size:12px;font-weight:900;letter-spacing:2px;color:var(--brand);
+  text-transform:uppercase;margin-bottom:6px;
+}
+
+/* ── 常用工具网格 ── */
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){ .tools{grid-template-columns:repeat(3,1fr)} }
+@media(min-width:820px){ .tools{grid-template-columns:repeat(5,1fr)} }
+.tool{
+  background:#ffffff;border:1px solid var(--line);border-radius:15px;
+  padding:14px 12px;cursor:pointer;transition:.16s;
+  box-shadow:0 3px 10px rgba(0,0,0,.3);
+}
+.tool:hover{border-color:#E8D9C4;box-shadow:0 10px 24px rgba(226,87,11,.12);transform:translateY(-2px)}
+.tool:active{transform:translateY(0) scale(.99)}
+.tool .ico{font-size:24px;line-height:1;display:block;margin-bottom:7px}
+.tool b{display:block;font-size:14px;font-weight:800;letter-spacing:.2px}
+.tool small{display:block;color:var(--ink3);font-size:11.5px;line-height:1.5;margin-top:2px}
+
+/* ── 三步 ── */
+.steps{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:700px){ .steps{grid-template-columns:repeat(3,1fr)} }
+.step{
+  background:#ffffff;border:1px solid var(--line);border-radius:15px;padding:16px 15px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.step .n{
+  flex:0 0 auto;width:28px;height:28px;border-radius:9px;
+  background:linear-gradient(140deg,var(--brand),var(--brand2));color:#ffffff;
+  font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center;
+}
+.step b{display:block;font-size:14.5px;margin-bottom:2px}
+.step span{font-size:13px;color:var(--ink2);line-height:1.6}
+
+/* ── 智作团 ── */
+.team{
+  background:linear-gradient(160deg,#ffffffdfb,#fdf5ec);
+  border:1px solid #f2e3d0;border-radius:22px;padding:22px 20px;
+}
+.team h2{margin:0 0 10px;font-size:clamp(19px,5vw,24px);font-weight:900;letter-spacing:-.3px}
+.team p{margin:0 0 14px;font-size:14.5px;line-height:1.85;color:#4a3a2c}
+.team p b{color:var(--brand)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tags span{
+  padding:6px 12px;border-radius:999px;background:#ffffff;border:1px solid #EFE2CE;
+  font-size:12.5px;font-weight:700;color:#D98B4A;
+}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.nums div{
+  background:#ffffff;border:1px solid #EFE2CE;border-radius:13px;padding:11px 8px;text-align:center;
+}
+.nums b{
+  display:block;font-size:20px;font-weight:900;
+  background:linear-gradient(120deg,var(--brand),var(--brand2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.nums small{font-size:11.5px;color:var(--ink3);font-weight:700}
+
+/* ── 价格 ── */
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:760px){ .plans{grid-template-columns:repeat(4,1fr)} }
+.plan{
+  background:#ffffff;border:1px solid var(--line);border-radius:16px;padding:15px 14px;
+  display:flex;flex-direction:column;position:relative;
+}
+.plan.hot{border:1.5px solid var(--brand);box-shadow:0 10px 26px rgba(226,87,11,.14)}
+.plan.hot::after{
+  content:"最多人选";position:absolute;top:-10px;right:12px;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));color:#ffffff;
+  font-size:10.5px;font-weight:900;padding:3px 9px;border-radius:999px;letter-spacing:.5px;
+}
+.plan .lv{font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--ink3);margin-bottom:3px}
+.plan h3{margin:0;font-size:15px;font-weight:900}
+.plan .who{font-size:12px;color:var(--ink3);margin:2px 0 9px}
+.plan .amt{font-size:24px;font-weight:900;color:var(--brand);line-height:1.1;margin-bottom:10px}
+.plan .amt small{font-size:12px;color:var(--ink3);font-weight:700;margin-left:3px}
+.plan ul{list-style:none;padding:0;margin:0;flex:1}
+.plan li{font-size:12.5px;color:var(--ink2);padding:5px 0;border-top:1px solid #EFE2CE;line-height:1.5}
+.plan li:first-child{border-top:none}
+
+/* ── 折叠：定制单 ── */
+details.order{
+  margin-top:12px;background:#ffffff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+}
+details.order summary{
+  padding:16px 18px;cursor:pointer;font-weight:800;font-size:15px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;
+}
+details.order summary::-webkit-details-marker{display:none}
+details.order summary::after{content:"＋";color:var(--brand);font-weight:900;font-size:17px}
+details.order[open] summary::after{content:"－"}
+details.order summary span{font-weight:600;font-size:12.5px;color:var(--ink3);margin-left:auto;margin-right:8px}
+.order-body{padding:0 18px 18px;border-top:1px solid #EFE2CE}
+.form-grid{display:grid;grid-template-columns:1fr;gap:11px;margin-top:14px}
+@media(min-width:700px){ .form-grid{grid-template-columns:1fr 1fr} .field.full{grid-column:1/-1} }
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12.5px;font-weight:700;color:var(--ink2)}
+.field input,.field textarea,.field select{
+  background:#FBF6EE;border:1.5px solid var(--line);border-radius:11px;
+  padding:11px 13px;font-size:15px;color:var(--ink);font-family:inherit;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--brand);background:#ffffff}
+.field textarea{min-height:84px;resize:vertical}
+
+/* ── 微信 ── */
+.wx{
+  margin-top:14px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  background:#ffffff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;
+}
+.wx img{width:96px;height:96px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#f5f5f5;flex:0 0 auto}
+.wx-info{flex:1 1 200px;min-width:180px}
+.wx-info b{font-size:15px;display:block;margin-bottom:4px}
+.wx-id{font-size:15px;font-weight:800;color:var(--brand);display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.wx-info .hint{font-size:12.5px;color:var(--ink3);margin-top:5px;line-height:1.6}
+
+footer{
+  margin-top:40px;padding:22px 0 10px;border-top:1px solid var(--line);
+  text-align:center;color:var(--ink3);font-size:12.5px;line-height:1.8;
+}
+
+/* ── 底部固定按钮（手机） ── */
+.bottom-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(250,248,245,.94);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+}
+.bottom-bar a{
+  display:block;text-align:center;padding:14px;border-radius:14px;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));color:#ffffff;
+  font-weight:900;font-size:16px;box-shadow:0 8px 22px rgba(226,87,11,.28);
+}
+@media(min-width:760px){ body{padding-bottom:0} .bottom-bar{display:none} }
+
+/* ── 工具抽屉 ── */
+.drawer{position:fixed;inset:0;z-index:60;display:none}
+.drawer.on{display:block}
+.drawer-mask{position:absolute;inset:0;background:rgba(23,25,31,.5);backdrop-filter:blur(3px)}
+.drawer-panel{
+  position:absolute;left:0;right:0;bottom:0;top:56px;
+  background:var(--bg);border-radius:20px 20px 0 0;overflow:hidden;
+  display:flex;flex-direction:column;animation:slideUp .22s ease;
+  max-width:var(--maxw);margin:0 auto;
+}
+@keyframes slideUp{from{transform:translateY(24px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.drawer-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 16px;border-bottom:1px solid var(--line);background:#ffffff;flex:0 0 auto;
+}
+.drawer-bar b{font-size:15px}
+.drawer-close{
+  padding:8px 14px;border-radius:10px;border:1.5px solid var(--line);background:#ffffff;
+  font-size:13.5px;font-weight:800;color:var(--ink2);cursor:pointer;
+}
+.drawer-frame{flex:1;border:0;width:100%;background:#ffffff}
+
+/* ── toast ── */
+.toast{
+  position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);
+  opacity:0;background:#1f2229;color:#ffffff;padding:12px 18px;border-radius:12px;
+  font-size:13.5px;font-weight:600;transition:.24s;z-index:80;pointer-events:none;
+  max-width:88vw;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══ 智作团流水线 ═══ */
+.pipeline{display:none;margin-top:16px;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:16px 16px 10px}
+.pl-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pl-ava{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.pl-head b{font-size:14.5px;color:var(--ink)}
+.pl-head span{display:block;font-size:12px;color:var(--ink3);margin-top:2px;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-step{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;opacity:.42;transition:.25s}
+.pl-step.on{opacity:1;background:var(--soft)}
+.pl-step.done{opacity:.92}
+.pl-step i{font-style:normal;font-weight:900;color:var(--brand);font-size:13px;width:18px;flex:none}
+.pl-step div{flex:1;min-width:0}
+.pl-step b{font-size:13.5px;color:var(--ink);display:block}
+.pl-step .pl-t{font-size:12px;color:var(--ink3);display:block;margin-top:1px;line-height:1.6}
+.pl-step .pl-mark{margin-left:auto;font-style:normal;font-size:15px;flex:none}
+.pl-step.on .pl-mark::after{content:'';display:inline-block;width:13px;height:13px;border:2px solid var(--brand);border-top-color:transparent;border-radius:50%;animation:plspin .7s linear infinite}
+.pl-step.done .pl-mark::after{content:'✓';color:var(--ok);font-weight:900}
+@keyframes plspin{to{transform:rotate(360deg)}}
+</style>
+<style>@media print{*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}}</style>
+<style id="nav7-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:5px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 21% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+</style>
+<style id="nav8-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:4px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 23% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+</style>
+</head>
+<body>
+
+<div class="slogan">商业 AI 落地专家，服务零基础用户</div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand"><span class="mark">🏭</span>AI 工具工厂 <em>· 海大叔</em></div>
+    <div class="nav-links">
+      <a href="../">生态首页</a>
+      <a href="../zhinao/">智脑AI</a>
+      <a href="../factory/" class="cur">工具工厂</a>
+      <a href="../templates/">模板库</a>
+      <a href="../aixinshou/">AI 学习</a>
+      <a href="../legal/">法律护航</a>
+      <a href="../experts/">六位专家</a>
+      <a href="../future/">未来舱</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ═══ 首屏：直接就是工具 ═══ -->
+  <section class="hero" id="maker">
+    <span class="eyebrow"><i></i>免登录 · 免费造 · 手机上就能用</span>
+    <h1>说句人话<br /><span class="grad">当场给你造个工具</span></h1>
+    <p class="lead">不用学 AI、不用装软件、不用注册。想要什么小工具，<b>用大白话讲一句</b>，几秒钟给你造出来，拿到就能用。</p>
+
+    <div class="maker">
+      <div class="maker-label">
+        <span style="font-size:14.5px;font-weight:800;color:var(--ink)">你想让工具帮你干什么？</span>
+        <span>免费</span>
+      </div>
+      <textarea id="need" placeholder="例如：我做奶茶店的，想要一个输入杯型和糖度、自动算热量的小工具。"></textarea>
+      <div class="examples" id="examples">
+        <span class="ex">算奶茶热量</span>
+        <span class="ex">朋友圈文案生成器</span>
+        <span class="ex">简易记账本</span>
+        <span class="ex">抽奖转盘</span>
+        <span class="ex">BMI 计算器</span>
+        <span class="ex">还有几天到双11</span>
+      </div>
+      <div class="maker-row">
+        <button id="genBtn">⚡ 造出来</button>
+        <span class="gen-status" id="genStatus">免费，约几秒钟</span>
+      </div>
+
+            <div class="pipeline" id="pipeline">
+        <div class="pl-head"><span class="pl-ava">🏭</span><div><b>智作团开工中</b><span id="plNeed"></span></div></div>
+        <div class="pl-step"><i>①</i><div><b>拆需求</b><span class="pl-t" id="plT1">正在听懂你的话…</span></div><em class="pl-mark"></em></div>
+        <div class="pl-step"><i>②</i><div><b>挑零件</b><span class="pl-t" id="plT2">在零件库里挑选…</span></div><em class="pl-mark"></em></div>
+        <div class="pl-step"><i>③</i><div><b>拼装</b><span class="pl-t" id="plT3">正在拼装…</span></div><em class="pl-mark"></em></div>
+        <div class="pl-step"><i>④</i><div><b>六道质检</b><span class="pl-t" id="plT4">正在逐项检查…</span></div><em class="pl-mark"></em></div>
+      </div>
+
+      <div class="preview-wrap" id="previewWrap">
+        <div class="preview-head">
+          <b>✅ 造好了，这就是你的工具（已经能用了）</b>
+          <div class="preview-tools">
+            <button class="tbtn" id="copyBtn">📋 复制</button>
+            <button class="tbtn" id="dlBtn">⬇️ 下载</button>
+            <button class="tbtn" id="fsBtn">⤢ 全屏</button>
+          </div>
+        </div>
+        <iframe id="preview" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+        <div class="maker-note">
+          <b>说清楚一点：</b>免费造适合<b>简单、单机、自己用</b>的小工具（计算器、生成器、小清单之类），不带账号和后端。要接数据、要长期维护、要给员工一起用的，加微信 <b>haidashu1</b>，智作团给你定制。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 常用小工具 ═══ -->
+  <section id="tools">
+    <div class="sec-head">
+      <span class="kicker">不用等造</span>
+      <h2>现成的 10 个小工具，点开就能用</h2>
+      <p>这些是提前造好的。点一下直接打开，数据只在你自己手机上跑，不上传、不联网。</p>
+    </div>
+    <div class="tools" id="toolGrid"></div>
+  </section>
+
+  <!-- ═══ 三步 ═══ -->
+  <section>
+    <div class="sec-head">
+      <span class="kicker">怎么用</span>
+      <h2>就三步，没有第四步</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><b>说一句</b><span>用平时说话的方式，告诉它你要干什么。不会写没关系，说错也没关系。</span></div></div>
+      <div class="step"><span class="n">2</span><div><b>等几秒</b><span>智作团在后台把需求拆开、拼零件、过质检，你在前面只看到进度。</span></div></div>
+      <div class="step"><span class="n">3</span><div><b>直接用</b><span>当场出成品，能点、能填、能算。想留着就下载，想给谁用就发链接。</span></div></div>
+    </div>
+  </section>
+
+  <!-- ═══ 微信 ═══ -->
+  <section>
+    <div class="wx">
+      <img src="wechat-qr.jpg" alt="海大叔微信二维码" />
+      <div class="wx-info">
+        <b>海大叔 · 微信</b>
+        <div class="wx-id">haidashu1 <button class="tbtn" id="copyWx">复制</button></div>
+        <div class="hint">扫码或搜微信号，直接说话。说不清楚也没事，我帮你想。</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 海大叔 · AI 工具工厂<br />
+    海大叔 ｜ 高级开发工程师智作团 出品
+  </footer>
+</div>
+
+<div class="bottom-bar"><a href="#maker">⚡ 免费造一个</a></div>
+
+<!-- 工具抽屉 -->
+<div class="drawer" id="drawer">
+  <div class="drawer-mask" id="drawerMask"></div>
+  <div class="drawer-panel">
+    <div class="drawer-bar">
+      <b id="drawerTitle">小工具</b>
+      <button class="drawer-close" id="drawerClose">✕ 关掉</button>
+    </div>
+    <iframe class="drawer-frame" id="drawerFrame" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="./factory.js"></script>
+<div style="text-align:center;padding:26px 16px 90px">
+  <a href="../" style="display:inline-block;color:#9aa8ba;font-size:14px;font-weight:700;text-decoration:none;border:1px solid #EFE2CE;border-radius:999px;padding:10px 22px">← 返回智脑网 · 海大叔 AI 新媒体工作室</a>
+</div>
+</body>
+</html>

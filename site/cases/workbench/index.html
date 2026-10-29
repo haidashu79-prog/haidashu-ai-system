@@ -1,0 +1,3755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="海大叔工作台">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='40' fill='%230f1117'/%3E%3Ccircle cx='90' cy='90' r='52' fill='none' stroke='%23e8b864' stroke-width='4'/%3E%3Ctext x='90' y='112' font-size='56' font-weight='bold' fill='%23e8b864' text-anchor='middle' font-family='sans-serif'%3E海%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href='data:application/manifest+json,{"name":"海大叔工作台","short_name":"海大叔","start_url":".","display":"standalone","background_color":"#0f1117","theme_color":"#0f1117","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27180%27 height=%27180%27%3E%3Crect width=%27180%27 height=%27180%27 rx=%2740%27 fill=%27%230f1117%27/%3E%3Ccircle cx=%2790%27 cy=%2790%27 r=%2752%27 fill=%27none%27 stroke=%27%23e8b864%27 stroke-width=%274%27/%3E%3Ctext x=%2790%27 y=%27112%27 font-size=%2756%27 font-weight=%27bold%27 fill=%27%23e8b864%27 text-anchor=%27middle%27 font-family=%27sans-serif%27%3E海%3C/text%3E%3C/svg%3E","sizes":"180x180","type":"image/svg+xml"}]}'>
+<title>海大叔坏大叔 · 每日内容创作工作台</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d28;
+  --card-hover: #22263a;
+  --border: #2d3148;
+  --gold: #e8b864;
+  --gold-dim: #a8895a;
+  --red: #e85d5d;
+  --green: #4ade80;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --text: #e8e8e8;
+  --text-dim: #8b8b9a;
+  --text-muted: #5a5a6e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* ===== 顶部导航栏 ===== */
+.header {
+  background: linear-gradient(135deg, #1a1d28 0%, #2a2d3a 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a1d28;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.header-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.header-date {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.header-fans {
+  background: rgba(232,184,100,0.12);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===== Tab 导航 - 底部App导航栏 ===== */
+.tab-nav {
+  display: none;
+}
+
+.bottom-nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(26, 29, 40, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px 6px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  min-height: 56px;
+}
+
+.bottom-nav-item .nav-icon {
+  font-size: 22px;
+  margin-bottom: 2px;
+  line-height: 1;
+}
+
+.bottom-nav-item .nav-label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.bottom-nav-item.active {
+  color: var(--gold);
+}
+
+.bottom-nav-item.active .nav-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+.bottom-nav-item .nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 50%;
+  margin-right: -20px;
+  background: var(--red);
+  color: #fff;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ===== 更多菜单弹层 ===== */
+.more-overlay {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  height: 100vh;
+}
+
+.more-overlay.show {
+  display: block;
+}
+
+.more-panel {
+  position: absolute;
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.more-panel-title {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.more-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px;
+  background: var(--bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text);
+  font-size: 11px;
+}
+
+.more-grid-item:active {
+  background: var(--card-hover);
+  transform: scale(0.95);
+}
+
+.more-grid-item .more-icon {
+  font-size: 26px;
+}
+
+/* 原有tab-btn样式保留给兼容 */
+.tab-btn {
+  padding: 14px 24px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.tab-badge {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+/* ===== 主内容区 ===== */
+.main-content {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ===== 卡片基础样式 ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.card:hover {
+  border-color: var(--gold-dim);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ===== 热点同步模块 ===== */
+.hot-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.hot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hot-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.hot-item:hover {
+  background: rgba(255,255,255,0.06);
+  border-left-color: var(--gold);
+}
+
+.hot-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.hot-rank.top3 { background: var(--red); color: #fff; }
+.hot-rank.other { background: var(--border); color: var(--text-dim); }
+
+.hot-content { flex: 1; }
+
+.hot-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hot-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  gap: 12px;
+}
+
+.hot-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tag-red { background: rgba(232,93,93,0.15); color: var(--red); }
+.tag-gold { background: rgba(232,184,100,0.15); color: var(--gold); }
+.tag-blue { background: rgba(96,165,250,0.15); color: var(--blue); }
+.tag-green { background: rgba(74,222,128,0.15); color: var(--green); }
+.tag-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+/* 热点关联分析 */
+.hot-analysis {
+  background: rgba(232,184,100,0.05);
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.hot-analysis-title {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.hot-analysis-item {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.hot-analysis-item::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+
+/* ===== 选题模块 ===== */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.topic-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.topic-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: var(--gold-dim);
+}
+
+.topic-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.topic-pool {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.topic-heat {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.heat-high { background: rgba(232,93,93,0.15); color: var(--red); }
+.heat-mid { background: rgba(232,184,100,0.15); color: var(--gold); }
+.heat-low { background: rgba(74,222,128,0.15); color: var(--green); }
+
+.topic-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.topic-angle {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.topic-hook {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(232,184,100,0.08);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* 选题池总览 */
+.topic-pools-overview {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.pool-chip {
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+
+.pool-chip-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.pool-chip-count {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.pool-chip.active {
+  background: rgba(232,184,100,0.1);
+  border-color: var(--gold-dim);
+}
+
+.pool-chip.active .pool-chip-name { color: var(--gold); }
+
+/* ===== 数据分析模块 ===== */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.data-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.data-value {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 8px 0;
+}
+
+.data-label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.data-trend {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+
+/* 进度条 */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.fill-gold { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+.fill-green { background: linear-gradient(90deg, #2d6a4f, var(--green)); }
+.fill-red { background: linear-gradient(90deg, #8b3030, var(--red)); }
+
+/* 发布节奏表 */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.schedule-table th {
+  background: rgba(255,255,255,0.04);
+  padding: 10px 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+}
+
+.schedule-table td {
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.schedule-table td.today {
+  background: rgba(232,184,100,0.08);
+  border-radius: 6px;
+}
+
+.schedule-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ===== 文案创作模块 ===== */
+.script-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.script-tab {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.script-tab:hover {
+  color: var(--text);
+  border-color: var(--gold-dim);
+}
+
+.script-tab.active {
+  background: rgba(232,184,100,0.12);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.script-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.script-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+}
+
+.script-title-area {
+  flex: 1;
+}
+
+.script-number {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.script-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.script-cover {
+  font-size: 13px;
+  color: var(--gold);
+  background: rgba(232,184,100,0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.script-meta {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.script-body {
+  padding: 20px;
+}
+
+.script-section {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border-left: 3px solid;
+}
+
+.script-section.hook {
+  background: rgba(232,93,93,0.05);
+  border-color: var(--red);
+}
+
+.script-section.story {
+  background: rgba(96,165,250,0.05);
+  border-color: var(--blue);
+}
+
+.script-section.turn {
+  background: rgba(167,139,250,0.05);
+  border-color: var(--purple);
+}
+
+.script-section.punch {
+  background: rgba(232,184,100,0.08);
+  border-color: var(--gold);
+}
+
+.script-section.cta {
+  background: rgba(74,222,128,0.05);
+  border-color: var(--green);
+}
+
+.script-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.script-section-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.script-section-text {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.script-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.script-footer-item {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.script-footer-item strong {
+  color: var(--text);
+}
+
+.script-actions {
+  padding: 14px 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: none;
+  color: var(--text-dim);
+}
+
+.btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--text);
+}
+
+.btn-primary {
+  background: rgba(232,184,100,0.12);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-primary:hover {
+  background: rgba(232,184,100,0.2);
+}
+
+/* ===== 文案模板 ===== */
+.template-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.template-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.template-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--gold);
+}
+
+.template-structure {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-dim);
+}
+
+.template-structure strong {
+  color: var(--text);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+  .hot-section, .data-grid, .topic-grid, .template-list {
+    grid-template-columns: 1fr;
+  }
+  .topic-pools-overview {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== 提示框 ===== */
+.tip-box {
+  background: rgba(74,222,128,0.05);
+  border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.tip-box-title {
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* 折叠 */
+.collapsible-content {
+  display: none;
+}
+
+.collapsible-content.open {
+  display: block;
+}
+
+.collapse-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ===== 发布数据追踪表 ===== */
+.track-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.track-table th {
+  background: rgba(232,184,100,0.08);
+  padding: 10px 8px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.track-table td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.track-table td input,
+.track-table td select {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+}
+
+.track-table td input:focus,
+.track-table td select:focus {
+  outline: none;
+  border-color: var(--gold-dim);
+  background: rgba(232,184,100,0.05);
+}
+
+.track-table tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* ===== 评论话术库 ===== */
+.reply-category {
+  margin-bottom: 16px;
+}
+
+.reply-category-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reply-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.reply-item:hover {
+  border-color: var(--gold-dim);
+  background: rgba(255,255,255,0.05);
+}
+
+.reply-text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.reply-copy-btn {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  background: rgba(232,184,100,0.1);
+  border: 1px solid var(--gold-dim);
+  border-radius: 6px;
+  color: var(--gold);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reply-copy-btn:hover {
+  background: rgba(232,184,100,0.2);
+}
+
+/* ===== 选题灵感库 ===== */
+.inspire-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.inspire-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  transition: all 0.2s;
+}
+
+.inspire-card:hover {
+  border-color: var(--gold-dim);
+  background: rgba(255,255,255,0.05);
+}
+
+.inspire-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.inspire-card-angle {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.inspire-card-hook {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(232,184,100,0.06);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--gold);
+}
+
+/* ===== 发布前检查清单 ===== */
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checklist-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.checklist-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: transparent;
+}
+
+.checklist-item.checked .checklist-checkbox {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.checklist-item.checked .checklist-label {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.checklist-label {
+  font-size: 14px;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.checklist-label strong {
+  color: var(--gold);
+}
+
+.checklist-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* ===== 变现路径 ===== */
+.money-timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.money-timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.money-phase {
+  position: relative;
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+
+.money-phase::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--bg);
+}
+
+.money-phase.current::before {
+  background: var(--gold);
+}
+
+.money-phase-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.money-phase-range {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.money-phase-body {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.money-phase-body strong {
+  color: var(--text);
+}
+
+.money-revenue {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(74,222,128,0.12);
+  color: var(--green);
+  margin-left: 8px;
+}
+
+/* ===== 每周复盘 ===== */
+.review-section {
+  margin-bottom: 20px;
+}
+
+.review-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.review-input:focus {
+  outline: none;
+  border-color: var(--gold-dim);
+  background: rgba(232,184,100,0.04);
+}
+
+.review-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.review-metric {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.review-metric-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.review-metric input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--gold);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  padding: 2px 0;
+}
+
+.review-metric input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+/* ===== 竞品对标 ===== */
+.competitor-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.competitor-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+.competitor-stat {
+  text-align: center;
+}
+
+.competitor-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.competitor-stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.competitor-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  grid-column: 1 / -1;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ===== 粉丝阶段目标 ===== */
+.stage-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.stage-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.stage-current .stage-number {
+  background: var(--gold);
+  color: #1a1d28;
+}
+
+.stage-future .stage-number {
+  background: var(--border);
+  color: var(--text-dim);
+}
+
+.stage-done .stage-number {
+  background: rgba(74,222,128,0.2);
+  color: var(--green);
+}
+
+.stage-info { flex: 1; }
+.stage-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.stage-desc { font-size: 12px; color: var(--text-dim); }
+
+@media (max-width: 900px) {
+  .track-table { font-size: 11px; }
+  .track-table th, .track-table td { padding: 6px 4px; }
+  .review-metrics { grid-template-columns: 1fr 1fr; }
+  .competitor-card { grid-template-columns: 1fr; }
+  .inspire-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== 移动端App适配 ===== */
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 14px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
+  .header-logo {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  .header-title {
+    font-size: 15px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+  }
+  .header-right {
+    gap: 8px;
+  }
+  .header-date {
+    font-size: 11px;
+  }
+  .header-fans {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  .main-content {
+    padding: 12px 12px calc(70px + env(safe-area-inset-bottom, 0px));
+  }
+  .tip-box {
+    padding: 12px;
+    font-size: 13px;
+  }
+  .hot-item {
+    padding: 12px;
+  }
+  .hot-title {
+    font-size: 14px;
+  }
+  .script-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .script-title {
+    font-size: 16px;
+  }
+  .script-section-text {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .script-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .topic-card {
+    padding: 14px;
+  }
+  .data-metric-value {
+    font-size: 24px;
+  }
+  .more-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== 桌面端兼容 ===== */
+@media (min-width: 769px) {
+  .bottom-nav {
+    max-width: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px 20px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+  .more-panel {
+    max-width: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶部导航栏 ===== -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">海</div>
+    <div>
+      <div class="header-title">海大叔坏大叔 · 内容创作工作台</div>
+      <div class="header-subtitle">中年创业 · 避坑 · 方法 ｜ 目标：百万粉丝突破</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="header-date" id="todayDate"></span>
+    <span class="header-fans">72.8万 / 100万</span>
+  </div>
+</div>
+
+<!-- ===== Tab 导航 ===== -->
+<div class="tab-nav" style="display:none;">
+  <button class="tab-btn active" onclick="switchTab('hotspot', event)">🔥 热点同步 <span class="tab-badge">22</span></button>
+  <button class="tab-btn" onclick="switchTab('topic', event)">📋 选题推荐</button>
+  <button class="tab-btn" onclick="switchTab('data', event)">📊 数据分析</button>
+  <button class="tab-btn" onclick="switchTab('scripts', event)">✍️ 今日文案 <span class="tab-badge">5</span></button>
+  <button class="tab-btn" onclick="switchTab('template', event)">📐 文案模板</button>
+  <button class="tab-btn" onclick="switchTab('inspire', event)">💡 选题灵感库 <span class="tab-badge">30+</span></button>
+  <button class="tab-btn" onclick="switchTab('reply', event)">💬 评论话术库</button>
+  <button class="tab-btn" onclick="switchTab('review', event)">🔍 每周复盘</button>
+  <button class="tab-btn" onclick="switchTab('publish', event)">✅ 发布检查</button>
+  <button class="tab-btn" onclick="switchTab('money', event)">💰 变现路径</button>
+</div>
+
+<div class="main-content">
+
+<!-- ===================== 热点同步 ===================== -->
+<div class="tab-panel active" id="panel-hotspot">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 每日热点使用指南</div>
+    以下为近3天（8月23-25日）全网热搜，已按<strong>与中年创业/避坑/方法的关联度</strong>排序。标注 ★ 的是建议优先追的热点，可结合文案模块直接使用。
+  </div>
+
+  <div class="hot-section">
+    <!-- 左列：高关联度热点 -->
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon" style="background:rgba(232,93,93,0.15);">★</div>
+          高关联度热点（优先追）
+        </div>
+        <div class="hot-list">
+
+          <div class="hot-item">
+            <div class="hot-rank top3">1</div>
+            <div class="hot-content">
+              <div class="hot-title">★ 湖南衡阳好心扶人反被索赔10万，警方认定无责仍赔1.9万</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-red">法律</span>
+                <span>热度：微博热搜</span>
+                <span>8月23日</span>
+              </div>
+              <div class="hot-analysis">
+                <div class="hot-analysis-title">海大叔切入点</div>
+                <div class="hot-analysis-item">民法典184条保护救助者，但"和稀泥"调解让好人吃亏。扶人前先录像、报警叫救护车</div>
+                <div class="hot-analysis-item">法律避坑："法律保护好人，但保护不了好人不受纠缠"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank top3">2</div>
+            <div class="hot-content">
+              <div class="hot-title">★ 河北康保县甲醛白菜曝光，多重抽检机制成摆设</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-red">民生</span>
+                <span>热度：微博热搜</span>
+                <span>8月22日</span>
+              </div>
+              <div class="hot-analysis">
+                <div class="hot-analysis-title">海大叔切入点</div>
+                <div class="hot-analysis-item">产地到市场三道抽检全成摆设。菜农被逼蘸甲醛保鲜，但风险不能转嫁消费者</div>
+                <div class="hot-analysis-item">民生避坑："你管不了菜农蘸什么，但你能管住自己嘴里吃什么"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank top3">3</div>
+            <div class="hot-content">
+              <div class="hot-title">★ 十五五银发经济30万亿落地，社区养老轻资产创业方向明确</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-gold">创业</span>
+                <span>热度：全网热文</span>
+                <span>8月23-25日</span>
+              </div>
+              <div class="hot-analysis">
+                <div class="hot-analysis-title">海大叔切入点</div>
+                <div class="hot-analysis-item">30万亿不是画饼，适老化改造、上门助浴、老年数字培训，几千块起步靠耐心赚钱</div>
+                <div class="hot-analysis-item">创业方法："最赚钱的赛道不是最高科技的那个，是最有耐心的那个"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">4</div>
+            <div class="hot-content">
+              <div class="hot-title">★ AI红娘"三年不结婚退款"引争议，退款条款设门槛</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-gold">创业</span>
+                <span>热度：热搜讨论</span>
+                <span>8月23日</span>
+              </div>
+              <div class="hot-analysis">
+                <div class="hot-analysis-title">海大叔切入点</div>
+                <div class="hot-analysis-item">算法只匹配学历收入，算不出感情化学反应。退款条款设到做不到的程度</div>
+                <div class="hot-analysis-item">防骗科普："AI能算出条件般配，算不出过日子不累"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">5</div>
+            <div class="hot-content">
+              <div class="hot-title">★ 四川长宁4.7级地震，研究所误报7.7级引发全网恐慌</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-red">社会</span>
+                <span>热度：全网榜首</span>
+                <span>8月24日</span>
+              </div>
+              <div class="hot-analysis">
+                <div class="hot-analysis-title">海大叔切入点</div>
+                <div class="hot-analysis-item">民间机构冒用官方名义推送错误预警。你的手机弹窗可能不是权威机构发的</div>
+                <div class="hot-analysis-item">信息辨别："手机是个信息炸弹，谁都能往里塞消息"</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 右列：中低关联度热点 -->
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">○</div>
+          可备选热点（看情况追）
+        </div>
+        <div class="hot-list">
+
+          <div class="hot-item">
+            <div class="hot-rank other">6</div>
+            <div class="hot-content">
+              <div class="hot-title">央视曝光隔空猥亵：50岁男冒充16岁姐姐骗10岁女孩</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-red">法律</span>
+                <span>热度：微博热搜</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">7</div>
+            <div class="hot-content">
+              <div class="hot-title">3姐弟太饿报警求助，民警上门做饭</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-purple">社会</span>
+                <span>热度：微博热搜</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">8</div>
+            <div class="hot-content">
+              <div class="hot-title">开学季教师集体"脆弱"，57%觉得工作时间太长</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-blue">民生</span>
+                <span>热度：热搜讨论</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">9</div>
+            <div class="hot-content">
+              <div class="hot-title">沈腾新片《欢迎来龙餐馆》13天票房破15亿</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-green">娱乐</span>
+                <span>热度：全网热搜</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">10</div>
+            <div class="hot-content">
+              <div class="hot-title">台风"简拉维"路径90度大转弯，改道福建中北部</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-blue">民生</span>
+                <span>热度：1171w</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">11</div>
+            <div class="hot-content">
+              <div class="hot-title">世界人形机器人运动会开幕，特种机器人走向真实岗位</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-purple">科技</span>
+                <span>热度：899w</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">12</div>
+            <div class="hot-content">
+              <div class="hot-title">出伏短视频播放量破1.2亿，"反季节传播"引学界关注</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-gold">创业</span>
+                <span>热度：新浪新闻</span>
+                <span>8月24日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">13</div>
+            <div class="hot-content">
+              <div class="hot-title">情绪消费市场规模预计达2.72万亿，疗愈经济破10万亿</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-gold">经济</span>
+                <span>热度：腾讯网</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">14</div>
+            <div class="hot-content">
+              <div class="hot-title">广西公务员地库转弯碾死醉汉，赔偿25万仍被撤职</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-red">法律</span>
+                <span>热度：热搜讨论</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hot-item">
+            <div class="hot-rank other">15</div>
+            <div class="hot-content">
+              <div class="hot-title">温婉缴清631万罚款后复活，靠小号引流卖仿牌</div>
+              <div class="hot-meta">
+                <span class="hot-tag tag-gold">社会</span>
+                <span>热度：微博热搜</span>
+                <span>8月23日</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">💡</div>
+          热点追势原则
+        </div>
+        <div style="font-size:13px; color:var(--text-dim); line-height:1.8;">
+          <p style="margin-bottom:8px;"><strong style="color:var(--gold);">1. 不追与定位无关的热点</strong> — 娱乐八卦、影视奖项不碰，除非能从中提取创业/避坑视角</p>
+          <p style="margin-bottom:8px;"><strong style="color:var(--gold);">2. 24小时内追，48小时外不追</strong> — 热点黄金窗口期是爆发后12小时</p>
+          <p style="margin-bottom:8px;"><strong style="color:var(--gold);">3. 追热点不丢人设</strong> — 始终用"过来人"口吻，不装专家、不跟风站队</p>
+          <p><strong style="color:var(--gold);">4. 每天最多2条追热</strong> — 其余3条保持常青选题，避免账号变成纯追热号</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================== 选题推荐 ===================== -->
+<div class="tab-panel" id="panel-topic">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 今日选题策略</div>
+    5条文案覆盖5个不同选题池，3条追热点 + 2条常青内容。优先拍摄标记 ★ 的选题。
+  </div>
+
+  <!-- 选题池总览 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">▦</div>
+      7大选题池（每周覆盖节奏）
+    </div>
+    <div class="topic-pools-overview">
+      <div class="pool-chip active">
+        <div class="pool-chip-name">① 人生感悟</div>
+        <div class="pool-chip-count">周一 · 本周已发0</div>
+      </div>
+      <div class="pool-chip active">
+        <div class="pool-chip-name">② 人情冷暖</div>
+        <div class="pool-chip-count">周二 · 本周已发0</div>
+      </div>
+      <div class="pool-chip">
+        <div class="pool-chip-name">③ 创业劝退</div>
+        <div class="pool-chip-count">周三 · 本周已发0</div>
+      </div>
+      <div class="pool-chip">
+        <div class="pool-chip-name">④ 亲子家庭</div>
+        <div class="pool-chip-count">周四 · 本周已发0</div>
+      </div>
+      <div class="pool-chip active">
+        <div class="pool-chip-name">⑤ 社会热点</div>
+        <div class="pool-chip-count">周五 · 本周已发0</div>
+      </div>
+      <div class="pool-chip">
+        <div class="pool-chip-name">⑥ 健康养老</div>
+        <div class="pool-chip-count">周六 · 本周已发0</div>
+      </div>
+      <div class="pool-chip">
+        <div class="pool-chip-name">⑦ 法律避坑</div>
+        <div class="pool-chip-count">周日 · 本周已发0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日推荐选题 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,93,93,0.15);">★</div>
+      今日5条推荐选题
+    </div>
+    <div class="topic-grid">
+
+      <div class="topic-card" style="border-color:var(--gold-dim);">
+        <div class="topic-card-header">
+          <span class="topic-pool">选题池：法律避坑 / 职场避坑</span>
+          <span class="topic-heat heat-high">★ 优先拍</span>
+        </div>
+        <div class="topic-title">酒桌上逼你喝的不是领导</div>
+        <div class="topic-angle">
+          热点：杭州地产酒局"服从性测试"，女员工灌半斤茅台后遭猥亵<br>
+          角度：领导逼你喝酒不是考验忠诚，是测试你的底线。中年人职场的酒桌文化该不该忍。
+        </div>
+        <div class="topic-hook">钩子句："杭州一个地产酒局火了，女员工被按着灌了半斤茅台。"</div>
+      </div>
+
+      <div class="topic-card" style="border-color:var(--gold-dim);">
+        <div class="topic-card-header">
+          <span class="topic-pool">选题池：创业方法 / 社会热点</span>
+          <span class="topic-heat heat-high">★ 优先拍</span>
+        </div>
+        <div class="topic-title">一个人开公司月入过万</div>
+        <div class="topic-angle">
+          热点：全国已有426个"一人公司"社区，92%高盈利深度应用AI<br>
+          角度：49岁中年人靠AI创业翻身，一人顶一个小公司。但不是人人能干，先别辞职。
+        </div>
+        <div class="topic-hook">钩子句："现在全国冒出来426个一人公司社区了，一个人靠AI就能干一个团队的活。"</div>
+      </div>
+
+      <div class="topic-card" style="border-color:var(--gold-dim);">
+        <div class="topic-card-header">
+          <span class="topic-pool">选题池：创业劝退 / 经济</span>
+          <span class="topic-heat heat-high">★ 优先拍</span>
+        </div>
+        <div class="topic-title">存银行一年反而倒亏钱</div>
+        <div class="topic-angle">
+          热点：7月居民存款少了6300亿，定存利率跌破1%<br>
+          角度：存银行一年亏2%购买力，乱投资一年可能亏50%本金。保本比赚钱重要一万倍。
+        </div>
+        <div class="topic-hook">钩子句："7月份全国居民存款少了6300亿。不是花钱花没了，是连定期都跌破1%了。"</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-pool">选题池：创业方法 / 法律保障</span>
+          <span class="topic-heat heat-mid">备选</span>
+        </div>
+        <div class="topic-title">3.2亿灵活就业者谁来兜底</div>
+        <div class="topic-angle">
+          热点：全国灵活就业超3.2亿，26年起职业伤害保障全面推开<br>
+          角度：跑单跑断腿摔一跤没社保没工伤。政策来了是好事，但你得知道怎么用。
+        </div>
+        <div class="topic-hook">钩子句："全国灵活就业的人已经超过3.2亿了，里头多少中年人？"</div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <span class="topic-pool">选题池：创业避坑 / 社会热点</span>
+          <span class="topic-heat heat-mid">备选</span>
+        </div>
+        <div class="topic-title">AI博主集体消失说明了啥</div>
+        <div class="topic-angle">
+          热点：平台备案新规、算力成本暴涨、观众审美疲劳，AI博主集体退场<br>
+          角度："AI月入过万"培训课收割中年人。AI确实是趋势，但靠信息差割韭菜的时代过去了。
+        </div>
+        <div class="topic-hook">钩子句："前阵子满屏的AI博主，教你用AI赚钱，现在一个一个都消失了。"</div>
+      </div>
+
+    </div>
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">⚙</div>
+      选题评估4维度
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:13px; line-height:1.8;">
+      <div>
+        <strong style="color:var(--gold);">1. 痛点度（权重30%）</strong>
+        <p style="color:var(--text-dim);">是否戳中中年人的核心焦虑？钱、健康、家庭、面子。</p>
+      </div>
+      <div>
+        <strong style="color:var(--gold);">2. 争议度（权重25%）</strong>
+        <p style="color:var(--text-dim);">有没有两派观点？能不能引发评论区争论？</p>
+      </div>
+      <div>
+        <strong style="color:var(--gold);">3. 转发欲（权重25%）</strong>
+        <p style="color:var(--text-dim);">看完想不想转给家人朋友？金句能不能截图发朋友圈？</p>
+      </div>
+      <div>
+        <strong style="color:var(--gold);">4. 热度值（权重20%）</strong>
+        <p style="color:var(--text-dim);">有没有蹭到近3天热搜？能不能蹭到平台流量倾斜？</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 数据分析 ===================== -->
+<div class="tab-panel" id="panel-data">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 数据反馈闭环</div>
+    每日发布后24小时反馈数据 → 调整明日选题方向。数据是方向盘，不是成绩单。
+  </div>
+
+  <!-- 核心指标卡 -->
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="data-label">当前粉丝</div>
+      <div class="data-value" style="color:var(--gold);">72.8万</div>
+      <div class="data-trend trend-down">↓ 距百万差27.2万</div>
+      <div class="progress-bar"><div class="progress-fill fill-gold" style="width:72.8%"></div></div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">周均播放量</div>
+      <div class="data-value" style="color:var(--blue);">9.71万</div>
+      <div class="data-trend trend-up">↑ 目标15万</div>
+      <div class="progress-bar"><div class="progress-fill fill-gold" style="width:64.7%"></div></div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">单条最高播放</div>
+      <div class="data-value" style="color:var(--green);">2.6万</div>
+      <div class="data-trend trend-up">↑ 目标5万</div>
+      <div class="progress-bar"><div class="progress-fill fill-green" style="width:52%"></div></div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">周净增粉丝</div>
+      <div class="data-value" style="color:var(--red);">-551</div>
+      <div class="data-trend trend-down">↓ 目标转正+500</div>
+      <div class="progress-bar"><div class="progress-fill fill-red" style="width:15%"></div></div>
+    </div>
+  </div>
+
+  <!-- 关键指标追踪 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">📊</div>
+      关键指标追踪表
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>当前值</th>
+          <th>第一阶段目标<br><span style="font-weight:400;color:var(--text-muted);">第1-2周</span></th>
+          <th>第二阶段目标<br><span style="font-weight:400;color:var(--text-muted);">第3-6周</span></th>
+          <th>百万目标<br><span style="font-weight:400;color:var(--text-muted);">第13-16周</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>周均播放量</td>
+          <td><strong>9.71万</strong></td>
+          <td>15万</td>
+          <td>30万</td>
+          <td style="color:var(--gold);">50万</td>
+        </tr>
+        <tr>
+          <td>净增粉丝/周</td>
+          <td><strong style="color:var(--red);">-551</strong></td>
+          <td>+500</td>
+          <td>+2000</td>
+          <td style="color:var(--gold);">+5000</td>
+        </tr>
+        <tr>
+          <td>单条最高播放</td>
+          <td><strong>2.6万</strong></td>
+          <td>5万</td>
+          <td>10万</td>
+          <td style="color:var(--gold);">20万</td>
+        </tr>
+        <tr>
+          <td>评论数/条</td>
+          <td><strong>0-8</strong></td>
+          <td>20+</td>
+          <td>50+</td>
+          <td style="color:var(--gold);">100+</td>
+        </tr>
+        <tr>
+          <td>完播率</td>
+          <td><strong>未知</strong></td>
+          <td>>40%</td>
+          <td>>45%</td>
+          <td style="color:var(--gold);">>50%</td>
+        </tr>
+        <tr>
+          <td>发布频率</td>
+          <td><strong>不固定</strong></td>
+          <td>每天1条</td>
+          <td>每天1条</td>
+          <td style="color:var(--gold);">每天1-2条</td>
+        </tr>
+        <tr>
+          <td>互动回复率</td>
+          <td><strong>0%</strong></td>
+          <td>回复前10条</td>
+          <td>回复前20条</td>
+          <td style="color:var(--gold);">回复前30条</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 发布节奏 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">📅</div>
+      每周发布节奏
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>周一</th>
+          <th>周二</th>
+          <th>周三</th>
+          <th>周四</th>
+          <th>周五</th>
+          <th>周六</th>
+          <th>周日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="schedule-pill" style="background:rgba(232,184,100,0.12);color:var(--gold);">人生感悟</span></td>
+          <td><span class="schedule-pill" style="background:rgba(96,165,250,0.12);color:var(--blue);">人情冷暖</span></td>
+          <td class="today"><span class="schedule-pill" style="background:rgba(232,93,93,0.12);color:var(--red);">创业劝退</span></td>
+          <td><span class="schedule-pill" style="background:rgba(167,139,250,0.12);color:var(--purple);">亲子家庭</span></td>
+          <td><span class="schedule-pill" style="background:rgba(74,222,128,0.12);color:var(--green);">社会热点</span></td>
+          <td class="today"><span class="schedule-pill" style="background:rgba(232,184,100,0.12);color:var(--gold);">健康养老</span></td>
+          <td><span class="schedule-pill" style="background:rgba(96,165,250,0.12);color:var(--blue);">法律故事</span></td>
+        </tr>
+        <tr>
+          <td style="font-size:12px;color:var(--text-dim);">7:30发布</td>
+          <td style="font-size:12px;color:var(--text-dim);">12:00发布</td>
+          <td style="font-size:12px;color:var(--text-dim);">12:00发布</td>
+          <td style="font-size:12px;color:var(--text-dim);">20:00发布</td>
+          <td style="font-size:12px;color:var(--text-dim);">12:00发布</td>
+          <td style="font-size:12px;color:var(--text-dim);">7:30发布 ← 今天</td>
+          <td style="font-size:12px;color:var(--text-dim);">20:00发布</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 互动清单 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(167,139,250,0.15);">✓</div>
+      每天15分钟互动清单（止血掉粉必做）
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+        <span style="color:var(--green);font-weight:700;">☐</span>
+        <div><strong>回复最新视频前10条评论</strong><br><span style="color:var(--text-dim);">5分钟 · 触发二次推荐</span></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+        <span style="color:var(--green);font-weight:700;">☐</span>
+        <div><strong>去3条历史爆款评论区置顶新回复</strong><br><span style="color:var(--text-dim);">5分钟 · 唤醒长尾流量</span></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+        <span style="color:var(--green);font-weight:700;">☐</span>
+        <div><strong>评论区发一条"置顶提问"</strong><br><span style="color:var(--text-dim);">3分钟 · 引导新观众评论</span></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+        <span style="color:var(--green);font-weight:700;">☐</span>
+        <div><strong>给3个铁粉主页点赞</strong><br><span style="color:var(--text-dim);">2分钟 · 激活铁粉回访</span></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:rgba(232,184,100,0.05);border-radius:8px;font-size:13px;color:var(--text-dim);">
+      <strong style="color:var(--gold);">铁粉锚点：</strong>旭日东升（64次互动）、雨人（64次互动）— 每条视频发布后第一时间@他们
+    </div>
+  </div>
+
+  <!-- 粉丝画像 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">👥</div>
+      粉丝画像
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;">兴趣分布</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:60px;font-size:12px;">随拍</span><div style="flex:1;height:16px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;"><div style="height:100%;width:40%;background:var(--gold);border-radius:4px;"></div></div><span style="font-size:12px;width:30px;">40%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:60px;font-size:12px;">社会</span><div style="flex:1;height:16px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;"><div style="height:100%;width:18%;background:var(--blue);border-radius:4px;"></div></div><span style="font-size:12px;width:30px;">18%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:60px;font-size:12px;">亲子</span><div style="flex:1;height:16px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;"><div style="height:100%;width:12%;background:var(--purple);border-radius:4px;"></div></div><span style="font-size:12px;width:30px;">12%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:60px;font-size:12px;">美食</span><div style="flex:1;height:16px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;"><div style="height:100%;width:10%;background:var(--green);border-radius:4px;"></div></div><span style="font-size:12px;width:30px;">10%</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:60px;font-size:12px;">剧情</span><div style="flex:1;height:16px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;"><div style="height:100%;width:8%;background:var(--red);border-radius:4px;"></div></div><span style="font-size:12px;width:30px;">8%</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;">常搜热词</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="padding:4px 12px;background:rgba(232,184,100,0.1);border:1px solid var(--gold-dim);border-radius:16px;font-size:12px;color:var(--gold);">爱生活爱养花爱喝茶</span>
+          <span style="padding:4px 12px;background:rgba(232,184,100,0.1);border:1px solid var(--gold-dim);border-radius:16px;font-size:12px;color:var(--gold);">喝茶养花生活态度</span>
+          <span style="padding:4px 12px;background:rgba(96,165,250,0.1);border:1px solid var(--blue);border-radius:16px;font-size:12px;color:var(--blue);">人生感悟</span>
+          <span style="padding:4px 12px;background:rgba(74,222,128,0.1);border:1px solid var(--green);border-radius:16px;font-size:12px;color:var(--green);">草原风光</span>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-dim);line-height:1.7;">
+          <strong>核心结论：</strong>粉丝冲着"生活随拍 + 社会情绪 + 人生感悟"来的，偏中年、二三线城市，关注生活化、接地气、有情绪共鸣的内容。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布数据追踪表 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">📋</div>
+      发布数据追踪表（每条发布24小时后填写）
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="track-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>标题</th>
+          <th>选题池</th>
+          <th>发布时间</th>
+          <th>播放量</th>
+          <th>点赞</th>
+          <th>评论</th>
+          <th>分享</th>
+          <th>涨粉</th>
+          <th>完播率</th>
+          <th>备注</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" placeholder="8/13"></td>
+          <td><input type="text" placeholder="AI抢饭碗"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="12:00"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder="爆了/扑了/原因"></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/13"></td>
+          <td><input type="text" placeholder="存款别动"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="12:00"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder="爆了/扑了/原因"></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/14"></td>
+          <td><input type="text" placeholder="标题"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="时间"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/15"></td>
+          <td><input type="text" placeholder="标题"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="时间"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/16"></td>
+          <td><input type="text" placeholder="标题"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="时间"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/17"></td>
+          <td><input type="text" placeholder="标题"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="时间"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder=""></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="8/18"></td>
+          <td><input type="text" placeholder="标题"></td>
+          <td><select><option>社会热点</option><option>创业劝退</option><option>人情冷暖</option><option>亲子家庭</option><option>健康养老</option><option>法律避坑</option><option>人生感悟</option></select></td>
+          <td><input type="text" placeholder="时间"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="number" placeholder="0"></td>
+          <td><input type="text" placeholder="0%"></td>
+          <td><input type="text" placeholder=""></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:rgba(96,165,250,0.05);border-radius:8px;font-size:13px;color:var(--text-dim);">
+      <strong style="color:var(--blue);">使用方法：</strong>每条视频发布24小时后，填入实际数据。一周后看趋势——哪类选题播放高、哪个时段评论多，下周就多做。数据是方向盘，不是成绩单。
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 今日文案 ===================== -->
+<div class="tab-panel" id="panel-scripts">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 今日5条文案 · 2026年8月25日</div>
+    5条全部追8月23-25日实时热点，每条90秒左右，500字以上。严格遵循：钩子开头→痛点放大→核心观点→方法建议→金句收尾。建议先拍★标记的文案。
+  </div>
+
+  <!-- 文案导航 -->
+  <div class="script-nav">
+    <div class="script-tab active" onclick="switchScript(0)">★ 文案1：好心扶人反赔十万</div>
+    <div class="script-tab" onclick="switchScript(1)">★ 文案2：白菜蘸甲醛谁在管</div>
+    <div class="script-tab" onclick="switchScript(2)">文案3：AI红娘包退婚靠谱吗</div>
+    <div class="script-tab" onclick="switchScript(3)">★ 文案4：30万亿银发经济怎么吃</div>
+    <div class="script-tab" onclick="switchScript(4)">文案5：7.7级地震预警谁信了</div>
+  </div>
+
+  <!-- ===== 文案1 ===== -->
+  <div class="script-card" id="script-0">
+    <div class="script-header">
+      <div class="script-title-area">
+        <div class="script-number">文案 1 / 5 · ★ 建议优先拍摄 ·  [犀利直白]</div>
+        <div class="script-title">好心扶人反赔十万</div>
+        <span class="script-cover">封面字幕：好人难做 民法典184条也救不了</span>
+      </div>
+      <div class="script-meta">
+        <span class="hot-tag tag-red">法律避坑</span>
+        <span class="hot-tag tag-gold">追热点</span>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="script-section hook">
+        <div class="script-section-label">钩子开头 <span class="script-section-time">0-3秒</span></div>
+        <div class="script-section-text">湖南衡阳有对夫妻，开个小牌馆。门口有个老人晕倒了，他们跑出去扶，送了医，结果老人没了，家属找上门索赔十万。警方说店家没责任，但最后还是赔了一万九。你听完什么感觉？反正我脊背发凉。</div>
+      </div>
+      <div class="script-section story">
+        <div class="script-section-label">痛点放大 <span class="script-section-time">3-30秒</span></div>
+        <div class="script-section-text">这事让多少想做善事的人寒了心。你说不扶吧，眼看着老人倒在你门口，你良心过得去？你说扶吧，家属反咬一口，说"你扶了就是你有责任"。这不是第一次了，南京彭宇案过去多少年了，到今天还是有家属张口就索赔，有法院和稀泥判个"补偿"。民法典第184条写得明明白白——因自愿实施紧急救助行为造成受助人损害的，救助人不承担民事责任。法律给你撑腰了，但现实给你的回报是一张索赔单。好人难做，不是一句感叹，是血淋淋的事实。</div>
+      </div>
+      <div class="script-section turn">
+        <div class="script-section-label">核心观点 <span class="script-section-time">30-60秒</span></div>
+        <div class="script-section-text">海大叔说句直的。这事的根子不在家属恶，在于我们的纠纷化解机制在"和稀泥"。警方已经认定店家无责了，那为什么还赔了一万九？因为家属闹。闹的成本太低了，维权的成本太高了。你扶一个人，你要面临的不是感恩，是无休止的纠缠。你打官司赢了又怎样？律师费、误工费、精神消耗，赢了也是输。这就是为什么很多人看到老人倒在地上不敢扶——不是冷漠，是被逼出来的自保。</div>
+      </div>
+      <div class="script-section cta">
+        <div class="script-section-label">方法建议 <span class="script-section-time">60-75秒</span></div>
+        <div class="script-section-text">给你三条建议，不是教你不做好人，是教你怎么做好人不吃亏。第一，扶人之前先掏手机录视频。从你走过去到施救的全过程录下来，嘴里说清楚"我是路过的，看到老人摔倒，我来帮忙"。这视频就是你最大的护身符。第二，拨打120和110，让专业人员来处理。你不是医生，贸然搬动可能造成二次伤害，到时候家属真有理由告你。你报了警、叫了救护车，这就尽到了救助义务。第三，如果你是开店做生意的，门口装个监控，对着门面和门口区域。一个监控比你解释一百句管用。衡阳那对夫妻要是有监控，可能就不用赔那一万九。</div>
+      </div>
+      <div class="script-section punch">
+        <div class="script-section-label">金句收尾 <span class="script-section-time">75-90秒</span></div>
+        <div class="script-section-text">法律保护好人，但法律保护不了好人不受纠缠。你做善事之前先学会保护自己，这不是冷漠，这是聪明的善良。</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <div class="script-footer-item"><strong>选题池：</strong>法律避坑 / 社会热点</div>
+      <div class="script-footer-item"><strong>结合热点：</strong>湖南衡阳牌馆店主好心帮扶门口晕倒老人，反被家属索赔10万，警方认定无责但仍赔1.9万</div>
+      <div class="script-footer-item"><strong>爆款评分：</strong>92分 — 好人难做社会痛点+民法典184条普法+实操自保方法</div>
+      <div class="script-footer-item"><strong>预估时长：</strong>~90秒</div>
+      <div class="script-footer-item"><strong>语气：</strong>[犀利直白]</div>
+      <div class="script-footer-item"><strong>发布时间：</strong>12:00</div>
+    </div>
+    <div class="script-actions">
+      <button class="btn btn-primary" onclick="copyScript(0)">复制全文</button>
+      <button class="btn" onclick="toggleSection('analysis-0')">查看爆款分析</button>
+    </div>
+    <div class="collapsible-content" id="analysis-0" style="padding:0 20px 14px;">
+      <div style="background:rgba(232,184,100,0.05);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+        <strong style="color:var(--gold);">爆款逻辑：</strong><br>
+        ① 痛点度：好人难做社会痛点+民法典184条普法+实操自保方法<br>
+        ② 争议度：扶不扶两派对立，评论区天然引爆<br>
+        ③ 转发欲：金句"聪明的善良"适合截图转发<br>
+        ④ 热度值：8月23-25日微博热搜<br>
+        <strong style="color:var(--gold);">综合评分：92/100</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 文案2 ===== -->
+  <div class="script-card" id="script-1" style="display:none;">
+    <div class="script-header">
+      <div class="script-title-area">
+        <div class="script-number">文案 2 / 5 · ★ 建议优先拍摄 ·  [语重心长]</div>
+        <div class="script-title">白菜蘸甲醛谁在管</div>
+        <span class="script-cover">封面字幕：三道抽检全摆设 你吃的菜安全吗</span>
+      </div>
+      <div class="script-meta">
+        <span class="hot-tag tag-red">民生避坑</span>
+        <span class="hot-tag tag-gold">追热点</span>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="script-section hook">
+        <div class="script-section-label">钩子开头 <span class="script-section-time">0-3秒</span></div>
+        <div class="script-section-text">有博主暗访河北张家口的一个白菜装车点，菜农往白菜上蘸甲醛溶液保鲜。你以为是个例？官方当天通报了，属实。你每天吃的白菜，可能就是甲醛泡出来的。</div>
+      </div>
+      <div class="script-section story">
+        <div class="script-section-label">痛点放大 <span class="script-section-time">3-30秒</span></div>
+        <div class="script-section-text">这事你细想就发毛。甲醛是什么？装修材料里才用的东西，你家装修完都得放味三个月才敢住进去。结果你饭碗里的菜蘸了甲醛，你还吃得挺香。更可怕的是这事不是一天两天了。产地到市场中间隔了多少道抽检？产地抽检、批发市场抽检、零售市场抽检，三道关卡全成了摆设。每一道关卡盖个章收个费，但菜里面到底是什么东西，没人在乎。你花好几块钱一斤买的菜，以为吃的是健康，吃的是甲醛。中年人上有老下有小，一家人吃饭就图个安全，结果你炒一盘白菜端上桌，老人吃了小孩吃了，你知道你喂他们吃了什么吗？</div>
+      </div>
+      <div class="script-section turn">
+        <div class="script-section-label">核心观点 <span class="script-section-time">30-60秒</span></div>
+        <div class="script-section-text">海大叔说个明白话。这不是一个菜农的问题，是整个农产品流通链条的问题。菜农为什么蘸甲醛？因为白菜不好存，从张家口拉到南方，路上两三天，不蘸点东西到了就烂了。他不是不知道甲醛有毒，是如果不这么干，菜到了市场就是一堆烂叶子，他一分钱赚不到。你怪菜农？他也是被逼的。但你不能因为供应链有问题就把风险转嫁到消费者身上。产地抽检、批发市场抽检，这些环节哪一个不知道这事儿？知道了不查，查了不罚，罚了也是毛毛雨，所以才有恃无恐。</div>
+      </div>
+      <div class="script-section cta">
+        <div class="script-section-label">方法建议 <span class="script-section-time">60-75秒</span></div>
+        <div class="script-section-text">给你三条实在的。第一，买菜别只图便宜和好看。太白的白菜、太绿的韭菜、太红的水果，颜色不正常的别买。正常生长的菜颜色不会那么鲜艳。第二，回家浸泡冲洗至少15分钟。甲醛是水溶性的，多泡多冲能去掉大部分。别切了就炒，多花十分钟泡一泡，比吃进去强。第三，关注产地溯源信息。现在很多超市有农产品溯源码，扫一下能看到产地。康保县出问题的菜你可以不买，但你得知道哪些产地的菜出过问题，心里有数。最关键的，遇到问题食品拨打12315投诉，你不反映，监管就以为没事。</div>
+      </div>
+      <div class="script-section punch">
+        <div class="script-section-label">金句收尾 <span class="script-section-time">75-90秒</span></div>
+        <div class="script-section-text">你管不了菜农蘸什么，但你能管住自己嘴里吃什么。食品安全不是靠监管，是靠每一个消费者较真。</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <div class="script-footer-item"><strong>选题池：</strong>民生 / 法律避坑</div>
+      <div class="script-footer-item"><strong>结合热点：</strong>8月22日自媒体博主暗访曝光河北张家口康保县白菜装车现场普遍蘸取甲醛溶液保鲜，当日官方通报属实</div>
+      <div class="script-footer-item"><strong>爆款评分：</strong>90分 — 食品安全全民痛点+抽检机制漏洞+实操辨别方法</div>
+      <div class="script-footer-item"><strong>预估时长：</strong>~90秒</div>
+      <div class="script-footer-item"><strong>语气：</strong>[语重心长]</div>
+      <div class="script-footer-item"><strong>发布时间：</strong>7:30</div>
+    </div>
+    <div class="script-actions">
+      <button class="btn btn-primary" onclick="copyScript(1)">复制全文</button>
+      <button class="btn" onclick="toggleSection('analysis-1')">查看爆款分析</button>
+    </div>
+    <div class="collapsible-content" id="analysis-1" style="padding:0 20px 14px;">
+      <div style="background:rgba(232,184,100,0.05);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+        <strong style="color:var(--gold);">爆款逻辑：</strong><br>
+        ① 痛点度：食品安全全民痛点+抽检机制漏洞+实操辨别方法<br>
+        ② 争议度：菜农被逼vs消费者安全，两方都有理<br>
+        ③ 转发欲：家人群转发率极高，"你吃的菜安全吗"<br>
+        ④ 热度值：8月22-23日微博热搜<br>
+        <strong style="color:var(--gold);">综合评分：90/100</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 文案3 ===== -->
+  <div class="script-card" id="script-2" style="display:none;">
+    <div class="script-header">
+      <div class="script-title-area">
+        <div class="script-number">文案 3 / 5 ·  [犀利直白]</div>
+        <div class="script-title">AI红娘包退婚靠谱吗</div>
+        <span class="script-cover">封面字幕：三年不结婚退款？退款门槛你够不着</span>
+      </div>
+      <div class="script-meta">
+        <span class="hot-tag tag-gold">创业避坑</span>
+        <span class="hot-tag tag-gold">追热点</span>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="script-section hook">
+        <div class="script-section-label">钩子开头 <span class="script-section-time">0-3秒</span></div>
+        <div class="script-section-text">网上有个热搜——AI红娘承诺三年不结婚退款。听着挺靠谱？你仔细看退款条款就知道了：必须在平台内约会、每次约会要满分评价、积分够了才能退。这不是退款，这是套牢。</div>
+      </div>
+      <div class="script-section story">
+        <div class="script-section-label">痛点放大 <span class="script-section-time">3-30秒</span></div>
+        <div class="script-section-text">中年人单身想找对象，太正常了。离了婚的、丧偶的，四十来岁一个人过日子，想找个伴。但你去网上搜相亲平台，套路一个比一个深。传统的婚介收你几万块会员费，给你安排几个托儿聊几次就没了。现在升级了，用AI给你匹配，听着高科技，本质还是那一套——先把你骗进来充会员，然后退的时候设一堆门槛让你退不了。你以为AI算出来的匹配很准？它匹配的就是你填的那几张表——学历多少、收入多少、有没有房。但人跟人过日子靠的是这些东西吗？性格合不合、三观正不正、碰到事能不能一起扛，这些AI能算出来？算法算的是数据，算不出感情里的化学反应。</div>
+      </div>
+      <div class="script-section turn">
+        <div class="script-section-label">核心观点 <span class="script-section-time">30-60秒</span></div>
+        <div class="script-section-text">海大叔说透了。AI红娘这门生意，赚的不是帮你找到对象的钱，赚的是你以为能找到对象但找不到的焦虑。三年不结婚退款？你想想，一个人交了三万块会员费，三年过去了没结婚，他还有精力去搞退款流程吗？平台就是赌你放弃。就算你不放弃，那个退款流程——平台内约会、满分评价、积分达标——你三年没找到对象，说明这个平台根本不靠谱，你还愿意继续在上面约会给好评？这就是把退款门槛设到你做不到的程度。这不叫承诺，叫营销话术。</div>
+      </div>
+      <div class="script-section cta">
+        <div class="script-section-label">方法建议 <span class="script-section-time">60-75秒</span></div>
+        <div class="script-section-text">想找对象的兄弟姐妹听三句。第一，别信任何"包退""包找到"的承诺。但凡把找对象当商品卖给你打包票的，都是割韭菜。感情这东西没有包退包换。第二，线上认识可以，但别先交大额会员费。免费的社交平台先用着，微信、抖音、甚至社区活动，你先聊，聊到觉得靠谱了再线下见面。见面都不靠谱你还充会员？第三，相亲最靠谱的渠道其实是你的社交圈。让朋友介绍、参加社区活动、去兴趣班学点东西，认识人的途径多了去了。你花三万块让AI给你匹配，不如花三百块报个兴趣班，至少你还能学点东西。</div>
+      </div>
+      <div class="script-section punch">
+        <div class="script-section-label">金句收尾 <span class="script-section-time">75-90秒</span></div>
+        <div class="script-section-text">AI能算出你跟谁条件般配，但算不出你跟谁过日子不累。感情里最贵的不是会员费，是你花出去的三年青春。</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <div class="script-footer-item"><strong>选题池：</strong>创业避坑 / 防骗科普</div>
+      <div class="script-footer-item"><strong>结合热点：</strong>"AI红娘三年不结婚退款"引发争议，算法仅匹配学历收入等基础条件，退款条款常设门槛</div>
+      <div class="script-footer-item"><strong>爆款评分：</strong>89分 — 中年相亲痛点+AI包装陷阱+退款条款拆解</div>
+      <div class="script-footer-item"><strong>预估时长：</strong>~90秒</div>
+      <div class="script-footer-item"><strong>语气：</strong>[犀利直白]</div>
+      <div class="script-footer-item"><strong>发布时间：</strong>12:00</div>
+    </div>
+    <div class="script-actions">
+      <button class="btn btn-primary" onclick="copyScript(2)">复制全文</button>
+      <button class="btn" onclick="toggleSection('analysis-2')">查看爆款分析</button>
+    </div>
+    <div class="collapsible-content" id="analysis-2" style="padding:0 20px 14px;">
+      <div style="background:rgba(232,184,100,0.05);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+        <strong style="color:var(--gold);">爆款逻辑：</strong><br>
+        ① 痛点度：中年相亲痛点+AI包装陷阱+退款条款拆解<br>
+        ② 争议度：AI匹配靠谱吗，两派争论<br>
+        ③ 转发欲：金句"算不出过日子不累"截图率高<br>
+        ④ 热度值：8月23日热搜讨论<br>
+        <strong style="color:var(--gold);">综合评分：89/100</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 文案4 ===== -->
+  <div class="script-card" id="script-3" style="display:none;">
+    <div class="script-header">
+      <div class="script-title-area">
+        <div class="script-number">文案 4 / 5 · ★ 建议优先拍摄 ·  [语重心长]</div>
+        <div class="script-title">30万亿银发经济怎么吃</div>
+        <span class="script-cover">封面字幕：不开养老院 几千块起步的银发生意</span>
+      </div>
+      <div class="script-meta">
+        <span class="hot-tag tag-gold">创业方法</span>
+        <span class="hot-tag tag-gold">追热点</span>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="script-section hook">
+        <div class="script-section-label">钩子开头 <span class="script-section-time">0-3秒</span></div>
+        <div class="script-section-text">十五五规划来了，银发经济30万亿的盘子摆在那。60岁以上老人3.2亿了，一个银发市场比互联网还大。评论区有人说"跟我有什么关系"。关系大了，这30万亿里头有你一杯羹。</div>
+      </div>
+      <div class="script-section story">
+        <div class="script-section-label">痛点放大 <span class="script-section-time">3-30秒</span></div>
+        <div class="script-section-text">四十来岁的人现在最焦虑什么？打工到头了，创业没本钱，上有老下有小，想搞点副业贴补家用，上网搜全是"月入过万轻松躺赚"。但你换一个角度想——你家老人是不是越来越多事需要人帮忙？你家小区的老人是不是越来越多？全国3.2亿老人，这里头有多少需求没人满足？养老院住不起、护工请不到、适老化改造不知道找谁、老人手机不会用没人教。这些全是刚需，全是生意。但你一提养老创业就想到开养老院，重资产几百万砸进去，回本遥遥无期，这不叫创业叫跳坑。</div>
+      </div>
+      <div class="script-section turn">
+        <div class="script-section-label">核心观点 <span class="script-section-time">30-60秒</span></div>
+        <div class="script-section-text">海大叔说个实在的。30万亿的银发经济不是让你去开养老院，是让你在社区里做轻资产的小生意。你知道适老化改造吗？给老人家里装个扶手、改个防滑地面、调个床头灯，单户收费一千到两万，利润空间很足。你知道上门助浴吗？帮行动不便的老人洗澡，单次五十到五百，复购率超八成。你知道社区老年数字培训班吗？教老人用手机、用微信、用支付宝，一期收两三百，门槛极低。这些不需要你砸几百万，几千块就能起步，靠的是你的耐心和沟通能力，不是学历不是技术。</div>
+      </div>
+      <div class="script-section cta">
+        <div class="script-section-label">方法建议 <span class="script-section-time">60-75秒</span></div>
+        <div class="script-section-text">给你三条路子，你挑一条最对口的。第一，你如果在城里干过家政保洁，去考个养老护理师证。人社局有免费培训，考完证你的服务费直接翻倍。社区里发发传单、加加业主群，老人有需要第一个想到你。第二，你如果会点装修手艺，去做适老化改造。跟社区居委会对接，很多地方民政有补贴，老人出一点政府补一点，你不愁没单。一个老旧小区几百户老人，你一个人干不过来。第三，你如果什么手艺都没有但有耐心，去做老年数字培训。在社区活动室租个场地，一期收二十个老人，每人收两三百，教他们用手机、防诈骗、看视频。成本就一个场地费和你的时间，但老人会一传十十传百帮你带生源。</div>
+      </div>
+      <div class="script-section punch">
+        <div class="script-section-label">金句收尾 <span class="script-section-time">75-90秒</span></div>
+        <div class="script-section-text">银发经济30万亿不是画饼，但你得弯下腰去赚。最赚钱的赛道不是最高科技的那个，是最有耐心的那个。</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <div class="script-footer-item"><strong>选题池：</strong>创业方法 / 民生</div>
+      <div class="script-footer-item"><strong>结合热点：</strong>十五五重磅落地，国内60岁以上老年人口达3.2亿，银发经济市场规模将突破30万亿，社区嵌入式养老、适老化改造、上门助浴等轻资产创业方向</div>
+      <div class="script-footer-item"><strong>爆款评分：</strong>91分 — 政策红利+中年创业刚需+轻资产实操路径</div>
+      <div class="script-footer-item"><strong>预估时长：</strong>~90秒</div>
+      <div class="script-footer-item"><strong>语气：</strong>[语重心长]</div>
+      <div class="script-footer-item"><strong>发布时间：</strong>7:30</div>
+    </div>
+    <div class="script-actions">
+      <button class="btn btn-primary" onclick="copyScript(3)">复制全文</button>
+      <button class="btn" onclick="toggleSection('analysis-3')">查看爆款分析</button>
+    </div>
+    <div class="collapsible-content" id="analysis-3" style="padding:0 20px 14px;">
+      <div style="background:rgba(232,184,100,0.05);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+        <strong style="color:var(--gold);">爆款逻辑：</strong><br>
+        ① 痛点度：政策红利+中年创业刚需+轻资产实操路径<br>
+        ② 争议度：养老创业能不能赚钱引发讨论<br>
+        ③ 转发欲：三条路子清晰可操作，适合收藏转发<br>
+        ④ 热度值：8月23-25日全网热文<br>
+        <strong style="color:var(--gold);">综合评分：91/100</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 文案5 ===== -->
+  <div class="script-card" id="script-4" style="display:none;">
+    <div class="script-header">
+      <div class="script-title-area">
+        <div class="script-number">文案 5 / 5 ·  [讲故事]</div>
+        <div class="script-title">7.7级地震预警谁信了</div>
+        <span class="script-cover">封面字幕：民间机构冒用官方名义 你的弹窗谁发的</span>
+      </div>
+      <div class="script-meta">
+        <span class="hot-tag tag-red">社会热点</span>
+        <span class="hot-tag tag-gold">追热点</span>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="script-section hook">
+        <div class="script-section-label">钩子开头 <span class="script-section-time">0-3秒</span></div>
+        <div class="script-section-text">8月24号早上，四川宜宾长宁县发生4.7级地震。不大的事，浅源地震有震感但没有伤亡。但紧接着全网炸了——大量手机弹窗"四川长宁7.7级地震"。7.7级是什么概念？汶川是8.0级。一瞬间朋友圈炸了，电话打爆了，无数人紧急避险。结果官方一查：4.7级，误报。一个研究所冒用官方名义推送了错误数据。</div>
+      </div>
+      <div class="script-section story">
+        <div class="script-section-label">痛点放大 <span class="script-section-time">3-30秒</span></div>
+        <div class="script-section-text">你想想那个场景。你正在上班，手机突然弹出来"7.7级地震"，你家在四川，你父母在宜宾，你第一反应是什么？打电话。打不通就更慌了。朋友圈刷屏报平安，群里全是"你家人没事吧"。短短几十分钟，几千万人的情绪从平静到恐慌到崩溃。然后官方辟谣了——不是7.7级，是4.7级，没有伤亡。你松了一口气，但你回头想想，那几十分钟的恐慌谁来买单？有人因为避险跑下楼摔了，有人心脏病发作了，有人放下工作赶飞机回四川了。一条错误预警，牵动了几千万人的神经。</div>
+      </div>
+      <div class="script-section turn">
+        <div class="script-section-label">核心观点 <span class="script-section-time">30-60秒</span></div>
+        <div class="script-section-text">海大叔说个警醒的话。这不是天灾是人祸。成都高新减灾研究所，一个非官方机构，冒用"中国地震预警网"的名义向全网手机推送了错误数据。你想想这多可怕——一个民间机构能冒用官方名义向全国手机推送信息，这意味着什么？意味着你的手机弹出来的"权威预警"可能根本不是权威机构发的。我们习惯了信手机、信弹窗、信推送，但谁在发这些信息？信息源头靠不靠谱？出事了谁来担责？这回是地震，下次如果是别的紧急信息呢？</div>
+      </div>
+      <div class="script-section cta">
+        <div class="script-section-label">方法建议 <span class="script-section-time">60-75秒</span></div>
+        <div class="script-section-text">给你三条辨别信息的方法。第一，紧急信息看官方渠道。地震看中国地震台网或者四川省地震局的官方发布，别信手机弹窗里来源不明的推送。你手机里那个预警功能，去设置里看看是哪个机构推送的，不靠谱就关掉。第二，大事件等三分钟。看到让你恐慌的信息，先别转发，先等三分钟。三分钟内官方通报大概率就出来了。你多等三分钟，少传播一次谣言，就是对社会的贡献。第三，教家里老人别信手机弹窗。老人看到"地震""洪水""疫情"的推送最容易慌，你提前跟他们说清楚：看新闻只看官方台的，手机弹的东西先打电话问你。</div>
+      </div>
+      <div class="script-section punch">
+        <div class="script-section-label">金句收尾 <span class="script-section-time">75-90秒</span></div>
+        <div class="script-section-text">你手里的手机是个信息炸弹，谁都能往里塞消息。信不信、转不转、慌不慌，得靠你自己的判断力来把关。</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <div class="script-footer-item"><strong>选题池：</strong>社会热点 / 防骗科普</div>
+      <div class="script-footer-item"><strong>结合热点：</strong>8月24日四川长宁发生4.7级地震，成都高新减灾研究所冒用"中国地震预警网"名义误报7.7级，引发大范围恐慌，四川省地震局紧急辟谣</div>
+      <div class="script-footer-item"><strong>爆款评分：</strong>88分 — 信息辨别刚需+权威冒用警示+信息源甄别方法</div>
+      <div class="script-footer-item"><strong>预估时长：</strong>~90秒</div>
+      <div class="script-footer-item"><strong>语气：</strong>[讲故事]</div>
+      <div class="script-footer-item"><strong>发布时间：</strong>20:00</div>
+    </div>
+    <div class="script-actions">
+      <button class="btn btn-primary" onclick="copyScript(4)">复制全文</button>
+      <button class="btn" onclick="toggleSection('analysis-4')">查看爆款分析</button>
+    </div>
+    <div class="collapsible-content" id="analysis-4" style="padding:0 20px 14px;">
+      <div style="background:rgba(232,184,100,0.05);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;">
+        <strong style="color:var(--gold);">爆款逻辑：</strong><br>
+        ① 痛点度：信息辨别刚需+权威冒用警示+信息源甄别方法<br>
+        ② 争议度：民间机构能否推送预警引发讨论<br>
+        ③ 转发欲：家人群转发"教老人辨别弹窗"<br>
+        ④ 热度值：8月24日全网榜首<br>
+        <strong style="color:var(--gold);">综合评分：88/100</strong>
+      </div>
+    </div>
+  </div>
+
+    <!-- 选题分布检查表 -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">✓</div>
+      选题分布检查
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>文案</th>
+          <th>选题池</th>
+          <th>结合热点</th>
+          <th>语气</th>
+          <th>预估时长</th>
+          <th>爆款评分</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>法律避坑 / 社会热点</td>
+          <td>湖南衡阳好心扶人反被索赔10万...</td>
+          <td>[犀利直白]</td>
+          <td>~90秒</td>
+          <td style="color:var(--gold);font-weight:700;">92</td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>民生 / 法律避坑</td>
+          <td>河北康保县甲醛白菜，多重抽检...</td>
+          <td>[语重心长]</td>
+          <td>~90秒</td>
+          <td style="color:var(--gold);font-weight:700;">90</td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>创业避坑 / 防骗科普</td>
+          <td>AI红娘三年不结婚退款，退款条...</td>
+          <td>[犀利直白]</td>
+          <td>~90秒</td>
+          <td style="color:var(--gold);font-weight:700;">89</td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>创业方法 / 民生</td>
+          <td>十五五银发经济30万亿，轻资产...</td>
+          <td>[语重心长]</td>
+          <td>~90秒</td>
+          <td style="color:var(--gold);font-weight:700;">91</td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td>社会热点 / 防骗科普</td>
+          <td>四川地震误报7.7级，民间机构冒...</td>
+          <td>[讲故事]</td>
+          <td>~90秒</td>
+          <td style="color:var(--gold);font-weight:700;">88</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:10px 14px;background:rgba(232,184,100,0.05);border-radius:8px;font-size:13px;color:var(--text-dim);">
+      <strong style="color:var(--gold);">拍摄建议：</strong>首选文案1（好心扶人反被索赔），社会痛点+普法干货，午间发布引发讨论。次选文案4（银发经济30万亿），政策红利+实操路径，早间发布获取通勤流量。文案2（甲醛白菜）早间民生型。文案3（AI红娘）午间防骗型。文案5（地震误报）晚间信息辨别型，适合转发。
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 文案模板 ===================== -->
+<div class="tab-panel" id="panel-template">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 文案创作规范</div>
+    每条文案严格遵循：60-90秒 / 200-300字 / 5段式结构。不碰消极价值观、违法暗示、卖惨。
+  </div>
+
+  <!-- 黄金结构 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">⚡</div>
+      黄金5段式结构（60-90秒）
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(232,93,93,0.05);border-radius:8px;border-left:3px solid var(--red);">
+        <div style="min-width:80px;font-weight:700;color:var(--red);font-size:13px;">0-3秒</div>
+        <div><strong>钩子句</strong> — 一句话扎心，不给铺垫。反常识/提问/数字开头。<br><span style="color:var(--text-dim);font-size:13px;">例："银行涨利息了，你第一反应是不是该投点资？错了。"</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(96,165,250,0.05);border-radius:8px;border-left:3px solid var(--blue);">
+        <div style="min-width:80px;font-weight:700;color:var(--blue);font-size:13px;">3-25秒</div>
+        <div><strong>故事/现象</strong> — 一个具体场景，不超过3句话。有人名、有细节。<br><span style="color:var(--text-dim);font-size:13px;">例："我认识个老刘，手里有二十万，取出来搞跨境电商，三个月亏了八万。"</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(167,139,250,0.05);border-radius:8px;border-left:3px solid var(--purple);">
+        <div style="min-width:80px;font-weight:700;color:var(--purple);font-size:13px;">25-55秒</div>
+        <div><strong>转折+观点</strong> — 过来人的判断，带情绪。用"你听我说""说白了"开头。<br><span style="color:var(--text-dim);font-size:13px;">例："你听我说，银行涨利息这个信号，比任何理财课都管用。"</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(232,184,100,0.08);border-radius:8px;border-left:3px solid var(--gold);">
+        <div style="min-width:80px;font-weight:700;color:var(--gold);font-size:13px;">55-70秒</div>
+        <div><strong>金句结论</strong> — 一句话能被截图转发的。简短、对仗、有力量。<br><span style="color:var(--text-dim);font-size:13px;">例："普通人最值钱的不是本事，是存款。"</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:rgba(74,222,128,0.05);border-radius:8px;border-left:3px solid var(--green);">
+        <div style="min-width:80px;font-weight:700;color:var(--green);font-size:13px;">70-80秒</div>
+        <div><strong>互动钩子</strong> — 提问/求评论/求分享。让观众有话可说。<br><span style="color:var(--text-dim);font-size:13px;">例："你手里有多少存款是敢碰都不敢碰的？评论区说说。"</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 标题公式 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">🔧</div>
+      爆款标题公式
+    </div>
+    <div class="template-list">
+      <div class="template-card">
+        <div class="template-name">公式1：数字 + 扎心话</div>
+        <div class="template-structure">
+          <strong>结构：</strong>【数字/年龄/金额】+【一句扎心判断】<br>
+          <strong>示例：</strong><br>
+          · 三万来天 50岁后才懂<br>
+          · 40岁以后 别再开这个店<br>
+          · 瞒妻转账50万 婚姻的坑
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-name">公式2：反差 + 质问</div>
+        <div class="template-structure">
+          <strong>结构：</strong>【反常识现象】+【质问/反问】<br>
+          <strong>示例：</strong><br>
+          · 真能赚钱 他凭啥带你<br>
+          · 利息涨了 钱别动<br>
+          · 养老赚钱 别开养老院
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-name">公式3：信号 + 劝诫</div>
+        <div class="template-structure">
+          <strong>结构：</strong>【新规/信号/变化】+【给具体人群的劝告】<br>
+          <strong>示例：</strong><br>
+          · 8月新规 借钱的注意了<br>
+          · AI要抢饭碗 3条退路<br>
+          · 外资退场 跟着趋势走
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-name">公式4：痛点 + 指向人群</div>
+        <div class="template-structure">
+          <strong>结构：</strong>【一句痛点描述】+【指向具体人群】<br>
+          <strong>示例：</strong><br>
+          · 落难时 无人帮衬才丢人<br>
+          · 人到中年 别再把路走死<br>
+          · 老了以后 谁给你端水
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 语气规范 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">🗣</div>
+      语气规范：保留过来人感，去掉说教感
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr><th>要避免</th><th>要换成</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>"你们要知道..."</td><td style="color:var(--gold);">"我吃过这个亏..."</td></tr>
+        <tr><td>"大家都应该..."</td><td style="color:var(--gold);">"要是有人早点告诉我..."</td></tr>
+        <tr><td>"道理很简单..."</td><td style="color:var(--gold);">"说白了就一句话..."</td></tr>
+        <tr><td>"记住这几点..."</td><td style="color:var(--gold);">"你品，你细品..."</td></tr>
+        <tr><td>"你必须..."</td><td style="color:var(--gold);">"你听我说..."</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 风险红线 -->
+  <div class="card" style="border-color:var(--red);">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,93,93,0.15);color:var(--red);">⚠</div>
+      风险红线（绝对不碰）
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 宣扬违法手段赚钱</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> "踩缝纫机"等暗示犯罪表达</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 贩卖焦虑无出路</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 攻击特定群体/地域</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 涉及政治敏感话题</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 标题党与内容不符</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 选题灵感库（常青） ===================== -->
+<div class="tab-panel" id="panel-inspire">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 常青选题库使用说明</div>
+    以下30+条选题不依赖热点，随时可用。建议每条文案搭配1条常青选题，避免账号变成纯追热号。使用后标注已拍，定期补充新灵感。
+  </div>
+
+  <!-- 人生感悟池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">①</div>
+      人生感悟 / 时间哲学（6条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">三万来天 50岁后才懂</div>
+        <div class="inspire-card-angle">人活一辈子三万来天，50岁以后才明白哪些事不该纠结</div>
+        <div class="inspire-card-hook">钩子："三万来天，你花了几天在别人身上？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">人到中年 最该扔掉的5样东西</div>
+        <div class="inspire-card-angle">无用的社交、过时的面子、消耗你的关系、囤积的杂物、执念</div>
+        <div class="inspire-card-hook">钩子："中年以后，学会扔比学会捡更重要。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">日子一天比一天少 你还在等什么</div>
+        <div class="inspire-card-angle">时间不会等你准备好，想做的事现在就做</div>
+        <div class="inspire-card-hook">钩子："你总觉得来日方长，可来日真有方长吗？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">50岁以后 才明白的3个道理</div>
+        <div class="inspire-card-angle">健康第一、别讨好所有人、钱比面子重要</div>
+        <div class="inspire-card-hook">钩子："这三个道理，越早懂越少走弯路。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">人走茶凉 是正常的</div>
+        <div class="inspire-card-angle">不要高估任何关系，离别才是人生常态</div>
+        <div class="inspire-card-hook">钩子："人走茶凉不是人情冷漠，是人走茶就该凉。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">你这一辈子 到底在忙什么</div>
+        <div class="inspire-card-angle">忙赚钱、忙孩子、忙面子，最后忙没了健康和快乐</div>
+        <div class="inspire-card-hook">钩子："你停下来想想，你忙的这些事，哪件是你自己想做的？"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 人情冷暖池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">②</div>
+      人情冷暖 / 人性观察（6条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">落难时 无人帮衬才丢人</div>
+        <div class="inspire-card-angle">真正的面子不是风光时有多少朋友，是落魄时有没有人拉你一把</div>
+        <div class="inspire-card-hook">钩子："你以为人脉广？等你落难试试。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">穷不走亲 富不还乡</div>
+        <div class="inspire-card-angle">穷的时候走亲戚是自取其辱，富的时候回乡是招人嫉妒</div>
+        <div class="inspire-card-hook">钩子："老话说穷不走亲富不还乡，你以为过时了？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">借钱见人心 还钱见人品</div>
+        <div class="inspire-card-angle">借出去的是钱，看清的是人。还钱时的态度比借钱时更真实</div>
+        <div class="inspire-card-hook">钩子："想知道一个人怎么样？借他钱，然后等他还。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">别和这3种人深交</div>
+        <div class="inspire-card-angle">嘴甜心苦的、见不得你好的、翻脸比翻书快的</div>
+        <div class="inspire-card-hook">钩子："你身边有没有这三种人？有的话趁早远点。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">真正的朋友 不会在你落难时消失</div>
+        <div class="inspire-card-angle">锦上添花的人多，雪中送炭的人少之又少</div>
+        <div class="inspire-card-hook">钩子："你风光时身边一圈人，你落魄时看看还剩几个？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">亲戚之间 别谈钱</div>
+        <div class="inspire-card-angle">一谈钱，亲情就变味。保持距离反而长久</div>
+        <div class="inspire-card-hook">钩子："多少亲戚因为钱反目？你品，你细品。"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 创业劝退池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,93,93,0.15);">③</div>
+      创业劝退 / 赚钱避坑（6条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">40岁以后 别再开这个店</div>
+        <div class="inspire-card-angle">实体店租金人工压死人，中年人创业先想亏不亏得起</div>
+        <div class="inspire-card-hook">钩子："40岁以后开店，你不是创业，是烧钱。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">真能赚钱 他凭啥带你</div>
+        <div class="inspire-card-angle">带你赚钱的人，赚的就是你的钱</div>
+        <div class="inspire-card-hook">钩子："别人教你赚钱，他自己怎么不去赚？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">加盟的坑 你得知道</div>
+        <div class="inspire-card-angle">加盟费、设备费、管理费，层层扒皮，最后你是给品牌打工</div>
+        <div class="inspire-card-hook">钩子："加盟品牌说年赚30万，你算算他赚你多少。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">中年人创业 先问自己3个问题</div>
+        <div class="inspire-card-angle">亏不亏得起、家人支不支持、有没有退路</div>
+        <div class="inspire-card-hook">钩子："创业之前先回答这3个问题，答不上来就别动。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">别拿养老钱去创业</div>
+        <div class="inspire-card-angle">50岁以后最怕的不是不赚钱，是把老本赔光</div>
+        <div class="inspire-card-hook">钩子："拿养老钱创业，你赌的不是项目，是你的命。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">轻资产才是中年人的出路</div>
+        <div class="inspire-card-angle">不租场地、不囤货、不雇人，用技能和经验赚钱</div>
+        <div class="inspire-card-hook">钩子："中年人创业，轻一点，稳一点。"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 亲子家庭池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(167,139,250,0.15);">④</div>
+      亲子 / 家庭关系（5条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">别把最差的脾气留给最亲的人</div>
+        <div class="inspire-card-angle">对外人笑脸相迎，对家人横眉冷对，这是最大的愚蠢</div>
+        <div class="inspire-card-hook">钩子："你对外人客客气气，回家对老婆孩子啥态度？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">孩子大了 你管不了了</div>
+        <div class="inspire-card-angle">放手不是放弃，是给孩子空间也给自己空间</div>
+        <div class="inspire-card-hook">钩子："孩子30了你还在管他几点回家？该放手了。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">父母老了 你陪了几天</div>
+        <div class="inspire-card-angle">子欲养而亲不待，不要等失去了才后悔</div>
+        <div class="inspire-card-hook">钩子："你一年回几次家？你爸妈还能等你几年？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">中年夫妻 最该谈的是钱</div>
+        <div class="inspire-card-angle">不谈钱的婚姻不现实，把钱摊开说反而更长久</div>
+        <div class="inspire-card-hook">钩子："中年夫妻不谈钱，等着离婚时谈吗？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">别在孩子面前吵架</div>
+        <div class="inspire-card-angle">父母吵架对孩子的影响，比你想的大得多</div>
+        <div class="inspire-card-hook">钩子："你以为孩子不懂事？他都记着呢。"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 健康养老池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">⑤</div>
+      健康 / 养老 / 老去（5条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">50岁以后 体检别省钱</div>
+        <div class="inspire-card-angle">小病不查变大病，花的钱更多</div>
+        <div class="inspire-card-hook">钩子："体检那几百块你觉得贵？ICU一天多少钱你算过吗？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">老了以后 谁给你端水</div>
+        <div class="inspire-card-angle">养儿防不了老，陪伴才是真保障</div>
+        <div class="inspire-card-hook">钩子："你老了躺在床上，第一个来的是谁？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">存钱不如存健康</div>
+        <div class="inspire-card-angle">住一次院，半辈子积蓄没了</div>
+        <div class="inspire-card-hook">钩子："你存了一辈子钱，够住几天ICU？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">独居老人 最怕的不是孤独</div>
+        <div class="inspire-card-angle">最怕摔倒没人知道、生病没人发现</div>
+        <div class="inspire-card-hook">钩子："独居老人最怕什么？不是孤独，是你想象不到的。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">退休不是终点 是新起点</div>
+        <div class="inspire-card-angle">退休后不社交不运动，身体和脑子都会废掉</div>
+        <div class="inspire-card-hook">钩子："退休后你打算干嘛？别告诉我是带孙子。"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 法律避坑池 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">⑦</div>
+      法律常识 / 维权故事（5条）
+    </div>
+    <div class="inspire-grid">
+      <div class="inspire-card">
+        <div class="inspire-card-title">朋友借钱不还 怎么办</div>
+        <div class="inspire-card-angle">先协商、再催收、最后起诉，法律流程一步步来</div>
+        <div class="inspire-card-hook">钩子："朋友借钱不还？别急着翻脸，先做这件事。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">借条怎么写才有效</div>
+        <div class="inspire-card-angle">写错一个字可能要不回来钱，标准借条模板</div>
+        <div class="inspire-card-hook">钩子："你写的借条可能无效，信不信？"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">担保人千万别随便当</div>
+        <div class="inspire-card-angle">签字容易脱身难，别人不还钱你就得还</div>
+        <div class="inspire-card-hook">钩子："有人让你做担保人？先看看这个。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">网贷利息多少算合法</div>
+        <div class="inspire-card-angle">超过LPR四倍的部分不用还，很多人不知道</div>
+        <div class="inspire-card-hook">钩子："你借的网贷利息合法吗？教你算一算。"</div>
+      </div>
+      <div class="inspire-card">
+        <div class="inspire-card-title">离婚时财产怎么分</div>
+        <div class="inspire-card-angle">夫妻共同财产、个人财产、隐匿财产的法律界限</div>
+        <div class="inspire-card-hook">钩子："离婚时你最该争取的不是孩子，是这个。"</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 评论话术库 ===================== -->
+<div class="tab-panel" id="panel-reply">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 评论话术使用说明</div>
+    每天回复前10条评论只需5分钟。点击"复制"即可粘贴使用，根据实际情况微调语气。回复评论是激活算法推荐的关键动作。
+  </div>
+
+  <!-- 认同共鸣类 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">①</div>
+      认同 / 共鸣类回复
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">你说到点子上了，经历过的人才懂。转发给你身边需要的人看看。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">对，就是这个理。很多人到了这个年纪才明白，可惜明白的时候已经晚了。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">你比我总结得好，我得跟你学学。关注了，以后多交流。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">看到你的评论我就知道，这条没白发。你也保重。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提问求助类 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">②</div>
+      提问 / 求助类回复
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">这个情况因人而异，你可以私信我具体情况，我帮你分析分析。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">好问题，我下条视频可能就讲这个话题，关注我别错过。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">这个真得具体情况具体分析。但有个大原则：先保本金，再想赚钱。别着急。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">你说的这个我经历过，说白了就一句话：别冲动，先想清楚最坏的结果你能不能承受。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 争议反对类 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">③</div>
+      争议 / 反对类回复（高价值！能引发二次讨论）
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">你说的也有道理，角度不同看问题不一样。但你想过另一个方面吗？</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">我理解你的想法，很多人刚开始都这么觉得。等你真正经历过了，可能想法会变。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">好，你说的这个角度我没想到。但有一点咱俩肯定一样：都不容易。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">你这观点挺有意思的，要不你也拍条视频说说你的想法？咱评论区继续聊。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 情绪宣泄类 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(167,139,250,0.15);">④</div>
+      情绪宣泄 / 难过类回复
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">兄弟/姐，日子会好起来的。我当年比你还难，现在不也过来了。保重。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">看到你说的这些心里不好受。但你要记住，最难的时候往往是转机的时候。别放弃。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">你的经历很多人都有，你不是一个人。先把心态稳住，其他的慢慢来。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 喷子/杠精类 -->
+  <div class="card" style="border-color:var(--red);">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,93,93,0.15);color:var(--red);">⑤</div>
+      喷子 / 杠精类回复（不硬刚，软回击）
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">你说得对，我不一定全对。你有你的经历，我有我的看法，不冲突。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">哈哈你开心就好，我不争论。祝你一切顺利。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">你说的这种情况确实存在，但不是普遍现象。大部分人还是需要听听这些话的。</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text" style="color:var(--text-dim);font-style:italic;">（建议：恶意评论直接不回复或删除，不要给喷子热度）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 置顶评论模板 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">📌</div>
+      置顶评论模板（每条视频发布后立即发）
+    </div>
+    <div class="reply-category">
+      <div class="reply-item">
+        <div class="reply-text">"你有没有经历过类似的事？评论区聊聊，看看大家都是怎么过来的。"</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">"如果你身边有人正打算______，把这条转给他看看。"</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+      <div class="reply-item">
+        <div class="reply-text">"评论区说说你的看法，我挨个看。点赞最高的我下条视频回应。"</div>
+        <button class="reply-copy-btn" onclick="copyReply(this)">复制</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 每周复盘 ===================== -->
+<div class="tab-panel" id="panel-review">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 每周复盘说明</div>
+    每周日晚上花20分钟填写。复盘不是为了看数字，是找规律——哪类选题播放高、哪个时段完播好、哪条评论最多，下周就多做。
+  </div>
+
+  <!-- 本周核心数据 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">📊</div>
+      本周核心数据（第____周）
+    </div>
+    <div class="review-metrics">
+      <div class="review-metric">
+        <div class="review-metric-label">发布条数</div>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">总播放量</div>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">净增粉丝</div>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">总评论数</div>
+        <input type="number" placeholder="0">
+      </div>
+    </div>
+    <div class="review-metrics">
+      <div class="review-metric">
+        <div class="review-metric-label">最高单条播放</div>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">最高完播率</div>
+        <input type="text" placeholder="0%">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">总分享数</div>
+        <input type="number" placeholder="0">
+      </div>
+      <div class="review-metric">
+        <div class="review-metric-label">互动回复数</div>
+        <input type="number" placeholder="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- 本周最佳 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">🏆</div>
+      本周表现最佳 & 最差
+    </div>
+    <div class="review-section">
+      <div class="review-section-title" style="color:var(--green);">最佳表现</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <textarea class="review-input" placeholder="最佳视频标题："></textarea>
+        <textarea class="review-input" placeholder="播放量 / 点赞 / 评论 / 分享："></textarea>
+      </div>
+      <textarea class="review-input" style="margin-top:8px;" placeholder="为什么爆了？（选题/热点/标题/时机/争议点）"></textarea>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title" style="color:var(--red);">最差表现</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <textarea class="review-input" placeholder="最差视频标题："></textarea>
+        <textarea class="review-input" placeholder="播放量 / 点赞 / 评论 / 分享："></textarea>
+      </div>
+      <textarea class="review-input" style="margin-top:8px;" placeholder="为什么扑了？（选题不对/标题弱/时长太长/没争议点）"></textarea>
+    </div>
+  </div>
+
+  <!-- 规律总结 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">🔍</div>
+      规律总结 & 下周调整
+    </div>
+    <div class="review-section">
+      <div class="review-section-title">发现的规律</div>
+      <textarea class="review-input" placeholder="例：创业劝退类选题播放稳定在X万以上；晚上8点发布的视频互动率比中午高2倍；有争议性结尾的视频评论数多3倍..."></textarea>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title">下周调整方向</div>
+      <textarea class="review-input" placeholder="例：下周增加2条创业劝退类选题；发布时间调整到晚上8点为主；每条文案结尾加争议性提问..."></textarea>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title">需要保持的</div>
+      <textarea class="review-input" placeholder="本周做对了什么，下周继续..."></textarea>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title">需要停止的</div>
+      <textarea class="review-input" placeholder="本周做错了什么，下周不再做..."></textarea>
+    </div>
+  </div>
+
+  <!-- 阶段进度 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">🎯</div>
+      百万粉丝阶段进度
+    </div>
+    <div class="stage-card stage-done">
+      <div class="stage-number">1</div>
+      <div class="stage-info">
+        <div class="stage-title">第一阶段：止血（第1-2周）</div>
+        <div class="stage-desc">扭转掉粉，净增转正 · 目标75万</div>
+      </div>
+    </div>
+    <div class="stage-card stage-current">
+      <div class="stage-number">2</div>
+      <div class="stage-info">
+        <div class="stage-title">第二阶段：起量（第3-6周）</div>
+        <div class="stage-desc">每周至少1条破5万播放 · 目标82万</div>
+      </div>
+    </div>
+    <div class="stage-card stage-future">
+      <div class="stage-number">3</div>
+      <div class="stage-info">
+        <div class="stage-title">第三阶段：冲刺（第7-12周）</div>
+        <div class="stage-desc">每周至少1条破10万播放 · 目标90万</div>
+      </div>
+    </div>
+    <div class="stage-card stage-future">
+      <div class="stage-number">4</div>
+      <div class="stage-info">
+        <div class="stage-title">第四阶段：收官（第13-16周）</div>
+        <div class="stage-desc">爆款矩阵+直播导流 · 目标100万</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 发布前检查 ===================== -->
+<div class="tab-panel" id="panel-publish">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 发布前必须逐项检查</div>
+    每次发布前花2分钟过一遍。很多视频不是内容不行，是发布细节出了问题被限流。点击项目可打勾。
+  </div>
+
+  <!-- 内容检查 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">📝</div>
+      内容检查
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>时长在60-90秒之间</strong>
+        <div class="checklist-desc">超过90秒完播率会明显下降，低于60秒信息量不够</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>前3秒有强钩子句</strong>
+        <div class="checklist-desc">第一句话不能是铺垫，必须是扎心/反常识/提问</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>结尾有金句 + 互动钩子</strong>
+        <div class="checklist-desc">金句能被截图转发，互动钩子引导评论</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>没有说教语气</strong>
+        <div class="checklist-desc">检查有没有"你们要知道""大家都应该"等表达，改成"我吃过亏""说白了"</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>没有踩风险红线</strong>
+        <div class="checklist-desc">无违法暗示、无消极价值观、无政治敏感、无攻击特定群体</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 画面检查 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">🎬</div>
+      画面检查
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>场景与选题匹配</strong>
+        <div class="checklist-desc">人生感悟→书柜前 / 人情冷暖→茶桌 / 社会热点→窗边</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>服装：黑色短袖/深色polo + 翡翠玉佩 + 胸麦</strong>
+        <div class="checklist-desc">保持人设一致性，玉佩是视觉记忆点</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>字幕：钩子句大字红字白边，正文小字白字黑边</strong>
+        <div class="checklist-desc">金句出现时全屏放大1秒</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>光线充足，人脸清晰</strong>
+        <div class="checklist-desc">避免逆光、暗光，自然光最佳</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布设置检查 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">⚙</div>
+      发布设置检查
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>封面：大字标题 + 人脸 + 高对比度</strong>
+        <div class="checklist-desc">封面是第一印象，字要大、人要清楚、背景不要太杂</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>话题标签：3-5个，含1个大流量标签</strong>
+        <div class="checklist-desc">如 #中年创业 #人生感悟 #社会热点 + 选题相关标签</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>发布时间匹配选题类型</strong>
+        <div class="checklist-desc">人生感悟7:30 / 社会热点12:00 / 人情冷暖20:00</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>发布后立即发置顶评论</strong>
+        <div class="checklist-desc">从评论话术库选一条置顶提问，引导首波评论</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>发布后@铁粉（旭日东升、雨人）</strong>
+        <div class="checklist-desc">第一时间激活铁粉互动，带动算法推荐</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>同步发布到视频号</strong>
+        <div class="checklist-desc">抖音为主阵地，视频号为辅助，双平台覆盖</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发布后24小时检查 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(167,139,250,0.15);">⏰</div>
+      发布后24小时检查
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>2小时内：回复前5条评论</strong>
+        <div class="checklist-desc">黄金互动期，越快回复越容易触发推荐</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>6小时内：检查播放量是否破500</strong>
+        <div class="checklist-desc">低于500说明初始推荐池没打进去，检查标题和封面</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>24小时：记录数据到追踪表</strong>
+        <div class="checklist-desc">播放量、点赞、评论、分享、新增粉丝，填入数据追踪模块</div>
+      </div>
+    </div>
+    <div class="checklist-item" onclick="toggleCheck(this)">
+      <div class="checklist-checkbox">✓</div>
+      <div class="checklist-label">
+        <strong>24小时：回复全部评论（至少前10条）</strong>
+        <div class="checklist-desc">从评论话术库选模板，快速回复</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 变现路径 ===================== -->
+<div class="tab-panel" id="panel-money">
+
+  <div class="tip-box">
+    <div class="tip-box-title">📌 变现路径说明</div>
+    百万粉丝不是终点，是变现的起点。以下按粉丝阶段规划变现路径，每个阶段做什么、能赚多少、要注意什么，一目了然。
+  </div>
+
+  <!-- 变现阶段时间线 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,184,100,0.15);">🗺</div>
+      变现阶段路线图
+    </div>
+    <div class="money-timeline">
+
+      <div class="money-phase current">
+        <div class="money-phase-title">
+          阶段1：盘活存量（当前）
+          <span class="money-revenue">月收入：0-3000元</span>
+        </div>
+        <div class="money-phase-range">粉丝 72万-75万 · 第1-2周</div>
+        <div class="money-phase-body">
+          <strong>核心动作：</strong>不开通任何变现功能，先把互动率和完播率拉起来<br>
+          <strong>可以做的：</strong><br>
+          · 评论区引导关注（"关注我，下条更扎心"）<br>
+          · 置顶评论引导私信（"有具体问题可以私信我"）<br>
+          · 建粉丝群，把活跃粉丝沉淀到私域<br>
+          <strong>不要做的：</strong>不要急着带货、不要接广告、不要卖课<br>
+          <strong>目标：</strong>把月互动核心从3人做到50人
+        </div>
+      </div>
+
+      <div class="money-phase">
+        <div class="money-phase-title">
+          阶段2：轻量变现
+          <span class="money-revenue">月收入：3000-1.5万</span>
+        </div>
+        <div class="money-phase-range">粉丝 75万-82万 · 第3-6周</div>
+        <div class="money-phase-body">
+          <strong>核心动作：</strong>开通星图接单 + 知识付费试水<br>
+          <strong>可以做的：</strong><br>
+          · 开通抖音星图，接1-2条软广（品牌适配度高的：茶具、书籍、中年服饰）<br>
+          · 录制1个付费专栏（如"中年创业避坑20讲"，定价99-199元）<br>
+          · 直播间连麦答疑（每周1-2次，每次1小时，打赏+连麦费）<br>
+          <strong>注意：</strong>广告频率不超过每周1条，不能影响内容质量<br>
+          <strong>目标：</strong>月收入覆盖基本运营成本
+        </div>
+      </div>
+
+      <div class="money-phase">
+        <div class="money-phase-title">
+          阶段3：矩阵变现
+          <span class="money-revenue">月收入：1.5万-5万</span>
+        </div>
+        <div class="money-phase-range">粉丝 82万-90万 · 第7-12周</div>
+        <div class="money-phase-body">
+          <strong>核心动作：</strong>直播常态化 + 私域转化 + 品牌合作<br>
+          <strong>可以做的：</strong><br>
+          · 每周直播3-4次，固定时段（晚上8-9点）<br>
+          · 直播间挂小黄车（精选中年人刚需品：养生茶、书籍、保险课程）<br>
+          · 私域社群付费（年费299元，提供创业咨询+资源对接）<br>
+          · 品牌定制内容（企业普法合作、中年品牌代言）<br>
+          <strong>注意：</strong>带货选品必须符合人设，不卖低端货、不卖割韭菜课<br>
+          <strong>目标：</strong>月收入稳定在3万以上
+        </div>
+      </div>
+
+      <div class="money-phase">
+        <div class="money-phase-title">
+          阶段4：IP变现
+          <span class="money-revenue">月收入：5万-20万+</span>
+        </div>
+        <div class="money-phase-range">粉丝 90万-100万+ · 第13-16周</div>
+        <div class="money-phase-body">
+          <strong>核心动作：</strong>IP授权 + 线下业务 + 矩阵号<br>
+          <strong>可以做的：</strong><br>
+          · 线下讲座/企业培训（单场1-3万）<br>
+          · 孵化矩阵号（"海大叔说法律""海大叔聊养老"），形成IP矩阵<br>
+          · 出书/付费课程体系化（定价399-999元）<br>
+          · 普法工委业务转化（法律咨询、企业合规服务导流）<br>
+          <strong>注意：</strong>百万粉后最大的风险是掉粉加速，内容质量不能降<br>
+          <strong>目标：</strong>月收入稳定在10万+，年收入百万级
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 变现红线 -->
+  <div class="card" style="border-color:var(--red);">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(232,93,93,0.15);color:var(--red);">⚠</div>
+      变现红线（碰了就掉粉）
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 卖三无产品 / 质量无保障的货</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 卖割韭菜的课程（999元教你月入十万）</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 广告频率超过每周2条</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 接与人设不符的广告（如游戏、网贷）</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 直播带货卖劣质商品</div>
+      <div style="padding:10px;background:rgba(232,93,93,0.05);border-radius:8px;"><strong style="color:var(--red);">✕</strong> 私域收钱后不交付或服务质量差</div>
+    </div>
+  </div>
+
+  <!-- 变现计算器 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(74,222,128,0.15);">🧮</div>
+      百万粉丝收入预估
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>变现方式</th>
+          <th>预估单价</th>
+          <th>月频次</th>
+          <th>月收入预估</th>
+          <th>启动条件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>星图广告</td>
+          <td>5000-1.5万/条</td>
+          <td>2-4条</td>
+          <td style="color:var(--green);font-weight:700;">1-6万</td>
+          <td>粉丝80万+</td>
+        </tr>
+        <tr>
+          <td>直播打赏</td>
+          <td>500-3000/场</td>
+          <td>8-12场</td>
+          <td style="color:var(--green);font-weight:700;">4000-3.6万</td>
+          <td>粉丝75万+</td>
+        </tr>
+        <tr>
+          <td>小黄车带货</td>
+          <td>佣金20%-40%</td>
+          <td>持续</td>
+          <td style="color:var(--green);font-weight:700;">1-5万</td>
+          <td>粉丝85万+</td>
+        </tr>
+        <tr>
+          <td>付费课程</td>
+          <td>99-399/份</td>
+          <td>持续</td>
+          <td style="color:var(--green);font-weight:700;">2-10万</td>
+          <td>粉丝90万+</td>
+        </tr>
+        <tr>
+          <td>企业培训/讲座</td>
+          <td>1-3万/场</td>
+          <td>2-4场</td>
+          <td style="color:var(--green);font-weight:700;">2-12万</td>
+          <td>粉丝100万+</td>
+        </tr>
+        <tr>
+          <td>私域社群</td>
+          <td>299/年</td>
+          <td>持续</td>
+          <td style="color:var(--green);font-weight:700;">1-5万</td>
+          <td>铁粉500+</td>
+        </tr>
+        <tr style="background:rgba(232,184,100,0.05);">
+          <td colspan="3" style="text-align:right;font-weight:700;">月收入合计预估：</td>
+          <td style="color:var(--gold);font-weight:800;font-size:16px;">7-41万</td>
+          <td style="color:var(--text-dim);">百万粉稳定后</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:10px 14px;background:rgba(74,222,128,0.05);border-radius:8px;font-size:13px;color:var(--text-dim);">
+      <strong style="color:var(--green);">关键提醒：</strong>变现不是等100万粉才开始，是从75万就开始轻量试水。但变现节奏必须慢于粉丝增长节奏，否则掉粉比赚钱快。
+    </div>
+  </div>
+
+  <!-- 竞品对标 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon" style="background:rgba(96,165,250,0.15);">📊</div>
+      竞品对标（同类账号学习）
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-name">@通透大叔</div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--gold);">180万</div><div class="competitor-stat-label">粉丝</div></div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--green);">15-50万</div><div class="competitor-stat-label">单条播放</div></div>
+      <div class="competitor-note">对标点：人生感悟类选题的钩子写法很强，前3秒抓人。学习他怎么用一句话制造悬念。场景也是固定背景，但灯光比海大叔好。</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-name">@老韩大叔</div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--gold);">320万</div><div class="competitor-stat-label">粉丝</div></div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--green);">20-100万</div><div class="competitor-stat-label">单条播放</div></div>
+      <div class="competitor-note">对标点：创业避坑类内容的标杆。他的故事讲得很好，每条都有具体的人名和细节。学习他的叙事节奏——快讲故事，慢给结论。</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-name">@张大碗子</div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--gold);">450万</div><div class="competitor-stat-label">粉丝</div></div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--green);">30-200万</div><div class="competitor-stat-label">单条播放</div></div>
+      <div class="competitor-note">对标点：社会热点+人情冷暖结合得最好。追热速度快，热点出来12小时内必发。学习她怎么把社会热点和中人视角结合。</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-name">@姜叔说</div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--gold);">95万</div><div class="competitor-stat-label">粉丝</div></div>
+      <div class="competitor-stat"><div class="competitor-stat-value" style="color:var(--green);">5-20万</div><div class="competitor-stat-label">单条播放</div></div>
+      <div class="competitor-note">对标点：粉丝量级最接近，增长路径可参考。他的评论区运营做得好，几乎每条评论都回复，评论率很高。学习他的评论互动策略。</div>
+    </div>
+  </div>
+
+</div>
+
+</div> <!-- end main-content -->
+
+<!-- ===== 更多菜单弹层 ===== -->
+<div class="more-overlay" id="moreOverlay" onclick="closeMore(event)">
+  <div class="more-panel">
+    <div class="more-panel-title">全部功能</div>
+    <div class="more-grid">
+      <div class="more-grid-item" onclick="switchTab('template', event); closeMore();">
+        <span class="more-icon">📐</span>
+        <span>文案模板</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('inspire', event); closeMore();">
+        <span class="more-icon">💡</span>
+        <span>选题灵感库</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('reply', event); closeMore();">
+        <span class="more-icon">💬</span>
+        <span>评论话术库</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('review', event); closeMore();">
+        <span class="more-icon">🔍</span>
+        <span>每周复盘</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('publish', event); closeMore();">
+        <span class="more-icon">✅</span>
+        <span>发布检查</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('money', event); closeMore();">
+        <span class="more-icon">💰</span>
+        <span>变现路径</span>
+      </div>
+      <div class="more-grid-item" onclick="switchTab('topic', event); closeMore();">
+        <span class="more-icon">📋</span>
+        <span>选题推荐</span>
+      </div>
+      <div class="more-grid-item" onclick="closeMore();">
+        <span class="more-icon">✕</span>
+        <span>关闭</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 底部App导航栏 ===== -->
+<nav class="bottom-nav">
+  <button class="bottom-nav-item active" onclick="switchTab('hotspot', event)">
+    <span class="nav-icon">🔥</span>
+    <span class="nav-label">热点</span>
+    <span class="nav-badge">22</span>
+  </button>
+  <button class="bottom-nav-item" onclick="switchTab('scripts', event)">
+    <span class="nav-icon">✍️</span>
+    <span class="nav-label">文案</span>
+    <span class="nav-badge">5</span>
+  </button>
+  <button class="bottom-nav-item" onclick="switchTab('data', event)">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">数据</span>
+  </button>
+  <button class="bottom-nav-item" onclick="switchTab('topic', event)">
+    <span class="nav-icon">💡</span>
+    <span class="nav-label">选题</span>
+  </button>
+  <button class="bottom-nav-item" onclick="openMore(event)">
+    <span class="nav-icon">⋯</span>
+    <span class="nav-label">更多</span>
+  </button>
+</nav>
+
+<script>
+// 日期显示
+function updateDate() {
+  document.getElementById('todayDate').textContent = '2026年8月25日 周二';
+}
+updateDate();
+
+// Tab 切换
+function switchTab(tabName, e) {
+  if (e) e.stopPropagation();
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.bottom-nav-item').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  if (e && e.currentTarget) e.currentTarget.classList.add('active');
+  const panel = document.getElementById('panel-' + tabName);
+  if (panel) panel.classList.add('active');
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 更多菜单
+function openMore(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('moreOverlay').classList.add('show');
+}
+
+function closeMore(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('moreOverlay').classList.remove('show');
+}
+
+// 文案切换
+function switchScript(index) {
+  document.querySelectorAll('.script-tab').forEach(tab => tab.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  for (let i = 0; i < 5; i++) {
+    const card = document.getElementById('script-' + i);
+    if (card) card.style.display = (i === index) ? 'block' : 'none';
+  }
+}
+
+// 折叠切换
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// 复制文案
+function copyScript(index) {
+  const card = document.getElementById('script-' + index);
+  const sections = card.querySelectorAll('.script-section-text');
+  const title = card.querySelector('.script-title').textContent;
+  const cover = card.querySelector('.script-cover').textContent;
+
+  let text = `【${title}】\n封面字幕：${cover}\n\n`;
+  const labels = ['钩子', '故事', '转折+观点', '金句', '互动钩子'];
+  sections.forEach((sec, i) => {
+    text += `${labels[i]}：${sec.textContent}\n\n`;
+  });
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = card.querySelector('.btn-primary');
+    const originalText = btn.textContent;
+    btn.textContent = '✓ 已复制';
+    btn.style.background = 'rgba(74,222,128,0.15)';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+// 复制评论话术
+function copyReply(btn) {
+  const text = btn.parentElement.querySelector('.reply-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = '✓';
+    btn.style.background = 'rgba(74,222,128,0.15)';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 1500);
+  });
+}
+
+// 检查清单打勾
+function toggleCheck(item) {
+  item.classList.toggle('checked');
+}
+</script>
+
+</body>
+</html>

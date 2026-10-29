@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>未来舱 · 智脑网</title>
+<meta name="description" content="未来舱：一个人也像一支队伍。商业脑子、六个岗位、一条流水线，装进一个舱里。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%23C2571C' stroke-width='2'/><circle cx='16' cy='16' r='2.2' fill='%23C2571C'/></svg>">
+<style>
+:root{
+  --bg:#FBF6EE;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;
+  --cyan:#C2571C;--red:#C0392B;
+  --line:rgba(140,95,50,.16);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 44px);margin-inline:auto}
+
+/* 背景 */
+.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1000px 520px at 50% -6%,rgba(194,87,28,.14),transparent 60%),
+  radial-gradient(760px 420px at 88% 78%,rgba(224,84,63,.09),transparent 62%),
+  radial-gradient(700px 700px at 8% 92%,rgba(194,87,28,.06),transparent 66%),
+  linear-gradient(180deg,#FBF6EE,#050912 52%,#FBF6EE)}
+#stars{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
+.floor{position:absolute;left:-30%;right:-30%;bottom:-8%;height:52%;
+  background-image:linear-gradient(rgba(194,87,28,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(194,87,28,.07) 1px,transparent 1px);
+  background-size:60px 60px;transform:perspective(600px) rotateX(68deg);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 40%,#000 76%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 40%,#000 76%,transparent);
+  animation:flow 26s linear infinite}
+@keyframes flow{to{background-position:0 60px,60px 0}}
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.024) 0 1px,transparent 1px 4px);opacity:.55}
+.sweep{position:absolute;left:0;right:0;height:180px;top:-180px;background:linear-gradient(180deg,transparent,rgba(194,87,28,.09),transparent);animation:sweep 9s linear infinite}
+@keyframes sweep{to{top:100%}}
+
+/* 导航 */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(253,249,243,.6);border-bottom:1px solid transparent;transition:.3s}
+nav.solid{background:rgba(253,249,243,.92);border-bottom-color:var(--line)}
+.nav-in{width:min(1120px,100% - 44px);margin:0 auto;height:62px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-size:14px;font-weight:600;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.brand i{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(224,84,63,.9)}
+.brand small{font-size:11px;color:var(--dim2);font-weight:400}
+.nav-links{display:flex;gap:22px;font-size:13px;color:var(--dim)}
+.nav-links a:hover,.nav-links a.on{color:var(--ink)}
+.nav-cta{font-size:12.5px;border:1px solid rgba(140,95,50,.28);border-radius:100px;padding:7px 15px;white-space:nowrap}
+
+/* 首屏 */
+.hero{padding:108px 0 30px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;min-height:min(calc(100svh - 62px),820px)}
+.eb{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--dim);display:flex;align-items:center;gap:9px}
+.eb b{color:var(--cyan);font-size:9px}
+h1{font-size:clamp(38px,5.6vw,64px);line-height:1.1;letter-spacing:-.035em;font-weight:650;margin:18px 0 18px}
+h1 em{font-style:normal;background:linear-gradient(96deg,#2B2119 8%,#a7f0ff 54%,#C2571C 96%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{max-width:520px;font-size:15.5px;color:#a8b6c2}
+.lead b{color:var(--ink);font-weight:600}
+.hero-btns{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:12px 22px;border-radius:100px;background:var(--cyan);color:#ffffff;transition:.24s}
+.btn:hover{background:#8ceeff;box-shadow:0 0 30px -6px rgba(194,87,28,.8)}
+.btn.ghost{background:transparent;border:1px solid rgba(140,95,50,.3);color:var(--ink)}
+.btn.ghost:hover{background:rgba(255,255,255,.05);box-shadow:none}
+
+/* 舱体视觉 */
+.orb{position:relative;aspect-ratio:1;width:min(440px,86vw);margin-inline:auto;perspective:900px}
+.core{position:absolute;inset:38%;border-radius:50%;background:radial-gradient(circle at 50% 45%,#eafdff,#C2571C 42%,rgba(194,87,28,.12) 72%,transparent 78%);filter:blur(.4px);box-shadow:0 0 70px rgba(194,87,28,.55),0 0 160px rgba(194,87,28,.22);animation:pulse 4.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.94}50%{transform:scale(1.06);opacity:1}}
+.ring{position:absolute;inset:0;border:1px solid rgba(194,87,28,.22);border-radius:50%;transform:rotateX(74deg);animation:spin 22s linear infinite}
+.ring:nth-child(2){inset:9%;border-color:rgba(194,87,28,.16);animation-duration:15s;animation-direction:reverse}
+.ring:nth-child(3){inset:19%;border-color:rgba(224,84,63,.22);animation-duration:10s}
+.ring::after{content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.ring:nth-child(3)::after{background:var(--red);box-shadow:0 0 14px var(--red)}
+@keyframes spin{to{transform:rotateX(74deg) rotate(360deg)}}
+.cross{position:absolute;inset:0;pointer-events:none}
+.cross::before,.cross::after{content:"";position:absolute;background:rgba(194,87,28,.18)}
+.cross::before{left:50%;top:4%;bottom:4%;width:1px}
+.cross::after{top:50%;left:4%;right:4%;height:1px}
+.tick{position:absolute;inset:2%;border:1px dashed rgba(140,95,50,.14);border-radius:50%}
+
+/* HUD 条 */
+.hud{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0;margin-top:6px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;background:rgba(255,255,255,.015)}
+.hud div{text-align:center}
+.hud .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:#8695a3}
+.hud .v{font-family:var(--mono);font-size:19px;color:#eafaff;margin-top:5px}
+.hud .v.c{color:var(--cyan)}
+.hud .v.r{color:var(--red)}
+
+/* 内容块 */
+section.blk{padding:62px 0}
+.st{display:flex;align-items:baseline;gap:12px;margin-bottom:22px}
+.st .no{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--cyan)}
+.st h2{font-size:clamp(21px,3vw,27px);font-weight:650;letter-spacing:-.02em}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{border:1px solid var(--line);border-radius:13px;padding:20px 18px;background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.008));transition:.26s}
+.card:hover{border-color:rgba(194,87,28,.36);transform:translateY(-3px)}
+.card h3{font-size:15.5px;font-weight:650;margin-bottom:9px}
+.card p{font-size:13px;color:#93a3b1;line-height:1.8}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim2);display:block;margin-bottom:10px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.flow span{font-family:var(--mono);font-size:11px;color:#a7b8c6;border:1px solid var(--line);border-radius:6px;padding:5px 9px;background:rgba(194,87,28,.03)}
+.flow span em{font-style:normal;color:var(--cyan)}
+
+.end{padding:10px 0 66px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:30px}
+footer{padding:22px 0 34px;font-size:12px;color:var(--dim2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer a:hover{color:var(--ink)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:88px 0 18px;gap:2px;min-height:0}
+  .orb{order:-1;width:min(208px,54vw)}
+  .cards{grid-template-columns:1fr}
+  .hud{grid-template-columns:repeat(2,1fr);row-gap:16px}
+  .nav-links{display:flex;gap:2px;font-size:12px}
+  .nav-links a{padding:5px 7px}
+  .nav-cta{display:none}
+  .brand small{display:none}
+  section.blk{padding:46px 0}
+}
+
+/* ── 内部页通栏头图（暗色科幻统一） ── */
+.hero-fig{max-width:1120px;margin:34px auto 6px;padding:0 20px;box-sizing:border-box;position:relative}
+.hero-fig .frame{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#05080f;box-shadow:0 26px 64px -34px rgba(0,0,0,.95)}
+.hero-fig img{display:block;width:100%;height:auto;aspect-ratio:1800/760;object-fit:cover;opacity:.96}
+.hero-fig .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(253,249,243,.5),transparent 28%,transparent 66%,rgba(253,249,243,.62))}
+.hero-fig .cap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(180,215,230,.66);text-transform:uppercase}
+@media(max-width:720px){.hero-fig{margin-top:22px;padding:0 14px}.hero-fig img{aspect-ratio:16/10;border-radius:12px}.hero-fig .cap{font-size:10px;left:10px;bottom:9px}}
+
+
+/* ── 手机端导航加固（换行不裁切、加大点击区） ── */
+@media(max-width:740px){
+  .nav-in{height:auto !important;min-height:58px;flex-wrap:wrap;row-gap:6px;padding:8px 0}
+  .nav-links{width:100%;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-left:0 !important}
+  .nav-links a{flex:1 1 auto;text-align:center;font-size:12.5px !important;padding:9px 6px !important}
+}
+</style>
+<style id="nav7-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:5px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 21% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+</style>
+<style id="nav8-fix">
+@media(max-width:880px){
+  .nav-links{justify-content:flex-start !important;gap:4px !important;row-gap:5px !important}
+  .nav-links a{flex:1 1 23% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* ===== 暖色主题同步（与首页 site.css 一致） ===== */
+:root{
+  --bg:#FBF6EE; --bg2:#F5E9D8; --bg3:#F5E9D8;
+  --ink:#2B2119; --ink2:#4A3A2B; --txt:#2B2119; --text:#2B2119;
+  --dim:#7C6A57; --sub:#7C6A57; --dim2:#A8998A;
+  --card:#ffffff; --card2:#FBF7F1; --panel:#ffffff; --panel2:#ffffff;
+  --cyan:#C2571C; --cyan-d:rgba(194,87,28,.10);
+  --blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --amber:#E0892B;
+  --red:#C0392B; --green:#2F9E6B; --mag:#C2571C;
+  --brand:#C2571C; --brand-d:rgba(194,87,28,.10);
+  --line:rgba(140,95,50,.16); --line2:rgba(140,95,50,.08);
+  --grid:rgba(194,87,28,.05);
+  --glow:0 8px 28px -14px rgba(120,70,30,.20);
+}
+body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed !important;color:var(--ink) !important}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+.sky,.bg,.stars,.aurora,.nebula{background:none !important;opacity:0 !important}
+h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
+</style>
+</head>
+<body>
+
+<div class="sky">
+  <canvas id="stars"></canvas>
+  <div class="floor"></div>
+  <div class="scan"></div>
+  <div class="sweep"></div>
+</div>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/"><i></i>智脑网<small>海大叔 · AI 新媒体工作室</small></a>
+    <div class="nav-links">
+      <a href="/">生态首页</a>
+      <a href="/zhinao/">智脑AI</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/templates/">模板库</a>
+      <a href="/aixinshou/">AI 学习</a>
+      <a href="/legal/">法律护航</a>
+      <a href="/experts/">六位专家</a>
+      <a href="/future/" class="cur">未来舱</a>
+    </div>
+    <a class="nav-cta" href="/zhinao/">进舱 ↘</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div>
+    <div class="eb"><b>●</b> FUTURE DECK · SYSTEM ONLINE</div>
+    <h1>一个人<br><em>也像一支队伍</em></h1>
+    <p class="lead">商业脑子、六个岗位、一条流水线，全装进这个舱。<b>你不用懂 AI，只要会说人话。</b></p>
+    <div class="hero-btns">
+      <a class="btn" href="/zhinao/">进舱说话 →</a>
+      <a class="btn ghost" href="/experts/">看六个岗位</a>
+    </div>
+  </div>
+  <div class="orb">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="tick"></div>
+    <div class="cross"></div>
+    <div class="core"></div>
+  </div>
+</header>
+<figure class="hero-fig"><div class="frame"><img src="/img/future-hero.webp" width="1800" height="760" alt="未来舱地平线视角" loading="lazy" decoding="async"><span class="cap">FUTURE DECK / NAV ONLINE</span></div></figure>
+
+
+<div class="hud">
+  <div class="wrap" style="display:contents">
+    <div><div class="k">档案</div><div class="v" id="h-files">4,323</div></div>
+    <div><div class="k">岗位</div><div class="v c" id="h-posts">6</div></div>
+    <div><div class="k">入口</div><div class="v">3</div></div>
+    <div><div class="k">状态</div><div class="v r" id="h-live">在线</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="blk">
+    <div class="st"><span class="no">01 / DECK</span><h2>舱里三样东西</h2></div>
+    <div class="cards">
+      <div class="card">
+        <span class="tag">BRAIN</span>
+        <h3>一颗商业脑子</h3>
+        <p>海大叔自己的档案：定价、注册、获客、合同、复盘。答案从档案里来，不联网瞎编。</p>
+      </div>
+      <div class="card">
+        <span class="tag">POSTS</span>
+        <h3>六个岗位</h3>
+        <p>算钱、开公司、做账号、搭系统、长本事、拍板。遇到哪类事就点哪个。</p>
+      </div>
+      <div class="card">
+        <span class="tag">PIPE</span>
+        <h3>一条流水线</h3>
+        <p>从选题到成稿到发布，一个人也能按顺序推下去，不靠灵感靠流程。</p>
+        <div class="flow"><span>选题</span><span>写稿</span><span>封面</span><span>剪辑</span><span>发布</span><span>归档</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" style="padding-top:46px">
+    <div class="st"><span class="no">02 / HOW</span><h2>三步就上手</h2></div>
+    <div class="cards">
+      <div class="card"><span class="tag">STEP 1</span><h3>说人话</h3><p>把情况一句话讲清：我是谁、卡在哪、想拿到什么。不用术语。</p></div>
+      <div class="card"><span class="tag">STEP 2</span><h3>拿结论</h3><p>它先给结论，再给三步。能做的才让你做，不能做的直接说不能。</p></div>
+      <div class="card"><span class="tag">STEP 3</span><h3>照着做</h3><p>做完一步再回来问下一步。每问一次，档案就厚一层。</p></div>
+    </div>
+  </section>
+
+  <section class="blk" style="padding-top:46px">
+    <div class="st"><span class="no">03 / WHO</span><h2>谁在用</h2></div>
+    <div class="cards">
+      <div class="card"><h3>一个人干全公司的人</h3><p>没有团队，也没有预算试错。要的是能直接落地的判断。</p></div>
+      <div class="card"><h3>个体户与小老板</h3><p>有手艺有客户，卡在报价、合同、现金流和放不放大。</p></div>
+      <div class="card"><h3>刚起步的账号主</h3><p>能发内容，但定位说不清、有粉不变现。</p></div>
+    </div>
+  </section>
+
+  <div class="end">
+    <a class="btn" href="/zhinao/">进舱，直接问 →</a>
+    <a class="btn ghost" href="/experts/">先看六个岗位</a>
+  </div>
+</main>
+
+<footer class="wrap">
+  <span>智脑网 · 一人公司辅助外挂</span>
+  <span><a href="/">首页</a> · <a href="/zhinao/">智脑</a> · <a href="/experts/">六位专家</a> · <a href="/aixinshou/">学习站</a></span>
+</footer>
+
+<script>
+/* 星空 */
+(function () {
+  var c = document.getElementById('stars'), x = c.getContext('2d'), ps = [], W, H;
+  function size() {
+    W = c.width = innerWidth * devicePixelRatio;
+    H = c.height = innerHeight * devicePixelRatio;
+    c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px';
+    ps = []; var n = Math.min(160, Math.round(innerWidth * innerHeight / 12000));
+    for (var i = 0; i < n; i++) ps.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: (Math.random() * 1.3 + .3) * devicePixelRatio,
+      a: Math.random() * .6 + .2, s: Math.random() * .014 + .004
+    });
+  }
+  function draw() {
+    x.clearRect(0, 0, W, H);
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i]; p.a += p.s; if (p.a > .9 || p.a < .15) p.s = -p.s;
+      x.beginPath(); x.arc(p.x, p.y, p.r, 0, 6.284);
+      x.fillStyle = 'rgba(190,235,255,' + p.a.toFixed(2) + ')'; x.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  size(); draw();
+  addEventListener('resize', size);
+})();
+
+/* HUD 真实数据 */
+fetch('/api/zhinao').then(function (r) { return r.json(); }).then(function (d) {
+  var f = document.getElementById('h-files');
+  var num = (d.stats && d.stats.files) || d.cards && d.cards * 70;
+  if (num) f.textContent = Number(num).toLocaleString('en-US');
+  if (d.domains) document.getElementById('h-posts').textContent = d.domains.length;
+  document.getElementById('h-live').textContent = d.ai_bound ? '在线' : '待接入';
+}).catch(function () {});
+
+addEventListener('scroll', function () {
+  document.getElementById('nav').classList.toggle('solid', scrollY > 12);
+}, { passive: true });
+</script>
+<script src="/assist.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "categories": {
+    "media": "新媒体 · 拍摄/剪辑",
+    "site": "官网页 · 线框/界面",
+    "mp": "小程序 · 手机端",
+    "app": "应用 · 仪表盘/门店"
+  },
+  "files": {
+    "app": [
+      "materials/img/app-1.webp",
+      "materials/img/app-2.webp",
+      "materials/img/app-3.webp",
+      "materials/img/app-4.webp",
+      "materials/img/app-5.webp"
+    ],
+    "media": [
+      "materials/img/media-1.webp",
+      "materials/img/media-2.webp",
+      "materials/img/media-3.webp",
+      "materials/img/media-4.webp",
+      "materials/img/media-5.webp"
+    ],
+    "mp": [
+      "materials/img/mp-1.webp",
+      "materials/img/mp-2.webp",
+      "materials/img/mp-3.webp",
+      "materials/img/mp-4.webp",
+      "materials/img/mp-5.webp"
+    ],
+    "site": [
+      "materials/img/site-1.webp",
+      "materials/img/site-2.webp",
+      "materials/img/site-3.webp",
+      "materials/img/site-4.webp",
+      "materials/img/site-5.webp"
+    ]
+  }
+}

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>商业决策避险 · 海大叔案例</title>
+<meta name="description" content="投钱之前先算一遍：资金占比、现金跑道、回本周期、最坏情况。七个维度扫风险，出致命项、最小验证方案、止损线和退出路径。">
+<meta name="theme-color" content="#FBF6EE">
+<style>
+:root{--bg:#FBF6EE;--card:#fff;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;--brand:#C2571C;--brand2:#A34A15;--line:rgba(140,95,50,.16);--ok:#2F9E6B;--warn:#D98324;--bad:#C0392B;--soft:rgba(194,87,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#FDF9F3,#F8EEE1 45%,#F3E5D2);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 110px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0;font-size:13px}
+.top a{color:var(--dim);text-decoration:none}
+.top .tag{font-size:11.5px;color:var(--brand);background:var(--soft);border:1px solid rgba(194,87,28,.18);border-radius:20px;padding:3px 10px}
+.hero{padding:6px 0 4px}
+.hero h1{font-size:27px;letter-spacing:-.6px;line-height:1.25}
+.hero p{color:var(--dim);font-size:14px;margin-top:9px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(120,70,30,.05),0 10px 26px rgba(120,70,30,.06);margin-top:14px}
+.card>h2{font-size:16px;margin-bottom:4px}
+.card>h2 .n{display:inline-flex;width:22px;height:22px;border-radius:7px;background:var(--soft);color:var(--brand);align-items:center;justify-content:center;font-size:12.5px;margin-right:8px;font-weight:700}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:12px}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field label{flex:1 1 150px;font-size:12.5px;color:var(--dim)}
+.field input,.field select,.field textarea{width:100%;margin-top:5px;padding:10px 11px;font-size:15px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-family:inherit;outline:none}
+.field textarea{min-height:64px;resize:vertical;font-size:14px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand)}
+.chk{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px dashed rgba(140,95,50,.10);font-size:13.5px;cursor:pointer}
+.chk:last-child{border-bottom:0}
+.chk input{width:18px;height:18px;margin-top:1px;accent-color:var(--brand);flex:0 0 auto}
+.chk i{font-style:normal;display:block;font-size:11.5px;color:var(--dim2);margin-top:2px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(251,246,238,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.bar .in{max-width:880px;margin:0 auto;display:flex;gap:10px}
+.btn{flex:1;border:0;border-radius:13px;padding:13px 16px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;background:var(--brand);color:#fff}
+.btn.ghost{flex:0 0 auto;background:#fff;color:var(--dim);border:1.5px solid var(--line);font-weight:500;font-size:14px;padding:13px 14px}
+#result{display:none}#result.on{display:block}
+.verdict{border-radius:14px;padding:16px 17px;margin-top:4px;font-size:14px;line-height:1.8}
+.verdict .lv{font-size:20px;font-weight:700;display:block;margin-bottom:6px;letter-spacing:-.3px}
+.verdict.g{background:rgba(47,158,107,.09);border:1px solid rgba(47,158,107,.25)}
+.verdict.g .lv{color:var(--ok)}
+.verdict.y{background:rgba(217,131,36,.10);border:1px solid rgba(217,131,36,.28)}
+.verdict.y .lv{color:#A9670F}
+.verdict.r{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25)}
+.verdict.r .lv{color:var(--bad)}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.kpi .k{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center}
+.kpi .k b{display:block;font-size:21px;line-height:1.2;letter-spacing:-.5px}
+.kpi .k span{display:block;font-size:11.5px;color:var(--dim);margin-top:3px}
+.kpi .k em{display:block;font-style:normal;font-size:10.5px;color:var(--dim2);margin-top:2px}
+.kpi .k.r b{color:var(--bad)}.kpi .k.y b{color:#A9670F}.kpi .k.g b{color:var(--ok)}
+.risk{border:1px solid var(--line);border-left:4px solid var(--dim2);border-radius:12px;padding:12px 14px;margin-top:10px;background:#fff}
+.risk.r{border-left-color:var(--bad)}
+.risk.y{border-left-color:var(--warn)}
+.risk.g{border-left-color:var(--ok)}
+.risk .h{display:flex;align-items:center;gap:9px}
+.risk .h b{font-size:14px}
+.risk .h .s{font-size:11px;border-radius:20px;padding:2px 8px;border:1px solid}
+.risk.r .h .s{color:var(--bad);background:rgba(192,57,43,.08);border-color:rgba(192,57,43,.22)}
+.risk.y .h .s{color:#A9670F;background:rgba(217,131,36,.10);border-color:rgba(217,131,36,.25)}
+.risk.g .h .s{color:var(--ok);background:rgba(47,158,107,.09);border-color:rgba(47,158,107,.22)}
+.risk p{font-size:13px;color:var(--dim);margin-top:7px;line-height:1.75}
+.risk p b{color:var(--ink)}
+.ul{margin:10px 0 0 18px;font-size:13.5px;line-height:1.95}
+.ul li::marker{color:var(--brand)}
+.ul li b{color:var(--ink)}
+.memo{background:#FBF6EE;border:1px dashed rgba(140,95,50,.3);border-radius:12px;padding:14px;font-size:12.8px;line-height:1.9;white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;margin-top:10px;color:var(--ink)}
+.copy{margin-top:10px;border:1.5px solid var(--brand);color:var(--brand);background:#fff;border-radius:11px;padding:10px 16px;font-size:13.5px;font-family:inherit;cursor:pointer}
+.empty{text-align:center;color:var(--dim2);font-size:13.5px;padding:26px 0}
+@media(max-width:520px){.hero h1{font-size:22px}.kpi{grid-template-columns:1fr}.kpi .k{display:flex;align-items:baseline;gap:10px;text-align:left}.kpi .k span{margin:0}.kpi .k em{margin-left:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/cases/">← 返回案例库</a>
+    <span class="tag">商业智脑 · 风险规避版</span>
+  </div>
+
+  <div class="hero">
+    <h1>🧭 商业决策避险</h1>
+    <p>大部分生意不是死于"不努力"，是死于"一开始就不该投这笔钱"。把钱数填进来，它先算三笔账，再扫七个方向的风险，最后给你：能不能上、先花多少钱验证、什么时候必须停。</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span>你要做的决定</h2>
+    <div class="sub">用一句话写清。写不清的那件事，通常还没到能投钱的阶段。</div>
+    <div class="field">
+      <label>决定是什么<textarea id="dec" placeholder="例：投 18 万在小区门口开一家 40 平的快餐店"></textarea></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span>三笔账（钱的部分）</h2>
+    <div class="sub">不填这两组数，任何"我觉得能行"都不算判断。</div>
+    <div class="field">
+      <label>一次性投入（元）<input id="invest" type="number" inputmode="numeric" placeholder="加盟/装修/设备/押金…"></label>
+      <label>之后每月固定支出（元）<input id="burn" type="number" inputmode="numeric" placeholder="房租+工资+进货+推广"></label>
+      <label>手头可动用现金（元）<input id="cash" type="number" inputmode="numeric" placeholder="不含房贷和救命钱"></label>
+      <label>每月生活固定开销（元）<input id="live" type="number" inputmode="numeric" placeholder="房贷+吃住+学费"></label>
+      <label>预计几个月后开始有收入<input id="months" type="number" inputmode="numeric" placeholder="如 4"></label>
+      <label>稳定后每月毛利（元）<input id="gross" type="number" inputmode="numeric" placeholder="营业额减货钱，不含房租工资"></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span>三条底线</h2>
+    <div class="sub">这三条决定你是"输了还能再来"还是"输了翻不了身"。</div>
+    <div class="field">
+      <label>这笔钱全亏了，会影响家里吗
+        <select id="hurt">
+          <option value="ok">不影响，亏了日子照过</option>
+          <option value="tight">会有点紧，但撑得住</option>
+          <option value="bad">会出事（房贷/学费/看病钱）</option>
+        </select>
+      </label>
+      <label>这个决定能撤回吗
+        <select id="back">
+          <option value="full">随时能退，押金设备能收回大半</option>
+          <option value="part">部分能退，大概亏一半</option>
+          <option value="none">退不了，投进去就沉底</option>
+        </select>
+      </label>
+    </div>
+    <div style="margin-top:12px" id="checks"></div>
+  </div>
+
+  <div id="result"></div>  <div class="card">
+    <h2><span class="n">AI</span>问专家</h2>
+    <div class="sub">算完还想追问？直接问。答的是这一行的专业口径，不是网上抄来的套话。</div>
+    <div id="hsd-ai"></div>
+  </div>
+
+</div>
+
+<div class="bar">
+  <div class="in">
+    <button class="btn" id="go">开始扫描</button>
+    <button class="btn ghost" id="reset">清空</button>
+  </div>
+</div>
+
+<script src="/assets/ai.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var CHECKS = [
+    {k:'lic', t:'这件事需要资质、许可或备案', i:'餐饮、教育、医疗、金融、运输、劳务派遣——没办下来就开张，是直接罚款关停的级别'},
+    {k:'adv', t:'需要先垫资，钱后收', i:'货款、人力、平台账期。垫资的生意，赚的是纸面利润，死的是现金流'},
+    {k:'few', t:'客户只有 1–2 家', i:'一家不续，你就从盈利变亏损，而且没有缓冲'},
+    {k:'chan', t:'主要靠一个平台或一个渠道获客', i:'平台改规则、限流、涨费用，你的客户来源当天归零'},
+    {k:'lock', t:'签了独家、长约，或押金超过 3 个月', i:'想退的时候退不了，这是最常见的"被套住"'},
+    {k:'self', t:'这事离了你就转不动', i:'你一病、一有事，收入立刻停——这不是生意，是自雇'},
+    {k:'dep', t:'有大额设备或装修，转手就贬值', i:'关门时这些基本当废品卖，等于全额亏损'}
+  ];
+
+  var box = document.getElementById('checks');
+  box.innerHTML = CHECKS.map(function(c){
+    return '<label class="chk"><input type="checkbox" data-c="' + c.k + '"><span>' + c.t +
+      '<i>' + c.i + '</i></span></label>';
+  }).join('');
+
+  var $ = function(id){ return document.getElementById(id); };
+  function num(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function money(n){
+    if (n == null || isNaN(n)) return '—';
+    if (Math.abs(n) >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + ' 万';
+    return Math.round(n).toLocaleString('zh-CN');
+  }
+
+  function level(v, g, y, reverse){
+    // reverse=false: 越大越危险
+    if (!reverse){ if (v >= y) return 'r'; if (v >= g) return 'y'; return 'g'; }
+    if (v <= y) return 'r'; if (v <= g) return 'y'; return 'g';
+  }
+
+  function build(){
+    var dec = $('dec').value.trim();
+    var invest = num('invest'), burn = num('burn'), cash = num('cash'),
+        live = num('live'), months = num('months'), gross = num('gross');
+    var hurt = $('hurt').value, back = $('back').value;
+    var picks = {};
+    document.querySelectorAll('[data-c]').forEach(function(el){ picks[el.dataset.c] = el.checked; });
+
+    var out = $('result');
+    if (invest <= 0 || cash <= 0){
+      out.className = 'on';
+      out.innerHTML = '<div class="card"><div class="empty">至少填「一次性投入」和「手头现金」两项——这两个数一填，风险基本就露出来了。</div></div>';
+      out.scrollIntoView({behavior:'smooth', block:'start'});
+      return;
+    }
+
+    /* —— 三笔账 —— */
+    var useRatio = invest / cash;                       // 投入占现金比例
+    var totalBurn = burn + live;                        // 每月总支出
+    var runway = totalBurn > 0 ? cash / totalBurn : 99; // 现金能撑几个月
+    var payback = gross > 0 ? invest / gross : null;    // 回本月数
+    var gap = gross - burn;                             // 每月净现金流
+    var worst = invest + burn * Math.max(months, 1);    // 最坏情况总沉没
+    var worstLeft = cash - worst;                       // 最坏之后还剩多少
+
+    /* —— 七个维度 —— */
+    var R = [];
+
+    // 1 资金占比
+    var lv1 = useRatio >= 0.5 ? 'r' : useRatio >= 0.3 ? 'y' : 'g';
+    if (invest > cash) lv1 = 'r';
+    R.push({t:'资金集中度', lv:lv1,
+      d: invest > cash
+        ? '你要投的 <b>' + money(invest) + '</b> 已经超过手头现金 <b>' + money(cash) + '</b>，缺口 <b>' + money(invest - cash) + '</b>。要借钱才能上，这一条本身就是红色的。'
+        : '这笔投入占你可动用现金的 <b>' + Math.round(useRatio * 100) + '%</b>。' +
+          (useRatio >= 0.5 ? '超过一半身家压在一个还没验证的事上，一次判断错就没有第二次机会。'
+           : useRatio >= 0.3 ? '三成到五成属于"重仓"。可以上，但必须先把验证做在前面。'
+           : '三成以内，输了还站得住，这个比例是健康的。')});
+
+    // 2 生活底线
+    var lv2 = hurt === 'bad' ? 'r' : hurt === 'tight' ? 'y' : 'g';
+    R.push({t:'家庭底线', lv:lv2,
+      d: hurt === 'bad'
+        ? '这笔钱包含房贷、学费、看病钱——<b>这一条是硬红线</b>。生意失败可以重来，动了这三笔钱，家里先出问题，你后面根本没法翻身。'
+        : hurt === 'tight'
+        ? '会有点紧。请先把未来 6 个月的生活费单独锁起来，剩下的才叫"可以拿去试的钱"。'
+        : '亏了不影响生活，这是能做生意的前提，你这一条合格。'});
+
+    // 3 现金跑道
+    var lv3 = runway < 6 ? 'r' : runway < 12 ? 'y' : 'g';
+    R.push({t:'现金跑道', lv:lv3,
+      d:'按每月总支出 <b>' + money(totalBurn) + '</b>（经营 ' + money(burn) + ' + 生活 ' + money(live) + '）算，现有现金能撑 <b>' +
+        (runway >= 99 ? '很久' : runway.toFixed(1) + ' 个月') + '</b>。' +
+        (runway < 6 ? '不到半年——这意味着你还没摸清门道，钱就没了。先把跑道拉到 12 个月，或者把投入砍小。'
+         : runway < 12 ? '半年到一年，勉强够试一次。建议再留 3 个月余量。'
+         : '一年以上，你有从容试错的空间。')});
+
+    // 4 回本周期
+    var lv4;
+    if (payback == null) { lv4 = 'r'; }
+    else lv4 = payback <= 12 ? 'g' : payback <= 24 ? 'y' : 'r';
+    R.push({t:'回本周期', lv:lv4,
+      d: payback == null
+        ? '每月毛利还没填或为 0，<b>算不出回本周期的事，就是在赌</b>。先去把"一个客户能赚多少、一个月能做几个"搞清楚。'
+        : '按每月毛利 <b>' + money(gross) + '</b> 算，回本要 <b>' + payback.toFixed(1) + ' 个月</b>。' +
+          (payback <= 12 ? '一年内回本，属于健康区间。'
+           : payback <= 24 ? '两年回本属于偏慢，要确认这门生意能稳定做两年以上。'
+           : '超过两年回本——市场上两年能变的事太多了，这个周期里你很可能会被新玩法冲垮。')});
+
+    // 5 现金流
+    var lv5 = gap >= 0 ? 'g' : (gross >= burn * 0.7 ? 'y' : 'r');
+    R.push({t:'每月净现金流', lv:lv5,
+      d: gap >= 0
+        ? '每月经营净流入 <b>+' + money(gap) + '</b>，能自己养活自己，不用一直往里贴钱。'
+        : '每月还要倒贴 <b>' + money(-gap) + '</b>。倒贴不可怕，可怕的是不知道要贴多久——按跑道算，最多能贴 ' +
+          (runway >= 99 ? '很久' : runway.toFixed(1) + ' 个月') + '。'});
+
+    // 6 可逆性
+    var lv6 = back === 'none' ? 'r' : back === 'part' ? 'y' : 'g';
+    R.push({t:'能不能退出来', lv:lv6,
+      d: back === 'none'
+        ? '投进去就沉底。<b>退不出的生意，只能一次做对</b>，所以必须把投入压到"亏了也不肉疼"的规模再试。'
+        : back === 'part'
+        ? '能收回一半左右，属于可接受。签任何合同前先确认：押金能退吗、设备能转手吗、违约金多少。'
+        : '能退，这是最大的安全垫——你可以在真实市场里小步试，而不是一次押命。'});
+
+    // 7 结构风险（勾选项）
+    var picked = CHECKS.filter(function(c){ return picks[c.k]; });
+    var lv7 = picked.length >= 3 ? 'r' : picked.length >= 1 ? 'y' : 'g';
+    R.push({t:'结构性风险', lv:lv7,
+      d: picked.length === 0
+        ? '常见的七个结构性陷阱你都没踩到，这一块干净。'
+        : '你勾了 <b>' + picked.length + ' 项</b>：' + picked.map(function(c){ return c.t; }).join('；') +
+          '。' + (picks.lic ? '<b>其中"需要资质"是要么办、要么不能干的问题，不是风险，是门槛。</b>' : '') +
+          (picked.length >= 3 ? '三项以上同时出现，通常意味着这门生意对"运气"的依赖太高。' : '逐条想办法拆掉，能拆掉一条风险就降一档。')});
+
+    /* —— 总评 —— */
+    var reds = R.filter(function(x){ return x.lv === 'r'; });
+    var yellows = R.filter(function(x){ return x.lv === 'y'; });
+    var cls, lvTxt, summary;
+
+    if (reds.length === 0 && yellows.length <= 1){
+      cls = 'g'; lvTxt = '可以上，但按下面的线走';
+      summary = '七项里没有红色项，黄灯也少。这个决定的风险是"可控"的——剩下的不是要不要做，是执行时守住止损线。';
+    } else if (reds.length === 0){
+      cls = 'y'; lvTxt = '先花小钱验证，再决定投';
+      summary = '没有红色致命项，但有 ' + yellows.length + ' 项黄灯。这些黄灯不代表不能做，代表<b>你现在还没有资格"一次性投进去"</b>——先把最贵的那部分押后。';
+    } else {
+      cls = 'r'; lvTxt = '先别投钱';
+      summary = '有 <b>' + reds.length + ' 项红色</b>：' + reds.map(function(x){ return x.t; }).join('、') +
+        '。这些不是"注意一下"，是<b>会直接把你打回去</b>的那种。先解决红色项，再谈要不要做。';
+    }
+
+    /* —— 最小验证方案 —— */
+    var mini = Math.max(1000, Math.round(invest * 0.08 / 100) * 100);
+    var valid = [];
+    valid.push('<li><b>先花 ' + money(mini) + '（总投入的 8%），只验证一个问题：有人愿意付钱吗。</b></li>');
+    valid.push('<li>不要先装修、不要先招人、不要先囤货。先把"卖出去一单"这件事跑通。</li>');
+    if (picks.lic) valid.push('<li><b>先办资质再谈其他。</b>办不下来的业态，别人能做你不能做，硬上就是罚款关停。</li>');
+    if (picks.chan) valid.push('<li>在验证期就用两个渠道各拉一批客户，别等到主渠道限流了才发现没有第二个来源。</li>');
+    if (picks.few) valid.push('<li>客户集中度过高，验证期就要去接触第 3、第 4 家，哪怕暂时不成交——这是你的备胎。</li>');
+    if (picks.adv) valid.push('<li>垫资的生意，先算"最坏情况要垫多少"，再问自己垫得起几个月。</li>');
+    valid.push('<li>验证成功的标准要提前定死：比如"30 天内 20 个陌生人付了全款"。达不到，就不投。</li>');
+
+    /* —— 止损线 —— */
+    var stop = [];
+    stop.push('<li><b>钱：</b>总投入不超过 <b>' + money(Math.min(cash * 0.3, invest)) + '</b> 时，必须停下来复盘一次——不是停生意，是停下来看数据对不对。</li>');
+    stop.push('<li><b>时间：</b>第 <b>' + Math.max(3, Math.ceil(months) + 3) + ' 个月</b>还没有 ' +
+      Math.max(1, Math.round((gross * 0.3) / 1000)) + ' 千的月毛利，就不再往里加钱。</li>');
+    stop.push('<li><b>信号：</b>出现任意一条——连续 2 个月客户数下降、主渠道流量腰斩、核心人员离开、需要借钱发工资——立刻收缩，别等"下个月会好"。</li>');
+    if (hurt === 'bad') stop.push('<li><b style="color:#C0392B">硬红线：</b>任何时候都不得动用房贷、学费、看病钱。需要动，就是该停的时候。</li>');
+
+    /* —— 退出路径 —— */
+    var exits = [];
+    if (picks.dep) exits.push('设备、装修找同行接手（先问清二手残值，通常只有原价 3–5 折）');
+    if (back !== 'none') exits.push('押金、保证金按合同主张退还，注意提前解约条款');
+    if (picks.lock) exits.push('长约先谈"转让"而不是"解约"，转让的违约金通常低得多');
+    exits.push('保留客户名单和交付记录——这是你唯一能带走、也能复用的资产');
+    exits.push('关掉不等于白干：把这套流程写成文档，下次做同类事情省一半成本');
+
+    /* —— 决策备忘 —— */
+    var memo =
+      '【决策备忘】' + (dec || '（未填写）') + '\n' +
+      '日期：' + new Date().toLocaleDateString('zh-CN') + '\n' +
+      '-----------------------------\n' +
+      '投入：' + money(invest) + '｜现金：' + money(cash) + '（占 ' + Math.round(useRatio * 100) + '%）\n' +
+      '每月支出：' + money(totalBurn) + '｜现金跑道：' + (runway >= 99 ? '充足' : runway.toFixed(1) + ' 个月') + '\n' +
+      '月毛利：' + money(gross) + '｜回本：' + (payback == null ? '算不出' : payback.toFixed(1) + ' 个月') + '\n' +
+      '最坏情况：总沉没 ' + money(worst) + '，之后剩 ' + money(worstLeft) + '\n' +
+      '结论：' + lvTxt + '\n' +
+      '红色项：' + (reds.length ? reds.map(function(x){ return x.t; }).join('、') : '无') + '\n' +
+      '-----------------------------\n' +
+      '验证上限：' + money(mini) + '（只验证"有人愿意付钱"）\n' +
+      '止损线：第 ' + Math.max(3, Math.ceil(months) + 3) + ' 个月月毛利不足 ' + money(gross * 0.3) + ' 就停止加钱\n' +
+      '下次复盘：' + new Date(Date.now() + 30 * 864e5).toLocaleDateString('zh-CN') + '（30 天后必须回看一次）';
+
+    out.className = 'on';
+    out.innerHTML =
+      '<div class="card">' +
+        '<h2><span class="n">4</span>结论</h2>' +
+        '<div class="verdict ' + cls + '"><span class="lv">' + lvTxt + '</span>' + summary + '</div>' +
+        '<div class="kpi">' +
+          '<div class="k ' + (useRatio >= 0.5 ? 'r' : useRatio >= 0.3 ? 'y' : 'g') + '"><b>' + Math.round(useRatio * 100) + '%</b><span>投入占现金</span><em>健康线 30% 以内</em></div>' +
+          '<div class="k ' + (runway < 6 ? 'r' : runway < 12 ? 'y' : 'g') + '"><b>' + (runway >= 99 ? '充足' : runway.toFixed(1) + ' 月') + '</b><span>现金能撑</span><em>安全线 12 个月</em></div>' +
+          '<div class="k ' + (payback == null ? 'r' : payback <= 12 ? 'g' : payback <= 24 ? 'y' : 'r') + '"><b>' + (payback == null ? '算不出' : payback.toFixed(1) + ' 月') + '</b><span>回本周期</span><em>健康线 12 个月内</em></div>' +
+        '</div>' +
+        '<div class="kpi" style="grid-template-columns:1fr 1fr">' +
+          '<div class="k"><b style="font-size:16px">' + money(worst) + '</b><span>最坏情况总沉没</span><em>投入 + 每月支出 × 见钱月数</em></div>' +
+          '<div class="k ' + (worstLeft < 0 ? 'r' : 'g') + '"><b style="font-size:16px">' + money(worstLeft) + '</b><span>最坏之后还剩</span><em>' + (worstLeft < 0 ? '会出现资金缺口，要提前想好从哪补' : '还能站住') + '</em></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="card"><h2><span class="n">5</span>七个方向，逐项看</h2>' +
+        '<div class="sub">红灯是"先解决再谈"，黄灯是"可以上但要留后手"，绿灯是这一块没问题。</div>' +
+        R.map(function(x){
+          return '<div class="risk ' + x.lv + '"><div class="h"><b>' + x.t + '</b><span class="s">' +
+            (x.lv === 'r' ? '红 · 先解决' : x.lv === 'y' ? '黄 · 留后手' : '绿 · 合格') + '</span></div><p>' + x.d + '</p></div>';
+        }).join('') +
+      '</div>' +
+      '<div class="card"><h2><span class="n">6</span>别急着全投，先花 ' + money(mini) + ' 验证</h2>' +
+        '<div class="sub">这一步是整份报告里最省钱的一条建议。</div>' +
+        '<ul class="ul">' + valid.join('') + '</ul></div>' +
+      '<div class="card"><h2><span class="n">7</span>止损线：现在写下来，别到时候心软</h2>' +
+        '<div class="sub">亏损扩大，几乎都发生在"再撑一个月看看"这句话之后。</div>' +
+        '<ul class="ul">' + stop.join('') + '</ul></div>' +
+      '<div class="card"><h2><span class="n">8</span>退出的路，先想好</h2>' +
+        '<ul class="ul">' + exits.map(function(e){ return '<li>' + e + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="card"><h2><span class="n">9</span>决策备忘（存下来，30 天后回看）</h2>' +
+        '<div class="memo" id="memo">' + memo.replace(/</g, '&lt;') + '</div>' +
+        '<button class="copy" id="cp">复制这段备忘</button></div>' +
+      '<div class="card" style="background:#FFF8F0;border-color:rgba(194,87,28,.22)">' +
+        '<div style="font-size:12.5px;color:#7C6A57;line-height:1.85">' +
+        '<b style="color:#C0392B">说明：</b>这是决策辅助，不是投资建议。它算的是"数目上划不划算、结构上有没有硬伤"，' +
+        '算不出你的行业手感、也替代不了实地调研。所有结论都依赖你填的数字——数字填得糊，结论就是糊的。</div></div>';
+
+    var cp = document.getElementById('cp');
+    if (cp) cp.addEventListener('click', function(){
+      var t = document.getElementById('memo').innerText;
+      if (navigator.clipboard) navigator.clipboard.writeText(t);
+      cp.textContent = '已复制 ✓';
+      setTimeout(function(){ cp.textContent = '复制这段备忘'; }, 1800);
+    });
+
+    out.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  $('go').addEventListener('click', build);
+  $('reset').addEventListener('click', function(){
+    ['dec','invest','burn','cash','live','months','gross'].forEach(function(id){ $(id).value = ''; });
+    document.querySelectorAll('[data-c]').forEach(function(el){ el.checked = false; });
+    $('result').className = ''; $('result').innerHTML = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+
+<script>
+(function(){
+  if(!window.HSDAI) return;
+  var sys = '你是商业决策风险顾问，帮一个人或小团队判断"这笔钱该不该投、这门生意该不该做"。\n' +
+  '【你的方法】\n' +
+  '1. 先要数字：投入多少、每月固定支出、手头现金、预计多久见钱、月毛利大概多少。缺数字就直接要，不要凭感觉给建议。\n' +
+  '2. 七个方向扫风险：资金集中度、家庭底线、现金跑道、回本周期、每月净现金流、可逆性、结构风险（资质/垫资/客户集中/单渠道/长约/离了你就停）。\n' +
+  '3. 每个判断都要落到具体数字：占比百分之多少、能撑几个月、几个月回本。\n' +
+  '4. 永远给"最小代价验证方案"：花多少钱、验证哪一个假设、达到什么标准才继续投。\n' +
+  '5. 永远给止损线：钱到多少停、时间到几个月停、出现什么信号立刻停。\n' +
+  '【必须守住的边界】不承诺收益、不预测市场、不替用户拍板。结论用"能上 / 先验证 / 先别投"三档，说清依据。\n' +
+  '【语气】先给判断一句话说死，再给理由，最后给今天能做的一步。不超过 400 字，不喊口号。';
+  HSDAI.panel('#hsd-ai', {
+    title: '🧭 问风险顾问',
+    badge: 'AI 在线',
+    subtitle: '我这种小店能不能开、这笔钱投进去多久能回、该不该接这个单，都可以摊开算。',
+    system: sys,
+    quick: ['投 18 万开快餐店，多久回本算正常？', '客户只有两家，风险到底有多大？', '要不要为了大单先垫资？', '现金流撑不住的时候该先砍什么？', '加盟到底值不值得？'],
+    placeholder: '例：想投 25 万做社区团购，手上现金 30 万，房贷每月 6000，该不该做？',
+    greeting: '我是风险顾问。你把钱的数说清楚，我帮你算三笔账（资金占比、现金跑道、回本周期），再扫七个方向的风险。\n\n要判断得准，至少告诉我：投多少、每月固定支出多少、手上有多少现金、预计几个月见钱、稳定后月毛利大概多少。',
+    hint: '不承诺收益 · 不替你拍板',
+    disclaimer: '⚖️ 这是决策辅助，不是投资建议。它算的是数目和结构，算不出你的行业手感和实地调研。数字填得糊，结论就是糊的。'
+  });
+})();
+</script>
+
+</body>
+</html>

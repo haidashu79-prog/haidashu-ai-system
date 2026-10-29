@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>自媒体小白陪跑 · 海大叔案例</title>
+<meta name="description" content="从一句话定位、30 条选题、口播脚本、10 个标题到数据复盘，一条线跑完。新手最缺的不是方法，是知道下一步做哪一件。">
+<meta name="theme-color" content="#FBF6EE">
+<style>
+:root{--bg:#FBF6EE;--card:#fff;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;--brand:#C2571C;--brand2:#A34A15;--line:rgba(140,95,50,.16);--ok:#2F9E6B;--warn:#D98324;--bad:#C0392B;--soft:rgba(194,87,28,.09)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#FDF9F3,#F8EEE1 45%,#F3E5D2);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0;font-size:13px}
+.top a{color:var(--dim);text-decoration:none}
+.top .tag{font-size:11.5px;color:var(--brand);background:var(--soft);border:1px solid rgba(194,87,28,.18);border-radius:20px;padding:3px 10px}
+.hero{padding:6px 0 10px}
+.hero h1{font-size:27px;letter-spacing:-.6px;line-height:1.25}
+.hero p{color:var(--dim);font-size:14px;margin-top:9px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1.5px solid var(--line);background:#fff;color:var(--dim);border-radius:22px;padding:8px 15px;font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(120,70,30,.05),0 10px 26px rgba(120,70,30,.06);margin-top:12px}
+.card>h2{font-size:16px;margin-bottom:4px}
+.sub{font-size:12.5px;color:var(--dim2);margin-bottom:12px;line-height:1.7}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field label{flex:1 1 200px;font-size:12.5px;color:var(--dim)}
+.field input,.field select,.field textarea{width:100%;margin-top:5px;padding:10px 11px;font-size:15px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-family:inherit;outline:none}
+.field textarea{min-height:60px;resize:vertical;font-size:14px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand)}
+.btn{border:0;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;background:var(--brand);color:#fff;width:100%;margin-top:14px}
+.btn.sm{width:auto;padding:9px 15px;font-size:13px;margin-top:10px;background:#fff;color:var(--brand);border:1.5px solid var(--brand);font-weight:500}
+.res{display:none}.res.on{display:block}
+.verdict{background:var(--soft);border:1px solid rgba(194,87,28,.2);border-radius:13px;padding:14px 16px;font-size:14px;line-height:1.85;margin-top:12px}
+.verdict b{color:var(--brand)}
+.pill-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.pill{font-size:12px;color:var(--brand);background:rgba(194,87,28,.08);border:1px solid rgba(194,87,28,.2);border-radius:20px;padding:4px 11px}
+.ul{margin:10px 0 0 18px;font-size:13.5px;line-height:1.95}
+.ul li::marker{color:var(--brand)}
+.ul li b{color:var(--ink)}
+.memo{background:#FBF6EE;border:1px dashed rgba(140,95,50,.3);border-radius:12px;padding:14px;font-size:13px;line-height:1.9;white-space:pre-wrap;margin-top:10px}
+.copy{border:1.5px solid var(--brand);color:var(--brand);background:#fff;border-radius:11px;padding:9px 16px;font-size:13px;font-family:inherit;cursor:pointer;margin-top:10px}
+.topic{border:1px solid var(--line);border-radius:11px;padding:10px 13px;margin-top:8px;font-size:13.3px;cursor:pointer;background:#fff;display:flex;gap:10px;align-items:flex-start}
+.topic:hover{border-color:rgba(194,87,28,.4);background:#FFFBF6}
+.topic .no{flex:0 0 auto;font-size:11px;color:var(--dim2);font-variant-numeric:tabular-nums;padding-top:2px;min-width:18px}
+.topic .k{font-size:10.5px;color:#A9670F;background:rgba(217,131,36,.10);border:1px solid rgba(217,131,36,.22);border-radius:20px;padding:1px 7px;margin-left:6px;white-space:nowrap}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.kpi .k{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center}
+.kpi .k b{display:block;font-size:19px;line-height:1.2}
+.kpi .k span{display:block;font-size:11px;color:var(--dim);margin-top:2px}
+.kpi .k.g b{color:var(--ok)}.kpi .k.y b{color:#A9670F}.kpi .k.r b{color:var(--bad)}
+.note{font-size:12.3px;color:var(--dim);line-height:1.8;background:#FFF8F0;border:1px solid rgba(194,87,28,.18);border-radius:11px;padding:11px 13px;margin-top:12px}
+@media(max-width:560px){.hero h1{font-size:22px}.kpi{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/cases/">← 返回案例库</a>
+    <span class="tag">新媒体 IP · 小白陪跑</span>
+  </div>
+
+  <div class="hero">
+    <h1>📣 自媒体小白陪跑</h1>
+    <p>新手做号最容易死在"每天想今天发什么"。这里不讲大道理，直接出东西：一句话定位、30 条能拍的选题、四段口播稿、10 个标题、还有数据出来了怎么看。哪一步卡住就问教练。</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-p="pos">① 一句话定位</button>
+    <button class="tab" data-p="topic">② 30 条选题</button>
+    <button class="tab" data-p="script">③ 口播脚本</button>
+    <button class="tab" data-p="title">④ 标题</button>
+    <button class="tab" data-p="data">⑤ 数据复盘</button>
+    <button class="tab" data-p="ask">⑥ 问教练</button>
+  </div>
+
+  <!-- ① 定位 -->
+  <div class="pane on" id="p-pos">
+    <div class="card">
+      <h2>五个问题，换一句话</h2>
+      <div class="sub">定位不是"我是做美食的"，是"我帮谁解决什么"。填完这五格，下面直接出定位句和三个内容支柱。</div>
+      <div class="field">
+        <label>① 你做什么（具体一点）<input id="q1" placeholder="例：教家常菜，专门做一人食"></label>
+        <label>② 帮谁（越具体越好）<input id="q2" placeholder="例：一个人住、没时间做饭的上班族"></label>
+        <label>③ 你和他有什么不一样<input id="q3" placeholder="例：全部 15 分钟内做完，食材楼下超市就有"></label>
+        <label>④ 你拿得出什么证据<input id="q4" placeholder="例：自己做了 400 天，带过 200 个学员"></label>
+        <label>⑤ 你想要什么结果<input id="q5" placeholder="例：涨粉 / 卖课 / 接广告 / 卖货 / 引流到店"></label>
+      </div>
+      <button class="btn" id="posGo">出我的定位</button>
+    </div>
+    <div class="res" id="posRes"></div>
+  </div>
+
+  <!-- ② 选题 -->
+  <div class="pane" id="p-topic">
+    <div class="card">
+      <h2>30 条选题，直接能拍</h2>
+      <div class="sub">按定位里的"你做什么"和三个支柱生成。点任意一条，能直接拿去当口播主题。</div>
+      <div class="field">
+        <label>你做什么（留空就用①里填的）<input id="tDo" placeholder="例：一人食家常菜"></label>
+      </div>
+      <button class="btn" id="topicGo">生成 30 条</button>
+    </div>
+    <div class="res" id="topicRes"></div>
+  </div>
+
+  <!-- ③ 脚本 -->
+  <div class="pane" id="p-script">
+    <div class="card">
+      <h2>四段口播稿</h2>
+      <div class="sub">短视频的骨架就四段：钩子（前 3 秒）、冲突（为什么你以前不行）、例子（具体怎么做）、行动（今天做哪一步）。填主题，出草稿。</div>
+      <div class="field">
+        <label>这条讲什么（一句话）<input id="sTopic" placeholder="例：一个人做饭，怎么 15 分钟搞定"></label>
+        <label>你的身份/口吻<input id="sWho" placeholder="例：做了 400 天一人食的上班族"></label>
+        <label>想让人看完做什么<input id="sCta" placeholder="例：今晚就试一道 / 关注我"></label>
+        <label>时长<select id="sLen"><option value="45">45 秒左右</option><option value="70">70 秒左右</option><option value="120">2 分钟</option></select></label>
+      </div>
+      <button class="btn" id="scriptGo">出脚本</button>
+    </div>
+    <div class="res" id="scriptRes"></div>
+  </div>
+
+  <!-- ④ 标题 -->
+  <div class="pane" id="p-title">
+    <div class="card">
+      <h2>10 个标题</h2>
+      <div class="sub">同一个内容，标题决定有没有人点。十种句式各出一个，挑最像你说话的那条。</div>
+      <div class="field">
+        <label>这条内容讲什么<input id="tiTopic" placeholder="例：一个人做饭 15 分钟搞定"></label>
+      </div>
+      <button class="btn" id="titleGo">出 10 个标题</button>
+    </div>
+    <div class="res" id="titleRes"></div>
+  </div>
+
+  <!-- ⑤ 复盘 -->
+  <div class="pane" id="p-data">
+    <div class="card">
+      <h2>发完看数据，决定下条拍什么</h2>
+      <div class="sub">把最近几条的实际数字填进来。它算出三个率，告诉你哪条该复制、哪条别拍了。</div>
+      <div id="rows"></div>
+      <button class="btn" id="dataGo">算一算</button>
+      <p style="font-size:11.5px;color:#A8998A;margin-top:9px;line-height:1.7">填 2–5 条就够看出规律。数据在你自己的后台（抖音/视频号/小红书都有"作品数据"）。</p>
+    </div>
+    <div class="res" id="dataRes"></div>
+  </div>
+
+  <!-- ⑥ AI -->
+  <div class="pane" id="p-ask">
+    <div class="card">
+      <h2>问教练</h2>
+      <div class="sub">定位想不清、选题不敢拍、发了没流量、要不要投流——直接问，答的是实操口径。</div>
+      <div id="hsd-ai"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/ai.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  function v(id){ return ($(id).value || '').trim(); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  /* tab */
+  var tabs = $('tabs');
+  tabs.addEventListener('click', function(e){
+    var b = e.target.closest('.tab'); if(!b) return;
+    tabs.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('on'); });
+    var el = $('p-' + b.dataset.p); if (el) el.classList.add('on');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ---------- ① 定位 ---------- */
+  var PILLARS = [];
+  $('posGo').addEventListener('click', function(){
+    var doIt = v('q1'), who = v('q2'), diff = v('q3'), proof = v('q4'), goal = v('q5');
+    var res = $('posRes');
+    if (!doIt || !who){
+      res.className='on';
+      res.innerHTML = '<div class="card"><div class="sub">至少填「你做什么」和「帮谁」——这两个是定位的骨架，缺一个就立不住。</div></div>';
+      return;
+    }
+    var line = '我帮' + who + '，把' + doIt + '这件事' + (diff ? '用「' + diff + '」的方式' : '') + '做成。';
+    PILLARS = [
+      doIt + '怎么做',
+      doIt + '里最容易踩的坑',
+      who + '真实的日常与变化'
+    ];
+
+    var nots = [
+      '不发和' + (who || '你的目标人群') + '无关的行业大新闻——那不是你的内容，是媒体的内容。',
+      '不发"努力就会成功"这类空话——没有人因为一句口号关注你。',
+      '不发你还没做到的事——账号不是愿望清单，是做过的证据。'
+    ];
+    if (goal === '卖课' || goal === '卖货') {
+      nots.push('别一上来就卖。先让人相信你懂，才有资格报价。前 20 条不挂链接，比挂链接涨粉快。');
+    }
+
+    res.className='on';
+    res.innerHTML =
+      '<div class="card">' +
+        '<h2>你的定位句</h2>' +
+        '<div class="verdict" style="font-size:15.5px;line-height:1.9">' + esc(line) + '</div>' +
+        '<p style="font-size:12.5px;color:#A8998A;margin-top:9px;line-height:1.75">把这句话放到主页简介里，前三秒视频里说一次。客户能复述出来，定位就成立了。</p>' +
+        '<div style="margin-top:14px;font-size:13px;color:#7C6A57">三个内容支柱（这三个轮着发，别乱）：</div>' +
+        '<div class="pill-row">' + PILLARS.map(function(p){ return '<span class="pill">' + esc(p) + '</span>'; }).join('') + '</div>' +
+      '</div>' +
+      (proof ? '<div class="card"><h2>你的信任凭据</h2><div class="sub">这是你和"同样在做这件事的人"唯一的区别，每条内容里至少露一次。</div>' +
+        '<div class="verdict">' + esc(proof) + '</div></div>' : '') +
+      '<div class="card"><h2>不要发什么</h2><ul class="ul">' + nots.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul></div>' +
+      (goal ? '<div class="card"><h2>你的目标决定了节奏</h2><div class="sub">' +
+        (goal.indexOf('卖') >= 0 || goal.indexOf('引流') >= 0 || goal.indexOf('接') >= 0
+          ? '变现型账号：前 20 条全是"证明你懂"的内容，第 21 条才谈价。信任没建立之前，任何链接都是劝退。'
+          : '涨粉型账号：先把一个标签打透。追热点能涨得快，但涨来的粉不认你——要涨"会买你东西的粉"，就先做垂直。') +
+        '</div></div>' : '');
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ---------- ② 选题 ---------- */
+  var PAT = [
+    ['为什么', '你做{d}总是{o}？不是你不努力，是顺序错了'],
+    ['别再做', '别再把{d}当成{p}了，方向反了'],
+    ['算账', '{n}块钱，怎么把{d}做起来'],
+    ['对比', '{d}前后对比：从{a}到{b}，我只改了一件事'],
+    ['避坑', '我踩过的三个{d}的坑，你别再踩'],
+    ['清单', '新手做{d}，第一个月只做这三件事'],
+    ['反常识', '做{d}最没用的努力，就是{p}'],
+    ['拆解', '我用一天把{d}跑通，全过程给你看'],
+    ['答疑', '总有人问我：{d}到底要不要{p}？'],
+    ['故事', '我认识一个人，靠{d}把日子过回来了']
+  ];
+
+  $('topicGo').addEventListener('click', function(){
+    var doIt = v('tDo') || v('q1');
+    var res = $('topicRes');
+    if (!doIt){ res.className='on'; res.innerHTML='<div class="card"><div class="sub">先填「你做什么」，或者在①里填过一次也行。</div></div>'; return; }
+    if (!PILLARS.length) PILLARS = [doIt + '怎么做', doIt + '里最容易踩的坑', '真实的日常与变化'];
+
+    var list = [], n = 0;
+    for (var i = 0; i < PAT.length; i++){
+      for (var j = 0; j < PILLARS.length; j++){
+        var d = j === 1 ? doIt + '的坑' : (j === 2 ? doIt + '的真实日常' : doIt);
+        var t = PAT[i][1]
+          .replace(/\{d\}/g, d)
+          .replace(/\{o\}/g, '半途而废')
+          .replace(/\{p\}/g, '拼命坚持')
+          .replace(/\{n\}/g, '300')
+          .replace(/\{a\}/g, '每天手忙脚乱')
+          .replace(/\{b\}/g, '15 分钟上桌');
+        n++;
+        list.push({ no: n, tag: PAT[i][0], t: t, d: d });
+      }
+    }
+
+    res.className='on';
+    res.innerHTML = '<div class="card"><h2>30 条选题</h2>' +
+      '<div class="sub">点任意一条，跳到口播脚本那里自动填好主题。</div>' +
+      list.map(function(x, i){
+        return '<div class="topic" data-i="' + i + '"><span class="no">' + x.no + '</span>' +
+          '<span><span class="k">' + x.tag + '</span> ' + esc(x.t) + '</span></div>';
+      }).join('') + '</div>';
+
+    res.querySelectorAll('.topic').forEach(function(el){
+      el.addEventListener('click', function(){
+        var x = list[parseInt(el.dataset.i, 10)];
+        $('sTopic').value = x.t;
+        $('tiTopic').value = x.t;
+        tabs.querySelector('[data-p="script"]').click();
+      });
+    });
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ---------- ③ 脚本 ---------- */
+  $('scriptGo').addEventListener('click', function(){
+    var t = v('sTopic'), who = v('sWho') || '一个真的做过这件事的人', cta = v('sCta') || '关注我，接着往下看';
+    var len = parseInt($('sLen').value, 10);
+    var res = $('scriptRes');
+    if (!t){ res.className='on'; res.innerHTML='<div class="card"><div class="sub">先写清这条讲什么，一句话就够。</div></div>'; return; }
+
+    var hook = [
+      '先说结论：' + t + '。如果你也卡在这一步，接下来的话能省你一个月。',
+      '如果你做' + t + '已经很久还是没起色，先别怀疑自己，先看是不是顺序错了。',
+      '关于' + t + '，我踩过的坑比你要走的路还多。今天一次说完。'
+    ];
+    var body =
+      '【冲突】大多数人做这件事，第一反应是"再努力一点"。但我后来发现，努力只是必要条件，不是关键变量。\n' +
+      '真正拉开差距的是：先做对顺序。';
+    var example =
+      '【例子】' + who + '，我一开始也是乱做。\n' +
+      '第一步，我把它拆成三件小事，只留今天必须做的那一件；\n' +
+      '第二步，做完记一句"哪一步最卡"，下次直接改那一步；\n' +
+      '第三步，做完三次以后回头看，规律自然出来了。';
+    var act = '【行动】别一次改全部。今天就做一件：' + (cta.indexOf('关注') >= 0 ? '把这条存下来，今晚照着做一遍。' : cta + '。');
+
+    var script = hook[0] + '\n\n' + body + '\n\n' + example + '\n\n' + act;
+    var secs = Math.round(len / 45 * 3);
+
+    res.className='on';
+    res.innerHTML =
+      '<div class="card"><h2>口播草稿</h2>' +
+      '<div class="sub">约 ' + len + ' 秒 · ' + secs + ' 段。钩子三选一，下面用第一条，另外两条留着换着发。</div>' +
+      '<div class="memo" id="scm">' + esc(script) + '</div>' +
+      '<button class="copy" data-cp="scm">复制脚本</button></div>' +
+      '<div class="card"><h2>另外两个钩子</h2><ul class="ul">' +
+        hook.slice(1).map(function(h){ return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>' +
+        '<div class="note">钩子必须在 3 秒内说完第一句。开头不要"大家好我是XX"——那 5 个字会掉一半人。</div></div>' +
+      '<div class="card"><h2>拍的时候注意</h2><ul class="ul">' +
+        '<li>第一句话不要配画面开场，直接怼脸说，人最容易停下来听"结论"。</li>' +
+        '<li>每段之间留半秒停顿，剪的时候别剪太碎，碎了一句话听不懂。</li>' +
+        '<li>字幕把关键词放大（不是整句），人看的是那两个字。</li>' +
+        '<li>结尾不要说"点赞关注"，说一件具体的事让人去做——有动作才会互动。</li></ul></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ---------- ④ 标题 ---------- */
+  $('titleGo').addEventListener('click', function(){
+    var t = v('tiTopic') || v('sTopic');
+    var res = $('titleRes');
+    if (!t){ res.className='on'; res.innerHTML='<div class="card"><div class="sub">先填内容主题。</div></div>'; return; }
+    var T = [
+      t + '，我用了一个笨办法',
+      '关于' + t + '，90% 的人第一步就错了',
+      '别急着做' + t + '，先看这三个数',
+      t + '：我踩过的坑，你直接跳过',
+      '一天搞定' + t + '，过程全给你看',
+      '做' + t + '之前，没人告诉过我这三件事',
+      t + '到底难在哪？我说点实在的',
+      '如果你正在做' + t + '，这条能省你一个月',
+      '把' + t + '做对以后，变化是这样的',
+      t + '最没用的努力，是拼命坚持'
+    ];
+    res.className='on';
+    res.innerHTML = '<div class="card"><h2>10 个标题</h2>' +
+      '<div class="sub">挑最像你平时说话的那条。念起来别扭的，划走。</div>' +
+      '<div class="memo" id="tm">' + T.map(function(x, i){ return (i+1) + '. ' + x; }).join('\n') + '</div>' +
+      '<button class="copy" data-cp="tm">复制全部标题</button>' +
+      '<div class="note">标题别用"震惊""必看""90% 人不知道"这类词——平台会限流，人也早免疫了。要具体：具体的数字、具体的场景、具体的结果。</div></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ---------- ⑤ 复盘 ---------- */
+  var rowsBox = $('rows');
+  function rowHtml(i){
+    return '<div class="card" style="margin-top:10px;padding:14px;box-shadow:none">' +
+      '<div style="font-size:12.5px;color:#7C6A57;margin-bottom:8px">第 ' + (i+1) + ' 条</div>' +
+      '<div class="field">' +
+        '<label style="flex:1 1 100%">标题<input data-f="name" data-i="' + i + '" placeholder="这条叫什么"></label>' +
+        '<label>播放量<input data-f="play" data-i="' + i + '" type="number" inputmode="numeric"></label>' +
+        '<label>点赞<input data-f="like" data-i="' + i + '" type="number" inputmode="numeric"></label>' +
+        '<label>评论<input data-f="cmt" data-i="' + i + '" type="number" inputmode="numeric"></label>' +
+        '<label>收藏/转发<input data-f="save" data-i="' + i + '" type="number" inputmode="numeric"></label>' +
+        '<label>新增关注<input data-f="fans" data-i="' + i + '" type="number" inputmode="numeric"></label>' +
+        '<label>完播率（%）<input data-f="fin" data-i="' + i + '" type="number" inputmode="numeric" placeholder="后台有这项"></label>' +
+      '</div></div>';
+  }
+  rowsBox.innerHTML = [0,1,2].map(rowHtml).join('');
+  $('addRow') && null;
+
+  $('dataGo').addEventListener('click', function(){
+    var list = [];
+    document.querySelectorAll('[data-f]').forEach(function(el){});
+    for (var i=0;i<3;i++){
+      var g = function(f){ var el = document.querySelector('[data-f="'+f+'"][data-i="'+i+'"]'); var n = el?parseFloat(el.value):NaN; return isNaN(n)?0:n; };
+      var name = (document.querySelector('[data-f="name"][data-i="'+i+'"]')||{}).value || ('第' + (i+1) + '条');
+      var play = g('play');
+      if (!play) continue;
+      list.push({ name:name, play:play, like:g('like'), cmt:g('cmt'), save:g('save'), fans:g('fans'), fin:g('fin') });
+    }
+    var res = $('dataRes');
+    if (!list.length){ res.className='on'; res.innerHTML='<div class="card"><div class="sub">至少填一条的播放量。</div></div>'; return; }
+
+    function rate(x, r){ return x.play > 0 ? (r / x.play * 100) : 0; }
+    list.forEach(function(x){
+      x.inter = rate(x, x.like + x.cmt + x.save);
+      x.fanR = rate(x, x.fans);
+      x.score = (x.fin || 0) * 0.5 + x.inter * 6 + x.fanR * 10;
+    });
+    list.sort(function(a,b){ return b.score - a.score; });
+    var best = list[0], worst = list[list.length-1];
+
+    function lv(vv, g, y){ return vv >= y ? 'g' : vv >= g ? 'y' : 'r'; }
+    var avgFin = 0, c = 0;
+    list.forEach(function(x){ if (x.fin){ avgFin += x.fin; c++; } });
+    avgFin = c ? avgFin / c : 0;
+
+    res.className='on';
+    res.innerHTML =
+      '<div class="card"><h2>三个率怎么读</h2>' +
+      '<div class="kpi">' +
+        '<div class="k ' + lv(avgFin, 15, 30) + '"><b>' + (c ? avgFin.toFixed(0) + '%' : '—') + '</b><span>平均完播率</span></div>' +
+        '<div class="k ' + lv(best.inter, 2, 5) + '"><b>' + best.inter.toFixed(1) + '%</b><span>最高互动率</span></div>' +
+        '<div class="k ' + lv(best.fanR, 0.5, 2) + '"><b>' + best.fanR.toFixed(2) + '%</b><span>最高涨粉率</span></div>' +
+        '<div class="k"><b>' + list.length + '</b><span>参与对比的条数</span></div>' +
+      '</div>' +
+      '<div class="note">参考线（不是标准，是经验值）：完播率 30% 以上算好，15% 以下说明钩子没抓住人；互动率 5% 以上说明内容有共鸣，2% 以下说明看完就走；涨粉率 2% 以上说明人设立住了，0.5% 以下说明看完不记得你是谁。</div>' +
+      '</div>' +
+      '<div class="card"><h2>该复制哪一条</h2>' +
+        '<div class="verdict">综合分最高的是「<b>' + esc(best.name) + '</b>」：播放 ' + best.play + '、完播 ' + (best.fin||0) + '%、互动率 ' + best.inter.toFixed(1) + '%、涨粉率 ' + best.fanR.toFixed(2) + '%。<br><br>' +
+        '<b>下一条就照这个来：</b>同一个话题侧面再拍 2 条，同一个开头方式再用一次，同一个时长继续用。爆款不是靠灵感，是靠把一条已经跑通的复制出来。</div>' +
+        (list.length > 1 ? '<div class="sub" style="margin-top:12px">最该放下的：「' + esc(worst.name) + '」。它的问题不是"不够努力"，是开头 3 秒没留住人——这一条不要重拍，直接换钩子。</div>' : '') +
+      '</div>' +
+      '<div class="card"><h2>逐条看</h2>' +
+        list.map(function(x){
+          return '<div style="padding:10px 0;border-bottom:1px dashed rgba(140,95,50,.12);font-size:13px">' +
+            '<div style="font-weight:600">' + esc(x.name) + '</div>' +
+            '<div style="color:#7C6A57;margin-top:4px;font-size:12.3px">播放 ' + x.play +
+            ' · 互动率 ' + x.inter.toFixed(1) + '% · 涨粉率 ' + x.fanR.toFixed(2) + '% · 完播 ' + (x.fin||0) + '%</div></div>';
+        }).join('') + '</div>' +
+      '<div class="card"><h2>下一步只做这一件</h2><ul class="ul">' +
+        (avgFin && avgFin < 15
+          ? '<li><b>先改开头。</b>你现在的完播率说明人 3 秒就走了。下一条把结论直接放第一句，别铺垫。</li>'
+          : '<li><b>开头没问题，改中段。</b>完播率够了但互动低，说明内容没给人"想说一句"的冲动——加一个具体的问题或反常识判断。</li>') +
+        '<li>这周只发 3 条，全部围绕最高分那条的同一个话题。</li>' +
+        '<li>发完 24 小时再看数据，别一小时刷八次——前 1 小时的数不说明问题。</li></ul></div>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* 复制 */
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-cp]'); if(!b) return;
+    var el = $(b.dataset.cp); if(!el) return;
+    if (navigator.clipboard) navigator.clipboard.writeText(el.innerText);
+    var o = b.textContent; b.textContent = '已复制 ✓';
+    setTimeout(function(){ b.textContent = o; }, 1600);
+  });
+
+  /* ---------- ⑥ AI ---------- */
+  if (window.HSDAI) {
+    var sys = '你是自媒体陪跑教练，专门带"从 0 开始做账号"的普通人，做的是短视频/图文（抖音、视频号、小红书、公众号）。\n' +
+      '【你的专业口径】\n' +
+      '1. 定位：一句话说清"帮谁解决什么问题"。切口越窄越容易被记住、越能提价。"什么都能讲"等于没人记得你。\n' +
+      '2. 选题：围绕三个内容支柱轮着发，不要每天换赛道。选题优先选"人正在搜的问题"，不是你觉得有意思的。\n' +
+      '3. 钩子：前 3 秒决定 70% 的完播。开头别说"大家好我是XX"，直接给结论、给冲突、给具体数字。\n' +
+      '4. 数据：完播率看钩子，互动率看共鸣，涨粉率看人设。三个率对应三个完全不同的问题，不要混着改。一次只改一个变量。\n' +
+      '5. 阶段判断：1000 粉之前不谈变现，只谈"找到一条能重复的爆款结构"；1000 粉之后才谈转化和产品。\n' +
+      '6. 变现：广告、带货、卖课、引流到店、私域承接——不同路径对应的内容策略完全不同，先问清他要哪条。\n' +
+      '【必须守住的边界】不承诺涨粉数量、不教刷量/搬运/洗稿、不建议擦边选题、不预测平台算法。\n' +
+      '【语气】像带过很多新人的教练，直接、具体、给例子。不说"要坚持""要有耐心"这类废话，要说清"下一条具体拍什么"。不超过 400 字。';
+    HSDAI.panel('#hsd-ai', {
+      title: '📣 问教练',
+      badge: 'AI 在线',
+      subtitle: '定位怎么定、这条能不能拍、发了没流量怎么办、要不要投流，都可以问。',
+      system: sys,
+      quick: ['我什么都不会，能做什么账号？', '发了 20 条都没流量，问题在哪？', '要不要投流？', '1000 粉之前要不要想着变现？', '一条爆了，接下来拍什么？'],
+      placeholder: '例：我做一人食家常菜，发了 15 条最高 800 播放，完播率只有 12%，该怎么改？',
+      greeting: '我是陪跑教练。你可以直接把情况说给我：做什么内容、发了多少条、数据大概什么水平、卡在哪一步。\n\n说清这四样，我给你的就不是"要坚持"，是"下一条具体拍什么"。',
+      hint: '不承诺涨粉 · 不教刷量搬运',
+      disclaimer: '⚖️ 这是内容运营参考，不是平台规则解释。各平台算法不同且会变，实际以你自己的后台数据为准。'
+    });
+  }
+})();
+</script>
+</body>
+</html>

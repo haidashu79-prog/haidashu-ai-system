@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>金策 · 贵金属研判终端</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="lib/echarts.min.js"></script>
+</head>
+<body>
+  <!-- 顶栏（精简） -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">金</span>
+      <div class="brand-txt">
+        <div class="brand-name">金策 · 贵金属研判终端</div>
+        <div class="brand-sub">海大叔 AI 工作室 · 出品</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="user-box" id="userBox">
+        <span class="ub-name" id="ubName">—</span>
+        <button class="ub-btn" id="ubLogout" title="退出登录">退出</button>
+      </div>
+      <div class="src-badge" id="srcBadge">—</div>
+    </div>
+  </header>
+
+  <!-- 试用 / 订阅状态条 -->
+  <div class="trial-bar" id="trialBar" style="display:none">
+    <span class="tb-icon">🎁</span>
+    <span class="tb-text" id="trialText">免费试用中…</span>
+    <button class="tb-btn" id="trialRedeem">输入使用码</button>
+  </div>
+
+  <!-- 主控条：时间/周期/一键预测 全部置最上边 -->
+  <section class="control-bar">
+    <div class="cb-row cb-switch">
+      <div class="asset-toggle" id="assetToggle">
+        <button class="at-btn active" data-asset="gold">黄金 XAU</button>
+        <button class="at-btn" data-asset="silver">白银 XAG</button>
+      </div>
+      <div class="horizon-tabs" id="horizonTabs">
+        <button class="hz-btn active" data-h="today">今日走向</button>
+        <button class="hz-btn" data-h="day">明日走向</button>
+        <button class="hz-btn" data-h="week">周预判</button>
+      </div>
+    </div>
+    <div class="cb-row cb-main">
+      <button class="predict-btn" id="btnPredict">⚡ 立即重判</button>
+      <div class="cb-meta">
+        <span class="update-time" id="updateTime">接入中…</span>
+        <div class="cb-small">
+          <button class="ghost-btn" id="btnRefresh">⟳ 刷新</button>
+          <button class="ghost-btn" id="btnBootstrap">⟳ 回测</button>
+          <button class="ghost-btn" id="btnLearn">⚡ 学习</button>
+          <button class="ghost-btn" id="btnAudit">🔒 监控</button>
+          <a class="ghost-btn" href="admin.html" target="_blank" rel="noopener" style="text-decoration:none" title="运营后台：新用户 / 活跃 / 付费（需管理口令）">📊 后台</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 滚动行情条 -->
+  <div class="ticker" id="ticker">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <!-- 新手必读：折叠引导 -->
+  <details class="newbie" open>
+    <summary>❓ 第一次看？点这里，30 秒看懂怎么用</summary>
+    <div class="newbie-body">
+      <p><b>① 先看大方向：</b>首屏最大的字就是判断——<span class="t-up">看多(涨)</span> / <span class="t-down">看空(跌)</span> / 震荡。这是系统对黄金或白银未来走势的结论。</p>
+      <p><b>② 看「胜率」：</b>比如「看空胜率 72%」= 系统有 72% 把握会跌，不是 28%。</p>
+      <p><b>③ 看三档目标价：</b>悲观=最坏情况会到的价；基准=最可能出现的价；乐观=最好的情况会到的价。三者之间的幅度就是波动区间。</p>
+      <p><b>④ 看「置信度」：</b>这个值越高，上面的判断越可信（越高越靠谱）。</p>
+      <p><b>⑤ 看「风控方案」：</b>告诉你买多少、亏到哪止损、赚到哪落袋，是给普通人的纪律建议（不杠杆、不押身家）。</p>
+      <p><b>⑥ 「学习进化引擎」：</b>系统每天自动拿真实行情复盘，越用越准，权重会自己调整。</p>
+      <p class="nb-tip">👆 平台自治运行：后台每 5 分钟自动研判+盯盘+验警报，你只管看结论。顶部「⚡ 立即重判」可手动刷新；切换「黄金/白银」和三档周期看不同结果。</p>
+    </div>
+  </details>
+
+  <!-- 工具说明：一段讲清这终端干什么、怎么用 -->
+  <section class="tool-intro">
+    <b>📌 本终端怎么用</b>：平台处于 L3 自治模式（后台自动研判），系统实时抓取国内外黄金/白银行情，综合技术面（趋势 / 动能 / 偏离回归）与宏观面（美元 / 美债 / 金银比），再由自学习引擎加权多路信号，输出 <b>今日走向 / 明日走向 / 周预判</b> 走势研判、胜率、三档目标价与风控方案。结论为模型推演，<b>不构成投资建议，请勿杠杆、勿押身家</b>。
+  </section>
+
+  <!-- 主预测卡：放大，置首屏核心 -->
+  <section class="panel hero-panel">
+    <!-- 点击预测前：空白占位 -->
+    <div class="hero-placeholder" id="heroPlaceholder">
+      <div class="hp-icon">⚡</div>
+      <div class="hp-title">L3 自动研判中</div>
+      <div class="hp-desc">终端已进入自治模式：后台每 5 分钟自动研判一轮，打开页面即出最新结论，无需任何手动操作。</div>
+    </div>
+    <div class="hero-body" id="heroBody">
+    <div class="verdict">
+      <div class="verdict-dir" id="verdictDir">—</div>
+      <div class="verdict-sub">
+        <span id="verdictReturn">预期 —</span>
+        <span class="dot">·</span>
+        <span id="verdictUpProb">胜率 —</span>
+      </div>
+    </div>
+
+    <div class="plain-summary" id="plainSummary">—</div>
+
+    <div class="confidence">
+      <div class="conf-label">研判置信度 <span class="lab-hint">（越高 = 判断越可信）</span></div>
+      <div class="conf-bar"><div class="conf-fill" id="confFill"></div></div>
+      <div class="conf-val" id="confVal">—</div>
+    </div>
+
+    <div class="targets">
+      <div class="tg pess"><div class="tg-lab">悲观价<small>最坏情况</small></div><div class="tg-val" id="tPess">—</div></div>
+      <div class="tg base"><div class="tg-lab">基准价<small>最可能</small></div><div class="tg-val" id="tBase">—</div></div>
+      <div class="tg opt"><div class="tg-lab">乐观价<small>最好情况</small></div><div class="tg-val" id="tOpt">—</div></div>
+    </div>
+
+    <div class="sig-title">五个维度怎么看 <span class="lab-hint">（红=偏看涨 · 绿=偏看跌）</span></div>
+    <div class="sig-list" id="sigList"></div>
+
+    <div class="bias-note" id="biasNote"></div>
+
+    <!-- 多周期共振 -->
+    <div class="resonance-card" id="resonanceCard">
+      <div class="rc-title">多周期共振 <span class="lab-hint">（日 / 周 / 月 同向 = 信号更强）</span></div>
+      <div class="rc-dirs" id="rcDirs"></div>
+      <div class="rc-text" id="rcText">—</div>
+    </div>
+    </div>
+  </section>
+
+  <!-- 研判看板：显眼 · 小白一眼看懂（能涨到/最可能/能跌到 + 走势） -->
+  <section class="panel dash-panel" id="dashPanel">
+    <div class="panel-head">
+      <h2>📈 研判看板 · 能涨多少 / 能跌多少</h2>
+      <span class="badge" id="dashAssetBadge">黄金</span>
+    </div>
+    <p class="panel-tip">💡 别只盯「看多 / 看空」这种词——重点看下面三档价：<b>能跌到</b>（最坏底线）、<b>最可能</b>（基准价）、<b>能涨到</b>（最好上限）。三档之间的幅度就是这一轮波动的区间。下方走势图：实线=历史，绿虚线=最可能路径，阴影=波动区间。</p>
+    <div class="dash-cards" id="dashCards"></div>
+    <div class="dash-trend">
+      <div class="dt-head">近期走势 + 预判路径 <span class="lab-hint">（实线历史 · 绿虚线最可能 · 阴影波动区间）</span></div>
+      <div id="dashChart" class="dash-chart"></div>
+    </div>
+    <div class="dash-summary" id="dashSummary"></div>
+    <div class="panel-ph" id="phDash">自动研判接入后显示研判看板</div>
+  </section>
+
+  <main class="layout">
+
+    <!-- K线 -->
+    <section class="panel chart-panel">
+      <div class="panel-head">
+        <h2 id="chartTitle">现货日K</h2>
+        <div class="period-switch" id="periodSwitch">
+          <button class="ps-btn active" data-period="day">日K</button>
+          <button class="ps-btn" data-period="week">周K</button>
+          <button class="ps-btn" data-period="month">月K</button>
+        </div>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div class="chart-meta" id="chartMeta"></div>
+      <div class="panel-ph" id="phChart">自动研判接入后显示行情 K 线</div>
+    </section>
+
+    <!-- 深度复盘 -->
+    <section class="panel review-panel">
+      <div class="panel-head"><h2>深度复盘 · 四维解读</h2></div>
+      <p class="panel-tip">💡 系统把复杂指标翻译成大白话：技术面怎么走、基本面什么逻辑、风险在哪、该怎么做。</p>
+      <div class="review-block"><div class="rb-h">📈 技术面</div><div class="rb-b" id="rvTech">—</div></div>
+      <div class="review-block"><div class="rb-h">🌍 基本面</div><div class="rb-b" id="rvFund">—</div></div>
+      <div class="review-block"><div class="rb-h">⚠ 风险面</div><div class="rb-b" id="rvRisk">—</div></div>
+      <div class="review-block"><div class="rb-h">🎯 操作建议</div><div class="rb-b" id="rvAct">—</div></div>
+      <div class="panel-ph" id="phReview">自动研判接入后显示复盘</div>
+    </section>
+
+    <!-- 情景压力测试 -->
+    <section class="panel scenario-panel">
+      <div class="panel-head"><h2>情景压力测试 · What-if</h2></div>
+      <p class="panel-tip">💡 如果突发这些事件，金价大概会怎么动？系统按真实宏观关系推演（非预测，仅供压力测试参考）。</p>
+      <div class="scenario-grid" id="scenarioGrid"></div>
+      <div class="panel-ph" id="phScenarios">自动研判接入后显示情景推演</div>
+    </section>
+
+    <!-- 专业分析工具箱 -->
+    <section class="panel toolbox-panel">
+      <div class="panel-head"><h2>🧰 专业分析工具箱</h2></div>
+      <p class="panel-tip">💡 对标 TradingView / Investing.com 主流功能：技术指标综合评级、多空情绪仪表、价格警报、关键事件提醒。</p>
+      <div class="tb-rating">
+        <div class="tb-gauge-wrap">
+          <div class="tb-gauge" id="tbGauge">—</div>
+          <div class="tb-gauge-sub" id="tbGaugeSub">综合评级</div>
+        </div>
+        <div class="tb-sentiment">
+          <div class="tb-bar"><span class="tb-bull" id="tbBull"></span><span class="tb-neut" id="tbNeut"></span><span class="tb-bear" id="tbBear"></span></div>
+          <div class="tb-bar-lab" id="tbBarLab">—</div>
+        </div>
+      </div>
+      <table class="tb-votes" id="tbVotes"></table>
+      <div class="tb-block">
+        <div class="tb-block-h">🔔 价格警报（保存在本机，行情到达自动提醒）</div>
+        <div class="tb-alert-add">
+          <select id="alertAsset"><option value="gold">黄金</option><option value="silver">白银</option></select>
+          <input id="alertPrice" type="number" placeholder="目标价（美元/盎司）" inputmode="decimal" />
+          <button class="primary-btn" id="btnAddAlert">加警报</button>
+        </div>
+        <div id="alertList"></div>
+      </div>
+      <div class="tb-block">
+        <div class="tb-block-h">🧠 大数据依据（免费公开数据 · 聪明钱持仓 + 真实财经日历）</div>
+        <div id="bigDataList"></div>
+        <div class="tb-honest">ℹ 数据源：东方财富数据中心（公开免费接口，无需付费）。COMEX 净头寸为交易所每日公布的实物持仓；财经日历为官方排期。</div>
+      </div>
+      <div class="tb-block">
+        <div class="tb-block-h">📅 关键事件提醒（这些时点行情易剧烈波动）</div>
+        <div id="eventList"></div>
+        <div class="tb-honest">ℹ 事件优先取自东方财富财经日历真实排期（免费公开数据），具体以官方公告为准。</div>
+      </div>
+      <div class="panel-ph" id="phToolbox">自动研判接入后显示专业工具</div>
+    </section>
+
+    <!-- 风控 -->
+    <section class="panel risk-panel">
+      <div class="panel-head"><h2>风控方案 · 仓位 / 止损 / 止盈</h2></div>
+      <p class="panel-tip">💡 这是给普通人的「纪律建议」：告诉你要买多少、跌到哪必须止损、涨到哪落袋。默认不杠杆，亏不起的钱别投。</p>
+      <div class="risk-controls">
+        <label>本金(元)<input type="number" id="capital" value="100000" inputmode="numeric" /></label>
+        <label>单笔风险(%)<input type="number" id="riskPct" value="3" step="0.5" inputmode="decimal" /></label>
+        <button class="primary-btn" id="btnRisk">重算方案</button>
+      </div>
+      <div class="risk-grid" id="riskGrid"></div>
+      <div class="panel-ph" id="phRisk">自动研判接入后生成风控方案</div>
+    </section>
+
+
+    <!-- 学习进化 -->
+    <section class="panel learn-panel">
+      <div class="panel-head">
+        <h2>学习进化引擎</h2>
+        <span class="badge" id="learnBadge">样本 —</span>
+      </div>
+      <p class="panel-tip">💡 系统每天自动拿真实行情复盘：之前判对的信号权重调高、判错的调低，越用越准。下面曲线就是命中率随时间的变化。</p>
+      <div class="learn-stats" id="learnStats"></div>
+      <div id="learnChart" class="learn-chart"></div>
+      <div class="weight-bars" id="weightBars"></div>
+      <div class="panel-ph" id="phLearn">自动研判接入后展示进化数据</div>
+    </section>
+
+    <!-- 预判复盘·命中率 -->
+    <section class="panel acc-panel">
+      <div class="panel-head"><h2>📊 预判复盘 · 命中率</h2><span class="badge" id="accBadge">—</span></div>
+      <p class="panel-tip">💡 系统每天自动对黄金/白银各留一条「今日/明日/周预判」，到期后拿<b>真实行情价</b>对比实际结果：<span class="acc-pill hit">✓ 命中</span> 方向判对、<span class="acc-pill miss">✗ 未中</span> 方向判错、<span class="acc-pill pend">⏳ 待到期</span> 还没到验证时点。误差=预判涨跌幅与真实涨跌幅之差，越接近 0 越准。长期命中率越高，说明模型越可靠，你自己也能一眼判断。</p>
+      <div class="acc-cards" id="accSummary"></div>
+      <div class="archive-table" id="accTable"></div>
+      <div class="panel-ph" id="phArchive">自动研判接入后展示复盘命中率</div>
+    </section>
+
+    <!-- 现货黄金/白银 人民币实时价（位于回收价之上） -->
+    <section class="panel spotcny-panel" id="spotCnyPanel">
+      <div class="panel-head"><h2>🪙 现货金价 · 人民币实时价</h2><span class="badge" id="scBadge">60秒自动刷新</span></div>
+      <p class="panel-tip">💡 国际现货（美元/盎司）按实时汇率换算成人民币，是「国际盘人民币锚」；下方「金银回收参考」按<b>国内上金所基准价</b>打折变现——国内基准通常比国际换算价<b>高一点</b>（金含进口溢价、银溢价更大），两张价都是真实行情，不是算错。</p>
+      <div class="sc-grid" id="scGrid"></div>
+      <div class="panel-ph" id="phSpotCny">行情接入后显示人民币现货价</div>
+    </section>
+
+    <!-- 二手金回收参考（融通金等回收体系） -->
+    <section class="panel buyback-panel">
+      <div class="panel-head"><h2>💰 金银回收参考 · 专家团变现意见</h2><span class="badge" id="bbLive">60秒自动刷新</span></div>
+      <p class="panel-tip">💡 家里有旧金旧银想卖？上金所真实金价/银价打底，按回收行业通行折价给区间价，专家团告诉你现在卖合不合适。</p>
+      <div class="bb-basis">
+        <div class="bb-basis-item">
+          <div class="bb-main"><span class="bb-price" id="bbAuPrice">—</span><span class="bb-unit">元/克 · 黄金 Au99.99</span></div>
+          <div class="bb-meta" id="bbAuMeta">—</div>
+        </div>
+        <div class="bb-basis-item">
+          <div class="bb-main"><span class="bb-price ag" id="bbAgPrice">—</span><span class="bb-unit">元/克 · 白银 Ag(T+D)</span></div>
+          <div class="bb-meta" id="bbAgMeta">—</div>
+        </div>
+      </div>
+      <div class="bb-tables">
+        <div class="bb-block">
+          <div class="bb-block-h">🥇 黄金回收价数据表</div>
+          <table class="bb-table" id="bbAuTable"></table>
+          <div class="bb-advice" id="bbAuAdvice"></div>
+        </div>
+        <div class="bb-block">
+          <div class="bb-block-h">🥈 白银回收价数据表</div>
+          <table class="bb-table" id="bbAgTable"></table>
+          <div class="bb-advice" id="bbAgAdvice"></div>
+        </div>
+      </div>
+      <div class="bb-honest" id="bbHonest"></div>
+      <div class="panel-ph" id="phBuyback">自动研判接入后显示回收参考</div>
+    </section>
+  </main>
+
+  <footer class="disclaimer">
+    ⚠ 本终端所有输出均为研究参考与模型推演，<b>不构成任何投资建议</b>。贵金属波动剧烈，请勿杠杆、勿押身家，实盘前务必自行核对实时行情。
+    <div class="foot-brand">—— 海大叔 AI 工作室 · 出品</div>
+  </footer>
+
+  <!-- 应用锁 / 账号登录（登录 · 注册 —— 只认用户名 + 密码，不收集邮箱、手机号、微信） -->
+  <div class="lock-screen hidden" id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-logo">金</div>
+      <div class="lock-title">金策 · 贵金属研判终端</div>
+      <div class="lock-sub">海大叔 AI 工作室 · 出品</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" type="button">登录</button>
+        <button class="auth-tab" id="tabReg" type="button">注册</button>
+      </div>
+
+      <div class="lock-tip" id="lockTip">登录后继续使用</div>
+      <input type="text" id="lockUser" class="lock-input" placeholder="用户名" autocomplete="username" />
+      <input type="password" id="lockPass" class="lock-input" placeholder="密码" autocomplete="current-password" />
+      <button class="lock-btn" id="lockBtn">登录</button>
+      <div class="lock-foot" id="lockFoot">不需要邮箱和手机号 —— 用户名 + 密码即可。</div>
+    </div>
+  </div>
+
+  <!-- 试用到期：开通引导（免费 3 天，到期按月续费） -->
+  <div class="paywall-screen hidden" id="paywallScreen">
+    <div class="paywall-card">
+      <div class="pw-logo">金</div>
+      <div class="pw-title" id="pwTitle">免费试用已结束</div>
+      <div class="pw-sub">金策 · 贵金属研判终端 · 海大叔 AI 工作室</div>
+      <div class="pw-price" id="pwPrice">—</div>
+      <div class="pw-note" id="pwNote">凭使用码开通：输入使用码即可开通 30 天。</div>
+      <div class="pw-qr" id="pwQr"></div>
+      <input type="text" id="pwCode" class="lock-input" placeholder="输入使用码 HS-XXXX-XXXX" autocomplete="off" />
+      <button class="lock-btn" id="pwBtn">开通并继续使用</button>
+      <div class="pw-tip" id="pwTip"></div>
+    </div>
+  </div>
+
+  <!-- 访问监控弹窗（管理视图：看口令被谁在用） -->
+  <div class="modal" id="auditModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span>🔒 访问监控 · 管理视图</span>
+        <button class="modal-close" id="auditClose">✕</button>
+      </div>
+      <div class="modal-body" id="auditBody"></div>
+    </div>
+  </div>
+
+  <script src="api-shim.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

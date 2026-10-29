@@ -1,0 +1,1449 @@
+{
+ "schema": "l3-dashboard/1.0",
+ "version": "0.22.0",
+ "kw_total": 104,
+ "generated_at": "2026-10-24 18:47:49",
+ "data_home": "~/.workbuddy/l3-core/brain",
+ "source": "snapshot",
+ "running": {
+  "engine_online": false,
+  "today_ticked": true,
+  "last_tick": "2026-10-24",
+  "tick_count": 30,
+  "events_total": 960,
+  "mounts": 60,
+  "model_ok": 335,
+  "model_fail": 193,
+  "model_probe": {
+   "ok": null,
+   "at": "",
+   "model": ""
+  },
+  "kind_breakdown": [
+   {
+    "kind": "harvest",
+    "n": 252
+   },
+   {
+    "kind": "mount",
+    "n": 224
+   },
+   {
+    "kind": "research",
+    "n": 71
+   },
+   {
+    "kind": "call",
+    "n": 54
+   },
+   {
+    "kind": "selfapply",
+    "n": 39
+   },
+   {
+    "kind": "advise",
+    "n": 34
+   },
+   {
+    "kind": "agenda",
+    "n": 33
+   },
+   {
+    "kind": "heartbeat",
+    "n": 30
+   },
+   {
+    "kind": "digest",
+    "n": 30
+   },
+   {
+    "kind": "ecosystem",
+    "n": 27
+   },
+   {
+    "kind": "upgrade",
+    "n": 23
+   },
+   {
+    "kind": "think",
+    "n": 21
+   },
+   {
+    "kind": "chat",
+    "n": 19
+   },
+   {
+    "kind": "improve",
+    "n": 17
+   },
+   {
+    "kind": "review",
+    "n": 17
+   },
+   {
+    "kind": "unmount",
+    "n": 12
+   },
+   {
+    "kind": "armory",
+    "n": 12
+   },
+   {
+    "kind": "feedback",
+    "n": 11
+   },
+   {
+    "kind": "cycle",
+    "n": 6
+   },
+   {
+    "kind": "belief",
+    "n": 6
+   },
+   {
+    "kind": "foresee",
+    "n": 4
+   },
+   {
+    "kind": "search",
+    "n": 4
+   },
+   {
+    "kind": "today",
+    "n": 4
+   },
+   {
+    "kind": "self",
+    "n": 2
+   },
+   {
+    "kind": "evolve",
+    "n": 2
+   },
+   {
+    "kind": "note",
+    "n": 2
+   },
+   {
+    "kind": "reflect",
+    "n": 1
+   },
+   {
+    "kind": "make",
+    "n": 1
+   },
+   {
+    "kind": "growth",
+    "n": 1
+   },
+   {
+    "kind": "case",
+    "n": 1
+   }
+  ],
+  "days": [
+   {
+    "day": "2026-10-12",
+    "n": 82
+   },
+   {
+    "day": "2026-10-13",
+    "n": 304
+   },
+   {
+    "day": "2026-10-14",
+    "n": 65
+   },
+   {
+    "day": "2026-10-15",
+    "n": 104
+   },
+   {
+    "day": "2026-10-16",
+    "n": 203
+   },
+   {
+    "day": "2026-10-17",
+    "n": 49
+   },
+   {
+    "day": "2026-10-18",
+    "n": 24
+   },
+   {
+    "day": "2026-10-19",
+    "n": 24
+   },
+   {
+    "day": "2026-10-20",
+    "n": 15
+   },
+   {
+    "day": "2026-10-21",
+    "n": 9
+   },
+   {
+    "day": "2026-10-22",
+    "n": 16
+   },
+   {
+    "day": "2026-10-23",
+    "n": 25
+   },
+   {
+    "day": "2026-10-24",
+    "n": 40
+   }
+  ],
+  "mount_list": [
+   {
+    "name": "l3-shell-sample",
+    "type": ""
+   },
+   {
+    "name": "haidashu-media-beginner",
+    "type": ""
+   },
+   {
+    "name": "haidashu-opc-coach",
+    "type": ""
+   },
+   {
+    "name": "guanxingtai-site",
+    "type": ""
+   },
+   {
+    "name": "bullion-terminal",
+    "type": ""
+   },
+   {
+    "name": "haidashu-study-coach",
+    "type": ""
+   },
+   {
+    "name": "haidashu-ip-flow-eco",
+    "type": ""
+   },
+   {
+    "name": "self-前沿",
+    "type": ""
+   },
+   {
+    "name": "self-自升级",
+    "type": ""
+   },
+   {
+    "name": "haidashu-ip-from-zero-l3",
+    "type": ""
+   },
+   {
+    "name": "selfmedia-copywriting",
+    "type": ""
+   },
+   {
+    "name": "opc-l3",
+    "type": ""
+   },
+   {
+    "name": "haidashu-ip-flow",
+    "type": ""
+   },
+   {
+    "name": "haidashu-personal-ip-coach",
+    "type": ""
+   },
+   {
+    "name": "opc-unicorn-team",
+    "type": ""
+   },
+   {
+    "name": "haidashu-ip-from-zero",
+    "type": ""
+   },
+   {
+    "name": "haidashu-copywriter",
+    "type": ""
+   },
+   {
+    "name": "haida-zimeiti-workflow",
+    "type": ""
+   },
+   {
+    "name": "l3-autopilot-team",
+    "type": ""
+   },
+   {
+    "name": "haidashu-business-mastery",
+    "type": ""
+   },
+   {
+    "name": "pf-factory",
+    "type": ""
+   },
+   {
+    "name": "ai-landing-companion",
+    "type": ""
+   },
+   {
+    "name": "haidashu-media-workflow",
+    "type": ""
+   },
+   {
+    "name": "haida-copywriter",
+    "type": ""
+   },
+   {
+    "name": "ai-agent-custom",
+    "type": ""
+   },
+   {
+    "name": "bullion",
+    "type": ""
+   },
+   {
+    "name": "football-match-analyst",
+    "type": ""
+   },
+   {
+    "name": "fraud-experts",
+    "type": ""
+   },
+   {
+    "name": "l3-hub",
+    "type": ""
+   },
+   {
+    "name": "legal-consulting-team",
+    "type": ""
+   },
+   {
+    "name": "prediction-team",
+    "type": ""
+   },
+   {
+    "name": "pufa-committee",
+    "type": ""
+   },
+   {
+    "name": "smallbiz-digital-staff",
+    "type": ""
+   },
+   {
+    "name": "smallbiz-digital-upgrade",
+    "type": ""
+   },
+   {
+    "name": "opc-expert-team",
+    "type": ""
+   },
+   {
+    "name": "zimeiti-workflow",
+    "type": ""
+   },
+   {
+    "name": "opc-one-person-company",
+    "type": ""
+   },
+   {
+    "name": "content-monetization-team",
+    "type": ""
+   },
+   {
+    "name": "haida-expert-team",
+    "type": ""
+   },
+   {
+    "name": "haida-hot-comment",
+    "type": ""
+   },
+   {
+    "name": "ai-content-creator-team",
+    "type": ""
+   },
+   {
+    "name": "haidashu-geo",
+    "type": ""
+   },
+   {
+    "name": "renovation-guard-companion",
+    "type": ""
+   },
+   {
+    "name": "ai-money-camp",
+    "type": ""
+   },
+   {
+    "name": "cost-hub",
+    "type": ""
+   },
+   {
+    "name": "custom-factory",
+    "type": ""
+   },
+   {
+    "name": "expert-factory",
+    "type": ""
+   },
+   {
+    "name": "phone-charge-guard",
+    "type": ""
+   },
+   {
+    "name": "haidashu-obsidian-kb",
+    "type": ""
+   },
+   {
+    "name": "haidashu-multitenant-brain-team",
+    "type": ""
+   },
+   {
+    "name": "parcel-claim-companion",
+    "type": ""
+   },
+   {
+    "name": "agency-team",
+    "type": ""
+   },
+   {
+    "name": "hospital-visit-companion",
+    "type": ""
+   },
+   {
+    "name": "haidashu-video",
+    "type": ""
+   },
+   {
+    "name": "prepaid-guard-companion",
+    "type": ""
+   },
+   {
+    "name": "haidashu-content-squad",
+    "type": ""
+   },
+   {
+    "name": "ai-tool-factory",
+    "type": ""
+   },
+   {
+    "name": "ai-novice-bootcamp",
+    "type": ""
+   },
+   {
+    "name": "haidashu-novice-team",
+    "type": ""
+   },
+   {
+    "name": "haida-video-pipeline",
+    "type": ""
+   }
+  ]
+ },
+ "learning": {
+  "done": 24,
+  "total": 104,
+  "pct": 23.1,
+  "added_total": 701,
+  "round": 26,
+  "last_at": "2026-10-24 18:00:30+0800",
+  "kb_count": 1803,
+  "learned_recent": [
+   {
+    "kw": "一人公司 B端 获客 方法",
+    "found": 18,
+    "added": 4
+   },
+   {
+    "kw": "超级个体 AI 工具 选型 配置",
+    "found": 12,
+    "added": 2
+   },
+   {
+    "kw": "一人公司 合规 风险 避坑",
+    "found": 12,
+    "added": 1
+   }
+  ],
+  "done_keywords": [
+   "AI 新媒体 IP 智慧生态",
+   "GEO 生成式引擎优化 落地做法",
+   "个人 IP 智慧生态 体系 搭建 方法",
+   "AI 新媒体 IP 定位 差异化 策略",
+   "个人 IP 内容体系 栏目化 规划",
+   "AI 赋能 个人 IP 全链路 案例",
+   "新媒体 IP 商业化 闭环 设计",
+   "个人 IP 实体锚点 全网一致性",
+   "AI 新媒体 工作室 运营 模式",
+   "GEO 信源分层 权威信源 建设",
+   "GEO 实体锚点 消歧 方法",
+   "AI 搜索 品牌 提及 监测 方法",
+   "GEO 问答矩阵 问题库 建设",
+   "AI 搜索 引用来源 收录 机制",
+   "豆包 DeepSeek AI 搜索 品牌 曝光",
+   "GEO 效果 复测 指标 方法",
+   "SEO 到 GEO 转型 方法 对比",
+   "GEO 具体落地话术",
+   "一人公司 超级个体 实战案例",
+   "OPC 一人公司 注册 经营范围",
+   "一人公司 定价 最小可卖产品 设计",
+   "一人公司 B端 获客 方法",
+   "超级个体 AI 工具 选型 配置",
+   "一人公司 合规 风险 避坑"
+  ],
+  "pending_keywords": [
+   "一人公司 财税 公私账 管理",
+   "咨询 技术外包 接单 渠道 方法",
+   "一人公司 商业模式 设计 闭环",
+   "OPC 一人公司 赚钱地图 行业 选择 方法",
+   "一人公司 垂直行业 深耕 壁垒 构建",
+   "一人公司 产品化 最小可卖产品 MVP 设计",
+   "一人公司 定价策略 客单价 提升 方法",
+   "一人公司 成本结构 毛利 净利 测算",
+   "一人公司 内容获客 短视频 私域 打法",
+   "一人公司 GEO 获客 AI 搜索 曝光 方法",
+   "一人公司 冷启动 第一个客户 怎么拿",
+   "一人公司 信任承接 转化 路径 设计",
+   "一人公司 案例营销 客户证言 转化 方法",
+   "一人公司 AI 自动化 交付 SOP 搭建",
+   "一人公司 交付 标准化 可复制 方法",
+   "一人公司 复购 客户资产 私域 运营",
+   "一人公司 服务即软件 陪跑 定制 赚钱",
+   "一人公司 客户成功 续费 转介绍 机制",
+   "一人公司 运营策略 每日节奏 规划",
+   "一人公司 现金流 抗风险 储备 管理",
+   "一人公司 时间管理 精力 杠杆 放大",
+   "一人公司 联盟 分包 协作 放大 规模",
+   "一人公司 规模化边界 为什么保持一人",
+   "一人公司 交付案例 内容化 回流 方法",
+   "一人公司 案例库 自动积累 复盘 机制",
+   "AI Agent 自治 自我进化 框架",
+   "AI Agent 长期记忆 知识库 设计",
+   "AI Agent 自迭代 代码 案例",
+   "多智能体 协作 编排 框架",
+   "AI Agent 检索增强 RAG 实践",
+   "本地 AI Agent 隐私 部署 方案",
+   "Agent 技能包 Skills 生态",
+   "AI 自我进化 闭环 设计",
+   "AI 智能体 自我诊断 能力自检",
+   "AI Agent 记忆复利 知识蒸馏 事实沉淀",
+   "AI 自我进化 改进曲线 评估 指标 方法",
+   "AI 自治脑 自检 自诊断 兜底 机制",
+   "口播文案 钩子 结构 方法论",
+   "口播 开场 3秒 留人 技巧",
+   "短视频 选题 爆款 拆解方法",
+   "抖音 视频号 平台算法 偏好",
+   "私域 信任承接 转化路径",
+   "私域 转化 话术 节奏",
+   "知识付费 最小可卖产品 设计",
+   "AI 工作流 内容生产 自动化",
+   "AI 工具 新媒体 提效 选型",
+   "抖音 口播 账号 定位 案例",
+   "内容变现 路径 对照 案例",
+   "中年成长 内容 选题 共鸣 点",
+   "民生时事 评论 口播 写法",
+   "短视频 完播率 提升 方法",
+   "个人 IP 全平台 分发 策略",
+   "客户案例 二次创作 内容化 方法",
+   "县城 下沉市场 新媒体 获客 案例",
+   "普通人 不敢用AI 的障碍 惰性 认知 习惯",
+   "用户 怕麻烦 拖延 怕改坏 心理 分析",
+   "小白 上手 AI 最小动作 设计 方法",
+   "人性 摩擦点 产品设计 降低门槛 原则",
+   "普通人 从众 怕露怯 怕被坑 心理 分析",
+   "AI 产品 人性优先 设计 原则 案例",
+   "一人公司 客户 决策心理 成交 阻碍",
+   "内容 降低认知负荷 让小白行动 方法",
+   "递归自我改进 recursive self-improvement 可行性 研究",
+   "Gödel Machine 哥德尔机 自修改代码 原理",
+   "Darwin Gödel Machine 达尔文哥德尔机 自进化 2026 突破",
+   "AI Agent 自我修改代码 自重写 脚手架 案例",
+   "self-modifying agent code 自改代码 安全 评估 方法",
+   "SEAL 自生成微调数据 自我蒸馏 智能体 自我提升",
+   "self-evolving AI agent 自进化 安全 护栏 机制",
+   "递归自我改进 留出集评估 held-out 防过拟合 选择",
+   "自进化 失败模式 代理博弈 proxy gaming 灾难性遗忘",
+   "对齐伪装 alignment faking 自进化 风险 研究",
+   "数字生命 AI 自我进化 改写自身代码 案例",
+   "EverMind Raven 渡鸦 数字生命 自进化 阶段 L1-L4",
+   "智谱 GLM 自进化 后训练 scaling 自我提升 做法",
+   "DeepSeek DSH 插件化 一切皆插件 自进化 架构",
+   "腾讯 Hy 研发流程 全链路 自进化 智能体",
+   "可审计 可回滚 自进化 AI 机制 设计 协议",
+   "元学习 learning to learn 学会学习 智能体 自我改进",
+   "AI 安全 自我进化 护栏 评估门 eval-gated 研究"
+  ],
+  "kw_list": [
+   {
+    "kw": "AI 新媒体 IP 智慧生态",
+    "done": true
+   },
+   {
+    "kw": "个人 IP 智慧生态 体系 搭建 方法",
+    "done": true
+   },
+   {
+    "kw": "AI 新媒体 IP 定位 差异化 策略",
+    "done": true
+   },
+   {
+    "kw": "个人 IP 内容体系 栏目化 规划",
+    "done": true
+   },
+   {
+    "kw": "AI 赋能 个人 IP 全链路 案例",
+    "done": true
+   },
+   {
+    "kw": "新媒体 IP 商业化 闭环 设计",
+    "done": true
+   },
+   {
+    "kw": "个人 IP 实体锚点 全网一致性",
+    "done": true
+   },
+   {
+    "kw": "AI 新媒体 工作室 运营 模式",
+    "done": true
+   },
+   {
+    "kw": "GEO 生成式引擎优化 落地做法",
+    "done": true
+   },
+   {
+    "kw": "GEO 信源分层 权威信源 建设",
+    "done": true
+   },
+   {
+    "kw": "GEO 实体锚点 消歧 方法",
+    "done": true
+   },
+   {
+    "kw": "AI 搜索 品牌 提及 监测 方法",
+    "done": true
+   },
+   {
+    "kw": "GEO 问答矩阵 问题库 建设",
+    "done": true
+   },
+   {
+    "kw": "AI 搜索 引用来源 收录 机制",
+    "done": true
+   },
+   {
+    "kw": "豆包 DeepSeek AI 搜索 品牌 曝光",
+    "done": true
+   },
+   {
+    "kw": "GEO 效果 复测 指标 方法",
+    "done": true
+   },
+   {
+    "kw": "SEO 到 GEO 转型 方法 对比",
+    "done": true
+   },
+   {
+    "kw": "GEO 具体落地话术",
+    "done": true
+   },
+   {
+    "kw": "一人公司 超级个体 实战案例",
+    "done": true
+   },
+   {
+    "kw": "OPC 一人公司 注册 经营范围",
+    "done": true
+   },
+   {
+    "kw": "一人公司 定价 最小可卖产品 设计",
+    "done": true
+   },
+   {
+    "kw": "一人公司 B端 获客 方法",
+    "done": true
+   },
+   {
+    "kw": "超级个体 AI 工具 选型 配置",
+    "done": true
+   },
+   {
+    "kw": "一人公司 合规 风险 避坑",
+    "done": true
+   },
+   {
+    "kw": "一人公司 财税 公私账 管理",
+    "done": false
+   },
+   {
+    "kw": "咨询 技术外包 接单 渠道 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 商业模式 设计 闭环",
+    "done": false
+   },
+   {
+    "kw": "OPC 一人公司 赚钱地图 行业 选择 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 垂直行业 深耕 壁垒 构建",
+    "done": false
+   },
+   {
+    "kw": "一人公司 产品化 最小可卖产品 MVP 设计",
+    "done": false
+   },
+   {
+    "kw": "一人公司 定价策略 客单价 提升 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 成本结构 毛利 净利 测算",
+    "done": false
+   },
+   {
+    "kw": "一人公司 内容获客 短视频 私域 打法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 GEO 获客 AI 搜索 曝光 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 冷启动 第一个客户 怎么拿",
+    "done": false
+   },
+   {
+    "kw": "一人公司 信任承接 转化 路径 设计",
+    "done": false
+   },
+   {
+    "kw": "一人公司 案例营销 客户证言 转化 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 AI 自动化 交付 SOP 搭建",
+    "done": false
+   },
+   {
+    "kw": "一人公司 交付 标准化 可复制 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 复购 客户资产 私域 运营",
+    "done": false
+   },
+   {
+    "kw": "一人公司 服务即软件 陪跑 定制 赚钱",
+    "done": false
+   },
+   {
+    "kw": "一人公司 客户成功 续费 转介绍 机制",
+    "done": false
+   },
+   {
+    "kw": "一人公司 运营策略 每日节奏 规划",
+    "done": false
+   },
+   {
+    "kw": "一人公司 现金流 抗风险 储备 管理",
+    "done": false
+   },
+   {
+    "kw": "一人公司 时间管理 精力 杠杆 放大",
+    "done": false
+   },
+   {
+    "kw": "一人公司 联盟 分包 协作 放大 规模",
+    "done": false
+   },
+   {
+    "kw": "一人公司 规模化边界 为什么保持一人",
+    "done": false
+   },
+   {
+    "kw": "一人公司 交付案例 内容化 回流 方法",
+    "done": false
+   },
+   {
+    "kw": "一人公司 案例库 自动积累 复盘 机制",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 自治 自我进化 框架",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 长期记忆 知识库 设计",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 自迭代 代码 案例",
+    "done": false
+   },
+   {
+    "kw": "多智能体 协作 编排 框架",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 检索增强 RAG 实践",
+    "done": false
+   },
+   {
+    "kw": "本地 AI Agent 隐私 部署 方案",
+    "done": false
+   },
+   {
+    "kw": "Agent 技能包 Skills 生态",
+    "done": false
+   },
+   {
+    "kw": "AI 自我进化 闭环 设计",
+    "done": false
+   },
+   {
+    "kw": "AI 智能体 自我诊断 能力自检",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 记忆复利 知识蒸馏 事实沉淀",
+    "done": false
+   },
+   {
+    "kw": "AI 自我进化 改进曲线 评估 指标 方法",
+    "done": false
+   },
+   {
+    "kw": "AI 自治脑 自检 自诊断 兜底 机制",
+    "done": false
+   },
+   {
+    "kw": "口播文案 钩子 结构 方法论",
+    "done": false
+   },
+   {
+    "kw": "口播 开场 3秒 留人 技巧",
+    "done": false
+   },
+   {
+    "kw": "短视频 选题 爆款 拆解方法",
+    "done": false
+   },
+   {
+    "kw": "抖音 视频号 平台算法 偏好",
+    "done": false
+   },
+   {
+    "kw": "私域 信任承接 转化路径",
+    "done": false
+   },
+   {
+    "kw": "私域 转化 话术 节奏",
+    "done": false
+   },
+   {
+    "kw": "知识付费 最小可卖产品 设计",
+    "done": false
+   },
+   {
+    "kw": "AI 工作流 内容生产 自动化",
+    "done": false
+   },
+   {
+    "kw": "AI 工具 新媒体 提效 选型",
+    "done": false
+   },
+   {
+    "kw": "抖音 口播 账号 定位 案例",
+    "done": false
+   },
+   {
+    "kw": "内容变现 路径 对照 案例",
+    "done": false
+   },
+   {
+    "kw": "中年成长 内容 选题 共鸣 点",
+    "done": false
+   },
+   {
+    "kw": "民生时事 评论 口播 写法",
+    "done": false
+   },
+   {
+    "kw": "短视频 完播率 提升 方法",
+    "done": false
+   },
+   {
+    "kw": "个人 IP 全平台 分发 策略",
+    "done": false
+   },
+   {
+    "kw": "客户案例 二次创作 内容化 方法",
+    "done": false
+   },
+   {
+    "kw": "县城 下沉市场 新媒体 获客 案例",
+    "done": false
+   },
+   {
+    "kw": "普通人 不敢用AI 的障碍 惰性 认知 习惯",
+    "done": false
+   },
+   {
+    "kw": "用户 怕麻烦 拖延 怕改坏 心理 分析",
+    "done": false
+   },
+   {
+    "kw": "小白 上手 AI 最小动作 设计 方法",
+    "done": false
+   },
+   {
+    "kw": "人性 摩擦点 产品设计 降低门槛 原则",
+    "done": false
+   },
+   {
+    "kw": "普通人 从众 怕露怯 怕被坑 心理 分析",
+    "done": false
+   },
+   {
+    "kw": "AI 产品 人性优先 设计 原则 案例",
+    "done": false
+   },
+   {
+    "kw": "一人公司 客户 决策心理 成交 阻碍",
+    "done": false
+   },
+   {
+    "kw": "内容 降低认知负荷 让小白行动 方法",
+    "done": false
+   },
+   {
+    "kw": "递归自我改进 recursive self-improvement 可行性 研究",
+    "done": false
+   },
+   {
+    "kw": "Gödel Machine 哥德尔机 自修改代码 原理",
+    "done": false
+   },
+   {
+    "kw": "Darwin Gödel Machine 达尔文哥德尔机 自进化 2026 突破",
+    "done": false
+   },
+   {
+    "kw": "AI Agent 自我修改代码 自重写 脚手架 案例",
+    "done": false
+   },
+   {
+    "kw": "self-modifying agent code 自改代码 安全 评估 方法",
+    "done": false
+   },
+   {
+    "kw": "SEAL 自生成微调数据 自我蒸馏 智能体 自我提升",
+    "done": false
+   },
+   {
+    "kw": "self-evolving AI agent 自进化 安全 护栏 机制",
+    "done": false
+   },
+   {
+    "kw": "递归自我改进 留出集评估 held-out 防过拟合 选择",
+    "done": false
+   },
+   {
+    "kw": "自进化 失败模式 代理博弈 proxy gaming 灾难性遗忘",
+    "done": false
+   },
+   {
+    "kw": "对齐伪装 alignment faking 自进化 风险 研究",
+    "done": false
+   },
+   {
+    "kw": "数字生命 AI 自我进化 改写自身代码 案例",
+    "done": false
+   },
+   {
+    "kw": "EverMind Raven 渡鸦 数字生命 自进化 阶段 L1-L4",
+    "done": false
+   },
+   {
+    "kw": "智谱 GLM 自进化 后训练 scaling 自我提升 做法",
+    "done": false
+   },
+   {
+    "kw": "DeepSeek DSH 插件化 一切皆插件 自进化 架构",
+    "done": false
+   },
+   {
+    "kw": "腾讯 Hy 研发流程 全链路 自进化 智能体",
+    "done": false
+   },
+   {
+    "kw": "可审计 可回滚 自进化 AI 机制 设计 协议",
+    "done": false
+   },
+   {
+    "kw": "元学习 learning to learn 学会学习 智能体 自我改进",
+    "done": false
+   },
+   {
+    "kw": "AI 安全 自我进化 护栏 评估门 eval-gated 研究",
+    "done": false
+   }
+  ]
+ },
+ "upgrade": {
+  "selfapply_total": 38,
+  "apply_ok": 38,
+  "apply_rollback": 0,
+  "selfapply_recent": [
+   {
+    "at": "2026-10-16 00:13:55+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-16 00:52:56+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-17 01:48:26+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-17 01:48:29+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-17 08:32:24+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-17 08:32:27+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-18 08:05:25+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-18 08:07:47+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-18 08:32:49+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-18 08:35:07+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-19 12:31:30+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-19 12:32:05+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-20 08:01:58+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-23 05:08:53+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-23 08:35:58+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-23 08:37:19+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-24 05:03:43+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-24 05:03:50+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-24 08:33:18+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   },
+   {
+    "at": "2026-10-24 08:33:31+0800",
+    "kind": "",
+    "detail": "",
+    "ok": true
+   }
+  ],
+  "curve": [
+   {
+    "cycle": 15,
+    "at": "2026-10-15 23:58:25+0800",
+    "kb": 518,
+    "coverage": 107,
+    "facts": 16
+   },
+   {
+    "cycle": 16,
+    "at": "2026-10-16 00:08:31+0800",
+    "kb": 585,
+    "coverage": 114,
+    "facts": 18
+   },
+   {
+    "cycle": 17,
+    "at": "2026-10-16 00:14:28+0800",
+    "kb": 653,
+    "coverage": 122,
+    "facts": 18
+   },
+   {
+    "cycle": 18,
+    "at": "2026-10-17 01:48:42+0800",
+    "kb": 1157,
+    "coverage": 190,
+    "facts": 31
+   },
+   {
+    "cycle": 19,
+    "at": "2026-10-17 08:32:36+0800",
+    "kb": 1219,
+    "coverage": 195,
+    "facts": 31
+   },
+   {
+    "cycle": 20,
+    "at": "2026-10-18 08:10:02+0800",
+    "kb": 1353,
+    "coverage": 206,
+    "facts": 32
+   },
+   {
+    "cycle": 21,
+    "at": "2026-10-18 08:36:24+0800",
+    "kb": 1395,
+    "coverage": 209,
+    "facts": 32
+   },
+   {
+    "cycle": 22,
+    "at": "2026-10-19 12:34:11+0800",
+    "kb": 1432,
+    "coverage": 209,
+    "facts": 32
+   },
+   {
+    "cycle": 23,
+    "at": "2026-10-20 08:02:11+0800",
+    "kb": 1445,
+    "coverage": 210,
+    "facts": 32
+   },
+   {
+    "cycle": 24,
+    "at": "2026-10-20 08:32:32+0800",
+    "kb": 1461,
+    "coverage": 210,
+    "facts": 32
+   },
+   {
+    "cycle": 25,
+    "at": "2026-10-21 08:32:30+0800",
+    "kb": 1484,
+    "coverage": 210,
+    "facts": 32
+   },
+   {
+    "cycle": 26,
+    "at": "2026-10-22 16:36:24+0800",
+    "kb": 1506,
+    "coverage": 210,
+    "facts": 32
+   },
+   {
+    "cycle": 27,
+    "at": "2026-10-23 05:11:30+0800",
+    "kb": 1530,
+    "coverage": 210,
+    "facts": 32
+   },
+   {
+    "cycle": 28,
+    "at": "2026-10-23 08:39:55+0800",
+    "kb": 1546,
+    "coverage": 210,
+    "facts": 33
+   },
+   {
+    "cycle": 29,
+    "at": "2026-10-24 05:04:09+0800",
+    "kb": 1566,
+    "coverage": 210,
+    "facts": 33
+   },
+   {
+    "cycle": 30,
+    "at": "2026-10-24 08:34:06+0800",
+    "kb": 1588,
+    "coverage": 210,
+    "facts": 33
+   }
+  ],
+  "bench": {
+   "at": "2026-10-16 00:56:33+0800",
+   "version": "0.14.5",
+   "kb": 665,
+   "score": 90.24,
+   "cmd_ok": 4,
+   "cmd_total": 4
+  },
+  "bench_history": [
+   {
+    "at": "2026-10-16 00:02:59+0800",
+    "version": "0.13.0",
+    "kb": 518,
+    "score": 93.75
+   },
+   {
+    "at": "2026-10-16 00:05:45+0800",
+    "version": "0.13.0",
+    "kb": 559,
+    "score": 98.81
+   },
+   {
+    "at": "2026-10-16 00:09:53+0800",
+    "version": "0.13.0",
+    "kb": 585,
+    "score": 98.81
+   },
+   {
+    "at": "2026-10-16 00:37:35+0800",
+    "version": "0.14.0",
+    "kb": 665,
+    "score": 97.56
+   },
+   {
+    "at": "2026-10-16 00:47:16+0800",
+    "version": "0.14.0",
+    "kb": 665,
+    "score": 89.04
+   },
+   {
+    "at": "2026-10-16 00:56:33+0800",
+    "version": "0.14.5",
+    "kb": 665,
+    "score": 90.24
+   }
+  ],
+  "proposals": 17,
+  "proposals_recent": [
+   {
+    "at": "2026-10-12 14:41:54+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-12 22:42:26+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-13 23:48:26+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-14 00:12:38+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-14 22:00:58+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-15 05:01:59+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-15 23:36:40+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-16 00:08:30+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-16 00:14:28+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-16 10:27:00+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-17 01:48:42+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-17 08:32:36+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-18 08:10:02+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-18 08:36:24+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-23 05:11:29+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-23 08:39:55+0800",
+    "title": "",
+    "status": ""
+   },
+   {
+    "at": "2026-10-24 05:04:09+0800",
+    "title": "",
+    "status": ""
+   }
+  ]
+ },
+ "vector": {
+  "chunks": 9643,
+  "srcs": 269,
+  "chars": 2147778,
+  "dim": 256,
+  "collections": [
+   {
+    "name": "kb_self",
+    "n": 9643
+   }
+  ],
+  "db_bytes": 46268416,
+  "index_bytes": 11303768,
+  "queue": 445,
+  "last_write": "2026-10-24 18:20",
+  "created_from": "2026-10-24 09:07",
+  "created_to": "2026-10-24 10:20",
+  "instances": [
+   "self"
+  ],
+  "top_src": [
+   {
+    "src": "~/Desktop/海大叔知识库/11_自媒体与公众号课程/自媒体课程/重要/从一无所有到财务自由.pdf",
+    "n": 1308
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/_OCR文字版/11_自媒体与公众号课程/自媒体课程/重要/《平台战略》.扫描版.txt",
+    "n": 748
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/11_自媒体与公众号课程/自媒体课程/重要/[大数据时代]盛杨燕等.扫描版.pdf",
+    "n": 674
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/_OCR文字版/11_自媒体与公众号课程/自媒体课程/重要/完美的群体：如何掌控群体智慧的力量（美）兰·费雪.txt",
+    "n": 503
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/11_自媒体与公众号课程/自媒体课程/重要/超级符号就是超级创意.PDF",
+    "n": 493
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/_OCR文字版/11_自媒体与公众号课程/自媒体课程/重要/《场景革命》.txt",
+    "n": 391
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/08_著作与方法论/赚钱的秘密_2026升级版.txt",
+    "n": 391
+   },
+   {
+    "src": "~/Desktop/海大叔知识库/10_直播带货课程与脚本/基础知识区分（号，橱窗，蓝V，小店）/license.pdf",
+    "n": 194
+   }
+  ]
+ },
+ "knowledge_all": {
+  "sources": {
+   "知识库主库 items": 1803,
+   "语义事实 semantic_facts": 33,
+   "思考判断 thoughts": 21,
+   "信念 beliefs": 29,
+   "人性因子 nature": 3,
+   "献策记录 advice": 34,
+   "回执 feedback": 11,
+   "复盘 reviews": 17,
+   "升级提案 proposals": 17,
+   "记忆链 events": 960,
+   "兵器库 armory": 30,
+   "成长记录 growth": 8,
+   "案例库 cases": 0,
+   "记忆仓库 memrepo(提交)": 7,
+   "向量记忆 vectors(chroma 语义块)": 9643
+  },
+  "total": 12616,
+  "vector_chunks": 9643,
+  "vector_chars": 2147778,
+  "vector_db_mb": 44.1,
+  "vector_index_mb": 10.8,
+  "vector_srcs": 269,
+  "vector_dim": 256
+ }
+}

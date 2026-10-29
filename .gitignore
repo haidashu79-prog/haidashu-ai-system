@@ -1,0 +1,14 @@
+# 依赖与构建产物
+node_modules/
+.wrangler/
+.DS_Store
+*.log
+
+# 本地环境
+.env
+.env.*
+!.env.example
+
+# 编辑器
+.vscode/
+.idea/

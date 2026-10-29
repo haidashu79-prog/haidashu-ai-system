@@ -1,0 +1,211 @@
+{
+  "name": "海大叔素材库",
+  "repo": "haidashu-ai-system",
+  "version": "1.0.0",
+  "updated": "2026-10-29",
+  "count": 20,
+  "note": "全部素材托管在本仓库内，页面通过 /img/mt/ 直接引用仓库中的同一批文件，不依赖任何外部图床。",
+  "license": "仅限海大叔 AI 新媒体 IP 智慧生态及其授权合作方使用；第三方素材（Unsplash）遵循其原始许可，商用前请自行复核。",
+  "items": [
+    {
+      "file": "materials/img/app-1.webp",
+      "sitePath": "/img/mt/app-1.webp",
+      "category": "app",
+      "categoryName": "应用 · 仪表盘/门店",
+      "bytes": 32984,
+      "sha256": "fa3636eb6a21d0e3",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/app-2.webp",
+      "sitePath": "/img/mt/app-2.webp",
+      "category": "app",
+      "categoryName": "应用 · 仪表盘/门店",
+      "bytes": 18902,
+      "sha256": "728cb575bb897ef0",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/app-3.webp",
+      "sitePath": "/img/mt/app-3.webp",
+      "category": "app",
+      "categoryName": "应用 · 仪表盘/门店",
+      "bytes": 15954,
+      "sha256": "9fd455b53c5afcba",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/app-4.webp",
+      "sitePath": "/img/mt/app-4.webp",
+      "category": "app",
+      "categoryName": "应用 · 仪表盘/门店",
+      "bytes": 18884,
+      "sha256": "305d7637464919bf",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/app-5.webp",
+      "sitePath": "/img/mt/app-5.webp",
+      "category": "app",
+      "categoryName": "应用 · 仪表盘/门店",
+      "bytes": 29794,
+      "sha256": "9a7b3653f2864c6a",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/media-1.webp",
+      "sitePath": "/img/mt/media-1.webp",
+      "category": "media",
+      "categoryName": "新媒体 · 拍摄/剪辑",
+      "bytes": 25048,
+      "sha256": "fa2ef5b6a26f7dee",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/media-2.webp",
+      "sitePath": "/img/mt/media-2.webp",
+      "category": "media",
+      "categoryName": "新媒体 · 拍摄/剪辑",
+      "bytes": 15906,
+      "sha256": "15549e224b18229e",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/media-3.webp",
+      "sitePath": "/img/mt/media-3.webp",
+      "category": "media",
+      "categoryName": "新媒体 · 拍摄/剪辑",
+      "bytes": 12786,
+      "sha256": "2f76fa9ed624cb77",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/media-4.webp",
+      "sitePath": "/img/mt/media-4.webp",
+      "category": "media",
+      "categoryName": "新媒体 · 拍摄/剪辑",
+      "bytes": 17370,
+      "sha256": "84827951af1b0792",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/media-5.webp",
+      "sitePath": "/img/mt/media-5.webp",
+      "category": "media",
+      "categoryName": "新媒体 · 拍摄/剪辑",
+      "bytes": 24982,
+      "sha256": "32986615ad055dd3",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/mp-1.webp",
+      "sitePath": "/img/mt/mp-1.webp",
+      "category": "mp",
+      "categoryName": "小程序 · 手机端",
+      "bytes": 17836,
+      "sha256": "3c5d62de2a0faf93",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/mp-2.webp",
+      "sitePath": "/img/mt/mp-2.webp",
+      "category": "mp",
+      "categoryName": "小程序 · 手机端",
+      "bytes": 18494,
+      "sha256": "eb7f918b43624b6a",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/mp-3.webp",
+      "sitePath": "/img/mt/mp-3.webp",
+      "category": "mp",
+      "categoryName": "小程序 · 手机端",
+      "bytes": 14680,
+      "sha256": "656b0fef06841b11",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/mp-4.webp",
+      "sitePath": "/img/mt/mp-4.webp",
+      "category": "mp",
+      "categoryName": "小程序 · 手机端",
+      "bytes": 30040,
+      "sha256": "994b6f98f245308f",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/mp-5.webp",
+      "sitePath": "/img/mt/mp-5.webp",
+      "category": "mp",
+      "categoryName": "小程序 · 手机端",
+      "bytes": 16688,
+      "sha256": "a4c2d4910ee6daae",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/site-1.webp",
+      "sitePath": "/img/mt/site-1.webp",
+      "category": "site",
+      "categoryName": "官网页 · 线框/界面",
+      "bytes": 20520,
+      "sha256": "d7f6fdba6508b38c",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/site-2.webp",
+      "sitePath": "/img/mt/site-2.webp",
+      "category": "site",
+      "categoryName": "官网页 · 线框/界面",
+      "bytes": 20068,
+      "sha256": "2a716324fc9b4022",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/site-3.webp",
+      "sitePath": "/img/mt/site-3.webp",
+      "category": "site",
+      "categoryName": "官网页 · 线框/界面",
+      "bytes": 16944,
+      "sha256": "a7995e798bfae269",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/site-4.webp",
+      "sitePath": "/img/mt/site-4.webp",
+      "category": "site",
+      "categoryName": "官网页 · 线框/界面",
+      "bytes": 13334,
+      "sha256": "2e1352d563d10050",
+      "size": "600x375",
+      "format": "webp"
+    },
+    {
+      "file": "materials/img/site-5.webp",
+      "sitePath": "/img/mt/site-5.webp",
+      "category": "site",
+      "categoryName": "官网页 · 线框/界面",
+      "bytes": 14614,
+      "sha256": "8f418f6c476761ce",
+      "size": "600x375",
+      "format": "webp"
+    }
+  ]
+}

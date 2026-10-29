@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>素材库 · 海大叔 AI新媒体IP智慧生态</title>
+<meta name="description" content="海大叔素材库：新媒体素材、网站素材、小程序素材、应用素材四类，拿来就改、拿来就用。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23165DFF'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.pills button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 18px;border-radius:999px;font-size:14px;cursor:pointer;transition:.18s;font-weight:600}
+.pills button.on{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--shadow)}
+.panel{display:none;margin-top:22px}
+.panel.show{display:block}
+.copy-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;height:100%}
+.copy-card .tag{font-size:11px;font-family:var(--mono);color:var(--brand);letter-spacing:.04em}
+.copy-card h4{font-size:15px;margin:4px 0 8px}
+.copy-card pre{flex:1;white-space:pre-wrap;word-break:break-word;font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--ink2);background:var(--card2);border:1px solid var(--line2);border-radius:10px;padding:12px;max-height:220px;overflow:auto;margin-bottom:12px}
+.copy-btn{border:1px solid var(--brand-dd);background:var(--brand-d);color:var(--brand);padding:8px 14px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;align-self:flex-start;transition:.18s}
+.copy-btn:hover{background:var(--brand);color:#fff}
+.tpl-search{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.tpl-search input{flex:1;min-width:220px;border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;background:var(--card2)}
+.tpl-search input:focus{outline:none;border-color:var(--brand)}
+.tpl{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;box-shadow:var(--shadow)}
+.tpl b{font-size:14.5px}
+.tpl p{color:var(--dim);font-size:12.5px;margin:5px 0 9px;line-height:1.6}
+.tpl .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--dim2)}
+.tpl .meta span{background:var(--card2);border:1px solid var(--line2);border-radius:6px;padding:2px 8px}
+.tpl a{color:var(--brand);font-size:12.5px;font-weight:600}
+.more{margin-top:18px;text-align:center}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:10px;font-size:13.5px;opacity:0;transition:.25s;z-index:200;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <nav class="nav-links" id="nav">
+      <a href="/">首页</a>
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/" class="active">素材库</a>
+    </nav>
+    <a class="nav-cta" href="/products/#contact">加海大叔</a>
+    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+  </div>
+</header>
+
+<section style="padding-top:54px">
+  <div class="wrap">
+    <span class="eyebrow">素材库 · MATERIALS</span>
+    <h1 class="h2">四类素材，拿来就改、拿来就用</h1>
+    <p class="lead">新媒体文案、网站模板、小程序模板、应用模板，分门别类放好。做内容、搭产品，不用从零开始。</p>
+
+    <div class="pills" id="pills">
+      <button data-k="media" class="on">新媒体素材</button>
+      <button data-k="website">网站素材</button>
+      <button data-k="miniprogram">小程序素材</button>
+      <button data-k="app">应用素材</button>
+    </div>
+
+    <!-- 新媒体素材 -->
+    <div class="panel show" id="p-media">
+      <div class="grid c2" id="mediaGrid"></div>
+    </div>
+
+    <!-- 网站/小程序/应用 -->
+    <div class="panel" id="p-tpl">
+      <div class="tpl-search">
+        <input id="tplSearch" placeholder="搜模板：关键词 / 语言 / 类型，如 tailwind、admin、vue">
+      </div>
+      <div class="grid c3" id="tplGrid"></div>
+      <div class="more"><button class="btn btn-ghost" id="tplMore">加载更多</button></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <div class="foot-links">
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </div>
+    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">已复制</div>
+<script src="/templates/data.js"></script>
+<script>
+// ── 新媒体素材（来自海大叔对外文案库，真实文案） ──
+var MEDIA=[
+{t:"朋友圈",n:"1｜自我介绍（置顶用）",b:"我不教 AI。\n\n我做的是一件事：把你每天重复干的那件活儿，变成一个打开就能用的工具。\n\n你不用学提示词，不用配置，不用装软件。打开链接，把手头的东西粘进去，它出活。\n\n我给设计师、自媒体、小顾问各做了 5 个，299 一套。先用着，觉得值再说。\n\n不值的话，我这儿还有份免费的，10 条指令，加我就发，看完你自己判断。"},
+{t:"朋友圈",n:"2｜场景（最容易被转发的一条）",b:"晚上十一点，一个做设计的朋友还在改第四版。\n\n不是他不会设计，是他每次都得从零写一遍提案。\n\n我给他做了一套东西：客户发来需求，粘进去，十分钟出一版能直接发出去的提案初稿。\n\n他没变得更强，他只是把\"从零开始\"这件事省掉了。\n\n这就是我干的活。"},
+{t:"朋友圈",n:"3｜观点（立态度用）",b:"我不劝任何人买 AI 工具。\n\n你先问自己一句：有没有一件活儿，每天都要干，又没人替你干？\n\n有，我这套东西对你有用。没有，你买了也是放着，不如省下这钱。\n\n我这行最不缺卖课的，缺的是敢劝你别买的人。"},
+{t:"朋友圈",n:"4｜反常识（涨评论）",b:"说句不讨喜的话：大部分人学不会 AI，不是笨，是学的顺序反了。\n\n先去学\"什么是大模型、什么是提示词工程\"，学完发现自己还是不知道怎么让 AI 写一条朋友圈。\n\n正确的顺序是：先有一件具体要干的活，再让 AI 干，干完发现哪儿不对，再回去补知识。\n\n先干活，后学习。反过来一定死在半路。"},
+{t:"朋友圈",n:"5｜案例（有真实客户后再发）",b:"一个开店的老板，最早跟我说\"AI 我用不上\"。\n\n我问他：你每天回多少条客户消息？他说，几十条，晚上躺下还在回。\n\n我给他做了个东西：客户问什么，粘进去，出三条回复，他挑一条发。\n\n现在他晚上十点后基本不碰手机了。\n\n价值不在\"AI 很厉害\"，在于他终于能把那个小时拿回来。"},
+{t:"朋友圈",n:"6｜工具演示（配图或录屏）",b:"今天有人问我：客户发一大段语音转文字，看不懂他要什么，怎么办。\n\n我做了个东西：把那段乱糟糟的文字粘进去，出来一张表——他到底要什么、预算多少、什么时候要、还缺什么信息。\n\n三十秒。\n\n不是 AI 聪明，是这件事本来就不该用脑子硬扛。"},
+{t:"朋友圈",n:"7｜劝退（最建信任）",b:"有人问我 4,980 值不值。\n\n我先反问三句：你每天有没有一件重复的活？这件事你自己干多久了？如果它明天开始不用你干，你手上能腾出什么？\n\n三个都答得出来，就值。答不出来，299 那套先用着，别花这个钱。\n\n我不缺这一单，我缺的是你用完还愿意跟别人提我一句。"},
+{t:"私信",n:"1｜陌生好友第一次聊",b:"问一句：你现在主要靠什么挣钱？一个人干还是有帮手？\n\n（等他答完，再发下面这段）\n\n我这边做的事可能对你有用：把你每天重复的那件活儿，做成一个打开就能用的工具。不用学 AI，粘内容进去就出东西。\n\n先给你一份免费的，10 条指令，今天就能用上。用着觉得对路，我们再聊深的。要的话我发你。"},
+{t:"私信",n:"2｜他问\"多少钱\"",b:"分三档，你按需要挑，别一次买最贵的。\n\n免费的：10 条指令，加我就发。\n299：按职业打包的 5 个工具，当天发链接，打开就用。\n1,980 起：按你自己的生意改，3-5 天交付。\n\n建议你先拿免费的。用得顺手再考虑 299，别一上来就花大钱。"},
+{t:"私信",n:"3｜他犹豫\"太贵了\"",b:"理解，这个钱不算小。我不劝你。就问一句：你想解决的那件事，现在每周花你多少小时？\n\n如果是一小时以内，299 那套够用，别买贵的。如果是每天都要干，那 1,980 摊到一年，一天不到六块。\n\n你觉得不值，就是不值，那先别买。我这行不缺这一单。"},
+{t:"文章结尾",n:"公众号 / 文章结尾固定段",b:"我是海大叔。\n\n我不卖 AI 课，也不讲大模型原理。\n\n我做的事很具体：把一个人干所有活的活儿里、每天重复的那一件，做成一个打开就能用的工具。你不用学，粘进去就出活。\n\n从免费清单到定制搭建，一共六件东西，按你能承受的深度排。先拿免费的那份，觉得值再往下走。\n\n不值就别买，我这儿不缺这一单。"},
+{t:"报价单",n:"对外报价单（发给客户用）",b:"海大叔 · 报价单\n\n一、小白 AI 落地清单｜免费｜10 条即用指令｜微信发文件\n二、AI 接单工具箱（设计师/自媒体/顾问三版）｜299 首发199｜该职业 5 个工具，当天发链接\n三、专属 AI 员工·标准版｜1,980｜按业务改造 5 工具+7天答疑｜3-5天交付\n四、专属 AI 员工·深度版｜4,980（加急+1,500）｜诊断到搭建到跑通+30天1次小改\n五、AI 落地陪跑｜9,800起｜6-8周，每周对练+每日成品+结案复盘｜同时只接2单\n六、年度维保｜2,000起/年｜仅限已交付客户\n\n统一说明：以上均不含代运营/代发内容/承诺涨粉或收入；AI 出初稿，涉钱涉合同涉承诺最后一遍须本人确认；价格统一，不私下议价。"}
+];
+// ── 渲染新媒体 ──
+var mg=document.getElementById('mediaGrid');
+MEDIA.forEach(function(m,mi){
+  var d=document.createElement('div');d.className='copy-card';
+  d.innerHTML='<div class="mt-cover">'+coverSVG('media',m.n,mi)+'</div><span class="tag">'+m.t+'</span><h4>'+m.n+'</h4><pre>'+escapeHtml(m.b)+'</pre><button class="copy-btn">复制文案</button>';
+  d.querySelector('.copy-btn').onclick=function(){copy(m.b);};
+  mg.appendChild(d);
+});
+// ── 模板渲染（网站/小程序/应用） ──
+var TPL=window.TPL||{items:{website:[],miniprogram:[],app:[]}};
+var KEYMAP={website:'website',miniprogram:'miniprogram',app:'app'};
+var curKey='website',shown=0,PAGE=24,filtered=[];
+function renderTpl(key){
+  curKey=key;shown=0;
+  var all=TPL.items[KEYMAP[key]]||[];
+  var q=document.getElementById('tplSearch').value.trim().toLowerCase();
+  filtered=all.filter(function(it){
+    if(!q)return true;
+    return (it.n+' '+(it.d||'')+' '+(it.l||'')+' '+(it.t||'')+' '+(it.k||'')).toLowerCase().indexOf(q)>=0;
+  });
+  document.getElementById('tplGrid').innerHTML='';
+  showMore();
+}
+function showMore(){
+  var g=document.getElementById('tplGrid');
+  var slice=filtered.slice(shown,shown+PAGE);
+  slice.forEach(function(it){
+    var d=document.createElement('div');d.className='tpl';
+    d.innerHTML='<div class="mt-cover">'+coverSVG(tplKind(),it.n)+'</div><b>'+escapeHtml(it.n)+'</b><p>'+escapeHtml(it.d||'')+'</p>'+
+      '<div class="meta"><span>'+(it.l||'')+'</span><span>'+(it.t||'')+'</span><span>'+(it.c||'')+'</span></div>'+
+      (it.r?'<div style="margin-top:8px"><a href="https://github.com/'+it.r+'" target="_blank" rel="noopener">看源码 ↗</a></div>':'');
+    g.appendChild(d);
+  });
+  shown+=slice.length;
+  document.getElementById('tplMore').style.display=(shown<filtered.length)?'inline-block':'none';
+}
+function switchPanel(k){
+  if(k==='media'){document.getElementById('p-media').classList.add('show');document.getElementById('p-tpl').classList.remove('show');}
+  else{document.getElementById('p-media').classList.remove('show');document.getElementById('p-tpl').classList.add('show');renderTpl(k);}
+}
+document.querySelectorAll('#pills button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#pills button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');switchPanel(b.dataset.k);
+  };
+});
+document.getElementById('tplSearch').addEventListener('input',function(){renderTpl(curKey);});
+document.getElementById('tplMore').addEventListener('click',showMore);
+// ── 工具 ──
+function escapeHtml(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+/* ── 素材封面（SVG 预览图） ── */
+var COVERS=[['#FBE3C6','#E0A055'],['#F7D9BE','#D98A4E'],['#F1E3C0','#C9A24B'],['#F5DEC6','#C97B45'],['#EAE4CE','#9C8B57'],['#FCE6D0','#DB8A52'],['#F3DBC8','#B5703E']];
+function hashStr(s){var h=0;s=String(s||'');for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}return h;}
+function tplKind(){return curKey==='website'?'site':curKey==='miniprogram'?'mp':'app';}
+/* 真实配图：每类三张实拍照片，按名称哈希稳定分配（来源 Unsplash，可商用）。
+   注意：映射表必须写在函数内部——本页渲染代码在文件后半段之前执行，
+   外层 var 赋值不会提升，放外面会拿到 undefined（这个坑踩过一次）。 */
+function coverSVG(kind,name,idx){
+  var PHOTOS={
+    media:['/img/mt/media-1.webp','/img/mt/media-2.webp','/img/mt/media-3.webp','/img/mt/media-4.webp','/img/mt/media-5.webp'],
+    site :['/img/mt/site-1.webp','/img/mt/site-2.webp','/img/mt/site-3.webp','/img/mt/site-4.webp','/img/mt/site-5.webp'],
+    mp   :['/img/mt/mp-1.webp','/img/mt/mp-2.webp','/img/mt/mp-3.webp','/img/mt/mp-4.webp','/img/mt/mp-5.webp'],
+    app  :['/img/mt/app-1.webp','/img/mt/app-2.webp','/img/mt/app-3.webp','/img/mt/app-4.webp','/img/mt/app-5.webp']
+  };
+  var set=PHOTOS[kind]||PHOTOS.site, hh=(idx===undefined||idx===null)?hashStr(name):idx;
+  return '<img src="'+set[hh%set.length]+'" alt="'+escapeHtml(name)+' 预览图" loading="lazy" decoding="async">';
+}
+function coverSVGShape(kind,name){
+  var COVERS=[['#FBE3C6','#E0A055'],['#F7D9BE','#D98A4E'],['#F1E3C0','#C9A24B'],['#F5DEC6','#C97B45'],['#EAE4CE','#9C8B57'],['#FCE6D0','#DB8A52'],['#F3DBC8','#B5703E']];
+  var h=hashStr(name), p=COVERS[h%COVERS.length], a=p[0], b=p[1], gid='cg'+h, body='';
+  if(kind==='site'){
+    body='<rect x="40" y="50" width="240" height="120" rx="9" fill="#fff" opacity=".93"/>'
+      +'<rect x="40" y="50" width="240" height="20" rx="9" fill="'+b+'" opacity=".85"/>'
+      +'<circle cx="54" cy="60" r="3" fill="#fff"/><circle cx="66" cy="60" r="3" fill="#fff"/><circle cx="78" cy="60" r="3" fill="#fff"/>'
+      +'<rect x="56" y="86" width="92" height="9" rx="4" fill="'+b+'" opacity=".55"/>'
+      +'<rect x="56" y="103" width="150" height="6" rx="3" fill="#cdbca8"/>'
+      +'<rect x="56" y="117" width="128" height="6" rx="3" fill="#dccfbd"/>'
+      +'<rect x="56" y="136" width="62" height="16" rx="8" fill="'+b+'"/>';
+  } else if(kind==='mp'){
+    body='<rect x="120" y="34" width="84" height="140" rx="16" fill="#fff" opacity=".95" stroke="'+b+'" stroke-width="2"/>'
+      +'<rect x="130" y="50" width="64" height="10" rx="5" fill="'+b+'" opacity=".6"/>'
+      +'<rect x="130" y="70" width="64" height="34" rx="8" fill="'+a+'"/>'
+      +'<rect x="130" y="112" width="30" height="30" rx="6" fill="'+b+'" opacity=".5"/>'
+      +'<rect x="164" y="112" width="30" height="30" rx="6" fill="'+b+'" opacity=".5"/>'
+      +'<circle cx="162" cy="158" r="6" fill="'+b+'" opacity=".7"/>';
+  } else if(kind==='app'){
+    for(var i=0;i<9;i++){var x=96+(i%3)*44, y=46+Math.floor(i/3)*42;
+      body+='<rect x="'+x+'" y="'+y+'" width="34" height="34" rx="9" fill="#fff" opacity=".9"/>'
+        +'<rect x="'+(x+8)+'" y="'+(y+8)+'" width="18" height="18" rx="5" fill="'+b+'" opacity="'+(0.3+0.12*(i%4+1))+'"/>';}
+  } else {
+    body='<text x="44" y="100" font-size="80" fill="'+b+'" opacity=".5" font-family="georgia,serif">\u201c</text>'
+      +'<rect x="78" y="72" width="180" height="9" rx="4" fill="#fff" opacity=".85"/>'
+      +'<rect x="78" y="93" width="160" height="9" rx="4" fill="#fff" opacity=".85"/>'
+      +'<rect x="78" y="114" width="120" height="9" rx="4" fill="#fff" opacity=".85"/>';
+  }
+  return '<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'
+    +'<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs>'
+    +'<rect width="320" height="200" fill="url(#'+gid+')"/>'+body
+    +'<rect x="0" y="176" width="320" height="24" fill="rgba(40,25,10,.32)"/>'
+    +'<text x="12" y="192" font-size="12" fill="#fff" font-family="sans-serif">'+escapeHtml(String(name||'').slice(0,26))+'</text>'
+    +'</svg>';
+}
+function copy(t){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);var to=document.getElementById('toast');to.classList.add('show');setTimeout(function(){to.classList.remove('show');},1400);}
+</script>
+<script>
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
+document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>商业智脑问答 · 海大叔 AI新媒体IP智慧生态</title>
+<meta name="description" content="海大叔商业智脑：一人公司辅助外挂。算清钱从哪来、公司怎么开、账号怎么做、这单接不接。有介绍，有问答入口，问一句就答。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <nav class="nav-links" id="nav">
+      <a href="/">首页</a>
+      <a href="/zhinao/" class="active">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </nav>
+    <a class="nav-cta" href="/products/#contact">加海大叔</a>
+    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+  </div>
+</header>
+
+<section style="padding-top:52px;padding-bottom:8px">
+  <div class="wrap center">
+    <span class="eyebrow">商业智脑 · 一人公司辅助外挂</span>
+    <h1 class="h2">卡在哪，问一句</h1>
+    <p class="lead">算清钱从哪来、公司怎么开、账号怎么做、这单接不接。用大白话问，它用大白话答，给能落地的步骤和清单，不灌鸡汤。</p>
+  </div>
+</section>
+
+<section style="padding-top:6px">
+  <div class="wrap">
+    <div class="chat">
+      <div class="chat-log" id="log">
+        <div class="chat-empty" id="empty">下面是六个常用方向，点一下就问，也可以在输入框自己写。<br>答的是思路和步骤，涉及法律财税只给方向与该找谁。</div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="inrow">
+        <input id="q" type="text" placeholder="说一句你现在卡在哪…" maxlength="200" autocomplete="off" aria-label="提问">
+        <button id="send">问</button>
+      </div>
+    </div>
+    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">商业智脑给的是参考，不是法律意见或收益承诺；涉钱涉合同，最后一遍请你自己确认。</p>
+  </div>
+</section>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="grid c3">
+      <div class="card"><h3><span class="ic">💰</span>算钱</h3><p>谁付钱、为什么付、定价三档、成本结构、第一笔钱最短路径、能不能放大。</p></div>
+      <div class="card"><h3><span class="ic">🏢</span>跑公司</h3><p>主体与经营范围、公私账分离、报价与合同要点、交付边界、精力上限。</p></div>
+      <div class="card"><h3><span class="ic">🎯</span>做账号</h3><p>定位一句话、选题、内容配比、涨粉路径、私域承接与转化。</p></div>
+    </div>
+    <div class="center" style="margin-top:30px">
+      <p class="lead">想要有人陪你把这套系统真正跑起来？</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn-primary" href="/products/">看产品体系 →</a>
+        <a class="btn btn-ghost" href="/cases/">看真能跑通的案例</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <div class="foot-links">
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </div>
+    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+  </div>
+</footer>
+
+<script>
+/* ── 六个方向（真实专家系统提示） ── */
+var EXPERTS={
+  money:{n:'算清钱从哪来',sys:'你现在是「账房参谋」。只回答钱的问题：谁付钱、为什么付、定价三档、成本结构、现金流排期、第一笔钱最短路径、能不能放大。给能算的口径和动作，不给励志。不承诺收益，不编数字。'},
+  opc:{n:'一人公司怎么开',sys:'你现在是「一人公司总管」。只管一个人怎么把公司跑起来：主体与经营范围、公私账分离、报价与合同要点、交付边界、外包与工具替代人工、精力上限。给步骤和清单，涉及法律财税只给方向与该找谁。'},
+  ip:{n:'账号怎么做',sys:'你现在是「IP 操盘手」。管定位一句话、选题、内容配比、涨粉路径、私域承接与转化。账号不是发作品，是攒信任，信任要能换成单。文案只是其中一项，别一上来只谈写稿。'},
+  judge:{n:'这单接不接',sys:'你现在是「决策参谋」。管接不接单、降不降价、客户值不值得留、什么时候停。先给判断，再给理由与代价，最后给一个可回退的动作。话不说满，风险讲清。'},
+  eco:{n:'工具怎么选',sys:'你现在是「生态架构师」。管工具选型、插件与专家挂载、工作流编排、数据回流，让系统自己转而不是人硬扛。给具体怎么接、接上多出什么，讲清代价与维护成本。'},
+  auto:{n:'重复活怎么交出去',sys:'你现在是「升级教练」。管重复劳动怎么交出去、干过的活怎么回流成档案、短板怎么补、每月怎么复盘对账。给可执行的清单和顺序，别讲空道理。'}
+};
+var log=document.getElementById('log'), input=document.getElementById('q'), sendBtn=document.getElementById('send');
+var busy=false, exKey='';
+function esc(t){return String(t).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+function md(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');}
+function addMsg(who,text){
+  var e=document.getElementById('empty'); if(e) e.remove();
+  var m=document.createElement('div'); m.className='msg '+who;
+  var w=document.createElement('div'); w.className='who'; w.textContent=who==='u'?'你':'AI';
+  var b=document.createElement('div'); b.className='body'; b.innerHTML=md(text);
+  m.appendChild(w); m.appendChild(b); log.appendChild(m); log.scrollTop=log.scrollHeight;
+  return b;
+}
+function ask(q){
+  if(busy||!q.trim()) return;
+  busy=true; sendBtn.disabled=true;
+  addMsg('u',q);
+  var body=addMsg('a','思考中…');
+  var text='';
+  fetch('/api/v1/chat/completions',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'zhinao',stream:true,
+      messages:(exKey?[{role:'system',content:EXPERTS[exKey].sys}]:[]).concat([{role:'user',content:q}])})
+  }).then(function(res){
+    if(!res.ok||!res.body) throw new Error('接口返回 '+res.status);
+    var reader=res.body.getReader(), dec=new TextDecoder(), buf='';
+    function pump(){
+      return reader.read().then(function(r){
+        if(r.done) return;
+        buf+=dec.decode(r.value,{stream:true});
+        var lines=buf.split('\n'); buf=lines.pop()||'';
+        for(var i=0;i<lines.length;i++){
+          var t=lines[i].trim(); if(!t) continue;
+          if(t[0]===':') continue;
+          if(t.indexOf('data:')!==0) continue;
+          var p=t.slice(5).trim(); if(!p||p==='[DONE]') continue;
+          try{var j=JSON.parse(p); var piece=j.choices&&j.choices[0]&&j.choices[0].delta&&j.choices[0].delta.content; if(piece){text+=piece; body.innerHTML=md(text); log.scrollTop=log.scrollHeight;}}catch(e){}
+        }
+        return pump();
+      });
+    }
+    return pump();
+  }).then(function(){
+    if(!text) body.innerHTML=md('这次没生成出内容，换个说法再问一次。');
+    else body.innerHTML=md(text);
+    busy=false; sendBtn.disabled=false; log.scrollTop=log.scrollHeight;
+  }).catch(function(e){
+    body.innerHTML=md('接不上了：'+(e&&e.message?e.message:'网络异常')+'。稍后再试，或加海大叔本人。');
+    busy=false; sendBtn.disabled=false;
+  });
+}
+function submit(){var v=input.value.trim(); if(!v) return; input.value=''; ask(v);}
+sendBtn.addEventListener('click',submit);
+input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();submit();}});
+var chips=document.getElementById('chips');
+Object.keys(EXPERTS).forEach(function(k){
+  var b=document.createElement('button'); b.className='chip'; b.textContent=EXPERTS[k].n;
+  b.onclick=function(){exKey=k; ask(EXPERTS[k].n+'：给我具体步骤。');};
+  chips.appendChild(b);
+});
+/* 从产品体系/案例带 ?q= 进来可直接问 */
+var sp=new URLSearchParams(location.search), q0=sp.get('q');
+if(q0){ setTimeout(function(){ask(q0);},300); }
+</script>
+<script>
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
+document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+</script>
+</body>
+</html>

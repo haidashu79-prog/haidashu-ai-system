@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>案例 · 海大叔提词器（网页版）｜海大叔</title>
+<meta name="description" content="海大叔案例库：提词器。网页里直接能跑的提词器——粘稿、调速、滚动、镜像，拍视频不卡词。真能跑通。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23165DFF'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.tp-wrap{display:grid;grid-template-columns:340px 1fr;gap:18px;margin-top:14px}
+.tp-edit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);align-self:start}
+.tp-edit textarea{width:100%;height:200px;border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--sans);font-size:14px;resize:vertical;color:var(--ink);background:var(--card2)}
+.tp-edit textarea:focus{outline:none;border-color:var(--brand)}
+.tp-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.tp-controls label{font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.tp-controls input[type=range]{width:92px;accent-color:var(--brand)}
+.tp-btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.18s}
+.tp-btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tp-btn:hover{transform:translateY(-1px)}
+.tp-stage{background:#0c1320;border-radius:16px;overflow:hidden;position:relative;box-shadow:var(--shadow);min-height:460px}
+.tp-stage::before{content:"";position:absolute;left:0;right:0;top:50%;height:64px;transform:translateY(-50%);background:rgba(22,93,255,.16);border-top:1px solid rgba(22,93,255,.5);border-bottom:1px solid rgba(22,93,255,.5);pointer-events:none;z-index:2}
+.tp-track{position:absolute;left:0;right:0;top:0;padding:220px 28px;color:#eaf2ff;font-size:34px;line-height:1.7;white-space:pre-wrap;word-break:break-word;transition:none}
+.tp-track.mirror{transform:scaleX(-1)}
+.tp-hint{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:#7e8aa0;font-size:12px;z-index:3}
+@media(max-width:760px){.tp-wrap{grid-template-columns:1fr}.tp-stage{min-height:380px}.tp-track{padding-top:180px;font-size:28px}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <nav class="nav-links" id="nav">
+      <a href="/">首页</a>
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/" class="active">案例库</a>
+      <a href="/materials/">素材库</a>
+    </nav>
+    <a class="nav-cta" href="/products/#contact">加海大叔</a>
+    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+  </div>
+</header>
+
+<section style="padding-top:54px">
+  <div class="wrap">
+    <a href="/cases/" style="color:var(--dim);font-size:13.5px">← 返回案例库</a>
+    <div style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span class="badge live">真能跑通</span>
+      <span class="eyebrow" style="margin:0">案例 · 提词器</span>
+    </div>
+    <h1 class="h2" style="margin-top:10px">海大叔提词器 · 网页版</h1>
+    <p class="lead">拍口播、直播、录课最怕卡词。把稿子粘左边，点「开始」，稿子就匀速往上滚，中间有一条参考线帮你定位。速度、字号随便调，还能开镜像对着手机前置摄像头用。这就是真实能跑的工具，不是演示动画。</p>
+
+    <div class="tp-wrap">
+      <div class="tp-edit">
+        <textarea id="tpText">大家好，我是海大叔。
+
+今天聊一件事：普通人怎么用 AI 把自己每天重复干的活儿，变成一个打开就能用的工具。
+
+你不用学提示词，不用配环境。把手头的东西粘进去，它出活。
+
+先用着，觉得值再说。不值的话，我这儿还有份免费的，加我就发。</textarea>
+        <div class="tp-controls">
+          <button class="tp-btn primary" id="tpPlay">▶ 开始</button>
+          <button class="tp-btn" id="tpReset">重置</button>
+          <label>速度 <input type="range" id="tpSpeed" min="20" max="160" value="60"></label>
+          <label>字号 <input type="range" id="tpSize" min="22" max="60" value="34"></label>
+          <label><input type="checkbox" id="tpMirror"> 镜像</label>
+        </div>
+      </div>
+      <div class="tp-stage">
+        <div class="tp-track" id="tpTrack"></div>
+        <div class="tp-hint">点「开始」滚动 · 再点一次暂停</div>
+      </div>
+    </div>
+
+    <div class="note" style="background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--dim);margin-top:22px;line-height:1.7">
+      <b style="color:var(--ink)">这个案例说明什么：</b>很多"AI 产品"停在截图里，这个直接能在网页跑。海大叔做的工具都这个标准——打开就用，不教你怎么用。
+    </div>
+
+    <div class="center" style="margin-top:30px">
+      <p class="lead">想要一个专门给你生意定制的提词器 / 小工具？加海大叔，照着你的场景做。</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn-primary" href="/products/#contact">加海大叔定制 →</a>
+        <a class="btn btn-ghost" href="/cases/">看其他案例</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <div class="foot-links">
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </div>
+    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+  </div>
+</footer>
+<script>
+(function(){
+  var text=document.getElementById('tpText'),track=document.getElementById('tpTrack'),
+      play=document.getElementById('tpPlay'),reset=document.getElementById('tpReset'),
+      speed=document.getElementById('tpSpeed'),size=document.getElementById('tpSize'),
+      mirror=document.getElementById('tpMirror'),stage=track.parentElement;
+  var raf=null,last=0,running=false;
+  function sync(){track.textContent=text.value;}
+  function setSize(){track.style.fontSize=size.value+'px';}
+  text.addEventListener('input',function(){if(!running)sync();});
+  size.addEventListener('input',setSize);
+  mirror.addEventListener('change',function(){track.classList.toggle('mirror',mirror.checked);});
+  function step(ts){
+    if(!last)last=ts;
+    var dt=(ts-last)/1000;last=ts;
+    stage.scrollTop+=speed.value*dt;
+    if(stage.scrollTop+stage.clientHeight>=track.scrollHeight+200){running=false;cancelAnimationFrame(raf);play.textContent='▶ 开始';return;}
+    if(running)raf=requestAnimationFrame(step);
+  }
+  play.addEventListener('click',function(){
+    if(!running){sync();setSize();if(stage.scrollTop>=track.scrollHeight-stage.clientHeight)stage.scrollTop=0;running=true;last=0;play.textContent='⏸ 暂停';raf=requestAnimationFrame(step);}
+    else{running=false;cancelAnimationFrame(raf);play.textContent='▶ 开始';}
+  });
+  reset.addEventListener('click',function(){running=false;cancelAnimationFrame(raf);stage.scrollTop=0;play.textContent='▶ 开始';sync();});
+  sync();setSize();
+})();
+</script>
+<script>
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
+document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+</script>
+</body>
+</html>
