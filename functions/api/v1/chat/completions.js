@@ -14,6 +14,43 @@ const CORS = {
   'Access-Control-Max-Age': '86400',
 };
 
+import { currentUser } from '../../auth/_lib.js';
+
+/* 登录了就记一笔（不登录也能用，只是没有记录）
+   做法：先把「问了什么」写成一行（字数 0），答完再补字数。
+   为什么不一次性写：流式收尾时客户可能已经拿到 [DONE] 就断开，
+   那段续跑不保证执行；先落行，记录就丢不了。 */
+function logPage(request) {
+  try {
+    const ref = request.headers.get('referer') || '';
+    if (ref) return new URL(ref).pathname.slice(0, 80) || '/zhinao/';
+  } catch (e) {}
+  return '/zhinao/';
+}
+
+async function logStart(env, user, request, question, model) {
+  if (!user || !env || !env.DB) return null;
+  try {
+    const r = await env.DB.prepare(
+      'INSERT INTO ask_log (user_id, page, question, answer_chars, model, created_at) VALUES (?, ?, ?, ?, ?, ?)'
+    ).bind(user.id, logPage(request), String(question).slice(0, 500), 0, model, Math.floor(Date.now() / 1000))
+      .run();
+    return (r && r.meta && r.meta.last_row_id) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function logChars(env, rowId, chars) {
+  if (!rowId || !env || !env.DB) return null;
+  try {
+    return env.DB.prepare('UPDATE ask_log SET answer_chars = ? WHERE id = ?')
+      .bind(chars, rowId).run().catch(() => {});
+  } catch (e) {
+    return null;
+  }
+}
+
 // 已实测可用，中文能力优先
 const MODELS = [
   '@cf/openai/gpt-oss-120b',
@@ -273,6 +310,10 @@ export async function onRequest(context) {
   const question = pickQuestion(messages).trim();
   if (!question) return oaiErr('没有找到 user 消息内容');
 
+  const user = await currentUser(request, env).catch(() => null);
+  // 先落一行「问了什么」，答完再补字数：这样即使客户端中途断开也不会丢记录
+  const logRow = await logStart(env, user, request, question, PUBLIC_MODEL_ID);
+
   const kb = await loadKB(request, env);
   const cards = retrieve(kb, question, 4);
   const system = buildSystem(cards, pickClientSystem(messages), kb);
@@ -333,6 +374,8 @@ export async function onRequest(context) {
     }
 
     text = String(text).trim();
+    const upd = logChars(env, logRow, text.length);
+    if (upd) { try { context.waitUntil(upd); } catch (e) {} }
     return jsonResp({
       id: uid(),
       object: 'chat.completion',
@@ -376,6 +419,8 @@ export async function onRequest(context) {
   const out = new ReadableStream({
     async start(controller) {
       const push = (s) => controller.enqueue(encoder.encode(s));
+      let sentChars = 0;
+      let lastMark = 0;
 
       // SSE 注释帧：标准 OpenAI 客户端会忽略，智脑页面自行读取
       push(':zhinao ' + JSON.stringify({ ...trace, upstream_model: usedModel }) + '\n\n');
@@ -404,12 +449,30 @@ export async function onRequest(context) {
             } catch (e) {
               piece = '';
             }
-            if (piece) push(frame({ content: piece }));
+            if (piece) {
+              sentChars += piece.length;
+              push(frame({ content: piece }));
+              // 边流边补字数：客户端万一中途断开，记录里也有接近真实的字数
+              if (sentChars - lastMark >= 120) {
+                lastMark = sentChars;
+                const pu = logChars(env, logRow, sentChars);
+                if (pu) { try { await pu; } catch (e2) {} }
+              }
+            }
           }
+        }
+        // 在推 stop 帧之前补字数：此时客户端还在等尾巴，这一段一定跑得到
+        {
+          const p2 = logChars(env, logRow, sentChars);
+          if (p2) { try { await p2; } catch (e) {} }
         }
         push(frame({}, 'stop'));
         push('data: [DONE]\n\n');
       } catch (e) {
+        {
+          const p3 = logChars(env, logRow, sentChars);
+          if (p3) { try { await p3; } catch (err) {} }
+        }
         push(frame({ content: '\n\n（生成中断：' + (e && e.message ? e.message : '未知错误') + '）' }));
         push(frame({}, 'stop'));
         push('data: [DONE]\n\n');

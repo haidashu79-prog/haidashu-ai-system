@@ -738,8 +738,7 @@ footer a{color:var(--qing); cursor:pointer; text-decoration:none; border-bottom:
 <script src="lib/need.js"></script>
 <script src="lib/profile.js"></script>
 <script src="lib/casebook.js"></script>
-<!-- 云 SDK 改为 async 加载：该 CDN 在国内常超时，同步加载会卡住整页脚本 -->
-<script async src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js" onerror="void 0"></script>
+<!-- 外部云 SDK 已移除：问答走本站 /api/v1，不再依赖任何第三方 CDN -->
 <script src="lib/cloud-config.js"></script>
 <script src="lib/ui.js"></script>
 

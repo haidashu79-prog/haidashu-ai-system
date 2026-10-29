@@ -30,6 +30,41 @@
     }
   } catch (e) { cloud = null; }
 
+  /* ---- 站内问答通道 ----
+     不依赖任何外部云：直接打本站 /api/v1/chat/completions（OpenAI 兼容、流式）。
+     外部云断开时，问事照样能答；访客统计、经验库同步这些依赖云库的功能自动关闭。 */
+  var LC = {
+    async *chat(p) {
+      var r = await fetch('/api/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer haidashu-internal' },
+        body: JSON.stringify({
+          model: 'zhinao',
+          stream: true,
+          temperature: p.temperature == null ? 0.7 : p.temperature,
+          messages: p.messages
+        }),
+        signal: p.signal
+      });
+      if (!r.ok || !r.body) throw new Error('http_' + r.status);
+      var reader = r.body.getReader(), dec = new TextDecoder(), buf = '';
+      for (;;) {
+        var step = await reader.read();
+        if (step.done) break;
+        buf += dec.decode(step.value, { stream: true });
+        var lines = buf.split('\n');
+        buf = lines.pop() || '';
+        for (var i = 0; i < lines.length; i++) {
+          var t = lines[i].trim();
+          if (!t || t.indexOf('data:') !== 0) continue;
+          var pay = t.slice(5).trim();
+          if (!pay || pay === '[DONE]') continue;
+          try { yield JSON.parse(pay); } catch (e) { }
+        }
+      }
+    }
+  };
+
   function visitorId() {
     var v = null; try { v = localStorage.getItem('yxj_vid_v1'); } catch (e) { }
     if (!v) { v = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); try { localStorage.setItem('yxj_vid_v1', v); } catch (e) { } }
@@ -244,7 +279,8 @@
   var PREFERRED_FAST = ['glm-5.0', 'glm-5.3-flash', 'deepseek-v4-flash', 'hunyuan-chat'];
   async function ensureModel() {
     if (__model) return __model;
-    if (!cloud) return null;
+    // 没有外部云时走站内通道，模型名固定用 zhinao
+    if (!cloud) { __model = { id: 'zhinao' }; return __model; }
     try {
       var list = await cloud.llm.models.list();
       if (list && list.length) {
@@ -279,7 +315,7 @@
   }
 
   async function askAI(userMsg, outEl, topic, btn, stopBtn, brief, ctx) {
-    if (!cloud) { outEl.innerHTML = '<div class="tip warn">问事通道还没接通（云端未配置）。排盘推演不受影响，可照常用。</div>'; return; }
+    if (!cloud && !window.fetch) { outEl.innerHTML = '<div class="tip warn">这个浏览器太旧了，问事通道打不开。排盘推演不受影响，可照常用。</div>'; return; }
     var model = await ensureModel();
     if (!model) { outEl.innerHTML = '<div class="tip warn">这会儿没有可用的模型，过会儿再试。</div>'; return; }
 
@@ -315,11 +351,13 @@
     var slowT1 = setTimeout(function () { if (!started) { var l = body.querySelector('.loading'); if (l) l.innerHTML = '老先生正在推演，确实在算，再稍候，别关页面…'; } }, 30000);
     var slowT2 = setTimeout(function () { if (!started) { var l = body.querySelector('.loading'); if (l) l.innerHTML = '这次有点慢，要么再等等，要么点「停下」重开一轮…'; } }, 75000);
     try {
-      for await (var chunk of cloud.llm.chat.completions.create({
+      var askReq = {
         model: model.id, stream: true, temperature: 0.82,
         messages: [{ role: 'system', content: ASK_SYS }, { role: 'user', content: sendMsg }],
         signal: __ctl.signal
-      })) {
+      };
+      var stream = cloud ? cloud.llm.chat.completions.create(askReq) : LC.chat(askReq);
+      for await (var chunk of stream) {
         lastChunk = Date.now();
         var d = chunk.choices && chunk.choices[0] && chunk.choices[0].delta;
         if (d && d.content) { if (!started) { started = true; text = ''; } text += d.content; body.innerHTML = esc(text) + '<span class="caret"></span>'; }
