@@ -1,14 +1,57 @@
+# 私有组件：第 1 层引擎与其设计文档不随仓库发布
+skills/l3-brain/
+docs/02-智脑引擎.md
+
+# 忽略系统与运行产物
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.lock
+*.tmp
+*.swp
+*~
+
+# 备份与历史副本（不进仓库）
+*.bak
+*.bak-*
+*.bak_*
+*_backup/
+_backup/
+*.with-make*
+
+# 引擎运行数据（含个人判断与搜索记录，首次运行自动生成）
+skills/l3-brain/data/knowledge/
+skills/l3-brain/data/armory/
+skills/l3-brain/data/armory.jsonl
+skills/l3-brain/data/events.jsonl
+skills/l3-brain/data/queries.json
+skills/l3-brain/data/self.json
+skills/l3-brain/data/selfapply.jsonl
+skills/l3-brain/data/semantic_facts.jsonl
+skills/l3-brain/data/improvement_curve.jsonl
+skills/l3-brain/data/*_health.json
+skills/l3-brain/data/ecosystem_state.json
+skills/l3-brain/data/rhythm.json
+skills/l3-brain/data/founder.json
+skills/l3-brain/venv/
+
+# 凭据与本地配置
+.env
+.env.*
+*.key
+*.pem
+config.local.*
+*.local.json
+
+# 站点构建产物与编辑器（本站源码目录）
 # 依赖与构建产物
 node_modules/
 .wrangler/
-.DS_Store
-*.log
-
 # 本地环境
-.env
-.env.*
 !.env.example
-
 # 编辑器
 .vscode/
 .idea/

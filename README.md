@@ -1,88 +1,194 @@
-# haidashu-ai-system
+# 海大叔 AI 体系 · Haidashu AI System
 
-海大叔 AI 新媒体 IP 智慧生态 · 全站源码与素材主仓库。
+![Stars](https://img.shields.io/github/stars/haidashu79-prog/haidashu-ai-system?style=flat-square&color=yellow)
+![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/haidashu79-prog/haidashu-ai-system?style=flat-square)
+![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?style=flat-square)
+![OPC](https://img.shields.io/badge/OPC-one%20person%20company-black?style=flat-square)
 
-站点线上地址：<https://haidashu.pages.dev>
+**在线阅读（推荐，带目录与样式）**：<https://haidashu79-prog.github.io/haidashu-ai-system/>
+
+> 一个人 + 一套 AI 工具，跑完「选题 → 写稿 → 出片 → 交付 → 复盘」全链路。
+> 本仓库把「AI 超级个体（OPC 一人公司）」的完整打法公开出来：不是概念，是可落地的技能文件、硬规格与执行流水线。
+
+作者：海大叔（抖音 / 视频号「海大叔坏大叔」，账号 haidashu1）
+赛道：中年成长 · 民生时事评论 · AI 新媒体
+身份：一人公司（OPC 自然人独资）创业者 / AI 超级个体
 
 ---
 
-## 这个仓库里有什么
+## 一、这套体系解决什么问题
+
+一个人做内容创业，最常见的三个死点：
+
+| 死点 | 表现 | 本体系的对策 |
+|---|---|---|
+| 没有稳定产能 | 想到才写，断更即掉量 | 内容生产线把「选题→出片」固化成 8 个必过步骤 |
+| 每次都要重新交代 | 同样的要求说一百遍，AI 还是跑偏 | 每类活写成独立的技能文件，规格写死在文件里 |
+| 干完不复盘，越干越糊涂 | 数据看了，判断没留下 | 智脑把结果沉淀成知识条目，反哺下一轮选题与写稿 |
+
+核心方法论只有一句：**把重复发生的事，写成唯一真源的规格文件；人只做判断，AI 做执行。**
+
+---
+
+## 二、四层结构
 
 ```
-haidashu-ai-system/
-├── site/                  ← 全站可部署源码（Cloudflare Pages 的发布目录）
-│   ├── index.html         首页
-│   ├── products/          产品体系（九模块）
-│   ├── cases/             案例库（13 个能真跑的应用）
-│   ├── materials/         素材库
-│   ├── zhinao/            商业智脑
-│   ├── learn/ factory/ legal/ templates/ experts/ future/ aixinshou/
-│   ├── assets/            全站样式 site.css + 通用 AI 组件 ai.js
-│   └── img/mt/            素材库真实图片（20 张，600×375 webp）
-├── functions/             ← Cloudflare Pages Functions（后端）
-│   └── api/
-│       ├── expert.js      通用专家问答接口（案例库共用，走 Workers AI）
-│       ├── ask.js         商业智脑问答（流式）
-│       └── v1/            OpenAI 兼容接口（给外部应用接）
-├── materials/             ← 独立素材库（可单独分发/授权）
-│   ├── img/               原始素材文件
-│   └── data/manifest.json 素材清单（含 sha256、分类、体积）
-├── wrangler.toml          部署配置（含 Workers AI 绑定）
-└── README.md
+┌──────────────────────────────────────────────┐
+│  第 4 层  交付与变现                            │
+│  OPC 一人公司专家团 / 多租户实例交付             │
+├──────────────────────────────────────────────┤
+│  第 3 层  内容生产线                            │
+│  爆款抓取 → 选题库 → 文案生成 → 八步出片流水线    │
+├──────────────────────────────────────────────┤
+│  第 2 层  调度与协作                            │
+│  AI 项目台总指挥（任务卡 / 五步调度 / 日报）      │
+├──────────────────────────────────────────────┤
+│  第 1 层  引擎（私有，不随仓库发布）              │
+│  记忆 / 采集 / 检索 / 自省 / 自治进化            │
+└──────────────────────────────────────────────┘
 ```
 
-## 案例库 · 13 个能打开就用的应用（11 个已接站内 AI）
+四层之间只通过「文件 + 任务卡」通信，任何一层换掉，其余层不用重写。这是这套体系能用一年的原因。
 
-| 应用 | 路径 | AI | 说明 |
+---
+
+## 三、目录导航
+
+| 体系 | 目录 | 一句话 | 详细文档 |
 |---|---|---|---|
-| 法律智库 | `site/cases/legal` | ✅ 普法顾问 | 39 部法律 5,325 条法条 + 1,044 个案例 + 29 套文书；AI 答三段：这算什么 / 手上有什么牌 / 接下来怎么走 |
-| 金策贵金属 | `site/cases/jince/` | ✅ 研判顾问 | 真实行情、200 根日 K、双品种研判、命中率留档；AI 只讲框架不给点位 |
-| 体检报告解读 | `site/cases/health/` | ✅ 检验科口径 | 30+ 指标判定（按性别取参考值），不诊断、不开药 |
-| 商业决策避险 | `site/cases/bizrisk/` | ✅ 风险顾问 | 三笔账（资金占比/现金跑道/回本周期）+ 七维风险扫描 |
-| 一人公司陪跑 | `site/cases/solo/` | ✅ 陪跑顾问 | 体检/定价倒推/跑道/30 天清单/主体选择 |
-| 自媒体小白陪跑 | `site/cases/media/` | ✅ 陪跑教练 | 定位 5 问/30 条选题/四段脚本/10 个标题/数据复盘 |
-| 海大叔·星语 | `site/cases/astro/` | ✅ 占星师 | 塔罗 + 12 星座档案 + **星座配对（元素关系 + 对宫判定）** + AI 占星问答 |
-| 易玄机 | `site/cases/yixuan/` | ✅ 术数顾问 | 生辰八字真排盘、六爻、奇门、风水、黄历 |
-| 小店报价与回访 | `site/cases/quote/` | ✅ 报价顾问 | 算价、回访名单、客户话术、违禁词检查 |
-| 内容创作工作台 | `site/cases/workbench/` | ✅ 创作教练 | 热点、选题、模板、评论、复盘 |
-| 小初高知识地图 | `site/cases/edu/` | ✅ 学习规划 | 23 门学科知识节点；AI 只归因、排顺序、给练法，不给答案抄 |
-| 提词器 | `site/cases/teleprompter` | — 纯工具 | 网页提词器（滚动/字号/节奏） |
-| 安卓下载器 | 外链 APK | — 纯工具 | 安卓安装包 |
+| OPC 一人公司专家团 | [`skills/opc-expert-team/`](skills/opc-expert-team/) | 五类专家：赛道、工具、落地、文案、避坑 | [docs/03-OPC专家团.md](docs/03-OPC专家团.md) |
+| 自媒体工作流 | [`skills/haida-zimeiti-workflow/`](skills/haida-zimeiti-workflow/) | 爆款抓取 → 选题库 → 口播文案 | [docs/04-自媒体工作流.md](docs/04-自媒体工作流.md) |
+| 出片总控 | [`skills/haida-video-pipeline/`](skills/haida-video-pipeline/) | 八步流水线，三个卡点必须本人确认 | [docs/05-出片流水线.md](docs/05-出片流水线.md) |
+| AI 项目台调度 | [`skills/ai-dispatch/`](skills/ai-dispatch/) | 把一句话需求拆成可验收的任务卡 | [docs/06-项目台调度.md](docs/06-项目台调度.md) |
+| 多租户专家团引擎 | [`skills/zhinao-expert-team/`](skills/zhinao-expert-team/) | 建实例、喂资料、跑流水线、体检隔离、打包交付 | [docs/07-多租户交付.md](docs/07-多租户交付.md) |
+| 知识库治理 | [`skills/zhinao-wiki/`](skills/zhinao-wiki/) | 进得来、筛得掉、留得下、可追溯 | [docs/08-知识库治理.md](docs/08-知识库治理.md) |
 
-## AI 问答怎么工作的
+整体架构说明见 [`ARCHITECTURE.md`](ARCHITECTURE.md)，上手步骤见 [`docs/01-快速开始.md`](docs/01-快速开始.md)。
 
-全站共用一个前端组件 `site/assets/ai.js`，后端是 `functions/api/expert.js`：
+---
 
-```
-页面 → HSDAI.panel({ system: '领域人设' }) → POST /api/expert → Workers AI → 回答
-```
+## 四、每个体系的硬规格（摘要）
 
-- **不需要任何 API Key**：走 Cloudflare Workers AI 绑定（`wrangler.toml` 里的 `[ai]`）。
-- **每个领域一套人设**：体检是检验科口径（不诊断不开药）、决策是风险顾问口径、星语是占星师口径。
-- **模型降级链**：gpt-oss-120b → qwen3-30b → llama-3.3-70b，前一个挂了自动换下一个。
+### 1. 引擎层（私有，不在本仓库）
 
-## 本地跑起来
+第 1 层负责记忆、采集、检索、自省与迭代，向上提供「有依据地想一想」的能力，业务规则不写在它里面。
+
+这一层的实现与设计规格属于作者私有资产，不随本仓库发布。本仓库提供的是它之上可复用的方法论：四层分层、任务卡调度、各体系的硬规格与验收标准。你完全可以用自己的笔记库、检索工具或任意 AI 客户端顶上这一层，其余三层照常运转。
+
+### 2. OPC 一人公司专家团
+
+五类能力按用户目标自动匹配，结论统一依据《OPC 一人公司知识体系》：
+
+| 能力 | 覆盖 |
+|---|---|
+| 赛道规划 | 五大赛道推荐 + 盈利方式 + 起步建议 |
+| AI 工具选型 | 按业务类型给工具组合与具体用法 |
+| 经营落地 | 注册经营范围模板、定价、B 端获客、合同、公私账隔离、开专票 |
+| 文案交付 | 品牌策划 / 软文 / 招商文案 / PPT 大纲 / 短视频脚本 |
+| 风险避坑 | 对照避坑清单查合规：重资产、资质许可、高风险红线 |
+
+### 3. 出片总控（八步流水线）
+
+| 步 | 做什么 | 谁确认 |
+|---|---|---|
+| 1 选题 | 抓当天热点 + 同行爆款，出 10 条候选 | 本人挑 1 条 |
+| 2 归一 | 定死：帮谁、说什么、给什么价值、标题 | 本人点头 |
+| 3 写稿 | 按硬规格一气写完，不许边写边问 | 自动 |
+| 4 去 AI 化 | 逐条扫清单，命中就改 | 自动 |
+| 5 标题与封面 | 标题 4–6 字 0 标点；封面出 3 张选 1 | 本人选 1 张 |
+| 6 剪辑 | 清气口 → 转字幕 → 定视觉 → 出可渲染草稿 | 小样先看 |
+| 7 发布 | 简介、标签、时间、平台适配 | 本人发 |
+| 8 归档 | 数据回填，爆款归因写回知识库 | 自动 |
+
+**只有三处要人确认，其余全自动** —— 这是流水线能跑下去的关键：人只在判断点出现，不在执行点出现。
+
+### 4. 知识治理
+
+两个库分工，不许混：
+
+| | 原料仓（智脑库） | 归档层（wiki） |
+|---|---|---|
+| 属性 | 草稿纸，允许乱、允许重复、允许过期 | 精挑的沉淀，每条可追溯、可引用 |
+| 谁写 | 脑自动写 | 只有通过筛选、本人认过的才写 |
+
+淘汰标准同样写死在 `skills/zhinao-wiki/references/筛选汰换标准.md`。
+
+---
+
+## 五、快速开始
 
 ```bash
-# 只预览静态页面（AI 接口不会生效，需要用 wrangler）
-npx serve site
+# 1. 克隆
+git clone https://github.com/haidashu79-prog/haidashu-ai-system.git
+cd haidashu-ai-system
 
-# 完整本地环境（含 Functions 与 AI 绑定）
-npx wrangler pages dev site
+# 2. 用任意支持技能目录的 AI 客户端，把 skills/ 下需要的技能目录拷进技能目录
+#    每个技能都是一个文件夹：SKILL.md（入口）+ references/（规格）+ meta.json
+
+# 3. 第 1 层引擎为私有组件，本仓库不含；用时替换成你自己的检索与记忆工具即可
 ```
 
-## 部署
+具体每一步、每处路径怎么改，见 [`docs/01-快速开始.md`](docs/01-快速开始.md)。
 
-```bash
-npx wrangler pages deploy site --project-name=haidashu
+> 本仓库所有路径均已从原始环境脱敏为 `~/...`、`$MARVIS_HOME`、`$WORKBUDDY_HOME`，安装时按自己机器的实际位置替换。
+
+---
+
+## 六、这套东西怎么变成钱
+
+三条路，都在 OPC 专家团的框架内：
+
+1. **内容变现**：账号做起来，广告、带货、课程、咨询
+2. **能力变现**：把这套体系装进别人的业务里 —— 交付的是带业务规则、知识库、工作流、自检机制的完整套件，不是模型账号
+3. **方法变现**：陪跑、诊断、拆解，用同一套规格给别人做定制
+
+交付侧的执行细节在 [`docs/07-多租户交付.md`](docs/07-多租户交付.md)。
+
+---
+
+## 七、边界与免责
+
+- 本仓库公开的是**方法与框架**，不含任何个人隐私、客户资料、账号凭据与商业数据
+- 法律、医疗、金融等专业领域的输出仅供整理参考，不替代持证专业人士意见
+- 涉及平台规则的内容，请以平台当期公告为准；本仓库内置风控清单只是最低红线，不是全部规则
+- 商业使用请遵守 [LICENSE](LICENSE) 条款（署名 · 非商业 · 相同方式共享）
+
+---
+
+## 八、关于作者
+
+海大叔，中年老炮，一人公司实践者。
+主张：**AI 不是替你写文案的工具，是替你干活的同事 —— 前提是你把活说清楚、把规格写死。**
+
+- GitHub：[@haidashu79-prog](https://github.com/haidashu79-prog)
+- 内容方向：中年成长 / 民生时事评论 / AI 新媒体实操
+
+---
+
+如果这套体系对你有用，点个 Star。有具体问题，开 Issue，我按规格回答，不讲空话。
+*（内容由AI生成，仅供参考）*
+
+---
+
+## 站内源码与案例库（`site/`）
+
+本仓库除了上面这套「一人公司 + AI 内容生产线」的方法论，还放了**海大叔官网的全站源码与素材库**，
+也就是线上 <https://haidashu.pages.dev> 的原始文件。
+
+```
+site/            全站可部署源码（Cloudflare Pages 发布目录）
+functions/       Pages Functions 后端（/api/expert 站内 AI 问答等）
+materials/       独立素材库（20 张 600×375 webp + 带 sha256 的清单）
+wrangler.toml    部署配置（含 Workers AI 绑定）
+README-site.md   这一部分的详细说明（案例清单、AI 口径、部署命令）
 ```
 
-## 素材库
+- **13 个能打开就用的原版案例**，全部非阉割版：法律智库（5,325 条法条 + 1,044 个案例）、金策贵金属、
+  体检报告解读、商业决策避险、一人公司陪跑、自媒体小白陪跑、星语（含星座配对）、易玄机、
+  小店报价、内容工作台、小初高知识地图、提词器、安卓下载器。
+- **11 个已接站内 AI 问答**：统一走 `POST /api/expert`，后端是 Cloudflare Workers AI 绑定，
+  **不需要任何 API Key、不需要注册**；每个案例一套领域人设（普法顾问 / 研判顾问 / 检验科口径 / 风险顾问……）。
+- 部署：`npx wrangler pages deploy site --project-name=haidashu`
 
-- `materials/img/` 和 `site/img/mt/` 是同一批文件，站内直接引用仓库内的图片，不挂外部图床。
-- 清单见 `materials/data/manifest.json`（20 条，含 sha256 与前缀分类）。
-- 四类：新媒体拍摄/剪辑、官网页线框、小程序手机端、应用仪表盘/门店，各 5 张。
-
-## 授权
-
-站内源码与素材归海大叔 AI 新媒体工作室所有。第三方图片（Unsplash 来源）遵循其原始许可，商用前请自行复核。
+详细说明见 **[README-site.md](README-site.md)**。

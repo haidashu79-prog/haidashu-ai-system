@@ -1,0 +1,20 @@
+{
+  "name": "zhinao-wiki",
+  "display_name": "智脑知识库管理",
+  "display_description": "智脑搜、智脑判，wiki 存证：知识库自己搜、自己筛、留有用的、剔没用的",
+  "description": "智脑知识库管理技能。在 marvis-llm-wiki 的 raw→wiki→indexes 底盘上接入本机智脑（l3-brain），把知识库管理做成会自己干活的流水线：智脑多路搜索补料、四问筛选打分、编译入 wiki、定期体检淘汰低价值条目。",
+  "detail_describe": "底盘：marvis-llm-wiki（raw/wiki/indexes，raw 只读）\n四道关：找料 → 筛选（四问）→ 编译 → 汰换（三档）\n智脑负责搜和判，wiki 负责存和证\npersonal 私人材料不上网，只做本地查重\n淘汰必给清单，老板拍板才动手",
+  "author": "海大叔 / OPC 工作室",
+  "type": "知识管理",
+  "scope": [
+    "main",
+    "file-agent"
+  ],
+  "use_cases": [
+    "知识库管理，把知识库整理一下",
+    "搜点资料进知识库",
+    "筛一下这批候选，该收的收该弃的弃",
+    "给知识库做个体检，没用的清出去"
+  ],
+  "version": "1.0.0"
+}
