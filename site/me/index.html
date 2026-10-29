@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的问答记录 · 海大叔</title>
+<meta name="description" content="登录后查看你在海大叔案例库里问过的每一个问题、AI 回答了多少字。">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .me-wrap{max-width:860px;margin:0 auto;padding:0 20px}
+  .me-head{padding-top:44px}
+  .me-head h1{font-size:30px;letter-spacing:-.6px;margin:0 0 8px;color:var(--ink)}
+  .me-head p{font-size:14px;color:var(--dim);line-height:1.85;margin:0}
+  .me-card{background:var(--card2);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-top:22px}
+  .me-stat{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+  .me-stat div{flex:1 1 150px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .me-stat b{display:block;font-size:24px;color:var(--brand);line-height:1.2}
+  .me-stat span{display:block;font-size:12.5px;color:var(--dim);margin-top:4px}
+  .me-item{border-top:1px dashed var(--line);padding:14px 0}
+  .me-item:first-child{border-top:0}
+  .me-q{font-size:14px;color:var(--ink);line-height:1.7;font-weight:600;margin:0 0 6px}
+  .me-meta{font-size:12px;color:var(--dim2);display:flex;gap:12px;flex-wrap:wrap}
+  .me-meta i{font-style:normal;background:rgba(194,87,28,.08);color:var(--brand);border-radius:20px;padding:2px 9px}
+  .me-empty{text-align:center;padding:38px 10px;color:var(--dim)}
+  .me-empty b{display:block;font-size:16px;color:var(--ink);margin-bottom:8px}
+  .me-btn{display:inline-block;margin-top:16px;background:var(--brand);color:#fff;border:0;border-radius:11px;
+    padding:11px 22px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none}
+  #authSlot{margin-top:12px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <button class="burger" id="burger" aria-label="菜单">☰</button>
+    <nav class="nav-links" id="nav">
+      <a href="/products/">产品体系</a>
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/experts/">专家团</a>
+      <a href="/templates/">模板库</a>
+      <a href="/me/">我的记录</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </nav>
+  </div>
+</header>
+
+<main class="me-wrap">
+  <div class="me-head">
+    <h1>我的问答记录</h1>
+    <p>你在案例库里问过的每一句，都记在这里。只存在你自己的账号下，别人看不到，也不做推送。</p>
+    <div id="authSlot"></div>
+  </div>
+
+  <div class="me-card">
+    <div class="me-stat" id="stats">
+      <div><b>—</b><span>累计提问</span></div>
+      <div><b>—</b><span>最近一次</span></div>
+      <div><b>—</b><span>AI 回答总字数</span></div>
+    </div>
+  </div>
+
+  <div class="me-card">
+    <div id="list"><div class="me-empty">正在读记录…</div></div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in wrap">
+    <a class="brand" href="/">
+      <span class="logo">海</span>
+      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+    </a>
+    <div class="foot-links">
+      <a href="/zhinao/">商业智脑</a>
+      <a href="/learn/">AI学习</a>
+      <a href="/factory/">工具工厂</a>
+      <a href="/products/">产品体系</a>
+      <a href="/cases/">案例库</a>
+      <a href="/materials/">素材库</a>
+    </div>
+    <div class="foot-meta">© 2026 郭国海（海大叔）</div>
+  </div>
+</footer>
+
+<script src="/assets/auth.js"></script>
+<script>
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
+document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+
+var NAMES = {
+  '/cases/legal':'法律智库','/cases/app/app.html':'法律智库','/cases/jince/':'金策贵金属',
+  '/cases/health/':'体检报告解读','/cases/bizrisk/':'商业决策避险','/cases/solo/':'一人公司陪跑',
+  '/cases/media/':'自媒体小白陪跑','/cases/astro/':'星语','/cases/yixuan/':'易玄机',
+  '/cases/quote/':'小店报价','/cases/workbench/':'内容工作台','/cases/edu/':'知识地图'
+};
+function pageName(p){
+  if(!p) return '案例库';
+  if(NAMES[p]) return NAMES[p];
+  for(var k in NAMES){ if(p.indexOf(k)===0) return NAMES[k]; }
+  return p.replace(/^\/cases\//,'').replace(/\/$/,'') || '案例库';
+}
+function fmtTime(ts){
+  var d = new Date(ts*1000);
+  var p = function(n){ return n<10?'0'+n:''+n; };
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+
+var slot = document.getElementById('authSlot');
+var list = document.getElementById('list');
+var stats = document.getElementById('stats');
+
+function emptyBox(){
+  list.innerHTML = '<div class="me-empty"><b>还没有记录</b>去案例库里问一句，这里就有东西了。'
+    + '<div><a class="me-btn" href="/cases/">去案例库</a></div></div>';
+  stats.innerHTML = '<div><b>0</b><span>累计提问</span></div>'
+    + '<div><b>—</b><span>最近一次</span></div><div><b>0</b><span>AI 回答总字数</span></div>';
+}
+
+function render(user){
+  if(!user){
+    list.innerHTML = '<div class="me-empty"><b>先登录才能看记录</b>登录后这里会列出你问过的每一句。'
+      + '<div><button class="me-btn" id="goLogin">登录 / 注册</button></div></div>';
+    stats.innerHTML = '<div><b>—</b><span>累计提问</span></div>'
+      + '<div><b>—</b><span>最近一次</span></div><div><b>—</b><span>AI 回答总字数</span></div>';
+    var b = document.getElementById('goLogin');
+    if(b) b.addEventListener('click', function(){ HSDAuth.require(); });
+    return;
+  }
+  fetch('/api/auth/logs?limit=100', {credentials:'same-origin'})
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j || !j.ok){ emptyBox(); return; }
+      var items = j.items || [];
+      if(!items.length){ emptyBox(); return; }
+      var words = items.reduce(function(s,x){ return s + (x.answer_chars||0); }, 0);
+      stats.innerHTML = '<div><b>'+ (j.total||items.length) +'</b><span>累计提问</span></div>'
+        + '<div><b style="font-size:16px;line-height:1.5">'+ fmtTime(items[0].created_at) +'</b><span>最近一次</span></div>'
+        + '<div><b>'+ words.toLocaleString() +'</b><span>AI 回答总字数（近 100 条）</span></div>';
+      list.innerHTML = items.map(function(x){
+        return '<div class="me-item">'
+          + '<div class="me-q">'+ (x.question||'（无题）').replace(/[<>]/g,'') +'</div>'
+          + '<div class="me-meta"><i>'+ pageName(x.page) +'</i><span>'+ fmtTime(x.created_at) +'</span>'
+          + '<span>回答 '+ (x.answer_chars||0) +' 字</span></div>'
+          + '</div>';
+      }).join('');
+    })
+    .catch(function(){ emptyBox(); });
+}
+
+function refresh(){ HSDAuth.me(true).then(render); }
+HSDAuth.onChange(function(){ refresh(); });
+HSDAuth.me().then(render);
+</script>
+</body>
+</html>

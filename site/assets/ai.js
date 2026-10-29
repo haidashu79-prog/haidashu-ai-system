@@ -18,24 +18,60 @@
 
   var ENDPOINT = '/api/expert';
 
+  /* ---------- 登录（按需加载 auth.js，不拖慢首屏） ---------- */
+  var authReady = null;
+  function ensureAuth() {
+    if (global.HSDAuth) return Promise.resolve(global.HSDAuth);
+    if (authReady) return authReady;
+    authReady = new Promise(function (resolve) {
+      var s = document.createElement('script');
+      s.src = '/assets/auth.js';
+      s.onload = function () { resolve(global.HSDAuth || null); };
+      s.onerror = function () { resolve(null); };
+      document.head.appendChild(s);
+    });
+    return authReady;
+  }
+
   /* ---------- 基础调用 ---------- */
   function ask(messages, system, opts) {
     opts = opts || {};
     if (typeof messages === 'string') messages = [{ role: 'user', content: messages }];
-    return fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: system || '',
-        messages: messages,
-        temperature: opts.temperature == null ? 0.6 : opts.temperature,
-        max_tokens: opts.maxTokens || 1200
-      })
-    }).then(function (r) {
-      return r.json().catch(function () { return { ok: false, error: '服务返回了无法解析的内容' }; });
-    }).then(function (j) {
+
+    function once() {
+      return fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          system: system || '',
+          messages: messages,
+          temperature: opts.temperature == null ? 0.6 : opts.temperature,
+          max_tokens: opts.maxTokens || 1200,
+          page: opts.page == null ? (location.pathname || '') : opts.page
+        })
+      }).then(function (r) {
+        return r.json().catch(function () { return { ok: false, error: '服务返回了无法解析的内容' }; });
+      });
+    }
+
+    function done(j) {
       if (!j || j.ok !== true) throw new Error((j && j.error) || '问答服务暂时不可用');
       return j.reply || '';
+    }
+
+    return once().then(function (j) {
+      if (j && j.needLogin) {
+        // 首次提问才弹登录框：登录完自动把这句话发出去，不用再点一次
+        return ensureAuth().then(function (A) {
+          if (!A) throw new Error('登录组件没加载出来，刷新页面再试一次');
+          return A.require('登录后就能问，免费，不用验证码').then(function (u) {
+            if (!u) throw new Error('还没登录，这句话没发出去');
+            return once().then(done);
+          });
+        });
+      }
+      return done(j);
     });
   }
 
@@ -167,6 +203,7 @@
       '<div class="hsdai-h"><h2>' + esc(cfg.title || 'AI 专家问答') + '</h2>' +
         '<span class="pill">' + esc(cfg.badge || 'AI 在线') + '</span></div>' +
       '<div class="hsdai-sub">' + esc(cfg.subtitle || '') + '</div>' +
+      '<div class="hsdai-auth" style="font-size:12px;color:#A8998A;margin:-4px 0 10px"></div>' +
       '<div class="hsdai-log"></div>' +
       (cfg.quick && cfg.quick.length
         ? '<div class="hsdai-quick">' + cfg.quick.map(function (q, i) {
@@ -197,14 +234,24 @@
     function send(text) {
       text = (text || ta.value || '').trim();
       if (!text || btn.disabled) return;
-      ta.value = '';
-      push('u', text);
-      history.push({ role: 'user', content: text });
       btn.disabled = true;
+
+      // 每次提问先确认登录：没登录就弹框，登录成功再把这句发出去
+      ensureAuth()
+        .then(function (A) { return A ? A.require('登录后就能问，免费，不用验证码') : 'skip'; })
+        .then(function (u) {
+          if (u === null) { btn.disabled = false; return; } // 用户放弃登录
+          ta.value = '';
+          push('u', text);
+          history.push({ role: 'user', content: text });
+          return doSend();
+        });
+
+      function doSend() {
       var held = push('a', '正在想');
       held.classList.add('hsdai-dots');
 
-      ask(history.slice(-8), system, cfg)
+      return ask(history.slice(-8), system, cfg)
         .then(function (reply) {
           held.remove();
           push('a', reply);
@@ -219,9 +266,16 @@
           scroll();
         })
         .then(function () { btn.disabled = false; ta.focus(); });
+      }
     }
 
     btn.addEventListener('click', function () { send(); });
+
+    // 顶部显示"已登录 xxx / 登录注册"
+    ensureAuth().then(function (A) {
+      var slot = box.querySelector('.hsdai-auth');
+      if (A && slot) A.gate(slot);
+    });
     ta.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
     });

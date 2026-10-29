@@ -5,3 +5,9 @@ compatibility_date = "2025-09-01"
 # Workers AI 绑定（Pages Functions 通过 env.AI 调用，免费额度内）
 [ai]
 binding = "AI"
+
+# D1 数据库：账号体系 + 问答记录
+[[d1_databases]]
+binding = "DB"
+database_name = "haidashu"
+database_id = "33da5780-ff34-430e-91d4-9d5ebefb8897"

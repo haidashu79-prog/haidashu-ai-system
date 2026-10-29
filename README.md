@@ -189,6 +189,7 @@ README-site.md   这一部分的详细说明（案例清单、AI 口径、部署
   小店报价、内容工作台、小初高知识地图、提词器、安卓下载器。
 - **11 个已接站内 AI 问答**：统一走 `POST /api/expert`，后端是 Cloudflare Workers AI 绑定，
   **不需要任何 API Key、不需要注册**；每个案例一套领域人设（普法顾问 / 研判顾问 / 检验科口径 / 风险顾问……）。
+- **账号体系**：手机号 + 密码（不发短信），未登录点提问就弹框，登录后问答记录归到账号名下，可在 `/me/` 回看。
 - 部署：`npx wrangler pages deploy site --project-name=haidashu`
 
 详细说明见 **[README-site.md](README-site.md)**。

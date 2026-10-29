@@ -276,14 +276,43 @@ a{color:var(--brand)}
 <script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 <script>
-const publicConfig = {
-  endpoint: "https://pufa-ai-assistant.app.workbuddy.host",
-  publishableKey: "wbpk_5AHzSAvHNMgBa3EiYbgxaG_R13HFnM710PE2am6eV1unXvtHQ4Pmi9B",
-};
-const cloud = WorkBuddyCloud.createWorkBuddyCloud({
-  endpoint: publicConfig.endpoint,
-  publishableKey: publicConfig.publishableKey,
-});
+/* ============================================================
+   云端已断开：本应用不再连接任何外部后端。
+   访问/提问记录、反馈、案例上报，全部只存在本机浏览器里，不上传。
+   如以后要接自己的云实例，把 endpoint 填成你自己的地址即可。
+   ============================================================ */
+const publicConfig = { endpoint: "", publishableKey: "" };
+let cloud = null;
+try {
+  if (publicConfig.endpoint) {
+    cloud = WorkBuddyCloud.createWorkBuddyCloud({
+      endpoint: publicConfig.endpoint,
+      publishableKey: publicConfig.publishableKey,
+    });
+  }
+} catch (e) { cloud = null; }
+if (!cloud) {
+  // 本地空壳：所有“云调用”都变成不联网的空操作，页面功能不中断
+  const empty = () => Promise.resolve({ data: [], error: null });
+  const chain = () => {
+    const o = {
+      select: () => o,
+      eq: () => o,
+      order: () => o,
+      limit: () => empty(),
+      insert: () => Promise.resolve({ data: null, error: null }),
+      then: (res, rej) => empty().then(res, rej),
+    };
+    return o;
+  };
+  cloud = {
+    database: { from: () => chain() },
+    llm: {
+      models: { list: async () => [] },
+      chat: { completions: { create: async function* () {} } },
+    },
+  };
+}
 
 /* ---------------- 通用 ---------------- */
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
@@ -312,9 +341,9 @@ function trackUsage(action, q, retried) {
 // 页面刚打开时云端写入通道可能未就绪 → 循环重试直到成功，成功才打标记，保证不漏记不重记
 function trackVisitOnce(n) {
   let flagged = false;
-  try { if (sessionStorage.getItem("pufa_visit_done")) return; } catch (e) { flagged = true; }
+  try { if (sessionStorage.getItem("hsd_visit_done")) return; } catch (e) { flagged = true; }
   const row = { action: "visit", device: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "手机" : "电脑" };
-  const done = () => { try { sessionStorage.setItem("pufa_visit_done", "1"); } catch (e) { } };
+  const done = () => { try { sessionStorage.setItem("hsd_visit_done", "1"); } catch (e) { } };
   try {
     const p = cloud.database.from("usage_log").insert(row);
     const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error("t")), 8000)); // 8秒没回应视为失败
@@ -397,15 +426,16 @@ function buildSystemPrompt(r) {
 /* ---------------- 聊天 ---------------- */
 let MODELS = [], busy = false, lastSend = 0, controller = null;
 const history = [];
-const HISTORY_KEY = "pufa_history_v2";
+const HISTORY_KEY = "hsd_history_v2";
 const MAX_HISTORY_STORE = 20; // 最多存20条（10轮对话）
 const MAX_MSG_LEN = 2000; // 每条内容最长存2000字符
 
 /* 内置直连免费模型（OpenAI 兼容 /chat/completions）——已实测连通性+CORS+视觉能力均通过 */
+/* 全部走海大叔自己的站内通道：POST /api/v1/chat/completions（Cloudflare Workers AI 绑定）
+   —— 不需要任何 API Key，不用注册，不会把问题发给第三方。
+   要接自己的第三方模型，把下面 endpoint / modelId / apiKey 换成你自己的即可。 */
 const DIRECT_MODELS = [
-  { name: "Agnes免费通道", endpoint: "https://apihub.agnes-ai.com/v1", modelId: "agnes-3.0-flash", apiKey: "sk-rPFOEYgUaBLpoA7v7P0exn96dSS2itFAVyHsMwTJtlLruZeC", vision: true },
-  { name: "智谱免费通道", endpoint: "https://open.bigmodel.cn/api/paas/v4", modelId: "glm-4-flash", apiKey: "025354244a2043a2af5bd66d9c047c34.qXUMx983t0xg5OVv" },
-  { name: "智谱视觉通道", endpoint: "https://open.bigmodel.cn/api/paas/v4", modelId: "glm-4v-flash", apiKey: "025354244a2043a2af5bd66d9c047c34.qXUMx983t0xg5OVv", vision: true, visionOnly: true },
+  { name: "海大叔智脑（站内通道）", endpoint: "/api/v1", modelId: "zhinao", apiKey: "haidashu-internal" },
 ];
 
 // 直连 OpenAI 兼容模型的流式调用
@@ -498,7 +528,7 @@ async function initModel() {
     const avail = id => models.find(x => x.id === id && x.disabled !== true);
     MODELS = ["glm-5.3-flash", "deepseek-v4.1-flash", "hunyuan-chat"].filter(avail);
     if (!MODELS.length) { const m = models.find(x => x.disabled !== true); if (m) MODELS = [m.id]; }
-    if (!MODELS.length) renderSysNote("暂无可用模型，请联系管理员。");
+    if (!MODELS.length && !DIRECT_MODELS.length) renderSysNote("模型服务暂时不可用，请稍后重试。");
   } catch (e) { if (!DIRECT_MODELS.length) renderSysNote("模型服务连接失败：" + (e.error?.message || e.message || "未知错误")); }
 }
 function renderSysNote(t) {
@@ -516,7 +546,7 @@ function addMsg(role, html) {
 }
 const QUICK = ["健身房办卡跑路，钱怎么要回来？", "被公司裁员，能拿多少补偿？", "朋友借我3万不还，怎么起诉？", "加盟被骗了怎么退加盟费？", "网购到假货怎么索赔？", "老人遗产没遗嘱怎么分？", "公司欠工资怎么要回？", "二手房卖方违约怎么办？"];
 document.getElementById("quickBtns").innerHTML = QUICK.map((q, i) => "<button data-i=" + i + ">" + q + "</button>").join("");
-document.querySelectorAll("#quickBtns button").forEach(b => b.onclick = () => { document.getElementById("q").value = QUICK[b.dataset.i]; send(); });
+document.querySelectorAll("#quickBtns button").forEach(b => b.onclick = () => { document.getElementById("q").value = QUICK[b.dataset.i]; hsdGuard(function(){ send(); }); });
 const sendBtn = document.getElementById("send");
 
 /* ---------------- 材料上传（图片看图分析 / txt / docx 提文字） ---------------- */
@@ -679,11 +709,30 @@ async function send() {
     bubble.textContent = full ? full + "\n\n【" + m + "】" : "【" + m + "】";
   } finally { busy = false; controller = null; sendBtn.disabled = false; sendBtn.textContent = "发送"; }
 }
-sendBtn.onclick = send;
+/* 登录守卫：法律问答也是 AI 问答，未登录先登录，登录后接着问 */
+function hsdGuard(fn){
+  if (window.__hsdUser) { fn(); return; }
+  var run = function(){
+    if (window.HSDAuth) {
+      HSDAuth.require('登录后就能问，免费，不用验证码').then(function(u){
+        if (u) { window.__hsdUser = u; fn(); }
+      });
+    } else {
+      var s=document.createElement('script'); s.src='/assets/auth.js';
+      s.onload=run; document.head.appendChild(s);
+    }
+  };
+  run();
+}
+sendBtn.onclick = function(){ hsdGuard(function(){ send(); }); };
 
 /* ---------------- 三通道通用调用（问答/文书工坊共用） ---------------- */
 async function runChannels(messages, onDelta, onSwitch, opts) {
-  const vision = opts && opts.vision; // 带图片时只走支持看图的通道
+  let vision = opts && opts.vision; // 带图片时只走支持看图的通道
+  if (vision && !DIRECT_MODELS.some(m => m.vision)) {
+    renderSysNote("图片识别通道暂未开通（站内通道不带看图能力）。把图片里的关键内容打字发过来，我照样能答。");
+    vision = false;
+  }
   const tries = DIRECT_MODELS.filter(m => vision ? m.vision : !m.visionOnly)
     .map(m => ({ type: "direct", cfg: m, name: m.name }));
   if (!vision) {

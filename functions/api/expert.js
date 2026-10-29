@@ -8,10 +8,13 @@
  *   套着商业智脑的人设答题会很别扭。这里只做一件事：
  *   用调用方给的 system（领域人设 + 本地知识）直接跑模型，不注入任何平台人设。
  *
- * 输入：{ system, messages:[{role,content}], temperature, max_tokens }
- * 输出：{ ok, reply, model }  或  { ok:false, error }
+ * 输入：{ system, messages:[{role,content}], temperature, max_tokens, page }
+ * 输出：{ ok, reply, model }  或  { ok:false, error }  或  { ok:false, needLogin:true }
  * 说明：走 Workers AI 绑定（env.AI），免密钥、不消耗用户自己的额度。
+ *       必须登录后才能问（问答记录归到账号名下，见 ask_log 表）。
  */
+
+import { currentUser, publicUser } from './auth/_lib.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -30,7 +33,7 @@ const MODELS = [
 function jsonResp(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS },
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...CORS },
   });
 }
 
@@ -50,6 +53,15 @@ export async function onRequest(context) {
 
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
   if (request.method !== 'POST') return jsonResp({ ok: false, error: '只支持 POST' }, 405);
+
+  // ---------- 必须登录 ----------
+  const user = await currentUser(request, env);
+  if (!user) {
+    return jsonResp(
+      { ok: false, needLogin: true, error: '登录后才能提问（免费，10 秒搞定）' },
+      401
+    );
+  }
 
   if (!env.AI) {
     return jsonResp({ ok: false, error: '推理通道未就绪（AI 绑定未配置）' }, 503);
@@ -83,6 +95,10 @@ export async function onRequest(context) {
     ? [{ role: 'system', content: system }, ...messages]
     : messages;
 
+  const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+  const question = (lastUser && lastUser.content) || '';
+  const page = String(body.page || '').slice(0, 80);
+
   let lastErr = null;
   for (const model of MODELS) {
     try {
@@ -93,7 +109,20 @@ export async function onRequest(context) {
         temperature,
       });
       const reply = String(extractText(res) || '').trim();
-      if (reply) return jsonResp({ ok: true, reply, model });
+      if (reply) {
+        // 记录一次问答（不阻塞返回）
+        if (env.DB) {
+          context.waitUntil(
+            env.DB.prepare(
+              'INSERT INTO ask_log (user_id, page, question, answer_chars, model, created_at) VALUES (?, ?, ?, ?, ?, ?)'
+            )
+              .bind(user.id, page, question.slice(0, 500), reply.length, model, Math.floor(Date.now() / 1000))
+              .run()
+              .catch(() => {})
+          );
+        }
+        return jsonResp({ ok: true, reply, model, user: publicUser(user) });
+      }
       lastErr = new Error('模型返回空内容');
     } catch (e) {
       lastErr = e;

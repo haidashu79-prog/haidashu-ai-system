@@ -61,6 +61,39 @@ haidashu-ai-system/
 - **每个领域一套人设**：体检是检验科口径（不诊断不开药）、决策是风险顾问口径、星语是占星师口径。
 - **模型降级链**：gpt-oss-120b → qwen3-30b → llama-3.3-70b，前一个挂了自动换下一个。
 
+
+## 账号体系（登录后才能问）
+
+**为什么要有**：每次 AI 问答都记一条到账号名下，方便自己回看、也防止被外部白用。
+
+- **入口**：未登录时，点任何一个提问按钮都会弹登录框；登录成功后那句话自动发出去，不用再点一次。
+- **怎么登**：手机号 + 密码，**不发短信、不发验证码、不打电话**，手机号只当账号名。注册即登录，会话保持 30 天（HttpOnly Cookie）。
+- **记录**：`ask_log` 表，记 `user_id / page（在哪个案例问的）/ question / answer_chars / model / created_at`。
+- **查看**：<https://haidashu.pages.dev/me/> 或问答面板顶部「我的记录」。
+
+```
+functions/api/auth/_lib.js     密码哈希（PBKDF2-SHA256 加盐）、会话、Cookie
+functions/api/auth/register.js 注册（手机号 + 密码，6 位起）
+functions/api/auth/login.js    登录
+functions/api/auth/me.js       当前登录状态
+functions/api/auth/logout.js   退出
+functions/api/auth/logs.js     我的问答记录
+functions/api/expert.js        未登录直接返回 needLogin，登录后答完写 ask_log
+site/assets/auth.js            前端登录框（按需加载，不拖慢首屏）
+site/me/index.html             我的记录页
+schema.sql                     D1 建表语句
+```
+
+数据库：Cloudflare D1（`wrangler.toml` 里 `[[d1_databases]] binding = "DB"`）。
+首次部署要跑一次建表：
+
+```bash
+npx wrangler d1 execute haidashu --remote --file=schema.sql
+```
+
+> 说明：这是「够用就好」的账号体系——没有找回密码、没有第三方登录、没有短信验证。
+> 要加这些，在这个骨架上扩即可。
+
 ## 本地跑起来
 
 ```bash
