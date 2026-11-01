@@ -16,9 +16,9 @@ const CORS = {
 
 // 已实测可用，中文能力优先
 const MODELS = [
-  '@cf/openai/gpt-oss-120b',
-  '@cf/qwen/qwen3-30b-a3b-fp8',
+  '@cf/qwen/qwen3-30b-a3b-fp8',            // 中文商业问答最稳，不乱吐英文推理
   '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+  '@cf/openai/gpt-oss-120b',              // 兜底：强但偶发把思维链当正文吐出来
 ];
 
 const sse = (obj) => 'data: ' + JSON.stringify(obj) + '\n\n';
@@ -68,11 +68,35 @@ const STOP = new Set(('能不 不能 什么 怎么 可以 如何 为什 么办 �
   '么样 一个 这个 那个 现在 时候 帮我 请问 一下 应该 需要 觉得 到底 还是 就是 因为 所以 怎样 能否 是不 可否').split(' '));
 
 // 各域的优先权重：这是赚钱大脑，商业与判断类排前面
+// 口语 → 业务词的同义扩展：普通人问"给自己开多少工资"，档案里写的是"成本"，得先接上
+const SYN = {
+  '工资': '成本 净利 收入', '薪酬': '成本', '人工': '成本 外包', '房租': '成本 固定支出',
+  '流水': '收入 营业额 客单', '营业额': '收入 客单', '毛利': '成本 利润 净利', '净利': '利润 成本',
+  '回本': '投入 成本 现金流', '库存': '成本 现金流', '压货': '成本 现金流', '借钱': '现金流 风险',
+  '亏': '成本 现金流 该停', '赔': '成本 该停', '账': '公私账 现金流', '发票': '财税 合同',
+  '税': '财税 发票', '社保': '财税 一人公司', '执照': '注册 经营范围', '注册': '注册 经营范围',
+  '招人': '外包 成本 交付', '员工': '外包 成本', '离职': '交付 外包', '合伙人': '股权 交付 边界',
+  '降价': '定价 报价', '涨价': '定价 报价', '报价': '定价 报价', '谈单': '报价 成交 诊断',
+  '客户': '获客 客单 转化', '没人买': '获客 转化 定位', '卖不动': '获客 转化 定位',
+  '涨粉': '涨粉 选题 定位', '播放': '选题 内容配比', '变现': '变现 客单 私域',
+  '同行': '竞品 定价', '累': '交付 外包 收手', '忙不过来': '交付 外包 收手', '不赚钱': '成本 定价 该停',
+  '接不接': '判断 该停 交付', '该不该': '判断 该停', '要不要': '判断 该停',
+  '对账': '对账 平台 抽成 结算 差额', '账单': '对账 结算 差额 平台', '对不上': '对账 差额 结算',
+  '抽成': '对账 平台 结算 抽成', '补贴': '对账 平台 活动', '退款': '对账 差额', '结算': '对账 平台 结算',
+  '盘货': '盘点 进销存 损耗', '盘点': '盘点 进销存 损耗', '损耗': '损耗 进销存 成本', '漏了': '对账 差额 损耗',
+};
+function expandQ(raw) {
+  let s = raw;
+  for (const k in SYN) if (raw.indexOf(k) >= 0) s += ' ' + SYN[k];
+  return s;
+}
+
 const KIND_W = { money: 1.22, judge: 1.1, opc: 1.08, ip: 1.05, eco: 1.02, craft: 0.92, persona: 0.96 };
 
 function retrieve(kb, question, topN = 5) {
   if (!kb || !kb.cards) return [];
   const raw = String(question || '').toLowerCase();
+  const rawX = expandQ(raw);   // 逐词扩展过的问句，专供意图词匹配
   const q = grams(question).filter((g) => !STOP.has(g)).slice(0, 40);
   if (!q.length) return [];
 
@@ -85,7 +109,10 @@ function retrieve(kb, question, topN = 5) {
 
     // kw 是人工标的意图短语，命中即强信号，权重远高于散装 2-gram
     let kwHit = 0;
-    for (const k of kws) if (k && raw.indexOf(k) >= 0) kwHit++;
+    for (const k of kws) {
+      if (!k || STOP.has(k)) continue;   // "多少/怎么"这类泛问词不算意图
+      if (rawX.indexOf(k) >= 0) kwHit++;
+    }
 
     let score = kwHit * 12;
     for (const g of q) {
@@ -93,7 +120,7 @@ function retrieve(kb, question, topN = 5) {
       else if (tags.indexOf(g) >= 0) score += 2;
       else if (text.indexOf(g) >= 0) score += 1;
     }
-    if (kwHit === 0 && score < 7) continue; // 没命中意图词又不达阈值，直接丢
+    if (kwHit === 0 && score < 4.5) continue; // 没命中意图词又不达阈值，直接丢
     if (kwHit) score *= 1.6;
     score /= Math.sqrt(Math.max(text.length, 60) / 110);
     score *= KIND_W[card.kind] || 1;
@@ -111,6 +138,16 @@ function retrieve(kb, question, topN = 5) {
     if (picked.length >= topN) break;
   }
 
+  // 补位：跨域凑不满时，用同域次优卡补齐，别让模型只拿到一张卡硬答
+  const minCards = Math.min(3, topN);
+  if (picked.length < minCards) {
+    for (const s of scored) {
+      if (picked.indexOf(s.card) >= 0) continue;
+      picked.push(s.card);
+      if (picked.length >= minCards) break;
+    }
+  }
+
   // 兜底：一个问题都匹配不上时，给两条主线卡，别让模型空手瞎编
   if (!picked.length) {
     for (const cid of ['money-012', 'judge-001']) {
@@ -125,6 +162,11 @@ function retrieve(kb, question, topN = 5) {
 
 function buildSystem(cards, pageSystem, kb) {
   const st = (kb && kb.stats) || {};
+  const pr = (kb && kb.pricing) || null;
+  const priceBlock = pr ? `【海大叔这边在卖的东西（事实资料）】
+${pr.line}
+对外统一用这句话说：${pr.reply}
+各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}` : '';
   const hit = cards.length
     ? cards.map((c, i) => `${i + 1}. 【${c.title}】${c.text}`).join('\n')
     : '（本次没匹配到专门档案，按海大叔通用口径答，别硬编具体数字）';
@@ -155,10 +197,17 @@ function buildSystem(cards, pageSystem, kb) {
 先给判断，一句话说死；再给理由；最后给今天能做的一步。说人话、短句、20-40 字一段，不端架子、不喊口号、不写"首先其次最后"。200-450 字为佳。问钱的事就谈钱，别绕成励志。
 
 【你要守的红线】
-不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。不报价、不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
+不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。客户问自家服务多少钱，只照上面那张表报，不许自造档位、不许说“看情况给你报”；别家东西的价一律不报。不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
+
+【数字纪律（最容易被扣分的就这条）】
+用户没给的数字，一个都不许替他填。不许自拟人工工资、单价、毛利率、转化率、月销、回本周期。
+要算账时按这个顺序：①先只用他给出的数字推；②缺关键数就点明缺哪个，并给一个区间算法（"你按你实际的 X% 换进去"）；③必须假设时，写成"假设毛利 30%（你按实际换）"，绝不许把假设说成事实。
+算错一个数，整段判断就废了，宁可少算一步。
 
 【海大叔的家底（可引用，不要编）】
 知识库共 ${st.collections || 31} 个集合、${st.files || 4323} 份资料：口播成稿 ${st.scripts || 1676} 篇、成稿归档 ${st.archive || 1840} 篇、历史选题 ${st.topics || 1368} 条、各平台课程课件 ${st.courses || 338} 件、可复用合同模板 ${st.contracts || 15} 份、成案案例 ${st.cases || 6} 个。方法论基石是《赚钱的秘密》《个人IP从0到1》两部著作。海大叔本人是昆明的 AI 新媒体 IP 博主，做 AI 新媒体 + IP + 智慧生态，客户里有企业、有一人公司、也有门店。
+
+${priceBlock}
 
 【本次从档案里调出来的东西（优先用它回答）】
 ${hit}
@@ -169,6 +218,7 @@ ${hit}
 【回答要求】
 1. 优先用上面调出的档案，不许添油加醋，档案没有的数字不要编。
 2. 尽量往"这事怎么变成钱、下一步谁去做、做什么"上收，别停在道理。
+3. 客户问到收费，直接照【对外统一用这句话说】那句原话讲，再补 1–2 档细节；资料里没有的项目，说"这项要看过你的账单再定"。
 3. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
 4. 结尾给一个今天就能动手的动作，一句话。
 5. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。

@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>产品体系 · 九个模块一套班子 · 海大叔 AI新媒体IP智慧生态</title>
-<meta name="description" content="海大叔产品体系：给一人公司和小商业体的九个模块。手、班、脑、嘴、盾、库、本事、教练、眼——开店的人缺哪一块，就补哪一块。同时开放认证交付伙伴申请：你负责找人报价收款，交付在总部，成单按比例分成。">
+<meta name="description" content="海大叔产品体系：九个模块配成一套完整的班子，分三层——把活接住、把活干稳、把活做成生意。点任意一块看它到底干什么、给什么、几天、要你配合什么，哪块能交出去、哪块留在总部。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
 <link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/p3d.css">
+<!-- 原产品页页面级样式（合伙区 / 申请区 / 九模块卡） -->
 <style>
 /* 九模块统一卡：每张卡结构一致，高度由 flex 拉齐 */
 .mods{grid-auto-rows:1fr}
@@ -77,6 +79,122 @@ table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;marg
   .link-row .miss{order:3;margin-left:44px}
 }
 </style>
+<style>
+.l4tag{font-style:normal;font-size:11px;font-weight:800;padding:1px 7px;border-radius:20px;
+  margin-left:6px;vertical-align:2px;letter-spacing:.04em}
+.l4tag.you{background:#FBE6D2;color:#8E4A1B}
+.l4tag.learn{background:#EAF3EC;color:#2F6B4F}
+.l4tag.us{background:#EDE7D9;color:#6E5F49}
+</style>
+<style>
+/* ── 四层结构 3D ── */
+#layers{padding-top:58px}
+.l4stage{position:relative;display:flex;gap:26px;align-items:center;margin-top:6px}
+.l4scene{flex:1;min-width:0;position:relative;height:510px;perspective:1500px;perspective-origin:50% 46%;
+  cursor:grab;touch-action:none;user-select:none}
+.l4scene:active{cursor:grabbing}
+.l4lead{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;
+  z-index:4;opacity:0;transition:opacity .35s}
+.l4lead.on{opacity:1}
+#l4path{fill:none;stroke:#C2571C;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.l4lead.draw #l4path{animation:l4draw .62s cubic-bezier(.3,.9,.4,1) forwards}
+@keyframes l4draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.l4dot{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;
+  background:#C2571C;pointer-events:none;z-index:5;opacity:0;transition:opacity .35s}
+.l4dot.on{opacity:1;animation:l4pulse 1.9s ease-out infinite}
+@keyframes l4pulse{
+  0%{box-shadow:0 0 0 3px rgba(194,87,28,.34)}
+  70%{box-shadow:0 0 0 13px rgba(194,87,28,0)}
+  100%{box-shadow:0 0 0 3px rgba(194,87,28,0)}}
+.l4hint{position:absolute;left:0;right:0;bottom:2px;text-align:center;font-size:11.5px;
+  color:var(--dim2);letter-spacing:.04em;pointer-events:none}
+.l4world{position:absolute;left:50%;top:86%;width:0;height:0;transform-style:preserve-3d}
+.l4layer{position:absolute;width:158px;height:158px;left:-79px;top:-79px;border-radius:9px;
+  transform-style:preserve-3d;will-change:transform;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;
+  transition:transform .5s cubic-bezier(.34,1.22,.5,1),filter .4s ease,opacity .4s ease,box-shadow .35s}
+.l4layer.dim{opacity:.93}
+.l4layer.on{box-shadow:0 0 0 2px rgba(194,87,28,.95),0 16px 38px rgba(120,60,20,.32)}
+.l4layer.on .l4bl{background:#C2571C;color:#fff;box-shadow:0 2px 8px rgba(140,70,20,.34)}
+.l4layer::after{content:"";position:absolute;inset:0;border-radius:9px;transform:translateZ(-10px);
+  background:rgba(80,52,26,.28);filter:blur(2px);pointer-events:none}
+.l4ring{position:absolute;inset:0;border-radius:9px;border:2px solid rgba(255,255,255,.18);
+  transition:border-color .35s,box-shadow .35s;pointer-events:none}
+.l4layer.on .l4ring{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.30),0 0 30px rgba(150,95,45,.30)}
+.l4bl{position:absolute;left:50%;top:50%;white-space:nowrap;font-size:13.5px;font-weight:900;
+  color:#4A2708;letter-spacing:.03em;padding:3px 11px;border-radius:20px;
+  background:#FFFCF6;border:1px solid rgba(120,75,30,.18);
+  box-shadow:0 2px 8px rgba(70,35,8,.28);
+  transition:background .3s,color .3s,box-shadow .3s;
+  pointer-events:none;transform-origin:center;will-change:transform}
+.l4a{background:linear-gradient(135deg,#8E4A1B,#6E350E);transform:translateZ(0)}
+.l4b{background:linear-gradient(135deg,#B05B20,#8E4614);transform:translateZ(115px)}
+.l4c{background:linear-gradient(135deg,#D28A3C,#B8702A);transform:translateZ(230px)}
+.l4d{background:linear-gradient(135deg,#F2C68C,#DFAA68);transform:translateZ(345px)}
+.l4d .l4bl{color:#6B3E12;text-shadow:none}
+/* 层的位置由脚本按 data-i 计算，这里只留兜底 */
+.l4a .l4bl{top:80%}.l4b .l4bl{top:77%}.l4c .l4bl{top:73%}.l4d .l4bl{top:50%}
+.l4rail{position:absolute;top:10%;bottom:8%;width:28px;display:flex;align-items:center;
+  justify-content:center;pointer-events:none;z-index:5}
+.l4down{left:0}.l4up{right:0}
+.l4rail .l4ln{position:absolute;top:0;bottom:20px;width:2px;
+  background:repeating-linear-gradient(180deg,rgba(150,100,50,.40) 0 6px,transparent 6px 12px)}
+.l4rail .l4tip{position:absolute;bottom:0;font-size:14px;color:rgba(150,100,50,.72);line-height:1}
+.l4rail .l4tx{writing-mode:vertical-rl;font-size:11.5px;font-weight:800;letter-spacing:.16em;
+  color:rgba(120,80,40,.70);background:rgba(255,252,246,.9);padding:9px 3px}
+.l4up .l4tx{color:#B3352A;background:rgba(253,241,239,.92)}
+.l4panel{width:414px;flex:none}
+.l4tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:11px}
+.l4tab{border:1px solid var(--line);background:rgba(255,253,248,.82);border-radius:9px;
+  padding:8px 3px 7px;font:inherit;font-size:12.5px;font-weight:800;color:var(--dim);line-height:1.3;
+  cursor:pointer;text-align:center;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.l4tab b{display:block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  color:var(--dim2);margin-bottom:1px}
+.l4tab:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+.l4tab.on{background:linear-gradient(135deg,#FBE6D2,#F6D5B6);border-color:#C98A4E;color:#8E4A1B}
+.l4tab.on b{color:#B3352A}
+.l4card{display:none;border:1px solid #C98A4E;border-radius:12px;padding:15px 17px 14px;
+  background:linear-gradient(180deg,#FFFDF9,#FCF4E9);box-shadow:0 12px 32px rgba(150,100,50,.11)}
+.l4card.on{display:block;animation:l4in .36s cubic-bezier(.3,.9,.4,1)}
+@keyframes l4in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+.l4chd{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.l4cno{font-family:var(--mono);font-size:10.5px;font-weight:800;color:#B3352A;letter-spacing:.12em}
+.l4cnm{font-size:19px;font-weight:900;letter-spacing:.02em}
+.l4cwho{font-size:11.8px;color:var(--dim);margin:3px 0 10px}
+.l4clist{list-style:none;padding:0;margin:0}
+.l4clist li{display:grid;grid-template-columns:15px 1fr;gap:8px;font-size:12.6px;line-height:1.72;
+  padding:6px 0;border-bottom:1px dashed rgba(140,95,50,.16)}
+.l4clist li:last-child{border-bottom:0}
+.l4clist li em{font-style:normal;font-family:var(--mono);font-size:10px;font-weight:800;
+  color:#C2571C;padding-top:2px}
+.l4clist li b{font-weight:800;color:var(--ink)}
+.l4cfoot{margin-top:10px;padding-top:10px;border-top:1px solid rgba(140,95,50,.2);
+  font-size:12.2px;line-height:1.78;color:var(--dim)}
+.l4cfoot p{margin:0 0 5px}
+.l4cfoot b{color:var(--ink)}
+.l4cfoot .up{color:#2F6B4F;font-weight:800}
+.l4sum{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px;
+  border-top:2px solid var(--ink);padding-top:16px}
+.l4sum .k{font-size:11px;letter-spacing:.16em;color:var(--dim2);font-weight:800;margin-bottom:4px}
+.l4sum .v{font-size:16.5px;font-weight:800;line-height:1.6}
+.l4sum .v b{color:#B3352A}
+@media(max-width:900px){
+  .l4stage{flex-direction:column}
+  .l4lead,.l4dot,.l4hint{display:none}
+  .l4panel{width:100%}
+  .l4scene{height:430px;width:100%}
+  .l4sum{grid-template-columns:1fr}
+}
+</style>
+
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="海大叔">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<link rel="canonical" href="https://haidashu.com.cn/products/">
 </head>
 <body>
 
@@ -95,164 +213,77 @@ table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;marg
       <a href="/cases/">案例库</a>
       <a href="/materials/">素材库</a>
     </nav>
-    <a class="nav-cta" href="#apply">加入合伙人</a>
+    <a class="nav-cta" href="#apply">加海大叔</a>
     <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
   </div>
 </header>
 
-<!-- 首屏 -->
-<section style="padding-top:58px">
-  <div class="wrap">
-    <span class="eyebrow">产品体系 · 给一人公司 · 小商业体 · 想学 AI 的人</span>
-    <h1 class="h2" style="font-size:clamp(26px,4.6vw,42px)">九个模块，配成一套完整的班子</h1>
-    <p class="lead">这套东西给三种人：一个人接单、一个人交付的<strong>一人公司</strong>；守着一家小店、两三个人撑着的<strong>小商业体</strong>；还有想把 AI 真正学到能换钱的<strong>学习者</strong>。三种人缺的具体东西不一样，但根子是同一个——本来该五六个人干的活，全压在一个人身上：要有人出内容、有人回客户、有人算账、有人把关、有人盯进度、有人替你想明年。这九块就是把这些活接过去，或者教你把这些活自己接过来。整套可以配齐，也可以只补你眼下最疼的那一块。</p>
-    <div class="btn-row">
-      <a class="btn btn-primary" href="#modules">看九个模块 →</a>
-      <a class="btn btn-ghost" href="#apply">我想做合伙人</a>
-    </div>
+<div class="p3" id="modules">
+  <div class="p3hd wrap">
+    <span class="eyebrow">产品体系 · 九个模块</span>
+    <h1>九个模块，配成一套完整的班子</h1>
+    <p>不是九个产品，是一套班子。分三层：<b>先把活接住</b>、<b>再把活干稳</b>、<b>最后做成生意</b>。
+      点任意一块，右边就摊开它到底干什么、给你什么、几天、要你配合什么，还有哪块能交出去、哪块留在总部。</p>
   </div>
-</section>
 
-<!-- 一句真相 -->
-<section style="padding-top:6px">
-  <div class="wrap">
-    <div class="card" style="border-left:3px solid var(--brand)">
-      <h3 style="font-size:16px">这三种人缺的，从来不是一个工具，是一整个班子的活没人干</h3>
-      <p style="margin-top:8px;font-size:13.5px;line-height:1.85">一个人接单的，白天干活、晚上报价，遇到事没人商量；守店的，开门先算昨天卖了多少，白天一个人接待、一个人回单，关店还得想明天发什么、房租够不够；想学 AI 的，视频看了一堆、工具收藏了一屏，真到用的时候还是不知道从哪下手。三种人卡住的地方不一样，根子一样：你既是老板，又是店员、会计、文案、客服、采购，还是自己的老师。所以我不单卖零件，我把这一整套配齐：有人干活的手、有分工的班底、能做判断的脑子、能把人引来的嘴、能把关的盾、能沉淀的库、自己能学会的本事、有人盯着的教练、看得清方向的眼。缺哪一块，这套东西就转不起来——这句话不是话术，你在下面那条链子上会自己看出来。</p>
-    </div>
-  </div>
-</section>
-
-<!-- 对号入座：三类人各自缺什么 -->
-<section style="padding-top:8px">
-  <div class="wrap">
-    <div class="center" style="margin-bottom:22px">
-      <span class="eyebrow">先对号入座</span>
-      <h2 class="h2">你大概是这三种人里的哪一种</h2>
-      <p class="lead">不是让你选身份，是让你先看清自己最疼的那件事在哪儿。</p>
-    </div>
-    <div class="grid c3">
-      <div class="card">
-        <h3><span class="ic">🧍</span>一人公司</h3>
-        <p style="font-size:13px;color:var(--dim);line-height:1.75">一个人接单、一个人交付、一个人收钱。没有同事，也就没人商量。</p>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;line-height:1.9">
-          <b>最缺的三件：</b><br>
-          ① 报多少合适，全凭感觉<br>
-          ② 白天全在干活，没空做内容，客户来源一直单一<br>
-          ③ 没有人替你把关，签错了自己扛
-        </div>
-        <div style="margin-top:12px;font-size:12.5px;color:var(--brand);font-weight:600">该先补：脑 → 嘴 → 盾</div>
-      </div>
-      <div class="card">
-        <h3><span class="ic">🏪</span>小商业体</h3>
-        <p style="font-size:13px;color:var(--dim);line-height:1.75">夫妻店、小门店、三五人的小工作室——两三个人撑起一个摊子，开门就是一天。</p>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;line-height:1.9">
-          <b>最缺的三件：</b><br>
-          ① 重复活太多：同样的话一天说二十遍，同样的表一天填三遍<br>
-          ② 活一多就乱，谁先谁后全凭老板拍脑袋<br>
-          ③ 怕说错话：海报、朋友圈、办卡活动，一句写错就被罚
-        </div>
-        <div style="margin-top:12px;font-size:12.5px;color:var(--brand);font-weight:600">该先补：手 → 盾 → 班</div>
-      </div>
-      <div class="card" style="border-color:rgba(194,87,28,.35)">
-        <h3><span class="ic">🎓</span>想学 AI 的人</h3>
-        <p style="font-size:13px;color:var(--dim);line-height:1.75">视频看了一堆、工具收藏了一屏，真到用的时候，还是不知道从哪下手。</p>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:13px;line-height:1.9">
-          <b>最缺的三件：</b><br>
-          ① 学的都是零散技巧，不成体系，看完就忘<br>
-          ② 手上没有一个能拿出手的东西，证明自己会<br>
-          ③ 不知道学完能干什么、能卖给谁
-        </div>
-        <div style="margin-top:12px;font-size:12.5px;color:var(--brand);font-weight:600">该先补：本事 → 手 → 眼</div>
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <a class="btn btn-ghost" style="font-size:12.5px;padding:7px 13px" href="/learn/">先学一课</a>
-          <a class="btn btn-ghost" style="font-size:12.5px;padding:7px 13px" href="/aixinshou/">零基础入门</a>
+  <div class="p3stage">
+    <div class="scene" id="scene">
+      <div class="glow"></div>
+      <div class="shift" id="shift">
+        <div class="world" id="world">
+          <div class="floor"></div>
         </div>
       </div>
+      <div class="hint" id="hint"><span class="h-d">拖一下画面能转 · </span>点任意一块看它到底干什么</div>
+    </div>
+
+    <aside class="panel" id="panel" aria-live="polite">
+      <button class="x" id="px" aria-label="关闭">✕</button>
+      <div class="pp" id="pp"></div>
+    </aside>
+  </div>
+
+  <div class="strip">
+    <div class="strip-in wrap">
+      <div class="stat"><b>9</b>块能拆开卖</div>
+      <div class="stat"><b>6</b>块能交出去</div>
+      <div class="stat"><b>3</b>块留在总部</div>
+      <div class="stat"><b>4</b>层活，你从最上面进</div>
+      <a class="lnk" id="openChain">看九块怎么咬合 →</a>
+      <a class="lnk" id="openMoney">看钱怎么分 →</a>
     </div>
   </div>
-</section>
+</div>
 
-<!-- 九模块 -->
-<section id="modules" style="padding-top:26px">
-  <div class="wrap">
-    <div class="center" style="margin-bottom:26px">
-      <span class="eyebrow">九个部件</span>
-      <h2 class="h2">你缺哪一块，我拿哪一块补</h2>
-      <p class="lead">每张卡结构都一样：它替你干哪件活、具体怎么干、能给你什么。看的时候不用全看，先找你最疼的那件。</p>
-    </div>
-    <div class="mods" id="mods"></div>
+<!-- 浮层：咬合链 -->
+<div class="sheet" id="sheetChain">
+  <div class="box">
+    <button class="x" data-close>✕</button>
+    <h3>缺一环，这套东西就转不动</h3>
+    <p class="sub">不是九个东西各买各的，是一步一步把上一环缺的口子补上。</p>
+    <div id="chainBox"></div>
   </div>
-</section>
+</div>
 
-<!-- 咬合链 -->
-<section style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="center" style="margin-bottom:8px">
-      <span class="eyebrow">九块怎么咬合</span>
-      <h2 class="h2">缺一环，这套东西就转不动</h2>
-      <p class="lead">不用一次买全。顺着这条链子往下看，找到你现在卡在第几步，那一步后面跟着的，就是你眼下该补的那块。</p>
+<!-- 浮层：钱怎么分 -->
+<div class="sheet" id="sheetMoney">
+  <div class="box">
+    <button class="x" data-close>✕</button>
+    <h3>钱分四层，每层都对应真实使用者</h3>
+    <p class="sub">全程没有任何一笔钱，来自「想赚同一笔钱的人」。</p>
+    <div class="money4">
+      <div><b>第一层 · 前端资料</b><span>免费。用来筛人，也用来统一交付标准。不靠它赚钱。</span></div>
+      <div><b>第二层 · 工具</b><span>按年或按次，低客单走量。客户先用得起，才谈后面。</span></div>
+      <div><b>第三层 · 陪跑与定制</b><span>主要利润在这一层。靠真干活，不靠拉人。</span></div>
+      <div><b>第四层 · 伙伴分成</b><span>放大的一层。分佣绑在真实订单上，只做一级。</span></div>
     </div>
-    <div class="chain" id="chain"></div>
-    <p class="note">用法：不用一次买九块。从任何一块进去，顺着链子往下带就行。客户停在哪一环，就说明他下一块缺什么。</p>
+    <p style="margin-top:16px;font-size:12.5px;color:var(--p3dim);line-height:1.8">
+      五条自检有一条打钩就停：收入里超过三成来自资格费｜成为伙伴要先交钱｜分佣能穿透到第三层｜讲不清终端客户为什么付钱｜宣传里出现「躺赚／管道收益／团队裂变／总部全程扶持」。</p>
+    <p style="margin-top:12px"><a href="/products/#partner" style="font-size:12.5px;font-weight:800;color:#C2571C">看完整的合伙条款 →</a></p>
   </div>
-</section>
+</div>
 
-<!-- 交付 -->
-<section style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <div class="center" style="margin-bottom:22px">
-      <span class="eyebrow">怎么交付</span>
-      <h2 class="h2">每一块给什么、几天、要你配合什么</h2>
-      <p class="lead">先说清楚，省得来回问。</p>
-    </div>
-    <div class="pt-wrap" style="margin-top:0">
-      <div class="pt-scroll">
-        <table class="pt">
-          <thead><tr><th>模块</th><th>你拿到什么</th><th>多久</th><th>要你配合什么</th></tr></thead>
-          <tbody>
-            <tr><td>手 · 工具</td><td>能打开的链接或能装的插件，加一页使用说明</td><td>当天到 3–5 天</td><td>填一张表（5 个问题）</td></tr>
-            <tr><td>班 · 专家团</td><td>装好的班子，加每个角色干什么的一张卡</td><td>3–5 天</td><td>说清你每天干哪几件事</td></tr>
-            <tr><td>脑 · 智脑</td><td>挂好的脑，你的规矩记成账，加一次复查</td><td>随团一起</td><td>告诉我你最怕出什么错</td></tr>
-            <tr><td>嘴 · 新媒体</td><td>诊断单 / 30 个选题加发布节奏 / 一条能跑的生产线</td><td>1 天 / 7 天 / 15 天</td><td>出一次镜，或给一段录音</td></tr>
-            <tr><td>盾 · 风险盾牌</td><td>风险标记清单加修改建议、AI 过滤规则包、避坑知识库文档</td><td>1–3 天 / 3–5 天</td><td>给宣传文案和业务流程材料，说清所属行业</td></tr>
-            <tr><td>库 · 资产保险柜</td><td>统一归档资料库、可复用模板包、资产迁移配置文档</td><td>3–7 天</td><td>给历史 SOP、话术、案例、过往项目资料</td></tr>
-            <tr><td>本事 · 培训</td><td>一天课上带走一个能用的东西 / 三周每周一个成品</td><td>1 天 / 3 周</td><td>带电脑，肯动手</td></tr>
-            <tr><td>教练 · 陪跑</td><td>每周对练、每天成品、每周一页看板、结案复盘</td><td>3 个月</td><td>每周固定半小时</td></tr>
-            <tr><td>眼 · 项目包</td><td>三个方向的报告（成本、难点、适不适合）加启动清单</td><td>7 天</td><td>说清你有多少钱、多少时间</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 谁能交付 → 引出合伙人 -->
-<section>
-  <div class="wrap">
-    <div class="center" style="margin-bottom:22px">
-      <span class="eyebrow">谁能交付</span>
-      <h2 class="h2">前六块可以交出去，后三块交不出去</h2>
-      <p class="lead">这一栏决定这套东西是我一个人干，还是能带人一起干。看懂这一栏，你就明白合伙人从哪进来。</p>
-    </div>
-    <div class="grid c3">
-      <div class="card">
-        <h3><span class="ic">🤝</span>可以交出去的（6 块）</h3>
-        <p>手、班、嘴、盾、库、本事。这几块能做成标准件，别人也能学会：工具最容易交出去，班子可以按行业模板套，新媒体流程最标准化，常规合规扫描可以外放，基础归档可以外放，培训带出师就能讲。</p>
-      </div>
-      <div class="card">
-        <h3><span class="ic">🔒</span>交不出去的（3 块）</h3>
-        <p>脑、教练、眼。智脑要技术底子，陪跑靠判断力，项目包靠真跑过。这三块留在总部——别人抄得走前六块的形，抄不走这三块的判断力，因为它们交不出去。</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--brand)">
-        <h3><span class="ic">🚪</span>所以有一条路给你</h3>
-        <p>把前六块做成标准件，交给本地的人去卖、去交付前端；后三块留在总部。你要做的不是学会全部九块，是把人找到、把需求问清、把价报出去——活由总部干。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 合伙人 -->
+<!-- 合伙条款与申请：沿用原产品页内容，保证 #partner / #apply 锚点可用 -->
 <section id="partner" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
     <div class="center" style="margin-bottom:26px">
@@ -275,7 +306,7 @@ table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;marg
     </div>
 
     <div class="card" style="margin-bottom:22px">
-      <h3 style="font-size:16px">这套东西的钱从哪来（四层，每层都对应真实使用者）</h3>
+      <h3 style="font-size:16px">钱分四层，每层都对应真实使用者</h3>
       <div class="grid c4" style="margin-top:14px;gap:12px">
         <div style="background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px">
           <div class="no" style="font-family:var(--mono);font-size:11px;color:var(--brand)">第一层</div>
@@ -375,7 +406,6 @@ table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;marg
   </div>
 </section>
 
-<!-- 申请 -->
 <section class="qr-sec" id="apply">
   <div class="wrap">
     <div class="center" style="margin-bottom:24px">
@@ -416,27 +446,289 @@ table.pt .sub{display:block;font-size:12px;color:var(--dim);font-weight:400;marg
 </footer>
 
 <script>
-var MODS=[
- {g:'手',n:'AI 工具工厂',role:'谁干活',d:'小店最耗人的不是大事，是每天重复的小事：给十个客户写十遍同样的答复、把同一张报价单改十遍、晚上手工把订单敲进表格。这些做成一个打开就能用的工具——发个网页链接就能用，或者装进你本来就在用的地方（公众号后台、微信、表格）。这是整套的手，所有活最后都落到这儿。',sell:'按你的店配一套现成工具 ｜ 把每天重复的那件事单独做成一个 ｜ 做成插件，装进你天天用的软件',tryUrl:'/factory/',tryText:'去工厂造一个'},
- {g:'班',n:'专家团',role:'谁分工',d:'一个人开店，最难的是没人商量、没人接手。班子就是把活分开的那几个人：有人管选题、有人管写稿、有人管回客户、有人管对账、有人专门挑错。你只做拍板那一下。干不过来往往不是不努力，是没有人分工。',sell:'按行业搭一套（餐饮 / 零售 / 教培 / 装修 / 设计 / 顾问）｜ 按你现在的流程定制 ｜ 从零设计一套新的',tryUrl:'#apply',tryText:'问怎么搭'},
- {g:'脑',n:'智脑',role:'怎么判断',d:'店里的判断全在你脑子里，人一累就乱。装上之后它记得住你的行话、你的老客户、你踩过的坑；它会提醒你上次这么干亏过；每天开工前先替你想清楚今天该先干哪三件；你定的规矩它记成账，下次自动照做。用得越久，越像你自己的人。',sell:'随班子一起装 ｜ 单独给已有系统挂一个 ｜ 按年做一次体检和调校',tryUrl:'/zhinao/',tryText:'先问一句'},
- {g:'嘴',n:'新媒体 IP 运营 + 智慧生态',role:'人从哪来',d:'没人知道你在哪儿开店，就没人来。三层一起做：第一层把你这个人立起来（你是谁、卖什么、凭什么信你）；第二层把内容批量产出来（选题、口播、图文、一键发六个平台）；第三层让 AI 搜得到你——有人问「本地哪家做得好」，答案里有你。',sell:'账号诊断 ｜ 90 天内容作战表 ｜ 装一条内容生产线 ｜ GEO 布局，让 AI 推荐你',tryUrl:'/materials/',tryText:'看内容素材'},
- {g:'盾',n:'风险盾牌',role:'风险把关',d:'店里贴的海报、朋友圈发的广告、跟客户签的单子、办卡充值的活动，一句话写错就可能被罚。做出来先过一遍筛子：标出广告法用词、行业红线、业务踩坑点，出一张修改清单。它只做风险标记，不出法律、医疗、投资的结论——那是专业人士的事。',sell:'现有物料和流程扫一遍 ｜ AI 输出过滤规则配置 ｜ 行业避坑知识库录入',tryUrl:'/cases/legal',tryText:'看法律案例'},
- {g:'库',n:'资产保险柜',role:'资产沉淀',d:'开了三年店，经验全在你手上，人一走、店一换就归零。把跑出来的 SOP、话术、踩坑案例、工具配置统一归档。目的只有一个：不让经验随人走。以后开新店、换赛道，直接从库里取，不用从零重来。',sell:'业务资产归档库搭建 ｜ 跨项目模板萃取 ｜ 旧业务资产迁到新项目',tryUrl:'#apply',tryText:'问怎么归档'},
- {g:'本',n:'培训',role:'自己会不会',d:'不想一直靠别人的，就自己学会。教的都是真手艺：怎么搭一个有分工的班子、怎么给班子装脑子、怎么写出一眼不像 AI 写的稿子、怎么从选题一路发到六个平台、怎么把工具装进你日常用的软件。',sell:'一天小班，现场做出一个能带走的 ｜ 三周陪学，边学边做 ｜ 给店里的人做内训',tryUrl:'/learn/',tryText:'先学一课'},
- {g:'教',n:'落地陪跑',role:'有人盯',d:'绝大多数人不是不会买，是买了不用。陪跑解决的就是这个：每周固定对练一次，每天给你成品，每周给你一页看板，卡住当场解决。三个月后你能自己跑，不用再找我。',sell:'3 个月陪跑 ｜ 单月加练 ｜ 陪跑结束转年度维护',tryUrl:'#apply',tryText:'问陪跑怎么排'},
- {g:'眼',n:'AI 创业项目打包',role:'往哪走',d:'生意还行，但不知道明年还能不能这么干；或者想再开一条路，不知道走哪条。我把自己真跑过的项目摊开：要花多少钱、多久见到回头钱、难点在哪、你这条件适不适合。三个方向摆桌上，不合适我直接说别干。方向错了，前面八块全白搭。',sell:'项目选择报告，三个方向选一个 ｜ 启动包，含工具、流程、首批客户怎么找 ｜ 30 天带跑',tryUrl:'/cases/',tryText:'看已跑通的'}
+/* ══════════ 数据：九个模块 ══════════ */
+var T=[
+ {k:'把活接住',s:'先有人来、有家伙干、有人分工'},
+ {k:'把活干稳',s:'不出事、会判断、自己也会'},
+ {k:'把活做成生意',s:'有人盯、经验留得下、知道下一步'}
 ];
-var box=document.getElementById('mods');
-MODS.forEach(function(m,i){
-  var d=document.createElement('div'); d.className='mod';
-  d.innerHTML='<div class="top"><span class="glyph">'+m.g+'</span><div><div class="no">0'+(i+1)+'</div><h3>'+m.n+'</h3><div class="role">'+m.role+'</div></div></div>'+
-    '<p>'+m.d+'</p>'+
-    '<div class="sell"><b>能给你什么：</b>'+m.sell+'</div>'+
-    '<div class="links"><a class="try" href="'+m.tryUrl+'">'+m.tryText+' →</a></div>';
-  box.appendChild(d);
+var M=[
+ {no:'04',g:'嘴',n:'新媒体 IP 运营',r:'人从哪来',t:0,col:0,
+  short:'定位、内容批量做、让 AI 搜得到你',
+  d:'三层一起做：第一层把你这个人立起来（定位、人设、讲什么）；第二层把内容批量产出来（选题、口播、图文、一键发六个平台）；第三层让 AI 搜得到你，有人问「本地哪家做得好」，答案里有你。',
+  sell:['账号诊断：先看清现在为什么没人来','90 天内容作战表：哪天发什么，提前定好','装一条内容生产线，选题到发布一条龙','GEO 布局，让 AI 推荐你'],
+  give:'诊断单 / 30 个选题加发布节奏 / 一条能跑的生产线',days:'1 天 / 7 天 / 15 天',
+  you:'出一次镜，或给一段录音',hand:1,why:'流程最标准化，最容易整套交出去',
+  url:'/materials/',txt:'看内容素材'},
+
+ {no:'01',g:'手',n:'AI 工具工厂',r:'谁干活',t:0,col:1,
+  short:'把最烦的那件活做成工具',
+  d:'你每天重复干、又特别烦的那件事，做成一个打开就能用的工具。能做成网页链接，也能做成插件装进你天天用的软件里（公众号、微信、表格、设计软件）。这是整套的手——所有活最后都要落到这儿。',
+  sell:['现成工具箱，按职业打包 5 件','按你的生意改一套','单独做一个插件，装进你日常用的软件'],
+  give:'能打开的链接或能装的插件，加一页使用说明',days:'当天到 3–5 天',
+  you:'填一张表（5 个问题）',hand:1,why:'工具最容易做成标准件',
+  url:'/factory/',txt:'去工厂造一个'},
+
+ {no:'02',g:'班',n:'专家团',r:'谁分工',t:0,col:2,
+  short:'有人选题、写稿、回客、对账',
+  d:'工具是一件一件的，班子是有人分工的：有人管选题、有人管写稿、有人管回客户、有人管对账、有人专门挑错。你只做拍板那一下。一个人干不过来，往往不是不努力，是没有分工。',
+  sell:['按行业搭一套（零售 / 教培 / 装修 / 设计 / 顾问）','按你现有流程定制','从零设计一套新的'],
+  give:'装好的班子，加每个角色干什么的一张卡',days:'3–5 天',
+  you:'说清你每天干哪几件事',hand:1,why:'可按行业模板套，别人学得会',
+  url:'#apply',txt:'问怎么搭'},
+
+ {no:'05',g:'盾',n:'风险盾牌',r:'风险把关',t:1,col:0,
+  short:'出街前先过一遍筛子',
+  d:'文案、宣传物料、业务流程方案做出来之后，先过一遍筛子：标出广告法用词、行业红线、业务踩坑点，出一张修改清单。它只做风险标记，不出法律、医疗、投资的结论——那是专业人士的事。',
+  sell:['业务合规扫描，排查现有物料和流程','AI 输出过滤规则配置','行业避坑知识库录入'],
+  give:'风险标记清单加修改建议、AI 过滤规则包、避坑知识库',days:'1–3 天 / 3–5 天',
+  you:'给宣传文案和业务流程材料，说清所属行业',hand:1,why:'常规合规扫描可以外放',
+  url:'/cases/legal',txt:'看法律案例'},
+
+ {no:'03',g:'脑',n:'智脑',r:'怎么判断',t:1,col:1,
+  short:'记得你的坑，替你先想三件',
+  d:'装上之后，它记得住你的行话、你的客户、你踩过的坑；它会提醒你上次这么干亏过；它每天开工前先替你想一遍今天该先干哪三件；它把你定的规矩记成账，下次自动照做。用得越久，越像你自己的人。',
+  sell:['随专家团一起装','单独给已有系统挂一个','按年做一次体检和调校'],
+  give:'挂好的脑，你的规矩记成账，加一次复查',days:'随团一起',
+  you:'告诉我你最怕出什么错',hand:0,why:'要技术底子，判断力抄不走',
+  url:'/zhinao/',txt:'先问一句'},
+
+ {no:'07',g:'本',n:'培训',r:'自己会不会',t:1,col:2,
+  short:'真手艺，学会自己做',
+  d:'不想一直靠别人的，就学会自己做。教的都是真手艺：怎么搭一个有分工的班子、怎么给班子装脑子、怎么写出一眼不像 AI 写的稿子、怎么从选题一路发到六个平台、怎么把插件装进你日常用的软件。',
+  sell:['一天实操课，现场做出一个能带走的','三周陪学，边学边做','给团队做内训'],
+  give:'一天课上带走一个能用的东西 / 三周每周一个成品',days:'1 天 / 3 周',
+  you:'带电脑，肯动手',hand:1,why:'带出师就能讲，能教就能传',
+  url:'/learn/',txt:'先学一课'},
+
+ {no:'08',g:'教',n:'落地陪跑',r:'有人盯',t:2,col:0,
+  short:'每周对练，卡住当场解决',
+  d:'绝大多数人不是不会买，是买了不用。陪跑解决的就是这个：每周固定对练一次，每天给你成品，每周给你一页看板，卡住当场解决。三个月后你能自己跑，不用再找我。',
+  sell:['3 个月陪跑','单月加练','陪跑结束转年度维护'],
+  give:'每周对练、每天成品、每周一页看板、结案复盘',days:'3 个月',
+  you:'每周固定半小时',hand:0,why:'靠判断力和现场应变，教不了',
+  url:'#apply',txt:'问陪跑怎么排'},
+
+ {no:'06',g:'库',n:'资产保险柜',r:'资产沉淀',t:2,col:1,
+  short:'经验统一归档，不随人走',
+  d:'跑出来的 SOP、选题、话术、踩坑案例、工具配置，统一归档。做这件事只有一个目的：不让经验随人走。业务跑通之后换个赛道、开条新业务，不用从零重来，直接从库里萃取能用的。',
+  sell:['业务资产归档库搭建','跨项目模板萃取','旧业务资产迁到新项目'],
+  give:'统一归档资料库、可复用模板包、资产迁移配置',days:'3–7 天',
+  you:'给历史 SOP、话术、案例、过往项目资料',hand:1,why:'基础归档可以外放',
+  url:'#apply',txt:'问怎么归档'},
+
+ {no:'09',g:'眼',n:'AI 创业项目打包',r:'往哪走',t:2,col:2,
+  short:'三个方向，不合适我直接说别干',
+  d:'想干点事但不知道干啥。我把自己真跑过的项目摊开：要花多少钱、多久见到回头钱、难点在哪、你适不适合。三个方向摆在桌上，不合适我直接说别干。方向错了，前面八块全白搭。',
+  sell:['项目选择报告，三个方向选一个','启动包，含工具、流程、首批客户怎么找','30 天带跑'],
+  give:'三个方向的报告（成本、难点、适不适合）加启动清单',days:'7 天',
+  you:'说清你有多少钱、多少时间',hand:0,why:'靠真跑过，没跑过就是空的',
+  url:'/cases/',txt:'看已跑通的'}
+];
+
+/* ══════════ 布景 ══════════ */
+var XS=[-300,0,300], YS=[160,0,-160], ZS=[0,66,132];
+var axDeg=9, azDeg=-3;
+var scene=document.getElementById('scene');
+var world=document.getElementById('world');
+var shift=document.getElementById('shift');
+var panel=document.getElementById('panel');
+var pp=document.getElementById('pp');
+var hint=document.getElementById('hint');
+var cards=[], labels=[], cur=-1;
+
+function billboard(){ return 'rotateZ('+(-azDeg)+'deg) rotateX('+(-axDeg)+'deg)'; }
+function paintWorld(){ world.style.transform='rotateX('+axDeg+'deg) rotateZ('+azDeg+'deg)'; }
+function isFlat(){ return window.matchMedia('(max-width:900px)').matches; }
+function billboards(){
+  if(isFlat()){
+    for(var k=0;k<cards.length;k++) cards[k].inner.style.transform='';
+    for(var m=0;m<labels.length;m++) labels[m].inner.style.transform='';
+    return;
+  }
+  var t=billboard();
+  for(var i=0;i<cards.length;i++){
+    var c=cards[i].m.col, ry=(c===0?9:(c===2?-9:0));
+    cards[i].inner.style.transform='rotateY('+ry+'deg) '+t;
+  }
+  for(var j=0;j<labels.length;j++) labels[j].inner.style.transform=t;
+}
+
+/* 建卡 */
+M.forEach(function(m,i){
+  var el=document.createElement('div'); el.className='m3'; el.dataset.i=i;
+  el.style.transform='translate3d('+XS[m.col]+'px,'+YS[m.t]+'px,'+(ZS[m.t]-620)+'px)';
+  var inn=document.createElement('div'); inn.className='m3in';
+  inn.innerHTML='<div class="no">'+m.no+'</div><div class="g">'+m.g+'</div>'+
+    '<div class="n">'+m.n+'</div><div class="r">'+m.r+'</div><div class="d">'+m.short+'</div>';
+  el.appendChild(inn);
+  world.appendChild(el);
+  el.dataset.t=m.t; el.dataset.c=m.col;
+  el.dataset.tier='第 '+(m.t+1)+' 层 · '+T[m.t].k;
+  el.style.order=(m.t*10+m.col);
+  cards.push({el:el,inner:inn,m:m,base:{x:XS[m.col],y:YS[m.t],z:ZS[m.t]}});
 });
 
+/* 手机端的层名分隔条（桌面端隐藏，由 .tlab 承担） */
+T.forEach(function(t,k){
+  var sep=document.createElement('div');
+  sep.className='tsep';
+  sep.textContent='第 '+(k+1)+' 层 · '+t.k;
+  sep.style.order=(k*10-1);
+  world.appendChild(sep);
+});
+
+/* 建层标签 */
+T.forEach(function(t,k){
+  var el=document.createElement('div'); el.className='tlab';
+  el.style.transform='translate3d(-624px,'+YS[k]+'px,'+ZS[k]+'px)';
+  var inn=document.createElement('div'); inn.className='in';
+  inn.innerHTML='<span class="t">第 '+(k+1)+' 层</span><span class="n">'+t.k+'</span><span class="s">'+t.s+'</span>';
+  el.appendChild(inn);
+  world.appendChild(el);
+  labels.push({el:el,inner:inn});
+});
+
+function tf(c,z){ return 'translate3d('+c.base.x+'px,'+c.base.y+'px,'+((z===undefined)?c.base.z:z)+'px)'; }
+paintWorld(); billboards();
+
+/* 入场（?nofly=1 直接落位，便于截图核对布局） */
+if(location.search.indexOf('nofly')>=0){
+  document.documentElement.className='nofly';
+  cards.forEach(function(c){ c.el.style.transition='none'; c.el.style.transform=tf(c); });
+}else{
+  setTimeout(function(){
+    cards.forEach(function(c,i){
+      setTimeout(function(){ c.el.style.transform=tf(c); },i*55);
+    });
+  },60);
+  setTimeout(function(){ fitShift(); },60+9*55+700);   /* 入场落位后再校一次比例 */
+}
+
+/* ══════════ 选中 ══════════ */
+function fmtSell(arr){
+  var s=''; for(var i=0;i<arr.length;i++) s+='<li>'+arr[i]+'</li>'; return s;
+}
+function openCard(i){
+  cur=i;
+  var m=M[i];
+  cards.forEach(function(c,k){
+    var on=(k===i);
+    c.el.style.transform=tf(c, c.base.z+(on?78:0))+' scale('+(on?1.05:1)+')';
+    c.el.classList.toggle('on',on);
+    c.el.classList.toggle('dim',!on);
+  });
+  pp.innerHTML=
+   '<div class="pp-hd"><span class="pp-no">'+m.no+'</span><span class="pp-nm">'+m.n+'</span>'+
+     '<span class="pp-rl">'+m.r+'</span></div>'+
+   '<div class="pp-tier">第 '+(m.t+1)+' 层 · <b>'+T[m.t].k+'</b> · '+T[m.t].s+'</div>'+
+   '<p class="pp-lead">'+m.d+'</p>'+
+   '<div class="pp-h">能给你什么</div><ul class="pp-ul">'+fmtSell(m.sell)+'</ul>'+
+   '<div class="pp-h">交付：给什么 · 几天 · 你要配合什么</div>'+
+   '<dl class="pp-dl"><dt>你拿到</dt><dd>'+m.give+'</dd>'+
+     '<dt>要多久</dt><dd>'+m.days+'</dd>'+
+     '<dt>你配合</dt><dd>'+m.you+'</dd></dl>'+
+   '<div class="pp-hand"><span class="pp-bd '+(m.hand?'ok':'no')+'">'+(m.hand?'可以交出去':'总部留着')+'</span>'+
+     '<p>'+m.why+'</p></div>'+
+   '<div class="pp-act"><a class="p" href="'+m.url+'">'+m.txt+' →</a>'+
+     '<a class="g" href="#apply">问这一块</a></div>';
+  pp.scrollTop=0;
+  panel.classList.add('open');
+  document.body.classList.add('p3open');
+  hint.style.opacity='0';
+  fitShift();
+}
+function closeCard(){
+  cur=-1;
+  panel.classList.remove('open');
+  document.body.classList.remove('p3open');
+  hint.style.opacity='';
+  cards.forEach(function(c){
+    c.el.style.transform=tf(c);
+    c.el.classList.remove('on','dim');
+  });
+  fitShift();
+}
+document.getElementById('px').addEventListener('click',closeCard);
+
+/* 点击卡片 */
+scene.addEventListener('click',function(e){
+  var el=e.target.closest?e.target.closest('.m3'):null;
+  if(el){ openCard(+el.dataset.i); }
+});
+scene.addEventListener('pointerdown',function(e){
+  if(e.target.closest && e.target.closest('.m3')) return;   /* 点卡片不开始拖 */
+  drag=true; lx=e.clientX; ly=e.clientY; moved=0;
+  try{scene.setPointerCapture(e.pointerId)}catch(_){}
+});
+var drag=false,lx=0,ly=0,moved=0;
+scene.addEventListener('pointermove',function(e){
+  if(!drag) return;
+  var dx=e.clientX-lx, dy=e.clientY-ly; lx=e.clientX; ly=e.clientY;
+  moved+=Math.abs(dx)+Math.abs(dy);
+  azDeg=Math.max(-9,Math.min(3,azDeg+dx*0.018));
+  axDeg=Math.max(2,Math.min(17,axDeg-dy*0.03));
+  paintWorld(); billboards();
+});
+scene.addEventListener('pointerup',function(){drag=false});
+scene.addEventListener('pointercancel',function(){drag=false});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeCard(); });
+
+/* 面板打开时：把整个阵列等比缩进剩下的区域并居中，九卡三标签始终不出界 */
+function stageBox(){
+  var els=[].slice.call(document.querySelectorAll('.m3')).concat([].slice.call(document.querySelectorAll('.tlab')));
+  var l=1e9,t=1e9,r=-1e9,b=-1e9;
+  els.forEach(function(e){
+    var q=e.getBoundingClientRect();
+    if(q.width===0&&q.height===0) return;
+    l=Math.min(l,q.left); t=Math.min(t,q.top);
+    r=Math.max(r,q.right); b=Math.max(b,q.bottom);
+  });
+  if(r<l) return null;
+  return {l:l,t:t,w:r-l,h:b-t};
+}
+function fitShift(){
+  var w=window.innerWidth, h=window.innerHeight;
+  if(isFlat()){
+    shift.style.setProperty('--sx','0px');
+    shift.style.setProperty('--sy','0px');
+    shift.style.setProperty('--ws','1');
+    return;
+  }
+  /* 先无过渡地回到原位量真实包围盒，再算缩放与位移（同一帧内完成，不会闪） */
+  var tr=shift.style.transition;
+  shift.style.transition='none';
+  shift.style.setProperty('--sx','0px');
+  shift.style.setProperty('--sy','0px');
+  shift.style.setProperty('--ws','1');
+  void shift.offsetWidth;
+  var box=stageBox();
+  shift.style.transition=tr;
+  if(!box) return;
+  var open=(cur>=0);
+  var sc=scene.getBoundingClientRect();
+  var scCx=sc.left+sc.width/2, scCy=sc.top+sc.height/2;
+  var pad=44, panelW=448;
+  var availL=pad, availR=(open? w-panelW : w-pad);
+  var s=Math.min(1,(availR-availL)/box.w,(sc.height-28)/box.h);
+  var cx=box.l+box.w/2, cy=box.t+box.h/2;
+  var sx=(availL+availR)/2 - scCx - (cx-scCx)*s;
+  var sy=-(cy-scCy)*s - 16;   /* 给底部提示条留位置 */
+  shift.style.setProperty('--sx',sx.toFixed(1)+'px');
+  shift.style.setProperty('--sy',sy.toFixed(1)+'px');
+  shift.style.setProperty('--ws',s.toFixed(3));
+}
+fitShift();
+window.addEventListener('resize',function(){ fitShift(); billboards(); });
+var op=new URLSearchParams(location.search).get('open');
+if(op!==null){ setTimeout(function(){
+  var k=-1,i=parseInt(op,10);
+  for(var q=0;q<M.length;q++) if(M[q].no===op) k=q;
+  if(k<0 && i>=0 && i<M.length) k=i;
+  if(k>=0) openCard(k);
+},120); }
+
+/* ══════════ 浮层 ══════════ */
 var CHAIN=[
  ['01','买了工具，用了两周','东西是好，但没人来用啊','缺「嘴」'],
  ['02','内容做起来了，客户来了','活干不完了','缺「手」和「班」'],
@@ -447,15 +739,37 @@ var CHAIN=[
  ['07','业务跑顺，手里攒了一堆经验素材','经验散得到处都是，换个业务又得重来','缺「库」'],
  ['08','经验能复用了，想再开一条线','下一个做什么','缺「眼」']
 ];
-var cb=document.getElementById('chain');
+var cb=document.getElementById('chainBox');
 CHAIN.forEach(function(c){
-  var d=document.createElement('div'); d.className='link-row';
-  d.innerHTML='<div class="st">'+c[0]+'</div><div class="tx">'+c[1]+'<s>「'+c[2]+'」</s></div><div class="miss">'+c[3]+'</div>';
+  var d=document.createElement('div'); d.className='chainrow';
+  d.innerHTML='<div class="st">'+c[0]+'</div><div class="tx">'+c[1]+'<s>「'+c[2]+'」</s></div><div class="ms">'+c[3]+'</div>';
   cb.appendChild(d);
 });
-
+function sheet(id,on){ document.getElementById(id).classList.toggle('open',on); }
+document.getElementById('openChain').addEventListener('click',function(){sheet('sheetChain',true)});
+document.getElementById('openMoney').addEventListener('click',function(){sheet('sheetMoney',true)});
+[].forEach.call(document.querySelectorAll('.sheet'),function(s){
+  s.addEventListener('click',function(e){
+    if(e.target===s || (e.target.hasAttribute&&e.target.hasAttribute('data-close'))) s.classList.remove('open');
+  });
+});
 document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
-document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
+[].forEach.call(document.querySelectorAll('#nav a'),function(a){
+  a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')});
+});
 </script>
+
+
+<script>
+/* 3D 区块是 100vh，首屏高度晚一拍才定，锚点需要复跳一次 */
+function jumpHash(){
+  if(!location.hash) return;
+  var el=document.querySelector(location.hash);
+  if(el){ try{ el.scrollIntoView({behavior:'instant',block:'start'}); }catch(e){ el.scrollIntoView(); } }
+}
+window.addEventListener('load',function(){ setTimeout(jumpHash,60); });
+setTimeout(jumpHash,800);
+</script>
+<script src="/assets/p3d-shell.js"></script>
 </body>
 </html>
