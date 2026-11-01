@@ -1,0 +1,43 @@
+/* ══════════════════════════════════════════════════
+   手机端 App 外壳 · 独立版（给「不用 3D 舞台」的页面用）
+   ──────────────────────────────────────────────────
+   用途：未来舱 / 模板库 这类自成一套视觉的页面，
+         只想拿顶栏 + 底部 Tab，不想被 p3d.css 的
+         .floor / .panel / .m3 等三维样式干扰。
+
+   ⚠️ 文件里的规则和 p3d.css 末尾那段是同一套，
+      改一处就要同步另一处（p3d.css 是给 3D 页用的整包）。
+   ══════════════════════════════════════════════════ */
+
+.p3appbar,.p3tab{display:none}
+
+@media(max-width:900px){
+  body.p3app{background:#FBF6EE;padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+  /* 只隐藏「站点自带导航/页脚」，别误伤页面自己的 <header class="hero"> */
+  body.p3app .bg,body.p3app > nav,body.p3app > footer,
+  body.p3app > header.nav,body.p3app .nav{display:none!important}
+  body.p3app [data-hds-assist]{display:none!important}
+
+  .p3appbar{display:flex;position:sticky;top:0;z-index:60;align-items:center;gap:10px;
+    height:52px;padding:0 12px;background:rgba(251,246,238,.94);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(140,95,50,.13)}
+  .p3appbar .t{flex:1;text-align:center;font-size:15px;font-weight:900;color:#2B2119;
+    letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .p3appbar .ic{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+    background:#fff;border:1px solid rgba(140,95,50,.18);color:#8E4A1B;text-decoration:none;
+    font-size:15px;font-weight:800;-webkit-tap-highlight-color:transparent}
+  .p3appbar .ic:active{transform:scale(.94)}
+
+  .p3tab{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    padding:5px 4px calc(5px + env(safe-area-inset-bottom));
+    background:rgba(255,253,248,.96);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border-top:1px solid rgba(140,95,50,.13);box-shadow:0 -10px 26px rgba(120,70,30,.07)}
+  .p3tab a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:5px 0 3px;border-radius:13px;text-decoration:none;color:#A2917E;
+    font-size:10px;font-weight:800;letter-spacing:.01em;-webkit-tap-highlight-color:transparent}
+  .p3tab a.on{color:#C2571C;background:#FBEFDF}
+  .p3tab svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round}
+  .p3tab a:active{transform:scale(.95)}
+}

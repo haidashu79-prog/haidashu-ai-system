@@ -208,6 +208,60 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
   -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
 </style>
+<link rel="stylesheet" href="/assets/p3app.css">
+<style>
+/* App 形态下：吸顶工具条要让出顶部 52px 的标题栏，否则会被压住 */
+@media(max-width:900px){
+  body.p3app .toolbar{top:52px!important}
+  body.p3app .hero{padding-top:26px!important}
+  body.p3app .grid{grid-template-columns:1fr!important;gap:11px}
+}
+</style>
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="海大叔">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<style id="warm-fix">
+/* ── 暖色补丁 ──
+   这一页原本是深色主题（白字 / 冷灰字 / 半透明白卡），后来只把背景换成了暖色，
+   于是成了「白字贴米色」，卡片标题几乎看不见。下面只补颜色，不动布局。 */
+.card{background:#fff!important;border-color:rgba(140,95,50,.16)!important;
+  box-shadow:0 2px 10px rgba(120,70,30,.05)}
+.card:hover{border-color:rgba(194,87,28,.4)!important;box-shadow:0 12px 30px -18px rgba(120,70,30,.45)!important}
+.c-name{color:#2B2119!important}
+.c-desc{color:#6B5540!important}
+.c-star{color:#B5703E!important}
+.pill{color:#7C6A57!important;border-color:rgba(140,95,50,.2)!important;background:#FBF7F1!important}
+.pill.sc{color:#B3352A!important;border-color:rgba(194,87,28,.3)!important;background:rgba(194,87,28,.08)!important}
+.pill.lic{color:#2F6E4E!important;border-color:rgba(47,110,78,.24)!important;background:#EDF6F0!important}
+.c-act{border-top-color:rgba(140,95,50,.12)!important}
+.c-act .btn{color:#8E4A1B!important;background:#fff!important;border-color:#E3BFA6!important}
+.c-act .btn:hover{color:#fff!important;background:#C2571C!important;border-color:#C2571C!important}
+.c-act .btn.go{color:#B3352A!important;border-color:rgba(194,87,28,.4)!important;background:#FBE6D2!important}
+.c-act .btn.go:hover{color:#fff!important;background:#C2571C!important}
+.c-act .btn.ok{color:#2F6E4E!important;background:#EAF3EC!important;border-color:#B9DCC6!important}
+.stat{background:#fff!important;border-color:rgba(140,95,50,.16)!important}
+.stat .v{color:#2B2119!important}
+.stat .v em{color:#C2571C!important}
+.stat .k{color:#7C6A57!important}
+.hero .lead,.lead{color:#5E4A38!important}
+.nav-links a.cur{color:#B3352A!important;background:#FBE6D2!important;border-color:#E3BFA6!important}
+.sbox input{color:#2B2119!important;background:#fff!important;border-color:rgba(140,95,50,.2)!important}
+.sbox input::placeholder{color:#A8998A!important}
+.own-card{background:#fff!important;border-color:#E3BFA6!important}
+.own-card .h strong{color:#2B2119!important}
+.own-card p,.sec-p{color:#6B5540!important}
+.st{color:#B3352A!important;border-color:#E3BFA6!important;background:#FDECEA!important}
+.st.ready{color:#2F6E4E!important;border-color:#B9DCC6!important;background:#EAF3EC!important}
+.own-card .src{color:#A8998A!important}
+.more button{color:#B3352A!important;background:#FBE6D2!important;border-color:#E3BFA6!important}
+.more button:hover{background:#C2571C!important;color:#fff!important}
+#toast{color:#fff!important;background:#C2571C!important}
+</style>
+<link rel="canonical" href="https://haidashu.com.cn/templates/">
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="grid"></div></div>
@@ -468,8 +522,20 @@ h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,
   // 加载更多
   el('more').onclick=function(){ state.shown+=24; render(); };
 
+  // 支持 /templates/?k=website 直接落在某一类（素材库那四张入口卡用这个）
+  var kq='';
+  try { kq=new URLSearchParams(location.search).get('k')||''; } catch(e){}
+  if(kq && CAT_NAME[kq]){
+    state.cat=kq; state.scene='all'; state.shown=24;
+    document.querySelectorAll('#tabs .tab').forEach(function(b){
+      b.classList.toggle('on', b.dataset.cat===kq);
+    });
+  }
+
   buildChips(); render();
 })();
 </script>
+<script>window.P3D={appTitle:'模板库'};</script>
+<script src="/assets/p3d-shell.js"></script>
 </body>
 </html>

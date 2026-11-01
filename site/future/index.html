@@ -168,6 +168,26 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
   -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
 </style>
+<link rel="stylesheet" href="/assets/p3app.css">
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="海大叔">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<style id="warm-fix">
+/* 暖色补丁：标题第二行原来是冷蓝渐变、正文是冷灰，跟整站暖色不搭 */
+h1 em{background:linear-gradient(96deg,#2B2119 6%,#C2571C 52%,#E0892B 96%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important}
+.lead{color:#5E4A38!important}
+.lead b{color:#2B2119!important}
+.hud .v{color:#2B2119!important}
+.card p{color:#6B5540!important}
+.flow span{color:#7C6A57!important}
+footer{color:#A8998A!important}
+</style>
+<link rel="canonical" href="https://haidashu.com.cn/future/">
 </head>
 <body>
 
@@ -320,6 +340,7 @@ addEventListener('scroll', function () {
   document.getElementById('nav').classList.toggle('solid', scrollY > 12);
 }, { passive: true });
 </script>
+<script src="/assets/p3d-shell.js"></script>
 <script src="/assist.js" defer></script>
 </body>
 </html>

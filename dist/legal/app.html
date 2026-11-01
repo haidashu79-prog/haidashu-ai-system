@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#FBF6EE">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="普法智能体">
+<title>普法工委法律专家团 · 法律自助助手</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FBF6EE;--card:#ffffff;--ink:#2B2119;--muted:#7C6A57;--brand:#C2571C;--brand2:#A34A15;
+  --brand-soft:rgba(194,87,28,.10);--line:rgba(140,95,50,.16);--gold:#E0892B;--ok:#2F9E6B;
+  --shadow:0 1px 3px rgba(120,70,30,.20),0 4px 16px rgba(120,70,30,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:15px}
+/* ---------- header ---------- */
+header{background:linear-gradient(140deg,#E0892B,#C2571C 55%,#A34A15);color:#fff;padding:20px 18px 16px;position:relative;overflow:hidden}
+header::after{content:"⚖";position:absolute;right:14px;top:6px;font-size:64px;opacity:.12;transform:rotate(12deg)}
+header h1{font-size:21px;letter-spacing:2px;font-weight:700}
+header p{font-size:12px;opacity:.9;margin-top:3px}
+header .tag{display:inline-block;margin-top:8px;font-size:11px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:2px 10px}
+/* ---------- nav ---------- */
+nav{display:flex;background:rgba(253,249,243,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+nav button{flex:1;border:0;background:none;padding:11px 2px;font-size:14px;color:var(--muted);cursor:pointer;min-height:46px;position:relative;transition:color .15s}
+nav button.on{color:var(--brand);font-weight:600}
+nav button.on::after{content:"";position:absolute;left:22%;right:22%;bottom:0;height:3px;border-radius:3px 3px 0 0;background:linear-gradient(90deg,#C2571C,#A34A15)}
+@media (max-width:640px){
+  nav{position:fixed;left:0;right:0;bottom:0;top:auto;border-bottom:0;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 16px rgba(120,70,30,.20)}
+  nav button{font-size:11px;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:1px}
+  nav button .ic{font-size:19px;line-height:1.2}
+  nav button.on::after{left:32%;right:32%;top:0;bottom:auto;border-radius:0 0 3px 3px}
+  main{padding-bottom:calc(76px + env(safe-area-inset-bottom))!important}
+}
+/* ---------- layout ---------- */
+main{max-width:780px;margin:0 auto;padding:14px 12px 60px}
+.page{display:none;animation:fadein .22s ease}
+.page.on{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:16px;margin-bottom:8px;color:var(--brand2);display:flex;align-items:center;gap:6px}
+.card h3{font-size:14px;margin:12px 0 4px;color:var(--brand)}
+.muted{color:var(--muted);font-size:13px}
+/* ---------- chat ---------- */
+#chatBox{height:56dvh;overflow-y:auto;background:linear-gradient(180deg,#FDF9F3,#FBF6EE);border:1px solid var(--line);border-radius:16px;padding:16px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.msg{margin-bottom:14px;max-width:93%;display:flex;flex-direction:column}
+.msg.user{align-items:flex-end;margin-left:auto}
+.msg .who{font-size:11px;color:var(--muted);margin-bottom:3px;padding:0 4px}
+.msg .bubble{padding:12px 14px;border-radius:14px;font-size:15px;white-space:normal;word-break:break-word;line-height:1.85}
+.msg.bot .bubble{background:var(--card);border:1px solid var(--line);border-top-left-radius:4px;box-shadow:var(--shadow);font-size:16px}
+.msg.bot .bubble .ah{font-weight:700;color:var(--brand2);font-size:16.5px;margin:12px 0 4px;padding-left:9px;border-left:3px solid #2f6f80;line-height:1.5}
+.msg.bot .bubble .ah:first-child{margin-top:2px}
+.msg.bot .bubble .li{position:relative;padding-left:15px;margin:4px 0}
+.msg.bot .bubble .li::before{content:"";position:absolute;left:2px;top:.72em;width:5px;height:5px;border-radius:50%;background:#2f6f80}
+.msg.bot .bubble hr{border:0;border-top:1px dashed var(--line);margin:12px 0}
+.msg.bot .bubble b{color:var(--brand2)}
+.msg.user .bubble{background:linear-gradient(135deg,#C2571C,#E0892B);color:#fff;border-top-right-radius:4px;box-shadow:var(--shadow);white-space:pre-wrap}
+.msg-ops{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.msg-ops button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:3px 10px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s}
+.msg-ops button:active{background:var(--brand-soft);color:var(--brand)}
+.dots{display:inline-flex;gap:4px;padding:4px 2px}
+.dots i{width:7px;height:7px;border-radius:50%;background:#2f6f80;animation:blink 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
+.chat-input{display:flex;gap:8px;align-items:stretch}
+.chat-input textarea{flex:1;border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;font-size:16px;resize:none;height:74px;font-family:inherit;background:#fff;transition:border-color .15s}
+.chat-input textarea:focus{outline:none;border-color:var(--brand)}
+.chat-input button{background:linear-gradient(135deg,#C2571C,#E0892B);color:#fff;border:0;border-radius:14px;padding:0 16px;font-size:15px;font-weight:600;cursor:pointer;min-height:74px;min-width:66px;box-shadow:0 3px 10px rgba(194,87,28,.3);transition:transform .1s}
+.chat-input button:active{transform:scale(.96)}
+.chat-input button:disabled{opacity:.55;box-shadow:none}
+.quick{display:flex;gap:7px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.quick::-webkit-scrollbar{display:none}
+.quick button{flex-shrink:0;border:1px solid #1b2a36;background:#fff;border-radius:18px;padding:7px 13px;font-size:13px;color:#1b2a36;cursor:pointer;transition:all .15s}
+.quick button:active{background:var(--brand-soft)}
+/* ---------- chips & rows ---------- */
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex-shrink:0;border:1px solid var(--line);background:#fff;border-radius:16px;padding:6px 14px;font-size:13px;color:var(--muted);cursor:pointer}
+.chips button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.row{display:flex;align-items:center;gap:12px;border-bottom:1px dashed var(--line);padding:13px 2px}
+.row:last-child{border-bottom:0}
+.row .ic{width:40px;height:40px;flex-shrink:0;border-radius:11px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:19px}
+.row .mid{flex:1;min-width:0}
+.row .t{font-weight:600;font-size:14.5px}
+.row .m{font-size:12.5px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .g{font-size:13px;color:#7C6A57;margin-top:2px}
+.row .ops{display:flex;flex-direction:column;gap:5px}
+.btn{display:inline-block;border:1px solid var(--brand);color:var(--brand);background:#fff;border-radius:9px;padding:7px 13px;font-size:13px;cursor:pointer;text-decoration:none;text-align:center;transition:all .15s}
+.btn:active{background:var(--brand-soft)}
+.btn.solid{background:linear-gradient(135deg,#C2571C,#E0892B);color:#fff;border:0;box-shadow:0 2px 8px rgba(194,87,28,.25)}
+.btn.sm{padding:5px 10px;font-size:12px;border-radius:7px}
+.badge{display:inline-block;font-size:11px;background:var(--brand-soft);color:var(--brand);border-radius:5px;padding:1px 7px;margin-left:6px}
+/* ---------- modal ---------- */
+.mask{position:fixed;inset:0;background:rgba(4,6,11,.5);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.mask.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:780px;max-height:88dvh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
+.sheet .sh{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.sheet .sh b{font-size:15px}
+.sheet .sh .x{border:0;background:#FBF6EE;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;color:var(--muted)}
+.sheet .body{flex:1;overflow-y:auto;padding:14px 16px;white-space:pre-wrap;font-size:13.5px;line-height:1.9;color:#44403c;background:#FDF9F3}
+.sheet .ft{display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.sheet .ft .btn{flex:1;padding:11px}
+/* ---------- form ---------- */
+.field{margin-bottom:13px}
+.field label{display:block;font-size:13px;margin-bottom:5px;font-weight:600;color:#7C6A57}
+.field input,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px;font-size:16px;font-family:inherit;background:#fff}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--brand)}
+.field textarea{height:120px;resize:vertical}
+.tip{background:linear-gradient(135deg,#FDF3E3,#F8E9D4);border:1px solid #E0892B;border-radius:12px;padding:11px 13px;font-size:12.5px;color:#E0892B;margin-bottom:12px}
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:rgba(4,6,11,.92);color:#fff;font-size:13.5px;padding:10px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:all .25s;z-index:200;max-width:82%}
+#toast.on{opacity:1;transform:translateX(-50%)}
+.searchbar{display:flex;gap:8px;margin-bottom:12px}
+.searchbar input{flex:1;border:1.5px solid var(--line);border-radius:11px;padding:11px;font-size:16px;background:#fff}
+.searchbar input:focus{outline:none;border-color:var(--brand)}
+.foot{max-width:780px;margin:0 auto;padding:0 12px 26px;font-size:11px;color:#4d5a67;text-align:center}
+@media (max-width:640px){.foot{padding-bottom:calc(26px + env(safe-area-inset-bottom))}}
+a{color:var(--brand)}
+</style>
+</head>
+<body>
+<header>
+  <p style="font-size:12px;letter-spacing:2px;opacity:.95;margin:0 0 3px">中国流通政研会普法委员会</p>
+  <h1>⚖️ 普法工委法律专家团</h1>
+  <p>法律依据 · 应对策略 · 范本文档 · 真实案例</p>
+  <span class="tag">普法自助参考 · 不构成法律意见 · 涉刑事/大额/房产请转介执业律师</span>
+</header>
+<nav id="nav">
+  <button class="on" data-p="chat"><span class="ic">💬</span>智能问答</button>
+  <button data-p="docw"><span class="ic">🖋️</span>文书工坊</button>
+  <button data-p="calc"><span class="ic">🧮</span>计算器</button>
+  <button data-p="tpl"><span class="ic">📄</span>范本文档</button>
+  <button data-p="cases"><span class="ic">📚</span>案例库</button>
+  <button data-p="submit"><span class="ic">✍️</span>案例上报</button>
+  <button data-p="about"><span class="ic">📖</span>使用说明</button>
+</nav>
+<main>
+  <!-- 问答 -->
+  <section class="page on" id="p-chat">
+    <div class="quick" id="quickBtns"></div>
+    <div id="chatBox">
+      <div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。
+
+点上面的问题气泡可以直接体验；也可以在下方输入您自己的事。
+
+提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>
+    </div>
+    <div id="attachBar" style="display:none;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <a class="btn" href="tel:12348" style="flex-shrink:0">📞 12348 免费法律援助</a>
+      <a class="btn" href="tel:12315" style="flex-shrink:0">🛒 12315 消费投诉</a>
+      <a class="btn" href="tel:12345" style="flex-shrink:0">🏛️ 12345 政务热线</a>
+      <button class="btn" onclick="gotoPage('calc')" style="flex-shrink:0">🧮 打官司要花多少钱？</button>
+    </div>
+    <div class="chat-input">
+      <button id="attach" title="上传判决书、合同等材料（图片/txt/docx）" style="background:var(--card);border:1.5px solid var(--line);border-radius:14px;font-size:20px;cursor:pointer;min-height:74px;min-width:52px;flex-shrink:0">📎</button>
+      <textarea id="q" placeholder="用大白话描述您的事，也可点 📎 上传判决书/合同照片让我帮您分析"></textarea>
+      <button id="send">发送</button>
+    </div>
+    <input type="file" id="fileInput" multiple accept="image/*,.txt,.md,.docx" style="display:none">
+    <p class="muted" style="margin-top:8px;font-size:11px">依据：内置法律库（39 部法律法规全文 5325 条 + 1044 条案例库 + 15 个场景包 + 29 份范本），资料截至 2026-10，重要事项请在官方渠道核实。<button onclick="clearChat()" style="margin-left:10px;border:1px solid #4d5a67;background:none;color:#7C6A57;border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">清空对话</button><button onclick="exportChat()" style="margin-left:6px;border:1px solid var(--brand);background:none;color:var(--brand);border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">导出对话归档</button></p>
+  </section>
+
+  <!-- 文书工坊 -->
+  <section class="page" id="p-docw">
+    <div class="card"><h2>🖋️ 智能文书工坊</h2>
+    <p class="muted">选文书类型 → 填您的情况 → 智能体照着范本现场起草，可复制可下载。草稿里《待补》的地方自己补齐再用；正式递交前建议到办事处或 12348 把把关。</p></div>
+    <div class="card">
+      <div class="field"><label>① 选文书类型</label><select id="wType" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px;font-size:16px;background:#fff"><option>范本加载中……</option></select></div>
+      <div class="field"><label>② 我的情况 *（时间、地点、经过、手里有什么证据）</label><textarea id="wFacts" placeholder="例如：2025年3月我在XX健身房办了三年卡付了5000元，今年店里关门了，老板微信不回……有合同和付款记录截图"></textarea></div>
+      <div class="field"><label>③ 对方信息（选填，知道的写）</label><input id="wOpposite" placeholder="如：XX健身房管理有限公司，负责人张某，电话138xxxx"></div>
+      <div class="field"><label>④ 我的诉求（选填）</label><input id="wGoal" placeholder="如：退还剩余会费4500元"></div>
+      <button class="btn solid" id="wGen" style="width:100%;padding:13px;font-size:15px">生成文书草稿</button>
+    </div>
+    <div class="card" id="wResult" style="display:none">
+      <h2>📄 文书草稿 <span class="badge" id="wStatus"></span></h2>
+      <div id="wBody" style="font-size:15px;line-height:1.85;max-height:52dvh;overflow-y:auto;background:#FDF9F3;border:1px solid var(--line);border-radius:10px;padding:12px"></div>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="wCopy" style="flex:1">📋 复制全文</button>
+        <button class="btn solid" id="wDl" style="flex:1">⬇️ 下载文档</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 范本 -->
+  <section class="page" id="p-tpl">
+    <div class="card" style="padding-bottom:8px"><h2>📄 范本文档库 <span class="badge" id="tplCount"></span></h2>
+    <p class="muted" style="margin-bottom:10px">覆盖起诉立案 → 应诉答辩 → 执行救济全流程。点"预览"查看全文、一键复制；点"下载"保存文件。用之前把【】里的内容换成您自己的。</p></div>
+    <div class="chips" id="tplChips"></div>
+    <div class="card" id="tplList" style="padding:6px 14px"></div>
+  </section>
+
+  <!-- 案例库 -->
+  <section class="page" id="p-cases">
+    <div class="card"><h2>📚 案例库 <span class="badge">1000+ 条 · 持续更新</span></h2>
+    <p class="muted">① 库内精选判例（最高法指导性案例、典型案例，均经核实）；② 十二大分类普法案例库（劳动/婚姻继承/消费/交通/房产/借贷/合同/刑事风险/邻里/拆迁/老人防骗/网络个信，依真实裁判规则编写，不编造案号）；③ 各地办事处上报并审核通过的真实案例。智能体回答时会自动引用。</p></div>
+    <div class="searchbar"><input id="caseKw" placeholder="输入关键词，如：健身房 / 裁员 / 遗嘱"><button class="btn solid" id="caseSearch" style="min-width:76px">搜索</button></div>
+    <div class="card" id="caseList" style="padding:6px 14px"><p class="muted">加载中……</p></div>
+  </section>
+
+  <!-- 上报 -->
+  <section class="page" id="p-submit">
+    <div class="tip">⚠️ 上报纪律：只写案情，<b>不要填写身份证号、银行卡号</b>。联系方式选填（仅用于案例核实回访）。提交后由普法工委审核，通过后进入案例库供智能体引用。</div>
+    <div class="card">
+      <h2>✍️ 案例上报</h2>
+      <div class="field"><label>案件标题 *</label><input id="sTitle" placeholder="一句话概括，如：某健身房收预付款后闭店跑路"></div>
+      <div class="field"><label>案号（如有，选填）</label><input id="sNo" placeholder="如：（2023）京0105民初12345号，没有就留空"></div>
+      <div class="field"><label>案情简述 *（时间、地点、经过、结果、怎么解决的）</label><textarea id="sBody" placeholder="2024年3月，在某市某区……"></textarea></div>
+      <div class="field"><label>来源说明（选填）</label><input id="sSrc" placeholder="如：XX办事处接待案例 / 本人亲身经历"></div>
+      <div class="field"><label>联系方式（选填）</label><input id="sContact" placeholder="微信号/手机号，仅审核回访用"></div>
+      <button class="btn solid" id="sBtn" style="width:100%;padding:13px;font-size:15px">提交上报</button>
+      <span id="sMsg"></span>
+    </div>
+  </section>
+
+  <!-- 计算器 -->
+  <section class="page" id="p-calc">
+    <div class="card"><h2>🧮 法律计算器</h2>
+    <p class="muted">算个大概心里有数。金额以法院核定为准，赔偿标准以当地规定为准；结果仅供参考，不构成法律意见。</p></div>
+    <div class="chips" id="calcChips"></div>
+    <div class="card" id="calcPane"></div>
+  </section>
+
+  <!-- 关于 -->
+  <section class="page" id="p-about">
+    <div class="card"><h2>🏛️ 这是什么</h2><p class="muted"><b>中国流通政研会普法委员会</b>主办的普法服务工具：把「法律依据 + 解决方案 + 范本文档 + 案例参考」装进一个对话框，各地办事处人员和普通人都能直接用。<b>不止答这一问</b>——每条回答末尾带【跟案清单】，帮您把往后的关键节点（期限、到期动作、回访时点）盯出来，照单办事不误事。</p></div>
+    <div class="card"><h2>💬 怎么问最好用</h2><p class="muted">① 说清<b>什么事</b>（被裁员/加盟被骗/借钱不还）；② 说清<b>走到哪一步</b>（还在协商/已投诉/已起诉）；③ 说清<b>有什么证据</b>；④ 说清<b>想要什么</b>（要钱/要说法/要止损）。四样说清，答案最准。</p></div>
+    <div class="card"><h2>📎 传材料 · 让专家团帮您读文书</h2><p class="muted">点输入框旁的 📎 可上传<b>判决书、合同、借条、收据、聊天记录截图</b>（拍照即可）或 txt/docx 文档，一次最多 4 个。上传后提问题，专家团会先读材料再回答：帮您指出条款要点、算金额、看对您有利和不利的地方。上传内容仅本次回答使用，不会保存到服务器。</p></div>
+    <div class="card"><h2>✅ 会做什么 · ❌ 不做什么</h2><p class="muted">✅ 给法律依据（引自内置法律库）、给应对策略（方案A/B/C+成本周期）、给分步做法；<b>能读您上传的判决书/合同等材料</b>；<b>每条回答可一键复制、存档下载、带着上下文去写文书、跳转官网核实</b>；<b>文书工坊能照范本现场起草 29 种文书草稿</b>；<b>整场对话可导出归档</b>。❌ 不出律师函、不承诺结果、不代替律师；涉刑事、金额超 5 万、房产过户，直接建议转介执业律师或 12348。</p></div>
+    <div class="card"><h2>🔍 核实直通车（联网核实官方渠道）</h2>
+      <p class="muted" style="margin-bottom:9px">智能体引用的判例和法条，可通过以下官方渠道核实：</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <a class="btn" href="https://flk.npc.gov.cn" target="_blank">国家法律法规数据库</a>
+        <a class="btn" href="https://wenshu.court.gov.cn" target="_blank">裁判文书网</a>
+        <a class="btn" href="https://www.court.gov.cn" target="_blank">最高法官网</a>
+        <a class="btn" href="https://www.12348.gov.cn" target="_blank">12348 法网</a>
+        <a class="btn" href="https://www.12315.cn" target="_blank">12315 平台</a>
+      </div>
+    </div>
+    <div class="card"><h2>🛡️ 免责声明</h2><p class="muted">本应用输出内容为普法参考材料，不构成法律意见书，不建立委托代理关系。具体案件请以执业律师意见及司法机关认定为准。法律若修订，请以国家法律法规数据库现行有效版本为准。</p></div>
+    <div class="card"><h2>🔒 隐私说明</h2><p class="muted">本应用记录<b>匿名使用统计</b>（功能使用次数、问题关键词摘要、手机/电脑类型），用于改进服务质量，<b>不记录姓名、联系方式、身份证号等任何个人信息</b>。</p></div>
+  </section>
+
+  <!-- 使用统计（管理员专用，地址栏加 #stats 进入） -->
+  <section class="page" id="p-stats">
+    <div class="card"><h2>📊 使用统计 · 后台看板</h2>
+      <p class="muted">匿名统计：只记功能使用次数和问题摘要，无任何个人信息。<button class="btn sm" id="stRefresh" style="margin-left:8px">🔄 刷新</button></p>
+    </div>
+    <div class="card"><h2>总览</h2><div id="stOverview" class="muted">加载中……</div></div>
+    <div class="card"><h2>最近 7 天提问趋势</h2><div id="stDays" class="muted">加载中……</div></div>
+    <div class="card"><h2>功能使用分布</h2><div id="stActions" class="muted">加载中……</div></div>
+    <div class="card"><h2>设备分布</h2><div id="stDevice" class="muted">加载中……</div></div>
+    <div class="card"><h2>最近提问（脱敏 · 只留摘要）</h2><div id="stRecent" class="muted">加载中……</div></div>
+  </section>
+</main>
+<div class="foot">中国流通政研会普法委员会 · 普法工委法律专家团 · v2.9 · 案例1000+/39部法条/跟案清单/计算器/材料分析/文书起草/使用统计 · 库内资料截至 2026-10 · 时效复核周期 90 天</div>
+
+<div class="mask" id="tplMask">
+  <div class="sheet">
+    <div class="sh"><b id="sheetTitle">范本预览</b><button class="x" id="sheetClose">✕</button></div>
+    <div class="body" id="sheetBody"></div>
+    <div class="ft"><button class="btn" id="sheetCopy">📋 一键复制全文</button><a class="btn solid" id="sheetDl" download>⬇️ 下载文件</a></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script>
+const publicConfig = {
+  endpoint: "https://pufa-ai-assistant.app.workbuddy.host",
+  publishableKey: "wbpk_5AHzSAvHNMgBa3EiYbgxaG_R13HFnM710PE2am6eV1unXvtHQ4Pmi9B",
+};
+const cloud = WorkBuddyCloud.createWorkBuddyCloud({
+  endpoint: publicConfig.endpoint,
+  publishableKey: publicConfig.publishableKey,
+});
+
+/* ---------------- 通用 ---------------- */
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function toast(t){ const el=document.getElementById("toast"); el.textContent=t; el.classList.add("on"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),2200); }
+document.getElementById("nav").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#nav button").forEach(x => x.classList.remove("on"));
+  document.querySelectorAll(".page").forEach(x => x.classList.remove("on"));
+  b.classList.add("on");
+  document.getElementById("p-" + b.dataset.p).classList.add("on");
+  window.scrollTo(0, 0);
+});
+
+/* ---------------- 使用统计埋点（匿名：只记功能使用次数，不记姓名/联系方式/身份证号） ---------------- */
+function trackUsage(action, q, retried) {
+  try {
+    const row = { action, device: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "手机" : "电脑" };
+    if (q) row.q_excerpt = String(q).replace(/\s+/g, " ").slice(0, 60);
+    // 关键：云 SDK 的 promise 必须被 .then/await 消费才会真正发出请求（只挂 .catch 请求根本不发）
+    Promise.resolve(cloud.database.from("usage_log").insert(row)).then(() => {}, () => {
+      if (!retried) setTimeout(() => trackUsage(action, q, true), 5000); // 失败重试一次
+    });
+  } catch (e) { if (!retried) setTimeout(() => trackUsage(action, q, true), 5000); }
+}
+// 每次打开应用记一次访问（同一浏览器会话只记一次，刷新不算）。
+// 页面刚打开时云端写入通道可能未就绪 → 循环重试直到成功，成功才打标记，保证不漏记不重记
+function trackVisitOnce(n) {
+  let flagged = false;
+  try { if (sessionStorage.getItem("pufa_visit_done")) return; } catch (e) { flagged = true; }
+  const row = { action: "visit", device: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "手机" : "电脑" };
+  const done = () => { try { sessionStorage.setItem("pufa_visit_done", "1"); } catch (e) { } };
+  try {
+    const p = cloud.database.from("usage_log").insert(row);
+    const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error("t")), 8000)); // 8秒没回应视为失败
+    Promise.race([Promise.resolve(p), timeout]).then(done, () => { if (n < 8) setTimeout(() => trackVisitOnce(n + 1), 4000); });
+  } catch (e) { if (n < 8) setTimeout(() => trackVisitOnce(n + 1), 4000); else if (!flagged) done(); }
+}
+setTimeout(() => trackVisitOnce(0), 1500);
+
+/* ---------------- 知识库检索 ---------------- */
+const KB = { scenarios: null, cases: null, lawsIndex: null, statutes: {} };
+const bigrams = s => {
+  const t = s.replace(/[，。、？！?!,.:：;"'（）()【】\[\]\s]/g, "");
+  const out = [];
+  for (let i = 0; i < t.length - 1; i++) out.push(t.slice(i, i + 2));
+  return out;
+};
+function score(text, terms) { let n = 0; for (const g of terms) if (text.includes(g)) n++; return n; }
+async function loadJSON(url) { const r = await fetch(url); if (!r.ok) throw new Error(url); return r.json(); }
+async function ensureBase() {
+  if (!KB.scenarios) KB.scenarios = await loadJSON("data/scenarios.json");
+  if (!KB.cases) KB.cases = await loadJSON("data/cases.json");
+  if (!KB.lawsIndex) KB.lawsIndex = await loadJSON("data/laws_index.json");
+}
+async function getStatute(id) {
+  if (!KB.statutes[id]) KB.statutes[id] = await loadJSON("data/statutes/" + id + ".json");
+  return KB.statutes[id];
+}
+async function retrieve(question) {
+  await ensureBase();
+  const terms = [...new Set(bigrams(question))];
+  const oneChar = [...new Set(question.replace(/[，。、？！?!,.:：;"'（）()【】\[\]\s]/g, "").split(""))].filter(c => c.charCodeAt(0) > 127);
+  const sc = KB.scenarios.map(s => ({ s, v: score(s.title + s.keywords + s.content.slice(0, 800), terms) })).sort((a, b) => b.v - a.v).filter(x => x.v > 0).slice(0, 2);
+  const cs = KB.cases.map(c => ({ c, v: score(c.title + c.meta + c.gist, terms) })).sort((a, b) => b.v - a.v).filter(x => x.v > 0).slice(0, 6);
+  const lawPick = KB.lawsIndex.map(l => ({ l, v: score(l.name + l.keywords.join(" "), terms) + (oneChar.some(ch => l.keywords.join("").includes(ch)) ? 1 : 0) })).sort((a, b) => b.v - a.v).slice(0, 3).filter(x => x.v > 0);
+  const arts = [];
+  for (const { l } of lawPick) {
+    const data = await getStatute(l.id);
+    const all = data.articles.map(a => ({ a, v: score(a, terms) })).sort((x, y) => y.v - x.v);
+    let hits = all.filter(x => x.v >= 2).slice(0, 6);
+    if (!hits.length) hits = all.filter(x => x.v >= 1).slice(0, 4); // 降级：群众口语和法言法语对不上时，给最接近的条文
+    hits.forEach(h => arts.push({ law: l.name, text: h.a.length > 420 ? h.a.slice(0, 420) + "……" : h.a }));
+  }
+  let cloudCases = [];
+  try {
+    const { data, error } = await cloud.database.from("case_submissions").select("case_title,case_number,case_content,created_at").eq("status", "approved").order("created_at", { ascending: false }).limit(12);
+    if (!error && data) cloudCases = data;
+  } catch (e) { /* 案例库拉取失败不阻塞问答 */ }
+  const relevantCloud = cloudCases.filter(c => score(c.case_title + (c.case_content || ""), terms) > 0).slice(0, 3);
+  return { scenarios: sc.map(x => x.s), cases: cs.map(x => x.c), articles: arts, cloudCases: relevantCloud };
+}
+function buildSystemPrompt(r) {
+  let p = `你是"普法工委法律专家团"，由普法委员会法律自助库支持，面向各地办事处人员和普通群众，角色是办案主任+自助向导（L3 自治式：不止答这一问，还要替来访者把案子往后的关键节点盯出来），不是律师。
+
+【工作方式】像"章有法"接访：先用一句话确认来访人的事和诉求，再给参考意见。用户经常连续追问，"刚才/那个/上面说的"都指之前聊过的内容，回答前先看【先前对话记录】，接着上文答，别当新问题处理。按事由对应专家视角：劳动（劳有偿）、交通事故（陆平安）、婚姻家事/继承/赡养（戚传家）、消费维权/预付卡/网购（费省心）、房产/土地拆迁（房立契）、刑事风险（辛慎行，先判断是否转介）、整体方案（解千愁）。
+
+【接访判断流程（这是专家团的看家本事，每问都走一遍）】1. 快速定性：这是什么纠纷、对方是谁、走到哪一步，第一句话就说准；2. 红线前置：先扫是否涉刑事、超5万、房产过户、群体性——踩线就先提示转介，再给普法参考；3. 紧迫动作优先：先讲"这两天就该干的事"（时效deadline、上诉期、报案窗口、财产保全机会），再展开分析——很多案子败在错过窗口而不是输在道理；4. 信息不全不装懂：基于现有信息给初步判断，同时明确列出还缺哪些关键事实、事实不同结论会怎么变；5. 方案诚实排序：最可能成事且成本最低的放前面，不迎合情绪、不许空诺。
+
+【输出结构】① 一句确认事和诉求 → ②【法律依据】只引下方"参考资料"里的法条原文，注明法律名+条号；资料里没有的明说"库内暂无，请到 flk.npc.gov.cn 核实"，严禁编造 → ③【参考判例】只引参考资料里带案号或官方发布批次的，没有就写"库里暂无" → ④【应对策略】方案A（首选）/B（备选）/C（兜底），各注成本、周期、预期、最坏结果 → ⑤【分步怎么做】带步骤和话术 → ⑥【能用的范本与工具】从范本列表推荐；涉及诉讼费、劳动补偿、借贷利息、工伤待遇估算的，提示用户去"计算器"页自己算 → ⑦【风险提示与免责】 → ⑧【跟案清单】替来访者盯后续：逐行列"下一节点（如提交仲裁申请/开庭/上诉期届满）→ 截止期限（写明起算规则，如仲裁时效自权利被侵害起1年）→ 到期前7天该干的事 → 回访点（什么时间回来对什么结果）"；拿不准的期限写"建议尽快核实"，绝不编造时限。
+
+【排版硬规矩（用户看得清楚最重要）】各节标题用 "## 节名" 格式（如 ## 法律依据）；条目一律用 "- " 开头的列表，一行一条；全文禁止用 "·" 和 "•" 符号；别用嵌套符号和层层缩进；重点加 **加粗**；段与段之间空行，别挤成一团。
+
+【红线必须执行】1. 涉刑事→建议尽快咨询执业律师或报案，不硬办；2. 金额超5万或涉房产过户→转介执业律师，只给普法参考；3. 不存身份证号、银行卡号；4. 不承诺结果，不说"包赢"；5. 不教人违法（伪造证据、恶意诉讼、闹事）；6. 群体性纠纷（10人以上）提醒依法维权，建议12348法律援助。
+
+【口径】大白话，像有经验的中年老大哥讲事，不用书面腔；金额、时效、程序等关键数字要准，不确定就说不确定。
+
+【范本列表（29份，用户可在"范本文档"页预览复制下载）】起诉立案：民事起诉状·通用版 / 民事起诉状·借贷 / 民事起诉状·房屋买卖 / 财产保全申请书 / 支付令申请书 / 证据清单；应诉答辩：民事答辩状 / 管辖权异议申请书 / 民事反诉状 / 质证意见提纲 / 鉴定申请书 / 延期开庭申请书；执行救济：强制执行申请书 / 执行异议申请书 / 恢复执行申请书 / 民事上诉状 / 再审申请书；劳动人事：劳动仲裁申请书 / 被迫离职通知书；投诉举报：12315投诉信 / 报案材料提纲·合同诈骗 / 行政复议申请书；常用文书：借条（规范版）/ 收条 / 和解协议书 / 授权委托书 / 催告函·解除合同通知 / 撤诉申请书 / 服务记录单。
+
+【核实渠道】判例可到中国裁判文书网 wenshu.court.gov.cn 核实，法条可到国家法律法规数据库 flk.npc.gov.cn 核实。`;
+  if (r) {
+    const parts = [];
+    if (r.scenarios.length) parts.push("◆ 场景包（同类事情的标准打法）\n" + r.scenarios.map(s => "《" + s.title + "》\n" + s.content).join("\n\n").slice(0, 3800));
+    if (r.articles.length) parts.push("◆ 法条原文（逐字引用时以此为准）\n" + r.articles.map(a => a.text).join("\n").slice(0, 3600));
+    if (r.cases.length) parts.push("◆ 库内判例\n" + r.cases.map(c => "《" + c.title + "》" + c.meta + "｜要旨：" + c.gist).join("\n").slice(0, 1800));
+    if (r.cloudCases.length) parts.push("◆ 各地办事处上报并审核通过的真实案例\n" + r.cloudCases.map(c => "《" + c.case_title + "》" + (c.case_number ? "案号：" + c.case_number + "｜" : "") + (c.case_content || "").slice(0, 220)).join("\n"));
+    if (parts.length) p += "\n\n【参考资料（本次回答优先依据，库外内容不得冒充库内）】\n" + parts.join("\n\n").slice(0, 9000);
+  }
+  return p;
+}
+
+/* ---------------- 聊天 ---------------- */
+let MODELS = [], busy = false, lastSend = 0, controller = null;
+const history = [];
+const HISTORY_KEY = "pufa_history_v2";
+const MAX_HISTORY_STORE = 20; // 最多存20条（10轮对话）
+const MAX_MSG_LEN = 2000; // 每条内容最长存2000字符
+
+/* 内置直连免费模型（OpenAI 兼容 /chat/completions）——已实测连通性+CORS+视觉能力均通过 */
+const DIRECT_MODELS = [
+  { name: "Agnes免费通道", endpoint: "https://apihub.agnes-ai.com/v1", modelId: "agnes-3.0-flash", apiKey: "sk-rPFOEYgUaBLpoA7v7P0exn96dSS2itFAVyHsMwTJtlLruZeC", vision: true },
+  { name: "智谱免费通道", endpoint: "https://open.bigmodel.cn/api/paas/v4", modelId: "glm-4-flash", apiKey: "025354244a2043a2af5bd66d9c047c34.qXUMx983t0xg5OVv" },
+  { name: "智谱视觉通道", endpoint: "https://open.bigmodel.cn/api/paas/v4", modelId: "glm-4v-flash", apiKey: "025354244a2043a2af5bd66d9c047c34.qXUMx983t0xg5OVv", vision: true, visionOnly: true },
+];
+
+// 直连 OpenAI 兼容模型的流式调用
+async function* streamDirect(cfg, messages, signal) {
+  const resp = await fetch(cfg.endpoint + "/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + cfg.apiKey },
+    body: JSON.stringify({ model: cfg.modelId, messages, stream: true, temperature: 0.7 }),
+    signal
+  });
+  if (!resp.ok) throw new Error("HTTP " + resp.status);
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, { stream: true });
+    const lines = buf.split("\n");
+    buf = lines.pop();
+    for (const line of lines) {
+      const t = line.trim();
+      if (!t.startsWith("data:")) continue;
+      const data = t.slice(5).trim();
+      if (data === "[DONE]") return;
+      try {
+        const j = JSON.parse(data);
+        const c = j.choices?.[0]?.delta?.content;
+        if (c) yield c;
+      } catch (e) { /* 跳过解析失败的行 */ }
+    }
+  }
+}
+
+// 从 localStorage 恢复对话历史
+function restoreHistory() {
+  try {
+    const saved = localStorage.getItem(HISTORY_KEY);
+    if (saved) {
+      const arr = JSON.parse(saved);
+      if (Array.isArray(arr)) {
+        arr.forEach(item => {
+          if (item.role && item.content) {
+            history.push({ role: item.role, content: item.content });
+            // 恢复聊天框 UI
+            if (item.role === "user") {
+              addMsg("user", esc(item.content));
+            } else {
+              addMsg("bot", fmtAnswer(item.content));
+            }
+          }
+        });
+      }
+    }
+  } catch (e) { /* localStorage 损坏则忽略 */ }
+}
+
+// 保存对话历史到 localStorage
+function saveHistory() {
+  try {
+    // 限制条数和每条长度
+    const toSave = history.slice(-MAX_HISTORY_STORE).map(item => ({
+      role: item.role,
+      content: item.content.slice(0, MAX_MSG_LEN)
+    }));
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(toSave));
+  } catch (e) {
+    // localStorage 满了，删掉最早的一半再试
+    try {
+      const half = history.slice(-Math.floor(MAX_HISTORY_STORE / 2)).map(item => ({
+        role: item.role, content: item.content.slice(0, MAX_MSG_LEN)
+      }));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(half));
+    } catch (e2) { /* 彻底存不下就放弃 */ }
+  }
+}
+
+// 清空对话
+function clearChat() {
+  history.length = 0;
+  localStorage.removeItem(HISTORY_KEY);
+  const box = document.getElementById("chatBox");
+  // 保留欢迎消息
+  box.innerHTML = '<div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。\n\n点上面的问题气泡可以直接体验；也可以在下方输入您自己的事。\n\n提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>';
+  toast("对话已清空");
+}
+async function initModel() {
+  try {
+    const models = await cloud.llm.models.list();
+    const avail = id => models.find(x => x.id === id && x.disabled !== true);
+    MODELS = ["glm-5.3-flash", "deepseek-v4.1-flash", "hunyuan-chat"].filter(avail);
+    if (!MODELS.length) { const m = models.find(x => x.disabled !== true); if (m) MODELS = [m.id]; }
+    if (!MODELS.length) renderSysNote("暂无可用模型，请联系管理员。");
+  } catch (e) { if (!DIRECT_MODELS.length) renderSysNote("模型服务连接失败：" + (e.error?.message || e.message || "未知错误")); }
+}
+function renderSysNote(t) {
+  const d = document.createElement("div");
+  d.className = "msg bot"; d.innerHTML = '<div class="who">系统</div><div class="bubble">' + esc(t) + "</div>";
+  const box = document.getElementById("chatBox"); box.appendChild(d); box.scrollTop = 1e9;
+}
+function addMsg(role, html) {
+  const d = document.createElement("div");
+  d.className = "msg " + (role === "user" ? "user" : "bot");
+  d.innerHTML = '<div class="who">' + (role === "user" ? "我" : "普法工委法律专家团") + '</div><div class="bubble"></div>';
+  d.querySelector(".bubble").innerHTML = html;
+  const box = document.getElementById("chatBox"); box.appendChild(d); box.scrollTop = 1e9;
+  return d.querySelector(".bubble");
+}
+const QUICK = ["健身房办卡跑路，钱怎么要回来？", "被公司裁员，能拿多少补偿？", "朋友借我3万不还，怎么起诉？", "加盟被骗了怎么退加盟费？", "网购到假货怎么索赔？", "老人遗产没遗嘱怎么分？", "公司欠工资怎么要回？", "二手房卖方违约怎么办？"];
+document.getElementById("quickBtns").innerHTML = QUICK.map((q, i) => "<button data-i=" + i + ">" + q + "</button>").join("");
+document.querySelectorAll("#quickBtns button").forEach(b => b.onclick = () => { document.getElementById("q").value = QUICK[b.dataset.i]; send(); });
+const sendBtn = document.getElementById("send");
+
+/* ---------------- 材料上传（图片看图分析 / txt / docx 提文字） ---------------- */
+const attachments = []; // {type:"image",dataUrl,name} | {type:"text",text,name}
+const MAX_FILES = 4;
+async function addAttachment(f) {
+  if (attachments.length >= MAX_FILES) { toast("一次最多传 " + MAX_FILES + " 个材料"); return; }
+  if (f.size > 12 * 1024 * 1024) { toast("文件太大（超 12M），拍照后传截图"); return; }
+  try {
+    const isHeic = /\.(heic|heif)$/i.test(f.name) || /heic|heif/i.test(f.type);
+    if (isHeic) {
+      toast("这是苹果相册原格式，直接打不开：请先【截图】再传截图，或到相机设置里把格式改成『兼容性最佳』后重拍");
+      return;
+    }
+    if (f.type.startsWith("image/")) {
+      const dataUrl = await downscaleImage(f);
+      attachments.push({ type: "image", dataUrl, name: f.name || "图片" });
+      toast("图片已加上，会在回答时帮您分析");
+    } else if (/\.docx$/i.test(f.name) || f.type.includes("wordprocessingml")) {
+      const buf = await f.arrayBuffer();
+      const res = await mammoth.extractRawText({ arrayBuffer: buf });
+      const text = (res.value || "").trim();
+      if (!text) { toast("这份 docx 里没提取到文字，可能是扫描件，请截图上传"); return; }
+      attachments.push({ type: "text", text, name: f.name });
+      toast("文档已读取，回答时会结合内容分析");
+    } else if (/\.doc$/i.test(f.name)) {
+      toast("老版 .doc 读不了，请在 WPS 里另存为 .docx 或截图后上传");
+    } else if (f.type.startsWith("text/") || /\.(txt|md)$/i.test(f.name)) {
+      const text = (await f.text()).trim();
+      if (!text) { toast("文件是空的"); return; }
+      attachments.push({ type: "text", text, name: f.name });
+      toast("文档已读取，回答时会结合内容分析");
+    } else if (/\.pdf$/i.test(f.name)) {
+      toast("PDF 请逐页截图后上传图片");
+    } else {
+      toast("暂不支持该格式，请传图片 / txt / docx");
+    }
+  } catch (e) {
+    if (/\.docx$/i.test(f.name) || f.type.includes("wordprocessingml")) {
+      toast("这份文档可能损坏了或不是真正的 Word 文件：请在 WPS 里重新打开另存为 .docx，或截图上传");
+    } else {
+      toast("图片解不开：如果是相册原图，请截图后再传");
+    }
+  }
+}
+function downscaleImage(f) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onerror = reject;
+    r.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const MAX = 1600;
+        let { width, height } = img;
+        if (Math.max(width, height) > MAX) {
+          const k = MAX / Math.max(width, height);
+          width = Math.round(width * k); height = Math.round(height * k);
+        }
+        const c = document.createElement("canvas");
+        c.width = width; c.height = height;
+        c.getContext("2d").drawImage(img, 0, 0, width, height);
+        resolve(c.toDataURL("image/jpeg", 0.85));
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(f);
+  });
+}
+function renderAttachBar() {
+  const bar = document.getElementById("attachBar");
+  if (!attachments.length) { bar.style.display = "none"; bar.innerHTML = ""; return; }
+  bar.style.display = "flex";
+  bar.innerHTML = attachments.map((a, i) =>
+    '<span style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 10px;font-size:12px;max-width:100%"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (a.type === "image" ? "🖼️ " : "📄 ") + esc(a.name.slice(0, 18)) + '</span><button data-i="' + i + '" style="border:0;background:none;color:#4d5a67;cursor:pointer;font-size:13px;padding:0">✕</button></span>').join("");
+  bar.querySelectorAll("button").forEach(b => b.onclick = () => { attachments.splice(+b.dataset.i, 1); renderAttachBar(); });
+}
+document.getElementById("attach").onclick = () => document.getElementById("fileInput").click();
+document.getElementById("fileInput").onchange = async e => {
+  for (const f of e.target.files) await addAttachment(f);
+  e.target.value = "";
+  renderAttachBar();
+};
+
+/* 组装带材料的用户消息：图片走多模态 content 数组（视觉模型），文本材料拼进消息 */
+function buildUserPayload(q) {
+  const imgs = attachments.filter(a => a.type === "image");
+  const texts = attachments.filter(a => a.type === "text");
+  let matNote = "";
+  if (attachments.length) matNote = "\n\n【用户上传材料（回答前先读，结合材料分析；材料与问题冲突处以材料为准）】" + attachments.map(a => "《" + a.name + "》").join("、");
+  const textBody = q + matNote + texts.map(a => "\n\n——《" + a.name + "》文字内容——\n" + a.text.slice(0, 6000)).join("");
+  const textOnly = q + (attachments.length ? "（已上传材料：" + attachments.map(a => a.name).join("、") + "，请结合材料分析）" : "");
+  if (imgs.length) {
+    const content = [{ type: "text", text: textBody }];
+    imgs.forEach(a => content.push({ type: "image_url", image_url: { url: a.dataUrl } }));
+    return { content, textOnly };
+  }
+  return { content: textBody, textOnly };
+}
+
+async function send() {
+  const q = document.getElementById("q").value.trim();
+  if (!q || busy) return;
+  if (Date.now() - lastSend < 2500) { toast("发送太频繁，稍等两秒再问"); return; }
+  if ((!MODELS || !MODELS.length) && !DIRECT_MODELS.length) { renderSysNote("模型还没就绪，请稍候重试。"); return; }
+  lastSend = Date.now(); busy = true; sendBtn.disabled = true; sendBtn.textContent = "…";
+  document.getElementById("q").value = "";
+  const payload = buildUserPayload(q);
+  const hasImg = attachments.some(a => a.type === "image");
+  addMsg("user", esc(q) + (attachments.length ? '<br><span style="font-size:12px;opacity:.85">📎 材料：' + esc(attachments.map(a => a.name).join("、")) + "</span>" : ""));
+  const bubble = addMsg("bot", '<span class="dots"><i></i><i></i><i></i></span> 正在检索法律库并组织回答，长回答约需 1~2 分钟');
+  let full = "";
+  try {
+    const r = await retrieve(q);
+    // 双保险记忆：把最近对话以纯文本写进 system prompt（messages 多轮在某些模型/网关上不稳，纯文本任何模型都能看到）
+    let sys = buildSystemPrompt(r);
+    const recent = history.slice(-4);
+    if (recent.length) {
+      sys += "\n\n【先前对话记录（用户追问时必须结合这里回答；『刚才/那个/上面说的』都指这里的内容，别当新问题）】\n" +
+        recent.map(m => (m.role === "user" ? "问：" : "答：") + m.content.slice(0, 500)).join("\n");
+    }
+    if (hasImg) sys += "\n\n【图片材料】用户上传了图片（可能是判决书/合同/收据等），先仔细读出图中关键内容（当事人、金额、日期、条款、判项），再结合材料回答；看不清的地方要如实说明。";
+    // 自我优化：拉取历史用户反馈（差评教训优先），每会话刷新一次
+    try {
+      if (!KB.lessons || Date.now() - (KB.lessonsAt || 0) > 10 * 60 * 1000) {
+        const { data } = await cloud.database.from("answer_feedback").select("q,rating,comment").order("created_at", { ascending: false }).limit(30);
+        KB.lessons = (data || []).filter(x => x.comment);
+        KB.lessonsAt = Date.now();
+      }
+      if (KB.lessons.length) {
+        sys += "\n\n【服务改进提醒（来自真实用户反馈，本次回答必须吸收这些教训）】\n" +
+          KB.lessons.slice(0, 8).map(x => "- 问「" + String(x.q).slice(0, 50) + "」用户反馈：" + String(x.comment).slice(0, 100)).join("\n");
+      }
+    } catch (e) { /* 反馈库连不上不影响回答 */ }
+    const messages = [{ role: "system", content: sys }, ...history.slice(-10), { role: "user", content: payload.content }];
+    full = await runChannels(messages,
+      t => { bubble.textContent = t; document.getElementById("chatBox").scrollTop = 1e9; },
+      (name, i, n) => { bubble.innerHTML = '<span class="dots"><i></i><i></i><i></i></span> 切换到' + name + '重试（' + i + '/' + n + '）……'; },
+      { vision: hasImg });
+    attachments.length = 0; renderAttachBar(); // 材料已随问发出
+    if (!full) bubble.textContent = hasImg
+      ? "【看图通道暂时都不通：请稍等几分钟重试；着急的话，把材料里的关键内容（当事人、金额、日期、判项）用文字打出来发给我，一样能分析】"
+      : "【服务通道暂时都不通，请再点一次发送重试；多次失败请稍后再来或联系管理员】";
+    else {
+      history.push({ role: "user", content: payload.textOnly }, { role: "assistant", content: full });
+      if (history.length > 20) history.splice(0, history.length - 20);
+      saveHistory(); // 持久化到 localStorage
+      bubble.innerHTML = fmtAnswer(full);
+      addOps(bubble, q, full); // 每条回答挂：反馈/复制/存档/写文书/上网核实
+      trackUsage(hasImg ? "ask_img" : "ask", q); // 匿名使用统计
+    }
+  } catch (e) {
+    const code = e.error?.code || "";
+    let m = "回答生成失败，请点发送重试一次";
+    if (e.name === "AbortError") m = full ? "已停止。" : "等服务没响应，已自动中断——请再点一次发送重试。";
+    else if (code.startsWith("quota_")) m = "今日问答额度已用完或限流，请明天再试或联系管理员。";
+    else if (code.startsWith("auth_")) m = "服务鉴权失败，请通过正式链接访问本应用。";
+    else if (code.startsWith("gateway_") || code.startsWith("model_")) m = "模型服务暂时不可用，请点发送重试一次。";
+    else m = "出错了：" + (e.error?.message || e.message || "未知错误");
+    bubble.textContent = full ? full + "\n\n【" + m + "】" : "【" + m + "】";
+  } finally { busy = false; controller = null; sendBtn.disabled = false; sendBtn.textContent = "发送"; }
+}
+sendBtn.onclick = send;
+
+/* ---------------- 三通道通用调用（问答/文书工坊共用） ---------------- */
+async function runChannels(messages, onDelta, onSwitch, opts) {
+  const vision = opts && opts.vision; // 带图片时只走支持看图的通道
+  const tries = DIRECT_MODELS.filter(m => vision ? m.vision : !m.visionOnly)
+    .map(m => ({ type: "direct", cfg: m, name: m.name }));
+  if (!vision) {
+    const fallback = MODELS.includes("glm-5.3-flash") ? "glm-5.3-flash"
+      : (MODELS.includes("deepseek-v4.1-flash") ? "deepseek-v4.1-flash" : (MODELS[0] || null));
+    if (fallback) tries.push({ type: "cloud", id: fallback, name: "平台保底(" + fallback + ")" });
+  }
+  let out = "";
+  for (let attempt = 0; attempt < tries.length && !out; attempt++) {
+    const ch = tries[attempt];
+    if (attempt > 0 && onSwitch) onSwitch(ch.name, attempt + 1, tries.length);
+    const ctl = new AbortController();
+    controller = ctl;
+    const watchdog = setTimeout(() => { if (!out) ctl.abort("timeout"); }, 45000);
+    try {
+      if (ch.type === "direct") {
+        for await (const piece of streamDirect(ch.cfg, messages, ctl.signal)) { out += piece; onDelta(out); }
+      } else {
+        for await (const chunk of cloud.llm.chat.completions.create({ model: ch.id, messages, stream: true, temperature: 0.7, signal: ctl.signal })) {
+          const d = chunk.choices[0]?.delta;
+          if (d?.content) { out += d.content; onDelta(out); }
+        }
+      }
+    } catch (err) {
+      if (out) break; // 单通道失败（空流/网络抖动/超时）→ 换下一通道
+    } finally { clearTimeout(watchdog); }
+  }
+  return out;
+}
+
+/* ---------------- 答案排版：标题化/列表化/去杂符号 ---------------- */
+function fmtAnswer(t) {
+  const lines = esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").split("\n");
+  const out = [];
+  let inList = false;
+  const flush = () => { if (inList) { out.push("</div>"); inList = false; } };
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) { flush(); continue; }
+    if (/^(-{3,}|\*{3,}|={3,})$/.test(line)) { flush(); out.push("<hr>"); continue; }
+    const h = line.match(/^#{1,5}\s*(.+)/);
+    if (h) { flush(); out.push('<div class="ah">' + h[1] + "</div>"); continue; }
+    const li = line.match(/^[-*•·]\s+(.*)/) || line.match(/^·\s*(.*)/) || line.match(/^[-*•·](.*)/);
+    if (li && li[1]) {
+      if (!inList) { out.push('<div class="ls">'); inList = true; }
+      out.push('<div class="li">' + li[1] + "</div>");
+      continue;
+    }
+    flush();
+    out.push("<div>" + line + "</div>");
+  }
+  flush();
+  return out.join("");
+}
+/* 文档导出用：去 markdown 记号，保留干净纯文本 */
+function cleanMd(t) {
+  return t.replace(/^#{1,5}\s*/gm, "").replace(/\*\*(.+?)\*\*/g, "$1").replace(/^\s*[-*•·]\s+/gm, "").replace(/^[-*•·]\s*/gm, "").replace(/^---+$/gm, "");
+}
+/* ---------------- 归档下载（.doc，WPS/Word 直接打开） ---------------- */
+function dateSlug() { const d = new Date(); const p = n => String(n).padStart(2, "0"); return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()); }
+function fmtBody(text) { return cleanMd(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>"); }
+function downloadDoc(filename, title, text, note) {
+  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title></head><body style="font-family:SimSun,serif;font-size:12pt;line-height:1.9"><p style="text-align:center;font-size:11pt;color:#666;margin:0">中国流通政研会普法委员会</p><h2 style="text-align:center;font-size:16pt;margin:6pt 0">' + esc(title) + '</h2>' + (note ? '<p style="color:#666;font-size:10pt">' + esc(note) + '</p>' : "") + '<div>' + fmtBody(text) + '</div><p style="color:#666;font-size:10pt;margin-top:24pt;border-top:1px solid #ccc;padding-top:8pt">中国流通政研会普法委员会 · 本文件由普法工委法律专家团生成，属普法参考材料，不构成法律意见书；重要事项请以执业律师意见及司法机关认定为准。</p></body></html>';
+  const blob = new Blob(["\ufeff" + html], { type: "application/msword" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  toast("已下载，WPS/Word 可直接打开");
+}
+function exportChat() {
+  if (!history.length) { toast("还没有对话可以导出"); return; }
+  const text = history.map(m => (m.role === "user" ? "【我问】" : "【智能体答】") + "\n" + m.content).join("\n\n——————————————\n\n");
+  downloadDoc("普法咨询归档-" + dateSlug() + ".doc", "普法咨询对话归档（" + new Date().toLocaleDateString("zh-CN") + "）", text, "共 " + history.length + " 条消息 · 普法工委法律专家团");
+}
+window.exportChat = exportChat;
+
+/* ---------------- 回答下操作行：复制/存档/写文书/上网核实 ---------------- */
+function addOps(bubble, q, a) {
+  const wrap = document.createElement("div");
+  wrap.className = "msg-ops";
+  wrap.innerHTML = '<button data-act="up">👍 有用</button><button data-act="down">👎 没用</button><button data-act="copy">📋 复制</button><button data-act="save">⬇️ 存档下载</button><button data-act="doc">🖋️ 写文书</button><button data-act="check">🔍 上网核实</button>';
+  wrap.addEventListener("click", async e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const act = b.dataset.act;
+    if (act === "up" || act === "down") {
+      let comment = "";
+      if (act === "down") {
+        comment = prompt("哪里没用？一句话告诉专家团（可不填），下回回答会改进：") || "";
+        if (comment === null) return;
+      }
+      b.disabled = true; b.textContent = act === "up" ? "✓ 已记" : "✓ 已记";
+      try {
+        await cloud.database.from("answer_feedback").insert({
+          q: q.slice(0, 200), rating: act, comment: comment.slice(0, 300) || null
+        });
+        toast(act === "up" ? "谢谢，专家团会保持这个路子" : "收到，这条经验会改进以后的回答");
+      } catch (err) { toast("反馈没存上，不影响使用"); }
+    } else if (act === "copy") {
+      try { await navigator.clipboard.writeText(a); toast("已复制全文"); } catch (err) { toast("复制失败，请长按文字手动复制"); }
+    } else if (act === "save") {
+      downloadDoc("咨询存档-" + q.slice(0, 12).replace(/[\\/:*?"<>| ]/g, "") + "-" + dateSlug() + ".doc", "法律咨询记录（" + new Date().toLocaleDateString("zh-CN") + "）", "【我的问题】" + q + "\n\n" + a);
+    } else if (act === "doc") {
+      document.querySelector('#nav button[data-p="docw"]').click();
+      const f = document.getElementById("wFacts");
+      if (!f.value.trim()) f.value = "情况：" + q + "\n\n（补充关键细节：时间、金额、对方名称、手里有什么证据）";
+      toast("已带入您的情况，选好文书类型点生成");
+    } else if (act === "check") {
+      try { await navigator.clipboard.writeText(q); } catch (err) {}
+      window.open("https://wenshu.court.gov.cn", "_blank");
+      toast("问题关键词已复制，去官网粘贴搜索核实");
+    }
+  });
+  bubble.parentElement.appendChild(wrap);
+}
+
+/* ---------------- 智能文书工坊 ---------------- */
+let wBusy = false, wFull = "", wTitle = "";
+async function initWorkshop() {
+  for (let i = 0; i < 30 && !MANIFEST.length; i++) await new Promise(r => setTimeout(r, 300)); // 等 loadTpl 完成
+  if (!MANIFEST.length) { try { MANIFEST = await loadJSON("templates/manifest.json"); } catch (e) { return; } }
+  const sel = document.getElementById("wType");
+  sel.innerHTML = MANIFEST.map(m => '<option value="' + esc(m.name) + '">' + esc(m.name) + "（" + m.cat + "）</option>").join("");
+}
+document.getElementById("wGen").onclick = async () => {
+  if (wBusy) return;
+  const facts = document.getElementById("wFacts").value.trim();
+  if (facts.length < 20) { toast("把情况写细一点，至少 20 个字"); return; }
+  if (!MANIFEST.length) await initWorkshop();
+  const sel = document.getElementById("wType");
+  const m = MANIFEST.find(x => x.name === sel.value) || MANIFEST[0];
+  if (!m) { toast("范本列表没加载好，稍后再试"); return; }
+  let tpl = "";
+  try { tpl = await (await fetch("templates/" + m.file)).text(); } catch (e) { toast("范本加载失败，请重试"); return; }
+  const opposite = document.getElementById("wOpposite").value.trim();
+  const goal = document.getElementById("wGoal").value.trim();
+  const sys = "你是『普法工委法律专家团』的文书起草模式，任务：照给定范本，把用户的情况写成一份可直接使用的文书草稿。\n【硬规则】1. 严格按范本的结构、段落、格式写；范本里【】占位处用用户信息填入；2. 用户没提供的信息一律写成《待补：XX》，绝不编造姓名、金额、日期、案号；3. 事实部分只准用用户提供的内容，不得添加情节；4. 结尾单独一段【使用提示】：列出所有《待补》项和递交注意事项；5. 不承诺结果，不代替律师。\n【口径】像有经验的基层法律工作者起草，条理清晰、用词规范。";
+  const uq = "文书类型：" + m.name + "\n\n【范本】\n" + tpl.slice(0, 3500) + "\n\n【我的情况】\n" + facts + (opposite ? "\n\n【对方信息】" + opposite : "") + (goal ? "\n\n【我的诉求】" + goal : "") + "\n\n请照范本把这份文书草稿写出来。";
+  wBusy = true; wFull = "";
+  const btn = document.getElementById("wGen"); btn.disabled = true; btn.textContent = "起草中…约 1 分钟";
+  const res = document.getElementById("wResult"); res.style.display = "";
+  const body = document.getElementById("wBody");
+  body.textContent = "正在照范本起草……";
+  document.getElementById("wStatus").textContent = "";
+  wTitle = m.name.replace(/[\\/:*?"<>| ]/g, "") + "草稿-" + dateSlug();
+  try {
+    const out = await runChannels([{ role: "system", content: sys }, { role: "user", content: uq }],
+      t => { wFull = t; body.textContent = t; },
+      (name, i, n) => { body.textContent = "（" + name + "通道重试中 " + i + "/" + n + "）……"; });
+    if (!out) body.textContent = "【生成失败，请再点一次生成按钮】";
+    else { wFull = out; body.innerHTML = fmtAnswer(out); document.getElementById("wStatus").textContent = "已完成"; trackUsage("doc", m.name); }
+  } finally { wBusy = false; btn.disabled = false; btn.textContent = "生成文书草稿"; }
+};
+document.getElementById("wCopy").onclick = async () => {
+  if (!wFull) return;
+  try { await navigator.clipboard.writeText(wFull); toast("已复制全文"); } catch (e) { toast("复制失败，请手动选择复制"); }
+};
+document.getElementById("wDl").onclick = () => { if (wFull) downloadDoc(wTitle + ".doc", wTitle.replace(/草稿-\d+$/, ""), wFull, "文书类型草稿 · 普法工委法律专家团起草 ·《待补》处需自行补齐"); };
+document.getElementById("q").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.metaKey) { e.preventDefault(); send(); } });
+
+/* ---------------- 范本 ---------------- */
+let MANIFEST = [], tplFilter = "全部";
+const CAT_ICON = { "起诉立案": "⚖️", "应诉答辩": "🛡️", "执行救济": "🔨", "劳动人事": "👷", "投诉举报": "📣", "常用文书": "📝" };
+async function loadTpl() {
+  MANIFEST = await loadJSON("templates/manifest.json");
+  document.getElementById("tplCount").textContent = MANIFEST.length + " 份";
+  const cats = ["全部", ...new Set(MANIFEST.map(m => m.cat))];
+  document.getElementById("tplChips").innerHTML = cats.map(c => '<button data-c="' + c + '" class="' + (c === "全部" ? "on" : "") + '">' + (c === "全部" ? "全部" : (CAT_ICON[c] || "📄") + " " + c) + "</button>").join("");
+  document.querySelectorAll("#tplChips button").forEach(b => b.onclick = () => {
+    tplFilter = b.dataset.c;
+    document.querySelectorAll("#tplChips button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); renderTpl();
+  });
+  renderTpl();
+}
+function renderTpl() {
+  const list = MANIFEST.filter(m => tplFilter === "全部" || m.cat === tplFilter);
+  document.getElementById("tplList").innerHTML = list.map((m, i) =>
+    '<div class="row"><div class="ic">' + (CAT_ICON[m.cat] || "📄") + '</div><div class="mid"><div class="t">' + esc(m.name) + '</div><div class="m">' + esc(m.desc) + '</div></div><div class="ops"><button class="btn sm" data-f="' + m.file + '" data-n="' + esc(m.name) + '" onclick="openTpl(this)">预览</button><a class="btn sm" href="templates/' + m.file + '" download>下载</a></div></div>').join("");
+}
+async function openTpl(btn) {
+  const f = btn.dataset.f;
+  document.getElementById("sheetTitle").textContent = btn.dataset.n;
+  document.getElementById("sheetBody").textContent = "加载中……";
+  document.getElementById("sheetDl").href = "templates/" + f;
+  document.getElementById("tplMask").classList.add("on");
+  try {
+    const r = await fetch("templates/" + f);
+    document.getElementById("sheetBody").textContent = await r.text();
+  } catch (e) { document.getElementById("sheetBody").textContent = "加载失败，请稍后再试。"; }
+}
+window.openTpl = openTpl;
+document.getElementById("sheetClose").onclick = () => document.getElementById("tplMask").classList.remove("on");
+document.getElementById("tplMask").addEventListener("click", e => { if (e.target.id === "tplMask") e.target.classList.remove("on"); });
+document.getElementById("sheetCopy").onclick = async () => {
+  const t = document.getElementById("sheetBody").textContent;
+  try { await navigator.clipboard.writeText(t); toast("已复制全文，去粘贴就能用"); }
+  catch (e) {
+    const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); ta.remove(); toast("已复制全文");
+  }
+};
+
+/* ---------------- 案例库 ---------------- */
+function renderCase(c) {
+  return '<div class="row"><div class="ic">⚖️</div><div class="mid"><div class="t">' + esc(c.title) + '</div>' +
+    (c.meta ? '<div class="m">' + esc(c.meta) + "</div>" : "") +
+    (c.gist ? '<div class="g">' + esc(c.gist) + "</div>" : "") + "</div></div>";
+}
+function renderCloudCase(c) {
+  return '<div class="row"><div class="ic">📮</div><div class="mid"><div class="t">' + esc(c.case_title) + '<span class="badge">上报·已审核</span></div>' +
+    '<div class="m">' + esc(c.case_number ? "案号：" + c.case_number + " · " : "") + "入库 " + String(c.created_at).slice(0, 10) + "</div>" +
+    '<div class="g">' + esc((c.case_content || "").slice(0, 260)) + "</div></div></div>";
+}
+async function loadCases(kw) {
+  const box = document.getElementById("caseList");
+  box.innerHTML = '<p class="muted">加载中……</p>';
+  let html = "";
+  try {
+    const { data, error } = await cloud.database.from("case_submissions").select("*").eq("status", "approved").order("created_at", { ascending: false }).limit(30);
+    if (error) throw error;
+    const cloudOnes = kw ? data.filter(c => (c.case_title + (c.case_content || "")).includes(kw)) : data;
+    if (cloudOnes.length) html += "<h3>📮 办事处上报（已审核）</h3>" + cloudOnes.map(renderCloudCase).join("");
+  } catch (e) { html += '<p class="muted">（云端案例库暂时连不上，先看库内判例）</p>'; }
+  let local = KB.cases || await loadJSON("data/cases.json");
+  const localOnes = kw ? local.filter(c => (c.title + c.gist + c.meta).includes(kw)) : local;
+  if (localOnes.length) html += "<h3>⚖️ 库内精选判例</h3>" + localOnes.map(renderCase).join("");
+  box.innerHTML = html || '<p class="muted">没搜到相关案例，换个词试试，或直接去"智能问答"里问。</p>';
+}
+document.getElementById("caseSearch").onclick = () => loadCases(document.getElementById("caseKw").value.trim());
+document.getElementById("caseKw").addEventListener("keydown", e => { if (e.key === "Enter") loadCases(document.getElementById("caseKw").value.trim()); });
+
+/* ---------------- 上报 ---------------- */
+document.getElementById("sBtn").onclick = async () => {
+  const title = document.getElementById("sTitle").value.trim();
+  const body = document.getElementById("sBody").value.trim();
+  if (!title || !body) { toast("标题和案情简述必填"); return; }
+  if (body.length < 30) { toast("案情简述太短了，至少写 30 个字把经过说清"); return; }
+  const btn = document.getElementById("sBtn"); btn.disabled = true; btn.textContent = "提交中…";
+  try {
+    const { error } = await cloud.database.from("case_submissions").insert({
+      case_title: title.slice(0, 60),
+      case_number: document.getElementById("sNo").value.trim().slice(0, 60) || null,
+      case_content: body.slice(0, 1500),
+      source_note: document.getElementById("sSrc").value.trim().slice(0, 60) || null,
+      contact: document.getElementById("sContact").value.trim().slice(0, 60) || null,
+    });
+    if (error) throw error;
+    ["sTitle", "sNo", "sBody", "sSrc", "sContact"].forEach(id => document.getElementById(id).value = "");
+    toast("提交成功！工委审核通过后会进入案例库，感谢分享");
+  } catch (e) {
+    toast("提交失败：" + (e.message || "未知错误") + "，请稍后再试");
+  } finally { btn.disabled = false; btn.textContent = "提交上报"; }
+};
+
+/* ---------------- 启动 ---------------- */
+restoreHistory(); // 恢复上次对话记忆
+ensureBase().then(() => loadCases("")).catch(() => {});
+loadTpl().then(() => initWorkshop()).catch(() => {});
+initModel();
+
+/* ---------------- 使用统计看板（管理员：地址栏加 #stats + 口令进入） ---------------- */
+const STATS_PASS = "pufa2026"; // ← 管理口令，想换就改这里
+const ACT_NAME = { ask: "智能问答", ask_img: "问答（带材料）", doc: "文书起草", visit: "打开应用" };
+function localDay(ts) { const d = new Date(ts); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+async function loadStats() {
+  const ov = document.getElementById("stOverview");
+  ov.textContent = "加载中……";
+  const { data, error } = await cloud.database.from("usage_log").select("action,q_excerpt,device,created_at").order("created_at", { ascending: false }).limit(1000);
+  if (error) throw error;
+  const rows = data || [];
+  const today = localDay(Date.now());
+  const isAsk = a => a === "ask" || a === "ask_img";
+  const askAll = rows.filter(r => isAsk(r.action)).length;
+  const askToday = rows.filter(r => isAsk(r.action) && localDay(r.created_at) === today).length;
+  const visits = rows.filter(r => r.action === "visit").length;
+  const docs = rows.filter(r => r.action === "doc").length;
+  ov.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:10px">' +
+    '<div style="flex:1;min-width:120px;background:#FDF9F3;border-radius:10px;padding:12px;text-align:center"><div style="font-size:26px;font-weight:700">' + askToday + '</div><div class="muted">今日提问</div></div>' +
+    '<div style="flex:1;min-width:120px;background:#FDF9F3;border-radius:10px;padding:12px;text-align:center"><div style="font-size:26px;font-weight:700">' + askAll + '</div><div class="muted">累计提问</div></div>' +
+    '<div style="flex:1;min-width:120px;background:#FDF9F3;border-radius:10px;padding:12px;text-align:center"><div style="font-size:26px;font-weight:700">' + visits + '</div><div class="muted">累计访问（人次）</div></div>' +
+    '<div style="flex:1;min-width:120px;background:#FDF9F3;border-radius:10px;padding:12px;text-align:center"><div style="font-size:26px;font-weight:700">' + docs + '</div><div class="muted">累计起草文书</div></div></div>';
+  // 7 天趋势
+  const days = [];
+  for (let i = 6; i >= 0; i--) days.push(localDay(Date.now() - i * 86400000));
+  const cnt = days.map(d => rows.filter(r => isAsk(r.action) && localDay(r.created_at) === d).length);
+  const mx = Math.max(1, ...cnt);
+  document.getElementById("stDays").innerHTML = '<div style="display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:6px">' +
+    cnt.map((c, i) => '<div style="flex:1;text-align:center"><div style="font-size:12px;font-weight:600">' + c + '</div><div style="background:#A34A15;height:' + Math.max(4, Math.round(c / mx * 88)) + 'px;border-radius:6px 6px 0 0;margin:4px 0"></div><div style="font-size:11px" class="muted">' + days[i].slice(5) + '</div></div>').join("") + "</div>";
+  // 功能分布
+  const byAct = {};
+  rows.forEach(r => { byAct[r.action] = (byAct[r.action] || 0) + 1; });
+  document.getElementById("stActions").innerHTML = Object.keys(byAct).sort((a, b) => byAct[b] - byAct[a])
+    .map(a => '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee"><span>' + (ACT_NAME[a] || a) + '</span><b>' + byAct[a] + ' 次</b></div>').join("") || '<p class="muted">暂无数据</p>';
+  // 设备分布
+  const byDev = {};
+  rows.forEach(r => { byDev[r.device || "未知"] = (byDev[r.device || "未知"] || 0) + 1; });
+  document.getElementById("stDevice").innerHTML = Object.keys(byDev).map(d => '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee"><span>' + d + '</span><b>' + byDev[d] + ' 次</b></div>').join("") || '<p class="muted">暂无数据</p>';
+  // 最近提问（只留摘要，脱敏展示）
+  const recents = rows.filter(r => isAsk(r.action) && r.q_excerpt).slice(0, 20);
+  document.getElementById("stRecent").innerHTML = recents
+    .map(r => '<div style="padding:7px 0;border-bottom:1px solid #eee"><span class="muted" style="font-size:12px">' + localDay(r.created_at) + " " + String(r.created_at).slice(11, 16) + ' · ' + (r.device || "") + '</span><br>' + esc(r.q_excerpt) + "</div>").join("") || '<p class="muted">还没有提问记录</p>';
+}
+document.getElementById("stRefresh").onclick = () => loadStats().catch(e => toast("加载失败：" + (e.message || "未知错误")));
+function openStats() {
+  const p = prompt("请输入管理口令：");
+  if (p === null) return;
+  if (p !== STATS_PASS) { toast("口令不对"); return; }
+  document.querySelectorAll("#nav button").forEach(x => x.classList.remove("on"));
+  document.querySelectorAll(".page").forEach(x => x.classList.remove("on"));
+  document.getElementById("p-stats").classList.add("on");
+  window.scrollTo(0, 0);
+  loadStats().catch(e => { document.getElementById("stOverview").textContent = "加载失败：" + (e.message || "未知错误"); });
+}
+if (location.hash === "#stats") setTimeout(openStats, 300);
+
+/* ---------------- 法律计算器 ---------------- */
+function gotoPage(p) { const b = document.querySelector('#nav button[data-p="' + p + '"]'); if (b) b.click(); }
+window.gotoPage = gotoPage;
+const CALC_GOTO = "诉讼费用交纳办法（国务院令第481号）第13、14、16条；结果仅供参考，以法院核定为准。";
+function fmtMoney(v) { return "¥ " + (Math.round(v * 100) / 100).toLocaleString("zh-CN", { maximumFractionDigits: 2 }); }
+// 财产案件受理费（国务院令第481号第13条）
+function courtFee(v) {
+  if (v <= 10000) return 50;
+  if (v <= 100000) return v * 0.025 - 200;
+  if (v <= 200000) return v * 0.02 + 300;
+  if (v <= 500000) return v * 0.015 + 1300;
+  if (v <= 1000000) return v * 0.01 + 3800;
+  if (v <= 2000000) return v * 0.009 + 4800;
+  if (v <= 5000000) return v * 0.008 + 6800;
+  if (v <= 10000000) return v * 0.007 + 11800;
+  if (v <= 20000000) return v * 0.006 + 21800;
+  return v * 0.005 + 41800;
+}
+// 执行费（第14条）
+function execFee(v) {
+  if (v <= 10000) return 50;
+  let f = 50 + (Math.min(v, 500000) - 10000) * 0.015;
+  if (v > 500000) f += (Math.min(v, 5000000) - 500000) * 0.01;
+  if (v > 5000000) f += (v - 5000000) * 0.001;
+  return f;
+}
+function calcCourt() {
+  const v = parseFloat(document.getElementById("cAmt").value);
+  const box = document.getElementById("cOut");
+  if (!v || v <= 0) { box.innerHTML = '<p class="muted">请输入争议金额</p>'; return; }
+  const full = courtFee(v);
+  const half = full / 2;
+  const exec = execFee(v);
+  box.innerHTML = '<div class="ah">算的结果</div>' +
+    '<div class="li">案件受理费（普通程序）：<b>' + fmtMoney(full) + "</b></div>" +
+    '<div class="li">适用简易程序/调解结案/撤诉：减半 <b>' + fmtMoney(half) + "</b></div>" +
+    '<div class="li">若同时申请强制执行，执行费另算约 <b>' + fmtMoney(exec) + "</b>（由被执行人担）</div>" +
+    '<div class="li">劳动争议案件受理费每件 10 元；人格权/非财产案件 80-500 元不等</div>' +
+    '<div class="li">受理费一般由败诉方承担；胜诉后记得在判决里主张</div>' +
+    '<div class="ah">依据</div><div class="li">' + CALC_GOTO + "</div>";
+}
+function calcLabor() {
+  const sal = parseFloat(document.getElementById("lSal").value);
+  const months = parseFloat(document.getElementById("lMon").value) || 0;
+  const type = document.getElementById("lType").value;
+  const box = document.getElementById("lOut");
+  if (!sal || sal <= 0 || months <= 0) { box.innerHTML = '<p class="muted">请填月工资和工作月数</p>'; return; }
+  const years = months / 12;
+  // 劳动合同法47条：每满一年1个月；6个月以上不满一年按1年；不满6个月半个月
+  let nUnits = Math.floor(years) + (years % 1 >= 0.5 ? 1 : 0);
+  let nMonths = nUnits > 0 ? nUnits : 0.5; // 不满6个月=半个月
+  if (years >= 0.5 && years < 1) nMonths = 1;
+  const N = nMonths * sal;
+  let out = '<div class="ah">算的结果</div><div class="li">工作年限折算：' + months + ' 个月 ≈ 折 ' + nMonths + ' 个月工资</div>';
+  if (type === "2n") out += '<div class="li">违法解除赔偿金（2N）：<b>' + fmtMoney(N * 2) + "</b>（劳动合同法87条）</div>";
+  else if (type === "n1") out += '<div class="li">经济补偿（N）：<b>' + fmtMoney(N) + "</b> + 代通知金 1 个月 <b>" + fmtMoney(sal) + "</b>（如未提前30日书面通知）= 合计 <b>" + fmtMoney(N + sal) + "</b>（40条+47条）</div>";
+  else if (type === "n") out += '<div class="li">经济补偿（N）：<b>' + fmtMoney(N) + "</b>（47条：合同到期单位不续签/协商解除等）</div>";
+  else out += '<div class="li">协商解除经济补偿（N）：<b>' + fmtMoney(N) + "</b>（36条+46条）</div>";
+  out += '<div class="li">月工资=解除前12个月平均应得工资（含奖金提成）；超当地社平3倍的按3倍封顶且最长12年（47条2款）</div>' +
+    '<div class="li">未签书面合同：可另主张最多 11 个月二倍工资差额（82条，注意1年仲裁时效）</div>' +
+    '<div class="li">欠薪加班费一并主张，时效内（劳动争议仲裁时效1年，劳动关系存续期间欠薪不受此限）</div>' +
+    '<div class="ah">依据</div><div class="li">劳动合同法第40/46/47/82/87条；劳动争议调解仲裁法第27条。金额以仲裁委核定为准。</div>';
+  box.innerHTML = out;
+}
+function calcLoan() {
+  const p = parseFloat(document.getElementById("dBen").value);
+  const rate = parseFloat(document.getElementById("dRate").value);
+  const days = parseInt(document.getElementById("dDays").value) || 0;
+  const lpr = parseFloat(document.getElementById("dLpr").value) || 3.0;
+  const box = document.getElementById("dOut");
+  if (!p || p <= 0 || !rate || days <= 0) { box.innerHTML = '<p class="muted">请填本金、约定年利率和借款天数</p>'; return; }
+  const cap = lpr * 4;
+  const legalRate = Math.min(rate, cap);
+  const legal = p * (legalRate / 100) * days / 365;
+  const agreed = p * (rate / 100) * days / 365;
+  let out = '<div class="ah">算的结果</div>' +
+    '<div class="li">司法保护上限：一年期 LPR × 4 = <b>' + cap.toFixed(2) + '%</b>（您填的 LPR ' + lpr + '%）</div>';
+  if (rate > cap) {
+    out += '<div class="li">约定年利率 ' + rate + '% <b>超过上限</b></div>' +
+      '<div class="li">受保护利息：按 ' + cap.toFixed(2) + '% 算 <b>' + fmtMoney(legal) + "</b></div>" +
+      '<div class="li">超出部分 ' + fmtMoney(agreed - legal) + "：<b>已付的可请求返还，未付的法院不支持</b></div>";
+  } else {
+    out += '<div class="li">约定年利率 ' + rate + '% 未超上限</div><div class="li">期内利息：<b>' + fmtMoney(legal) + "</b>（" + days + " 天）</div>";
+  }
+  out += '<div class="li">LPR 以合同成立当月最新一期为准，到中国人民银行官网或全国银行间同业拆借中心查</div>' +
+    '<div class="ah">依据</div><div class="li">最高人民法院民间借贷司法解释第25条；民法典第680条（禁止高利放贷）。以法院认定为准。</div>';
+  box.innerHTML = out;
+}
+function calcInjury() {
+  const lv = parseInt(document.getElementById("gLv").value);
+  const sal = parseFloat(document.getElementById("gSal").value) || 0;
+  const box = document.getElementById("gOut");
+  if (!lv) { box.innerHTML = '<p class="muted">请先选伤残等级</p>'; return; }
+  const monthsMap = { 1: 27, 2: 25, 3: 23, 4: 21, 5: 18, 6: 16, 7: 13, 8: 11, 9: 9, 10: 7 };
+  const m = monthsMap[lv];
+  let out = '<div class="ah">算的结果（' + lv + '级伤残）</div>';
+  if (sal > 0) out += '<div class="li">一次性伤残补助金：<b>' + m + ' 个月 × ' + fmtMoney(sal) + ' = ' + fmtMoney(m * sal) + "</b>（本人工资，有上下限）</div>";
+  else out += '<div class="li">一次性伤残补助金：<b>' + m + " 个月本人工资</b>（填上月薪即可算出）</div>";
+  out += '<div class="li">停工留薪期内：原工资福利<b>照发</b>（一般不超12个月，需停工留薪期确认）</div>';
+  if (lv >= 5 && lv <= 6) out += '<div class="li">' + lv + '级：难以安排工作的按月发伤残津贴（本人工资的 ' + (lv === 5 ? "70%" : "60%") + '）；解除时另拿<b>一次性工伤医疗补助金+伤残就业补助金</b></div>';
+  if (lv >= 7) out += '<div class="li">' + lv + '级：合同期满终止或本人提出解除 → 另拿<b>一次性工伤医疗补助金 + 一次性伤残就业补助金</b>（各省标准不同，查当地工伤保险条例实施办法）</div>';
+  out += '<div class="li">治疗费、住院伙食补助、护理费、辅助器具按工伤保险基金规定报销</div>' +
+    '<div class="li">先做<b>工伤认定</b>（单位30日内申报，个人1年内可申报）→ 伤情稳定后<b>劳动能力鉴定</b>定级</div>' +
+    '<div class="li">未缴工伤保险？这些待遇全部由单位掏（工伤保险条例62条）</div>' +
+    '<div class="ah">依据</div><div class="li">工伤保险条例第30-45、62-64条；伤残津贴与各地一次性补助标准以当地现行规定为准。</div>';
+  box.innerHTML = out;
+}
+const CALC_PAGES = {
+  "诉讼费": '<div class="field"><label>争议金额（元）</label><input id="cAmt" type="number" inputmode="decimal" placeholder="如：50000"></div><button class="btn solid" onclick="calcCourt()" style="width:100%;padding:12px">算受理费</button><div id="cOut" style="margin-top:10px"></div>',
+  "劳动补偿": '<div class="field"><label>月平均工资（元，应发口径）</label><input id="lSal" type="number" inputmode="decimal" placeholder="如：6000"></div><div class="field"><label>本单位工作月数</label><input id="lMon" type="number" inputmode="decimal" placeholder="如：37（3年1个月就填37）"></div><div class="field"><label>属于哪种情况</label><select id="lType" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px;font-size:16px"><option value="n">合同到期单位不续签 / 无过错解除</option><option value="2n">违法辞退（要 2N 赔偿）</option><option value="n1">无过错解除但没提前30天通知（N+1）</option><option value="n1x">协商解除</option></select></div><button class="btn solid" onclick="calcLabor()" style="width:100%;padding:12px">算补偿</button><div id="lOut" style="margin-top:10px"></div>',
+  "借贷利息": '<div class="field"><label>本金（元）</label><input id="dBen" type="number" inputmode="decimal" placeholder="如：100000"></div><div class="field"><label>约定年利率（%）</label><input id="dRate" type="number" inputmode="decimal" step="0.01" placeholder="如：15.4"></div><div class="field"><label>借款天数</label><input id="dDays" type="number" inputmode="numeric" placeholder="如：365"></div><div class="field"><label>一年期 LPR（%，合同成立时那期）</label><input id="dLpr" type="number" inputmode="decimal" step="0.01" value="3.0"></div><button class="btn solid" onclick="calcLoan()" style="width:100%;padding:12px">算利息</button><div id="dOut" style="margin-top:10px"></div>',
+  "工伤速查": '<div class="field"><label>伤残等级</label><select id="gLv" style="width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px;font-size:16px"><option value="">请选择（劳动能力鉴定结论）</option>' + [10,9,8,7,6,5,4,3,2,1].map(l => '<option value="' + l + '">' + l + " 级伤残</option>").join("") + '</select></div><div class="field"><label>本人月工资（元，选填，算了更直观）</label><input id="gSal" type="number" inputmode="decimal" placeholder="如：6000"></div><button class="btn solid" onclick="calcInjury()" style="width:100%;padding:12px">速查待遇</button><div id="gOut" style="margin-top:10px"></div>'
+};
+let calcOn = "诉讼费";
+document.getElementById("calcChips").innerHTML = Object.keys(CALC_PAGES).map(k => '<button data-k="' + k + '" class="' + (k === calcOn ? "on" : "") + '">' + k + "</button>").join("");
+function renderCalc() { document.getElementById("calcPane").innerHTML = CALC_PAGES[calcOn]; }
+document.querySelectorAll("#calcChips button").forEach(b => b.onclick = () => {
+  calcOn = b.dataset.k;
+  document.querySelectorAll("#calcChips button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on");
+  renderCalc();
+});
+renderCalc();
+
+/* 诊断模式：?diag=2 空流对照 / ?diag=3 模型列表（排查用，不影响正常使用） */
+if (new URLSearchParams(location.search).get("diag")) {
+  (async () => {
+    const note = t => renderSysNote(t);
+    const mode = new URLSearchParams(location.search).get("diag");
+    note("【诊断】开始 models=" + JSON.stringify(MODELS));
+    try {
+      await new Promise(r => setTimeout(r, 1500));
+      if (mode === "3") {
+        const models = await cloud.llm.models.list();
+        models.forEach(m => note("【模型】" + m.id + " | " + (m.name || "?") + " | disabled=" + m.disabled));
+        note("【诊断】完毕"); return;
+      }
+      const sys = buildSystemPrompt(await retrieve("健身房办卡跑路"));
+      note("【诊断】sysLen=" + sys.length);
+      const cases = mode === "2"
+        ? [["A-temp+真问", sys, "健身房办卡跑路，3980元怎么要回来？", 0.7], ["B-无temp+真问", sys, "健身房办卡跑路，3980元怎么要回来？", undefined]]
+        : [[600, sys.slice(0, 600), "回复收到", undefined], [sys.length, sys, "回复收到", undefined]];
+      for (const [label, s, q, temp] of cases) {
+        const t0 = Date.now();
+        try {
+          let out = "";
+          const opts = { model: (MODELS && MODELS[0]) || "glm-5.3-flash", messages: [{ role: "system", content: s }, { role: "user", content: q }], stream: true };
+          if (temp !== undefined) opts.temperature = temp;
+          for await (const c of cloud.llm.chat.completions.create(opts)) {
+            if (c.choices[0]?.delta?.content) { out += c.choices[0].delta.content; if (out.length >= 30) break; }
+          }
+          note("【诊断】" + label + " → " + (out ? "OK " + (Date.now() - t0) + "ms：" + out.slice(0, 40).replace(/\n/g, " ") : "空流 " + (Date.now() - t0) + "ms"));
+        } catch (e) { note("【诊断】" + label + " → ERR " + (e.error?.code || e.name) + " " + (Date.now() - t0) + "ms"); }
+      }
+      note("【诊断】完毕");
+    } catch (e) { note("【诊断】异常 " + (e.message || e)); }
+  })();
+}
+</script>
+</body>
+</html>

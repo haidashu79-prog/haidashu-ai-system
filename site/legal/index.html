@@ -7,6 +7,11 @@
 <meta name="description" content="普法工委法律专家团：8 位法律顾问 + 11 个场景自助包 + 9 份文书范本，新媒体IP运营、变现、合作合规护航。">
 <title>法律护航 · 普法工委法律自助助手｜智脑网</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%23C2571C' stroke-width='2'/><circle cx='16' cy='16' r='2.2' fill='%23C2571C'/></svg>">
+<link rel="stylesheet" href="/assets/tool3d.css">
+<link rel="stylesheet" href="/assets/p3app.css">
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{
   --bg:#FBF6EE; --bg2:#F5E9D8;
@@ -139,7 +144,48 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .sky,.bg,.stars,.aurora,.nebula{background:none !important;opacity:0 !important}
 h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
   -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
+
+/* ══════════════════════════════════════════════
+   3D 化：法律助手做成一块「浮起来的操作台」
+   ──────────────────────────────────────────────
+   这页不是内容页，套不了卡片阵列；能叠的只有一件事：
+   让那个 iframe 助手看着像摆在桌面上的一个实体机器，
+   而不是贴在网页上的一块白板。
+   ══════════════════════════════════════════════ */
+.lslab{position:relative;z-index:1;transform:translateZ(26px);
+  border-radius:16px;padding:5px 5px 6px;
+  background:linear-gradient(180deg,#ffffff,#F7EBD9);
+  border:1px solid rgba(140,95,50,.20);
+  box-shadow:0 30px 60px -32px rgba(120,70,30,.50),0 8px 18px -12px rgba(120,70,30,.24),
+             inset 0 1px 0 #fff}
+.lslab .bar{display:flex;align-items:center;gap:7px;padding:3px 9px 7px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;color:var(--dim2);text-transform:uppercase}
+.lslab .bar i{width:6px;height:6px;border-radius:50%;background:#2F9E6B;
+  box-shadow:0 0 8px rgba(47,158,107,.85);flex:none}
+.lslab iframe{display:block;width:100%;border:0 !important;border-radius:11px;background:var(--bg)}
+
+/* 面板也往下坐一点，和台面同一个景深 */
+.duo .panel{position:relative;z-index:1;box-shadow:0 18px 40px -30px rgba(120,70,30,.42)}
+
+@media(max-width:820px){
+  /* 手机上这页就是一个 App：标题区让位给助手本体 */
+  .hero{display:none}
+  .lslab{transform:none;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+  .lslab .bar{display:none}
+  .lslab iframe{height:calc(100vh - 52px - 60px - env(safe-area-inset-bottom)) !important;
+    height:calc(100dvh - 52px - 60px - env(safe-area-inset-bottom)) !important;
+    min-height:0 !important;border-radius:0 !important}
+  .tstage{perspective:none}
+  .tfloor{display:none}
+  .sec-head{margin-bottom:12px}
+  /* 手机端：标题已经在顶栏上了，这一条留着只会把助手往下挤 */
+  section.sec:first-of-type{padding:0}
+  section.sec:first-of-type .sec-head{display:none}
+  section.sec:first-of-type > p{display:none}
+  .disclaim{font-size:11.5px}
+}
 </style>
+<link rel="canonical" href="https://haidashu.com.cn/legal/">
 </head>
 <body>
 
@@ -181,8 +227,14 @@ h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,
 
   <section class="sec">
     <div class="sec-head"><span class="sec-num">01</span><h2>法律自助助手</h2><span class="sec-sub">/ 问事 · 写文书 · 算赔偿 · 查案例</span></div>
-    <iframe id="pufa-app" src="./app.html" title="普法工委法律自助助手" loading="lazy" style="width:100%;height:calc(100vh - 230px);min-height:620px;border:1px solid var(--line);border-radius:14px;background:var(--bg)"></iframe>
-    <p style="margin-top:10px;font-size:12px;color:var(--dim2)">助手里点不动？<a href="./app.html" target="_blank" style="color:var(--cyan)">打开独立全屏版 →</a></p>
+    <div class="tstage">
+      <div class="tfloor" aria-hidden="true"></div>
+      <div class="lslab">
+        <div class="bar"><i></i>法律自助助手 · 7 大功能 · 内嵌 15 部法条</div>
+        <iframe id="pufa-app" src="./app.html" title="普法工委法律自助助手" loading="lazy" style="width:100%;height:calc(100vh - 250px);min-height:600px"></iframe>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:12px;color:var(--dim2)">助手里点不动？<a href="./app.html" target="_blank" style="color:var(--cyan)">打开独立全屏版 →</a></p>
   </section>
 
   <section class="sec">
@@ -220,5 +272,7 @@ h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,
   var nav = document.getElementById('nav');
   addEventListener('scroll', function(){ nav.classList.toggle('solid', scrollY > 20); }, {passive:true});
 </script>
+<script>window.P3D={appTitle:'法律护航'};</script>
+<script src="/assets/p3d-shell.js"></script>
 </body>
 </html>

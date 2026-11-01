@@ -5,6 +5,7 @@ compatibility_date = "2025-09-01"
 # Workers AI 绑定（Pages Functions 通过 env.AI 调用，免费额度内）
 [ai]
 binding = "AI"
+remote = true
 
 # D1 数据库：账号体系 + 问答记录
 [[d1_databases]]

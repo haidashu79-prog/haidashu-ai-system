@@ -1,0 +1,36 @@
+/* ══════════════════════════════════════════════════
+   工具页共用 · 3D 台面（第一版：智脑 / 法律 / L3 / 学习App）
+   ──────────────────────────────────────────────────
+   这套是给「功能不能被阵列取代」的页面用的：
+   功能区原样不动，只在它下面铺一块透视地面、
+   在它外面加一层浮起，让工具看着像摆在台面上的实体，
+   而不是贴在网页上的一张白纸。
+
+   和 p3d.css 的分工：
+   - p3d.css  → 内容页（产品体系 / 案例 / 素材 / 首页 / 学习）：卡片阵列 + 详情面板
+   - tool3d.css → 工具页：一块地台 + 浮起面板 + 局部纵深
+   ══════════════════════════════════════════════════ */
+
+/* ── 台面：透视地面 ── */
+.tstage{position:relative;isolation:isolate;perspective:1200px;perspective-origin:50% 10%}
+.tfloor{position:absolute;left:-24%;right:-24%;bottom:-58px;height:320px;z-index:0;
+  pointer-events:none;transform:rotateX(75deg);transform-origin:50% 100%;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(150,100,50,.30) 0 1px,transparent 1px 44px),
+    repeating-linear-gradient(0deg,rgba(150,100,50,.30) 0 1px,transparent 1px 44px);
+  -webkit-mask-image:radial-gradient(ellipse 52% 86% at 50% 100%,#000 0%,rgba(0,0,0,.45) 52%,transparent 78%);
+  mask-image:radial-gradient(ellipse 52% 86% at 50% 100%,#000 0%,rgba(0,0,0,.45) 52%,transparent 78%)}
+
+/* ── 浮起：面板离地 ── */
+.tfloat{position:relative;z-index:1;transform:translateZ(24px)}
+.tfloat-lg{position:relative;z-index:1;transform:translateZ(48px)}
+/* 面板底下的投影，单独一层，跟着面板走 */
+.tshadow{position:absolute;left:6%;right:6%;bottom:-16px;height:34px;z-index:0;
+  pointer-events:none;filter:blur(14px);border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(120,70,30,.30),transparent 72%)}
+
+/* ── 手机端：工具页统一收紧，把屏幕让给功能 ── */
+@media(max-width:900px){
+  .tfloor{bottom:-18px;height:170px;opacity:.62}
+  .tfloat,.tfloat-lg{transform:none}
+}

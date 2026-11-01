@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D3661F"/>
+      <stop offset="1" stop-color="#A94812"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <circle cx="256" cy="212" r="118" fill="none" stroke="#FFF6E8" stroke-width="12" opacity=".85"/>
+  <text x="256" y="248" text-anchor="middle" font-family="PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif"
+        font-size="96" font-weight="700" fill="#FFF6E8">海</text>
+  <text x="256" y="404" text-anchor="middle" font-family="PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif"
+        font-size="44" font-weight="600" letter-spacing="8" fill="#FFE9D2" opacity=".95">智脑</text>
+</svg>

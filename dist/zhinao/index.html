@@ -141,7 +141,8 @@
     <span class="eyebrow">商业智脑 · 一人公司辅助外挂</span>
     <h1 class="h2">卡在哪，问一句</h1>
     <p class="lead">算清钱从哪来、公司怎么开、账号怎么做、这单接不接。用大白话问，它用大白话答，给能落地的步骤和清单，不灌鸡汤。</p>
-    <p style="margin-top:10px;font-size:12.5px;color:var(--dim2)">内核 v0.34.0 · 2026-11-01 更新：记住上一问，能顺着追问往下算。</p>
+    <div style="margin-top:16px"><a class="btn btn-primary" href="/zhinao/aimoney/">看 100 种 AI 赚钱方法 →</a></div>
+    <p style="margin-top:12px;font-size:12.5px;color:var(--dim2)">内核 v0.35.0 · 2026-11-01 更新：口径切到「用 AI 赚钱」，新增 100 种赚钱方法。</p>
   </div>
 </section>
 
@@ -171,10 +172,10 @@
 
 <section class="zmore zprice">
   <div class="wrap">
-    <h2 class="center" style="font-size:21px;margin:0 0 8px">能帮你干什么，多少钱</h2>
-    <p class="lead center" style="margin:0 0 18px;color:var(--dim2)">只做开店这摊账：先把漏掉的钱找回来，再谈月费。</p>
+    <h2 class="center" style="font-size:21px;margin:0 0 8px">能帮你干什么，怎么开始</h2>
+    <p class="lead center" style="margin:0 0 18px;color:var(--dim2)">先给你三条能立刻干的路子，标出哪条最快见钱；挑中一条，一周做出第一份能收钱的交付。</p>
     <div class="grid c3" id="priceGrid"></div>
-    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">标价是单店口径；门店多、品项杂的，先看过账单再定。</p>
+    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">不卖课、没有固定套餐价；钱的事海大叔本人按你要做的事谈。</p>
   </div>
 </section>
 
@@ -222,12 +223,12 @@ var EXPERTS={
   ip:{n:'账号怎么做',sys:'你现在是「IP 操盘手」。管定位一句话、选题、内容配比、涨粉路径、私域承接与转化。账号不是发作品，是攒信任，信任要能换成单。文案只是其中一项，别一上来只谈写稿。'},
   judge:{n:'这单接不接',sys:'你现在是「决策参谋」。管接不接单、降不降价、客户值不值得留、什么时候停。先给判断，再给理由与代价，最后给一个可回退的动作。话不说满，风险讲清。'},
   eco:{n:'工具怎么选',sys:'你现在是「生态架构师」。管工具选型、插件与专家挂载、工作流编排、数据回流，让系统自己转而不是人硬扛。给具体怎么接、接上多出什么，讲清代价与维护成本。'},
-  auto:{n:'重复活怎么交出去',sys:'你现在是「升级教练」。管重复劳动怎么交出去、干过的活怎么回流成档案、短板怎么补、每月怎么复盘对账。给可执行的清单和顺序，别讲空道理。'},
+  auto:{n:'重复活怎么交出去',sys:'你现在是「升级教练」。管重复劳动怎么交出去、干过的活怎么回流成档案、短板怎么补、每月怎么复盘。给可执行的清单和顺序，别讲空道理。'},
   nature:{n:'人性怎么破',sys:'你现在是「人性参谋」。管他为什么不动手：懒、怕难、怕白花钱、想一步到位。先替他说出心里那句真话，再给一个今晚就能干完的小动作。不讲大道理，不指责，不灌鸡汤。'},
   earn:{n:'我这活能不能挣钱',sys:'你现在是「生意参谋」。他用一线经验换钱：先问清他手上有什么、谁会付钱、隔壁同样的人有没有同样的烦事。给一个能当天卖的最小单元、能报的价、第一单从哪来。不许承诺收益，不许编数字。'}
 };
 
-/* ── 智脑内核 v0.34.0：加载 brain.json，拼成统一底座 ── */
+/* ── 智脑内核 v0.35.0：加载 brain.json，拼成统一底座 ── */
 var BRAIN=null;
 function renderPrice(){
   var g=document.getElementById('priceGrid'); if(!g||!BRAIN||!BRAIN.skus) return;
@@ -253,6 +254,8 @@ function basePrompt(){
   s.push('人性障碍与对策：'+BRAIN.humanity.factors.map(function(f){return f.name+'→'+f.fix}).join('；')+'。');
   s.push('三不碰：'+BRAIN.never.join('；')+'。');
   s.push('答法：'+BRAIN.answer_shape.join('；')+'。');
+  if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
+  if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
   s.push('真干过的活（只能拿这些举例，不许编新的）：'+BRAIN.offers.map(function(o){return o.name+'（'+o.price+'）'}).join('；')+'。');
   return s.join('\n');
 }

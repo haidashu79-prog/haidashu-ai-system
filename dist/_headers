@@ -1,0 +1,18 @@
+/
+  Cache-Control: no-store, no-cache, must-revalidate
+  X-Content-Type-Options: nosniff
+
+/index.html
+  Cache-Control: no-store, no-cache, must-revalidate
+
+/*/index.html
+  Cache-Control: no-store, no-cache, must-revalidate
+
+/zhinao/micro.json
+  Cache-Control: no-store, max-age=0
+
+/*.json
+  Cache-Control: no-store, max-age=0
+
+/img/*
+  Cache-Control: public, max-age=604800

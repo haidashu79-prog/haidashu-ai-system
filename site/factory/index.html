@@ -7,6 +7,20 @@
 <meta name="description" content="海大叔 AI 工具工厂：说句人话，当场造出你的专属小工具。不用学 AI、不用装软件、不用注册。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
 <link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/p3d.css">
+<style>
+.fac-end{padding:54px 0 66px;text-align:center;border-top:1px solid var(--line);background:#FDF8F1}
+.fac-end .lead{max-width:600px;margin:10px auto 22px;font-size:14px;color:var(--dim);line-height:1.9}
+.fac-end .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+</style>
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="海大叔">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<link rel="canonical" href="https://haidashu.com.cn/factory/">
 </head>
 <body>
 
@@ -30,37 +44,16 @@
   </div>
 </header>
 
-<section style="padding-top:56px">
-  <div class="wrap center">
-    <span class="eyebrow">AI 工具工厂</span>
-    <h1 class="h2">说句人话，当场造个工具</h1>
-    <p class="lead">不用学 AI、不用装软件、不用注册。想要什么小工具，用大白话讲一句，几秒钟给你造出来，拿到就能用。</p>
-    <div class="btn-row" style="justify-content:center">
+<div id="p3"></div>
+
+<section class="fac-end" id="go">
+  <div class="wrap">
+    <span class="eyebrow">不用等，现在就造</span>
+    <h2 class="h2">工厂是真在跑的，点进去就能造</h2>
+    <p class="lead">免费造适合简单、单机、自己用的小工具——计算器、生成器、小清单这类。要接数据、要长期维护、要给团队一起用的，那个得定制。</p>
+    <div class="btn-row">
       <a class="btn btn-primary" href="/factory/app/">⚡ 进工厂开始造 →</a>
       <a class="btn btn-ghost" href="/cases/">看真能跑通的案例</a>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:10px">
-  <div class="wrap">
-    <div class="grid c3">
-      <div class="card"><h3><span class="ic">💬</span>一句人话</h3><p>「我做奶茶店的，想要输入杯型和糖度、自动算热量的小工具」——就这样说，剩下的它来。</p></div>
-      <div class="card"><h3><span class="ic">⚡</span>当场出活</h3><p>几秒钟生成，打开就能用，数据只在你自己设备上跑，不上传、不联网。</p></div>
-      <div class="card"><h3><span class="ic">🧰</span>预置现成</h3><p>不想等？工厂里还有一批提前造好的小工具，点开直接用。</p></div>
-    </div>
-
-    <div class="card" style="margin-top:18px;background:var(--card2)">
-      <b style="font-size:14px">说明：</b>
-      <p style="margin-top:6px">免费造适合简单、单机、自己用的小工具（计算器、生成器、小清单之类），不带账号和后端。要接数据、长期维护、给团队一起用的，加海大叔定制。</p>
-    </div>
-
-    <div class="center" style="margin-top:30px">
-      <p class="lead">这个工厂是真实在跑的应用，点进去就能造。</p>
-      <div class="btn-row" style="justify-content:center">
-        <a class="btn btn-primary" href="/factory/app/">⚡ 进工厂开始造 →</a>
-        <a class="btn btn-ghost" href="/products/">看产品体系</a>
-      </div>
     </div>
   </div>
 </section>
@@ -82,9 +75,64 @@
     <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
   </div>
 </footer>
+
+<script>
+window.P3D = {
+  appTitle:'工具工厂',
+  maxScale:1.22,
+  head:{
+    eyebrow:'AI 工具工厂 · 说句人话就造',
+    h1:'不用学 AI，说句人话当场造',
+    p:'不用装软件、不用注册、不用懂提示词。想要什么小工具，用大白话讲一句——「我做奶茶店的，想要个输入杯型和糖度、自动算热量的工具」，几秒钟给你造出来，拿到就能用。'
+  },
+  tiers:[
+    {k:'怎么用', s:'一句话 → 一个能用的工具'},
+    {k:'先说清边界', s:'能造什么 / 造不了什么'}
+  ],
+  items:[
+    {no:'01',g:'话',n:'一句人话就够',r:'不用背提示词',t:0,col:0,
+     short:'你平时怎么跟人说话，就怎么说',
+     lead:'「我做奶茶店的，想要输入杯型和糖度、自动算热量的小工具」——就这样说，剩下的它来。不用写英文、不用套模板、不用先学什么「提示词工程」。',
+     bullets:['说清三件事：给谁用、输入什么、出来什么','说得糙没关系，它听得懂人话','造完不满意，接着用嘴改，别说「重来」','不用注册，也不用先交钱'],
+     facts:[['要说清','给谁用 / 输入啥 / 出啥'],['不用说','英文、代码、提示词模板'],['改起来','接着说人话就行']],
+     badge:'最常见',
+     url:'/factory/app/', txt:'去造一个试试'},
+
+    {no:'02',g:'快',n:'当场出活',r:'几秒钟，打开就能用',t:0,col:1,
+     short:'数据只在你自己设备上跑',
+     lead:'几秒钟生成，生成完直接打开就能用。数据只在你自己设备上跑，不上传、不联网——所以客户名单、报价、身体数据这些，都敢往里填。',
+     bullets:['几秒出结果，不用等排期','打开即用，不用装 App','数据不上传、不联网，只在本机跑','造好的工具能存下来反复用'],
+     facts:[['出活速度','几秒钟'],['要装什么','什么都不用装'],['数据去哪','只在你本机']],
+     badge:'不联网',
+     url:'/factory/app/', txt:'进去造'},
+
+    {no:'03',g:'库',n:'不想等？有现成的',r:'提前造好的一批',t:0,col:2,
+     short:'点开直接用，不用自己造',
+     lead:'工厂里还有一批提前造好的小工具：算价、算提成、算账期、排内容、做清单。不想花时间造，先去现成的那一堆里翻，翻到就直接用。',
+     bullets:['算价 / 算成本 / 算利润','排内容、做选题清单','客户跟进、报价单生成','常用的一批已经造好了'],
+     facts:[['适合','急着用、不想折腾'],['怎么找','进工厂直接看现成的'],['能改吗','能，改一句就变你自己的']],
+     badge:'省时间',
+     url:'/factory/app/', txt:'去看现成的'},
+
+    {no:'04',g:'界',n:'能造什么，造不了什么',r:'先说清楚，省得白忙',t:1,col:0,
+     short:'简单单机自己用的 —— 免费',
+     lead:'免费造，适合简单、单机、自己用的东西：计算器、生成器、小清单、话术卡。要接数据、要账号登录、要长期维护、要给团队一起用的——那个不是造出来的，那个得定制。',
+     bullets:['能造：计算器、生成器、清单、话术卡、小测验','能造：一个人在自己电脑或手机上用的','造不了：要接数据库、要多人协作、要长期维护的','这类别硬造，直接找海大叔定做更省事'],
+     facts:[['免费造','简单 / 单机 / 自己用'],['要定制','接数据 / 多人 / 长期维护'],['拿不准','说一句，当场告诉你属于哪类']],
+     badge:'先看这条',
+     url:'/products/#contact', txt:'拿不准？问一句'}
+  ],
+  hint:'点任意一件，看它到底怎么帮你造',
+  cta:{href:'/products/#contact', txt:'加海大叔'},
+  anchor:'p3stage-top'
+};
+</script>
+<script src="/assets/p3d-shell.js"></script>
+<script src="/assets/p3d.js"></script>
 <script>
 document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
 document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
 </script>
+<script src="/assist.js" defer></script>
 </body>
 </html>

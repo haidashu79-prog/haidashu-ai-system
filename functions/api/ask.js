@@ -22,6 +22,19 @@ const MODELS = [
 ];
 
 const sse = (obj) => 'data: ' + JSON.stringify(obj) + '\n\n';
+
+/* 上游流式增量：content 可能是数字（如 "0"、"100"），必须转成字符串再判断，否则 0 会被当成空丢掉 */
+function deltaOf(j) {
+  let v = '';
+  if (j && typeof j.response === 'string' && j.response) v = j.response;
+  else if (j && j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content != null) {
+    v = j.choices[0].delta.content;
+  } else if (j && j.response != null) {
+    v = j.response;
+  }
+  return v === '' || v == null ? '' : String(v);
+}
+
 const chunkOut = (text) => sse({ choices: [{ delta: { content: text } }], text });
 
 function jsonResp(obj, status = 200) {
@@ -81,9 +94,11 @@ const SYN = {
   '涨粉': '涨粉 选题 定位', '播放': '选题 内容配比', '变现': '变现 客单 私域',
   '同行': '竞品 定价', '累': '交付 外包 收手', '忙不过来': '交付 外包 收手', '不赚钱': '成本 定价 该停',
   '接不接': '判断 该停 交付', '该不该': '判断 该停', '要不要': '判断 该停',
-  '对账': '对账 平台 抽成 结算 差额', '账单': '对账 结算 差额 平台', '对不上': '对账 差额 结算',
-  '抽成': '对账 平台 结算 抽成', '补贴': '对账 平台 活动', '退款': '对账 差额', '结算': '对账 平台 结算',
-  '盘货': '盘点 进销存 损耗', '盘点': '盘点 进销存 损耗', '损耗': '损耗 进销存 成本', '漏了': '对账 差额 损耗',
+  'AI': 'AI 工具 赚钱 路子', 'ai': 'AI 工具 赚钱 路子',
+  '赚钱': '赚钱 路子 变现 第一笔', '挣钱': '赚钱 路子 变现 第一笔', '搞钱': '赚钱 路子 副业',
+  '副业': '副业 路子 接单', '变现': '变现 客单 私域 路子', '创业': '一人公司 路子 赚钱 定价',
+  '一百种': '100种 路子 分类 方法', '方法': '路子 分类 怎么做', '路子': '路子 分类 门槛',
+  '接单': '接单 服务 报价 交付', '不会技术': '入门 门槛 工具', '一个人': '一人公司 外包 工具',
 };
 function expandQ(raw) {
   let s = raw;
@@ -163,17 +178,30 @@ function retrieve(kb, question, topN = 5) {
 /* ── 收费问答：问到价，除正常报价外，末尾补一句海大叔微信（服务端兜底，保证只在这一类回答出现） ── */
 const PRICING_RE = /(收费|费用|多少钱|价格|报价|价钱|怎么算钱|怎么收钱|怎么收费|贵不贵|按什么收|月付|包月)/;
 const isPricingAsk = (q) => PRICING_RE.test(String(q || ''));
+const METHODS_RE = /(怎么赚|咋赚|赚钱|挣钱|挣点钱|搞钱|方法|路子|副业|创业|干嘛|干什么|干啥|做什么|怎么开始|能做啥|能干啥|能做什么|能干什么|接单|变现|零基础|不会技术|啥都不会)/;
+const isMethodsAsk = (q) => METHODS_RE.test(String(q || ''));
+function methodsLine(kb) {
+  const m = (kb && kb.methods) || null;
+  const url = (m && m.url) || 'https://haidashu.com.cn/zhinao/aimoney/';
+  const n = (m && m.count) || 100;
+  return `AI 创业赚钱 ${n} 种方法全表在这儿，10 类、每条写清怎么做、门槛、第一笔钱、坑：${url}`;
+}
+
 const contactLine = (kb) =>
   (kb && kb.pricing && kb.pricing.contact) ||
-  '想直接问的，加海大叔微信 haidashu79，把上个月的账单发他，他本人看。';
+  '想直接问的，加海大叔微信 haidashu79，说清你会什么、每天有几个小时，他本人回。';
 
 function buildSystem(cards, pageSystem, kb) {
   const st = (kb && kb.stats) || {};
   const pr = (kb && kb.pricing) || null;
-  const priceBlock = pr ? `【海大叔这边在卖的东西（事实资料）】
+  const priceBlock = pr ? `【海大叔这边能帮的事（事实资料）】
 ${pr.line}
 对外统一用这句话说：${pr.reply}
 各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}` : '';
+  const mth = (kb && kb.methods) ? `【AI 创业赚钱一百种方法（档案里有全表）】
+一共 ${kb.methods.count} 条，分 ${kb.methods.categories.length} 类：${kb.methods.categories.map(c => c.name).join('、')}。每条写清怎么做、要什么门槛、第一笔钱从哪来、最容易栽的坑。
+${kb.methods.rule}
+要全表就报这个网址：${kb.methods.url}` : '';
   const hit = cards.length
     ? cards.map((c, i) => `${i + 1}. 【${c.title}】${c.text}`).join('\n')
     : '（本次没匹配到专门档案，按海大叔通用口径答，别硬编具体数字）';
@@ -204,7 +232,7 @@ ${pr.line}
 先给判断，一句话说死；再给理由；最后给今天能做的一步。说人话、短句、20-40 字一段，不端架子、不喊口号、不写"首先其次最后"。200-450 字为佳。问钱的事就谈钱，别绕成励志。
 
 【你要守的红线】
-不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。客户问自家服务多少钱，只照上面那张表报，不许自造档位、不许说“看情况给你报”；别家东西的价一律不报。不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
+不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。客户问自家怎么收费，照上面口径说：不卖课、没有固定套餐价，先看他要做什么，钱的事海大叔本人跟他谈；不许自造价格、不许编档位；别家东西的价一律不报。不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
 
 【数字纪律（最容易被扣分的就这条）】
 用户没给的数字，一个都不许替他填。不许自拟人工工资、单价、毛利率、转化率、月销、回本周期。
@@ -216,19 +244,22 @@ ${pr.line}
 
 ${priceBlock}
 
+${mth}
+
 【本次从档案里调出来的东西（优先用它回答）】
 ${hit}
 
 【你还能替人干的活（远不止写文案，按需提，别一次全倒）】
-找客户、定价与报价、成本核算、现金流排期、合同要点、交付边界、账号定位、选题策划、内容配比、私域承接、竞品拆解、复盘对账、招商方案、工具选型、工作流编排、带人教学、客户异议应对、判断什么时候该停。
+找客户、定价与报价、成本核算、现金流排期、合同要点、交付边界、账号定位、选题策划、内容配比、私域承接、竞品拆解、复盘、招商方案、工具选型、工作流编排、带人教学、客户异议应对、判断什么时候该停。
 
 【回答要求】
 1. 优先用上面调出的档案，不许添油加醋，档案没有的数字不要编。
 2. 尽量往"这事怎么变成钱、下一步谁去做、做什么"上收，别停在道理。
-3. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项要看过你的账单再定"。对方没问价（只问你能干什么、怎么做、怎么落地），别主动报价，也别写"若涉及收费"这类括号提示。
-3. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
-4. 结尾给一个今天就能动手的动作，一句话。
-5. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
+3. 对方问"Ai 怎么赚钱/AI 能怎么挣钱/有哪些路子/我能干点什么/有没有更多方法"这一类，必须先把【AI 创业赚钱一百种方法】用上：说清共 100 条、分 10 类、类名报全（内容与流量、一人接单服务、小工具与小产品、卖货与电商、教与陪跑、本地生意、职场与专业加持、出海与跨境、自动化与代运营、资产型与长期），再从里面挑 4–6 条最贴他情况的，每条写清怎么做、第一笔钱从哪来、坑在哪，最后把全表网址给出去。一次最多列 8 条，不许把 100 条全倒出来。
+4. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项得海大叔本人跟你谈"。对方没问价（只问你能干什么、怎么做、怎么落地），别主动报价，也别写"若涉及收费"这类括号提示。
+5. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
+6. 结尾给一个今天就能动手的动作，一句话。
+7. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
 
 ${pageSystem ? '【当前专家角色设定，叠加在上面的口径之内】\n' + pageSystem : ''}`;
 }
@@ -343,11 +374,7 @@ export async function onRequest(context) {
             if (!payload || payload === '[DONE]') continue;
             let piece = '';
             try {
-              const j = JSON.parse(payload);
-              piece =
-                j.response ||
-                (j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content) ||
-                '';
+              piece = deltaOf(JSON.parse(payload));
             } catch (e) {
               piece = '';
             }
@@ -363,6 +390,13 @@ export async function onRequest(context) {
           const cl = '\n\n' + contactLine(kb);
           answer += cl;
           controller.enqueue(encoder.encode(chunkOut(cl)));
+        }
+
+        // 问到路子/方法/怎么赚钱，兜底补一行方法库入口（模型爱漏网址）
+        if (answer.trim() && isMethodsAsk(question) && !/aimoney/.test(answer)) {
+          const ml = '\n\n' + methodsLine(kb);
+          answer += ml;
+          controller.enqueue(encoder.encode(chunkOut(ml)));
         }
 
         // 末尾回传本次调用的档案，让"智脑在干活"看得见

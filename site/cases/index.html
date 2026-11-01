@@ -3,29 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>案例库 · 海大叔 AI新媒体IP智慧生态</title>
+<title>案例库 · 13 个能跑的原版应用｜海大叔</title>
 <meta name="description" content="海大叔案例库：法律智库（5325 条法条 · 1044 个案例）、金策贵金属、报价与回访助手、内容创作工作台、提词器、易玄机、星语、小初高知识地图。全部原版，点开就能用。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
 <link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/p3d.css">
 <style>
-/* 案例库专用：分组标题 + 数字带 */
-.stat-band{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-.stat-band .s{flex:1 1 150px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.stat-band .s b{display:block;font-size:22px;color:var(--brand);line-height:1.2;letter-spacing:-.4px}
-.stat-band .s span{display:block;font-size:12.5px;color:var(--dim);margin-top:4px}
-.grp{margin-top:52px}
-.grp-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.grp-h h2{font-size:19px;margin:0;color:var(--ink)}
-.grp-h span{font-size:12.5px;color:var(--dim)}
-.card .facts{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
-.card .facts i{font-style:normal;font-size:11.5px;color:var(--brand);background:rgba(194,87,28,.09);border:1px solid rgba(194,87,28,.18);border-radius:20px;padding:3px 9px}
-.card .out{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink)}
-.card .out b{color:var(--brand)}
-.card .out em{font-style:normal;color:var(--dim);font-size:12px}
-/* 同一行卡片等高、箭头贴底，避免长短不一看着乱 */
-.grid.c3>.card{display:flex;flex-direction:column}
-.grid.c3>.card .arrow{margin-top:auto;padding-top:12px}
+/* 案例页：舞台下面接一块收尾 CTA + 数字带 */
+.end-cta{padding:44px 0 68px;text-align:center;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,#FDF8F1,#FBF6EE)}
+.stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:0 auto 34px;max-width:900px}
+.stat-row .s{flex:0 1 auto;min-width:150px;background:#fff;border:1px solid var(--line);
+  border-radius:13px;padding:13px 18px;text-align:left}
+.stat-row .s b{display:block;font-size:20px;font-weight:900;color:var(--brand);line-height:1.2;letter-spacing:-.3px}
+.stat-row .s span{display:block;font-size:12px;color:var(--dim);margin-top:4px}
+.end-cta p{font-size:14px;color:var(--dim);max-width:640px;margin:0 auto 20px;line-height:1.9}
+.end-cta .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.end-cta .btn{padding:12px 22px;border-radius:11px;font-size:14px;font-weight:700;text-decoration:none;
+  display:inline-block;border:1px solid var(--brand);transition:.18s}
+.end-cta .btn-primary{background:var(--brand);color:#fff}
+.end-cta .btn-primary:hover{filter:brightness(1.08)}
+.end-cta .btn-ghost{background:#fff;color:var(--brand)}
+.end-cta .btn-ghost:hover{background:var(--brand-d)}
 </style>
+<meta name="theme-color" content="#C2571C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="海大叔">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<link rel="canonical" href="https://haidashu.com.cn/cases/">
 </head>
 <body>
 
@@ -49,131 +57,21 @@
   </div>
 </header>
 
-<section style="padding-top:64px">
-  <div class="wrap">
-    <span class="eyebrow">案例库 · CASE LIBRARY</span>
-    <h1 class="h2">已经做出来的，才叫案例</h1>
-    <p class="lead">这里没有概念稿，也不是截图和录屏。每一个都是海大叔真实交付、现在还能打开用的原版产品——功能一个不少，不做试用阉割版。点进去，你自己动手试。</p>
+<div id="p3"></div>
 
-    <div class="stat-band">
-      <div class="s"><b>13 个</b><span>能打开、能操作的原版案例</span></div>
-      <div class="s"><b>11 个</b><span>已接站内 AI 问答（不用注册、不用填 Key）</span></div>
-      <div class="s"><b>5,325 条</b><span>法律智库收录法条（39 部法律）</span></div>
-      <div class="s"><b>0 个</b><span>概念稿 / 阉割版 / 假数据演示页</span></div>
-    </div>
-
-    <!-- ============ 一、工作需要 ============ -->
-    <div class="grp">
-      <div class="grp-h">
-        <h2>一、拿来干活、拿来赚钱的</h2>
-        <span>工作需要 · 每一个都对应一件具体的事，不是"平台"</span>
-      </div>
-      <div class="grid c3" style="margin-top:26px">
-
-        <a class="card" href="/cases/legal">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">⚖️</span>法律智库</h3>
-          <p>把「不敢问、问了听不懂、懂了不会写」一次解决。内置 39 部法律全文，你用自己的话说事，它出咨询、出建议、出策略，再顺手给你能直接用的文书。</p>
-          <div class="facts"><i>5,325 条法条</i><i>1,044 个案例</i><i>29 套文书范本</i><i>15 个场景包</i></div>
-          <div class="out"><b>出咨询</b> 这事法律上到底怎么定 · <b>出建议</b> 你该做什么、别做什么 · <b>出策略</b> 走哪条路、先做哪步<br><em>答完直接给：依据条文 + 分步做法 + 现成范本</em></div>
-          <div class="arrow">问一件真事 →</div>
-        </a>
-
-        <a class="card" href="/cases/jince/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">📈</span>金策贵金属</h3>
-          <p>贵金属研判终端。真实行情、200 根日 K、布林 / MACD / RSI 全套指标，黄金白银双品种独立研判，历史预判留档对着真实行情打命中率，权重自己学。</p>
-          <div class="facts"><i>真实行情</i><i>200 根日K</i><i>双品种</i><i>自学习命中率</i></div>
-          <div class="out"><b>看盘</b> K线·指标·共振 · <b>出研判</b> 今日/明日/周 三档方向 + 区间 · <b>留档</b> 每条预判到期用真价核对，命中率不修饰<br><em>行情条、回收价、现货人民币价、警报盯盘全在</em></div>
-          <div class="arrow">看真实盘面 →</div>
-        </a>
-
-        <a class="card" href="/cases/quote/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">🧾</span>小店报价与回访助手</h3>
-          <p>小生意老板每天要干的三件事：算该卖多少钱、看谁该回访了、给客户发话术。填一次店铺信息，后面自动套。</p>
-          <div class="facts"><i>成本算价</i><i>回访提醒</i><i>话术生成</i></div>
-          <div class="out"><b>出报价</b> 按成本倍数给三档价 · <b>出名单</b> 谁多久没来 · <b>出话术</b> 直接复制发给客户<br><em>数据存在自己手机上，关掉网页也还在</em></div>
-          <div class="arrow">算一单试试 →</div>
-        </a>
-
-        <a class="card" href="/cases/workbench/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">🗂️</span>每日内容创作工作台</h3>
-          <p>一条流水线管完一天的内容：热点怎么筛、今天写什么、怎么套模板、评论区怎么回、发之前检查什么、每周怎么复盘。不用每天早上发呆想选题。</p>
-          <div class="facts"><i>热点同步</i><i>选题推荐</i><i>评论话术</i><i>发布检查</i></div>
-          <div class="out"><b>出选题</b> 按你的赛道筛过的 · <b>出稿子</b> 模板套完就是初稿 · <b>出复盘</b> 一周数据回头看<br><em>中年人做账号最容易踩的坑，都在检查清单里</em></div>
-          <div class="arrow">看今天的内容 →</div>
-        </a>
-
-        <a class="card" href="/cases/teleprompter">
-          <span class="badge live">打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">📱</span>海大叔提词器</h3>
-          <p>拍口播、直播、录课最怕卡词。稿子粘左边，点开始就匀速往上滚，中间一条参考线帮你定位。速度字号随便调，还能开镜像对着手机前置镜头念。</p>
-          <div class="facts"><i>匀速滚动</i><i>镜像模式</i><i>字号可调</i></div>
-          <div class="out"><b>不用装 App</b> 网页打开就能用 · <b>不用登录</b> 粘稿即走<br><em>手机、平板、电脑都行</em></div>
-          <div class="arrow">试一段 →</div>
-        </a>
-
-        <a class="card" href="https://haidashu-toolbox.app.workbuddy.host/haidashu-downloader.apk?sharecode=ZQRUDECZN7" target="_blank" rel="noopener">
-          <span class="badge apk">安卓安装包 · 36.6 MB</span>
-          <h3 style="margin-top:12px"><span class="ic">📥</span>海大叔下载器</h3>
-          <p>海大叔工具箱里的下载器，安卓手机装上就能用。点开直接下载安装包，装完即用。</p>
-          <div class="facts"><i>安卓 APK</i><i>装完即用</i></div>
-          <div class="out"><b>说明</b> 苹果手机装不了安卓包，用上面的网页版<br><em>下载链接带提取码，点开直接下</em></div>
-          <div class="arrow">下载安装包 →</div>
-        </a>
-
-      </div>
-    </div>
-
-    <!-- ============ 二、人性需求 ============ -->
-    <div class="grp">
-      <div class="grp-h">
-        <h2>二、关于自己、孩子、心里那点事的</h2>
-        <span>人性需求 · 这几个不一定最赚钱，但最容易被打开，也最容易做出口碑</span>
-      </div>
-      <div class="grid c3" style="margin-top:26px">
-
-        <a class="card" href="/cases/yixuan/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">☯️</span>易玄机</h3>
-          <p>周易六爻、生辰八字、奇门遁甲、风水布局、万年历、五行八卦、典籍库。生辰八字是真录出生年月日时分与性别，真排四柱、五行、十神、大运——不是随便跳个结果给你看。</p>
-          <div class="facts"><i>生辰八字真排盘</i><i>六爻起卦</i><i>奇门遁甲</i><i>典籍库</i></div>
-          <div class="out"><b>真算</b> 排盘逻辑全在本地，不联网也排得出来 · <b>说清</b> 每一步为什么这么断，不糊弄<br><em>这是原版，功能没删</em></div>
-          <div class="arrow">进去起一卦 →</div>
-        </a>
-
-        <a class="card" href="/cases/astro/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">✨</span>海大叔 · 星语</h3>
-          <p>塔罗占卜、星座运势、星座档案、78 张牌义库。填生日能看太阳／月亮／上升；抽牌按真牌阵走，牌义一条条摊开讲。</p>
-          <div class="facts"><i>塔罗牌阵</i><i>星座档案</i><i>78 张牌义</i></div>
-          <div class="out"><b>断网也能用</b> 内容和解释全在本地 · <b>不诱导付费</b> 抽完就给你看<br><em>原版，六个页签全开</em></div>
-          <div class="arrow">进去抽一张 →</div>
-        </a>
-
-        <a class="card" href="/cases/edu/">
-          <span class="badge live">完整版 · 打开即用</span>
-          <h3 style="margin-top:12px"><span class="ic">🎒</span>小初高知识地图</h3>
-          <p>小学到高中 23 门学科的课标要点和知识结构，摊成一张能点的地图。先看阶段，再看孩子，最后只给今天能做的一件小事——不给你一堆"要努力"。</p>
-          <div class="facts"><i>23 门学科</i><i>上千知识节点</i><i>一至高三</i></div>
-          <div class="out"><b>看清</b> 孩子这个年级到底要掌握什么 · <b>定位</b> 卡在哪个节点 · <b>落地</b> 今天只做一件小事<br><em>家长最缺的不是资料，是"先看哪儿"</em></div>
-          <div class="arrow">看孩子那一年 →</div>
-        </a>
-
-      </div>
-    </div>
-
-    <div class="center" style="margin-top:52px">
-      <p class="lead">这些不是做给你看的样机，是海大叔自己每天在用的东西。想照着一个做给你自己的生意？加我，手把手带你跑通。</p>
-      <div class="btn-row" style="justify-content:center">
-        <a class="btn btn-primary" href="/products/#contact">加海大叔聊聊 →</a>
-        <a class="btn btn-ghost" href="/products/">看九模块产品体系</a>
-      </div>
-    </div>
+<div class="end-cta">
+  <div class="stat-row">
+    <div class="s"><b>13 个</b><span>能打开、能操作的案例</span></div>
+    <div class="s"><b>5,325 条</b><span>法律智库收录法条 · 39 部法律</span></div>
+    <div class="s"><b>1,044 个</b><span>法律智库入库案例</span></div>
+    <div class="s"><b>7 个</b><span>已接站内 AI 专业问答</span></div>
   </div>
-</section>
+  <p>这些不是做给你看的样机，是海大叔自己每天在用的东西。想照着一个做给你自己的生意？加我，手把手带你跑通。</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="/products/#contact">加海大叔聊聊 →</a>
+    <a class="btn btn-ghost" href="/products/">看九模块产品体系</a>
+  </div>
+</div>
 
 <footer>
   <div class="foot-in wrap">
@@ -192,9 +90,144 @@
     <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
   </div>
 </footer>
+
+<script>
+window.P3D = {
+  appTitle:'案例库',
+  head:{
+    eyebrow:'案例库 · 13 个能跑的原版',
+    h1:'已经做出来的，才叫案例',
+    p:'没有概念稿，也不是截图和录屏。每一个都是真实交付、现在还能打开用的原版产品，不做试用阉割版。其中 <b>7 个已接站内 AI 专业问答</b>，打开就能问。'
+  },
+  tiers:[
+    {k:'拿来干活 · 接活和算钱', s:'每一个对应一件具体的事，不是"平台"'},
+    {k:'拿来干活 · 出内容和工具', s:'写稿、提词、装到手机上'},
+    {k:'一个人的公司怎么开怎么算', s:'该不该做、报多少钱、拍什么'},
+    {k:'关乎自己、孩子和身体', s:'不一定最赚钱，但最容易被打开'}
+  ],
+  items:[
+    {no:'01',g:'法',n:'法律智库',r:'法律咨询 · 文书代笔',t:0,col:0,
+     short:'39 部法律、1044 个案例，说人话就出咨询',
+     lead:'把「不敢问、问了听不懂、懂了不会写」一次解决。内置 39 部法律全文与 1044 个入库案例，你用自己的话说事，它出咨询、出建议、出策略，再顺手给你能直接用的文书。',
+     bullets:['出咨询：这事法律上怎么定，依据是哪一条','出建议：该做什么、别做什么、先做哪一步','出策略：走哪条路、要准备什么证据','出文书：29 套现成范本，改个名字就能用'],
+     facts:[['规模','5,325 条法条 · 39 部法律'],['案例','1,044 个入库案例'],['文书','29 套可直接套用'],['AI','已接站内专业问答，不用 Key']],
+     badge:'完整版 · 打开即用',
+     note:'答的是条文和做法，不代替律师出庭；涉大额和刑责的，最后一步还是找人过一遍。',
+     url:'/cases/legal', txt:'问一件真事'},
+
+    {no:'02',g:'金',n:'金策贵金属',r:'贵金属研判终端',t:0,col:1,
+     short:'真实行情 + 200 根日 K，出今日 / 明日 / 本周三档研判',
+     lead:'贵金属研判终端。真实行情接口、200 根日 K、布林 / MACD / RSI 全套指标，黄金白银双品种独立研判，历史预判留档到期用真价核对命中率。',
+     bullets:['看盘：K 线、指标、多周期共振一屏','出研判：今日 / 明日 / 本周 三档方向 + 区间','留档：每条预判到期用真实价格核对','盯盘：行情条、回收价、现货人民币价、警报'],
+     facts:[['品种','黄金 / 白银 双品种独立'],['数据','真实行情 · 200 根日 K'],['指标','布林 · MACD · RSI · 共振'],['复盘','自学习命中率统计']],
+     badge:'完整版 · 打开即用',
+     note:'只做研判和记录，不代客下单，不承诺收益。',
+     url:'/cases/jince/', txt:'看真实盘面'},
+
+    {no:'03',g:'价',n:'小店报价与回访助手',r:'算价 · 回访 · 话术',t:0,col:2,
+     short:'算该卖多少钱、谁该回访了、话术怎么写',
+     lead:'小生意老板每天要干的三件事：算该卖多少钱、看谁该回访了、给客户发什么话。填一次店铺信息，后面自动套。',
+     bullets:['出报价：按成本倍数给三档价，告诉你底线在哪','出名单：谁多久没来、今天该催谁','出话术：复制就能发给客户','数据存在自己手机上，关掉网页也还在'],
+     facts:[['算价','成本 × 倍数 → 三档价'],['回访','按上次消费日自动排序'],['话术','到店 / 微信 / 电话 三种'],['存储','本机保存，不上传']],
+     url:'/cases/quote/', txt:'算一单试试'},
+
+    {no:'04',g:'稿',n:'每日内容创作工作台',r:'选题 · 写稿 · 评论 · 复盘',t:1,col:0,
+     short:'热点 → 选题 → 稿子 → 评论 → 复盘，一条线管完',
+     lead:'一条流水线管完一天的内容：热点怎么筛、今天写什么、怎么套模板、评论区怎么回、发之前检查什么、每周怎么复盘。',
+     bullets:['出选题：按你的赛道筛过的，不是全网热搜','出稿子：模板套完就是初稿','出评论话术：夸的、骂的、问价的各一套','发前清单：中年人做账号最容易踩的坑都在里面'],
+     facts:[['热点','分类同步 + 赛道过滤'],['选题','按内容支柱分配'],['检查','发布前 12 项清单'],['复盘','一周数据回头看']],
+     badge:'完整版 · 打开即用',
+     url:'/cases/workbench/', txt:'看今天的内容'},
+
+    {no:'05',g:'词',n:'海大叔提词器',r:'口播 · 直播 · 录课',t:1,col:1,
+     short:'稿子粘进去，匀速往上滚，还能开镜像',
+     lead:'拍口播、直播、录课最怕卡词。稿子粘左边，点开始就匀速往上滚，中间一条参考线帮你定位。能开镜像，对着手机前置镜头念也不反。',
+     bullets:['匀速滚动，速度随手调','镜像模式，前置镜头专用','字号可调，隔一米也看得清','不用装 App、不用登录，粘稿即走'],
+     facts:[['平台','手机 / 平板 / 电脑 都能开'],['安装','无需安装'],['登录','不需要']],
+     url:'/cases/teleprompter', txt:'试一段'},
+
+    {no:'06',g:'载',n:'海大叔下载器',r:'安卓工具箱',t:1,col:2,
+     short:'安卓安装包 36.6 MB，点开就下',
+     lead:'海大叔工具箱里的下载器，安卓手机装上就能用。点开直接下载安装包，装完即用。',
+     bullets:['安卓 APK，36.6 MB','链接带提取码，点开直接下','苹果手机装不了安卓包，上面那几个网页版都能代替'],
+     facts:[['格式','安卓 APK'],['大小','36.6 MB'],['安装','下载后允许安装即可']],
+     badge:'安卓安装包',
+     url:'https://haidashu-toolbox.app.workbuddy.host/haidashu-downloader.apk?sharecode=ZQRUDECZN7',
+     blank:true, txt:'下载安装包'},
+
+    {no:'07',g:'避',n:'商业决策避险',r:'投前算账 · 风险扫描',t:2,col:0,
+     short:'投钱之前先算三笔账，再扫七个方向的风险',
+     lead:'投钱之前先算一遍。填完钱的数，它算三笔账（资金占比、现金跑道、回本周期），再扫七个方向的风险，出致命项、最小验证方案、止损线、退出路径。',
+     bullets:['三笔账：这笔钱占你总资金多少、能撑几个月、多久回本','七维扫描：市场、现金、合规、人、供应、技术、心态','结论三档：能上 / 先验证 / 先别投','先花 8% 的钱验证一个假设，再决定要不要全押'],
+     facts:[['输入','资金、成本、预期、周期'],['输出','结论 + 致命项 + 止损线'],['备忘','决策备忘可复制存档'],['AI','可继续追问细节']],
+     badge:'完整版 · 打开即用',
+     note:'亏损扩大，几乎都发生在「再撑一个月看看」之后。',
+     url:'/cases/bizrisk/', txt:'算我这笔投不投'},
+
+    {no:'08',g:'跑',n:'一人公司陪跑',r:'体检 · 定价 · 跑道 · 主体',t:2,col:1,
+     short:'18 项体检、定价倒推、现金跑道、主体选择',
+     lead:'一个人干，最怕三件事：不知道自己缺什么、报价报低了、钱烧完了才发现。五个工具合一，全出数不出道理。',
+     bullets:['18 项业务体检：一眼看出最短的那块板','定价倒推：算出最低报价和你的每小时真实时薪','现金跑道：还能撑几个月，先砍哪笔','主体选择：个体户还是一人公司，按你的情况给结论'],
+     facts:[['体检','18 项，分四组'],['定价','成本 + 时间倒推三档价'],['跑道','按月烧钱速度算'],['清单','30 天启动，可勾选留痕']],
+     badge:'完整版 · 打开即用',
+     note:'「按同行都收这个价」是最容易亏钱的一句话。',
+     url:'/cases/solo/', txt:'给我算报价'},
+
+    {no:'09',g:'号',n:'自媒体小白陪跑',r:'定位 · 选题 · 脚本 · 复盘',t:2,col:2,
+     short:'五个问题换一句定位，30 条选题、脚本、标题、复盘',
+     lead:'从 0 起号一条线：五个问题换一句定位、30 条能拍的选题、四段口播脚本、10 个标题、数据出来怎么看。哪一步卡住就问教练。',
+     bullets:['出定位句 + 三个内容支柱 + 明确不要发什么','出 30 条选题，按你的赛道分好类','出脚本：钩子三选一，四段结构','看数据：完播看钩子、互动看共鸣、涨粉看人设'],
+     facts:[['定位','一句话 + 三支柱'],['选题','30 条 / 轮'],['脚本','四段口播结构'],['AI','卡住随时问教练']],
+     badge:'完整版 · 打开即用',
+     note:'三个率三个病：完播率看钩子，互动率看共鸣，涨粉率看人设。',
+     url:'/cases/media/', txt:'从定位开始'},
+
+    {no:'10',g:'检',n:'体检报告解读',r:'指标判定 · 复查建议',t:3,col:0,
+     short:'30+ 指标逐项判定，告诉你要不要跑医院',
+     lead:'体检报告上那些箭头到底要不要紧？把数值照抄进来，30+ 常用指标逐项判定，告诉你偏了多少、通常什么原因、要不要马上跑医院、下次什么时候复查。',
+     bullets:['分三档：正常 / 轻度偏离 / 需重视','给复查清单：1 个月还是 3 个月','给问医生的 6 句话，照着念就行','按性别分区间，不拿男标套女'],
+     facts:[['指标','30+ 常用项'],['区间','按性别分开判定'],['输出','判定 + 原因 + 复查建议'],['AI','可继续追问指标组合']],
+     badge:'完整版 · 打开即用',
+     note:'不做诊断、不开药、不给方案，只解释数值和指路。',
+     url:'/cases/health/', txt:'看我的报告'},
+
+    {no:'11',g:'易',n:'易玄机',r:'周易 · 八字 · 奇门',t:3,col:1,
+     short:'八字真排盘、六爻起卦、奇门遁甲、典籍库',
+     lead:'周易六爻、生辰八字、奇门遁甲、风水布局、万年历、五行八卦、典籍库。生辰八字是真录出生年月日时分与性别，真排四柱、五行、十神、大运。',
+     bullets:['排盘逻辑全在本地，不联网也排得出来','四柱、五行、十神、大运逐项列出','六爻起卦、奇门遁甲、风水布局全在','附典籍库，出处能查'],
+     facts:[['功能','八字 / 六爻 / 奇门 / 风水 / 万年历'],['排盘','本地计算，不依赖网络'],['说明','每一步为什么这么断都写出来']],
+     badge:'完整版 · 打开即用',
+     url:'/cases/yixuan/', txt:'进去起一卦'},
+
+    {no:'12',g:'星',n:'海大叔 · 星语',r:'塔罗 · 星座 · 配对',t:3,col:2,
+     short:'星座配对、塔罗牌阵、78 张牌义、AI 占星问答',
+     lead:'塔罗占卜、星座运势、星座档案、78 张牌义库，新接了星座配对和 AI 占星问答。配对看两个人的元素关系，还能让 AI 按行星相位细说。',
+     bullets:['配对：元素给底子，冲突点说到「什么场景会吵」','问答：元素、守护星、宫位、合盘都能问','塔罗：常用牌阵 + 78 张牌义库','运势：每日 / 每周 / 每月'],
+     facts:[['配对','12×12 全组合'],['牌义','78 张全收'],['AI','按占星逻辑答，不说空话']],
+     badge:'完整版 · 已接 AI',
+     url:'/cases/astro/', txt:'看看我和他'},
+
+    {no:'13',g:'学',n:'小初高知识地图',r:'课标要点 · 知识结构',t:3,col:3,
+     short:'23 门学科、上千知识节点，摊成一张能点的地图',
+     lead:'小学到高中 23 门学科的课标要点和知识结构，摊成一张能点的地图。先看阶段，再看孩子，最后只给今天能做的一件小事。',
+     bullets:['看清：这个年级到底要掌握什么','定位：卡在哪个节点，前面漏了什么','落地：今天只做一件小事，不铺一整套计划'],
+     facts:[['学段','小学一至高中三'],['学科','23 门'],['结构','课标要点 → 知识节点']],
+     badge:'完整版 · 打开即用',
+     note:'家长最缺的不是资料，是「先看哪儿」。',
+     url:'/cases/edu/', txt:'看孩子那一年'}
+  ],
+  stats:null,
+  hint:'点任意一块，看它到底给你什么',
+  cta:{href:'/products/#contact', txt:'加海大叔聊聊'},
+  anchor:'p3stage-top'
+};
+</script>
+<script src="/assets/p3d-shell.js"></script>
+<script src="/assets/p3d.js"></script>
 <script>
 document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
 document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
 </script>
+<script src="/assist.js" defer></script>
 </body>
 </html>
