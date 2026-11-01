@@ -160,14 +160,20 @@ function retrieve(kb, question, topN = 5) {
 
 /* ---------------- 智脑提示词 ---------------- */
 
+/* ── 收费问答：问到价，除正常报价外，末尾补一句海大叔微信（服务端兜底，保证只在这一类回答出现） ── */
+const PRICING_RE = /(收费|费用|多少钱|价格|报价|价钱|怎么算钱|怎么收钱|怎么收费|贵不贵|按什么收|月付|包月)/;
+const isPricingAsk = (q) => PRICING_RE.test(String(q || ''));
+const contactLine = (kb) =>
+  (kb && kb.pricing && kb.pricing.contact) ||
+  '想直接问的，加海大叔微信 haidashu79，把上个月的账单发他，他本人看。';
+
 function buildSystem(cards, pageSystem, kb) {
   const st = (kb && kb.stats) || {};
   const pr = (kb && kb.pricing) || null;
   const priceBlock = pr ? `【海大叔这边在卖的东西（事实资料）】
 ${pr.line}
 对外统一用这句话说：${pr.reply}
-各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}
-联系方式：${pr.contact || ''}` : '';
+各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}` : '';
   const hit = cards.length
     ? cards.map((c, i) => `${i + 1}. 【${c.title}】${c.text}`).join('\n')
     : '（本次没匹配到专门档案，按海大叔通用口径答，别硬编具体数字）';
@@ -219,7 +225,7 @@ ${hit}
 【回答要求】
 1. 优先用上面调出的档案，不许添油加醋，档案没有的数字不要编。
 2. 尽量往"这事怎么变成钱、下一步谁去做、做什么"上收，别停在道理。
-3. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项要看过你的账单再定"。这类收费回答的最后单独一句固定为："想直接问的，加海大叔微信 haidashu79，把上个月的账单发他，他本人看。"——全场只出现一次微信，微信号一个字都不能改；对方没问价，就不要提微信。
+3. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项要看过你的账单再定"。对方没问价（只问你能干什么、怎么做、怎么落地），别主动报价，也别写"若涉及收费"这类括号提示。
 3. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
 4. 结尾给一个今天就能动手的动作，一句话。
 5. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
@@ -350,6 +356,13 @@ export async function onRequest(context) {
               controller.enqueue(encoder.encode(chunkOut(piece)));
             }
           }
+        }
+
+        // 问到价才补微信，且全场只补一次（服务端兜底，模型不乱带）
+        if (answer.trim() && isPricingAsk(question) && !/haidashu79/.test(answer)) {
+          const cl = '\n\n' + contactLine(kb);
+          answer += cl;
+          controller.enqueue(encoder.encode(chunkOut(cl)));
         }
 
         // 末尾回传本次调用的档案，让"智脑在干活"看得见

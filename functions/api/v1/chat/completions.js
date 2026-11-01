@@ -200,14 +200,20 @@ function retrieve(kb, question, topN = 5) {
   return picked;
 }
 
+/* ── 收费问答：问到价，除正常报价外，末尾补一句海大叔微信（服务端兜底，保证只在这一类回答出现） ── */
+const PRICING_RE = /(收费|费用|多少钱|价格|报价|价钱|怎么算钱|怎么收钱|怎么收费|贵不贵|按什么收|月付|包月)/;
+const isPricingAsk = (q) => PRICING_RE.test(String(q || ''));
+const contactLine = (kb) =>
+  (kb && kb.pricing && kb.pricing.contact) ||
+  '想直接问的，加海大叔微信 haidashu79，把上个月的账单发他，他本人看。';
+
 function buildSystem(cards, pageSystem, kb) {
   const st = (kb && kb.stats) || {};
   const pr = (kb && kb.pricing) || null;
   const priceBlock = pr ? `【海大叔这边在卖的东西（事实资料）】
 ${pr.line}
 对外统一用这句话说：${pr.reply}
-各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}
-联系方式：${pr.contact || ''}` : '';
+各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}` : '';
   const hit = cards.length
     ? cards.map((c, i) => `${i + 1}. 【${c.title}】${String(c.text || "").slice(0, 320)}`).join('\n')
     : '（本次没匹配到专门档案，按海大叔通用口径答，别硬编具体数字）';
@@ -259,7 +265,7 @@ ${hit}
 【回答要求】
 1. 优先用上面调出的档案，不许添油加醋，档案没有的数字不要编。
 2. 尽量往"这事怎么变成钱、下一步谁去做、做什么"上收，别停在道理。
-3. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项要看过你的账单再定"。这类收费回答的最后单独一句固定为："想直接问的，加海大叔微信 haidashu79，把上个月的账单发他，他本人看。"——全场只出现一次微信，微信号一个字都不能改；对方没问价，就不要提微信。
+3. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项要看过你的账单再定"。对方没问价（只问你能干什么、怎么做、怎么落地），别主动报价，也别写"若涉及收费"这类括号提示。
 3. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
 4. 结尾给一个今天就能动手的动作，一句话。
 5. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
@@ -425,6 +431,7 @@ export async function onRequest(context) {
     }
 
     text = String(text).trim();
+    if (text && isPricingAsk(question) && !/haidashu79/.test(text)) text += '\n\n' + contactLine(kb);
     const upd = logChars(env, logRow, text.length);
     if (upd) { try { context.waitUntil(upd); } catch (e) {} }
     return jsonResp({
@@ -472,6 +479,7 @@ export async function onRequest(context) {
       const push = (s) => controller.enqueue(encoder.encode(s));
       let sentChars = 0;
       let lastMark = 0;
+      let seenText = '';
 
       // SSE 注释帧：标准 OpenAI 客户端会忽略，智脑页面自行读取
       push(':zhinao ' + JSON.stringify({ ...trace, upstream_model: usedModel }) + '\n\n');
@@ -502,6 +510,7 @@ export async function onRequest(context) {
             }
             if (piece) {
               sentChars += piece.length;
+              seenText += piece;
               push(frame({ content: piece }));
               // 边流边补字数：客户端万一中途断开，记录里也有接近真实的字数
               if (sentChars - lastMark >= 120) {
@@ -512,6 +521,14 @@ export async function onRequest(context) {
             }
           }
         }
+        // 问到价才补微信，且全场只补一次
+        if (seenText.trim() && isPricingAsk(question) && !/haidashu79/.test(seenText)) {
+          const cl = '\n\n' + contactLine(kb);
+          seenText += cl;
+          sentChars += cl.length;
+          push(frame({ content: cl }));
+        }
+
         // 在推 stop 帧之前补字数：此时客户端还在等尾巴，这一段一定跑得到
         {
           const p2 = logChars(env, logRow, sentChars);
