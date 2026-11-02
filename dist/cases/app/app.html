@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="普法智能体">
-<title>普法工委法律专家团 · 法律自助助手</title>
+<title>中文法律智库 · 法律自助助手</title>
 <style>
 :root{
   color-scheme:light;
@@ -50,7 +50,7 @@ main{max-width:780px;margin:0 auto;padding:14px 12px 60px}
 .card h3{font-size:14px;margin:12px 0 4px;color:var(--brand)}
 .muted{color:var(--muted);font-size:13px}
 /* ---------- chat ---------- */
-#chatBox{height:56dvh;overflow-y:auto;background:linear-gradient(180deg,#FDF9F3,#FBF6EE);border:1px solid var(--line);border-radius:16px;padding:16px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
+#chatBox{height:clamp(280px,44dvh,540px);overflow-y:auto;background:linear-gradient(180deg,#FDF9F3,#FBF6EE);border:1px solid var(--line);border-radius:16px;padding:16px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
 .msg{margin-bottom:14px;max-width:93%;display:flex;flex-direction:column}
 .msg.user{align-items:flex-end;margin-left:auto}
 .msg .who{font-size:11px;color:var(--muted);margin-bottom:3px;padding:0 4px}
@@ -70,10 +70,17 @@ main{max-width:780px;margin:0 auto;padding:14px 12px 60px}
 .dots i{width:7px;height:7px;border-radius:50%;background:#2f6f80;animation:blink 1.2s infinite}
 .dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
-.chat-input{display:flex;gap:8px;align-items:stretch}
-.chat-input textarea{flex:1;border:1.5px solid var(--line);border-radius:14px;padding:11px 13px;font-size:16px;resize:none;height:74px;font-family:inherit;background:#fff;transition:border-color .15s}
-.chat-input textarea:focus{outline:none;border-color:var(--brand)}
-.chat-input button{background:linear-gradient(135deg,#C2571C,#E0892B);color:#fff;border:0;border-radius:14px;padding:0 16px;font-size:15px;font-weight:600;cursor:pointer;min-height:74px;min-width:66px;box-shadow:0 3px 10px rgba(194,87,28,.3);transition:transform .1s}
+/* 提问区：顶到页面最上面，做成一张卡片，一眼就看到 */
+.askwrap{background:linear-gradient(180deg,#FFF4E6,#FFFDF9);border:2px solid #E0892B;border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:0 8px 22px rgba(194,87,28,.15)}
+.asklabel{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#A8450F;margin-bottom:9px}
+.asklabel .hi{background:#C2571C;color:#fff;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.ansline{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#A8998A;margin:2px 2px 8px}
+.ansline i{flex:1;height:1px;background:linear-gradient(90deg,transparent,#E4D6C4,transparent)}
+.chat-input{display:flex;gap:8px;align-items:stretch;width:100%}
+.chat-input textarea{flex:1 1 0;min-width:0;border:2px solid #E0892B;border-radius:14px;padding:12px 14px;font-size:16px;resize:none;height:88px;font-family:inherit;background:#fff;line-height:1.65;box-shadow:inset 0 1px 4px rgba(194,87,28,.07);transition:box-shadow .15s,border-color .15s}
+.chat-input textarea::placeholder{color:#A98165;font-size:14.5px}
+.chat-input textarea:focus{outline:none;border-color:#C2571C;box-shadow:0 0 0 4px rgba(194,87,28,.16)}
+.chat-input button{background:linear-gradient(135deg,#C2571C,#E0892B);color:#fff;border:0;border-radius:14px;padding:0 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:88px;min-width:70px;box-shadow:0 4px 12px rgba(194,87,28,.34);transition:transform .1s}
 .chat-input button:active{transform:scale(.96)}
 .chat-input button:disabled{opacity:.55;box-shadow:none}
 .quick{display:flex;gap:7px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
@@ -129,8 +136,8 @@ a{color:var(--brand)}
 </head>
 <body>
 <header>
-  <p style="font-size:12px;letter-spacing:2px;opacity:.95;margin:0 0 3px">中国流通政研会普法委员会</p>
-  <h1>⚖️ 普法工委法律专家团</h1>
+  <p style="font-size:12px;letter-spacing:2px;opacity:.95;margin:0 0 3px">中文法律智库</p>
+  <h1>⚖️ 中文法律智库</h1>
   <p>法律依据 · 应对策略 · 范本文档 · 真实案例</p>
   <span class="tag">普法自助参考 · 不构成法律意见 · 涉刑事/大额/房产请转介执业律师</span>
 </header>
@@ -140,6 +147,7 @@ a{color:var(--brand)}
   <button data-p="calc"><span class="ic">🧮</span>计算器</button>
   <button data-p="tpl"><span class="ic">📄</span>范本文档</button>
   <button data-p="cases"><span class="ic">📚</span>案例库</button>
+  <button data-p="laws"><span class="ic">📜</span>法条库</button>
   <button data-p="submit"><span class="ic">✍️</span>案例上报</button>
   <button data-p="about"><span class="ic">📖</span>使用说明</button>
 </nav>
@@ -147,27 +155,33 @@ a{color:var(--brand)}
   <!-- 问答 -->
   <section class="page on" id="p-chat">
     <div class="quick" id="quickBtns"></div>
-    <div id="chatBox">
-      <div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。
 
-点上面的问题气泡可以直接体验；也可以在下方输入您自己的事。
+    <div class="askwrap">
+      <div class="asklabel">✍️ 在这儿写您的事<span class="hi">第一步</span></div>
+      <div class="chat-input">
+        <button id="attach" title="上传判决书、合同等材料（图片/txt/docx）" style="background:var(--card);border:1.5px solid #E0892B;border-radius:14px;font-size:20px;cursor:pointer;min-height:88px;min-width:52px;flex-shrink:0">📎</button>
+        <textarea id="q" placeholder="说事：什么情况、到哪一步、想要什么…"></textarea>
+        <button id="send">发送</button>
+      </div>
+      <div id="attachBar" style="display:none;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+    </div>
+
+    <div class="ansline"><i></i>回答在下面<i></i></div>
+    <div id="chatBox">
+      <div class="msg bot"><div class="who">中文法律智库</div><div class="bubble">您好，我是中文法律智库。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。
+
+点上面的问题气泡可以直接体验；也可以直接在顶部输入框里写您自己的事。
 
 提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>
     </div>
-    <div id="attachBar" style="display:none;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
       <a class="btn" href="tel:12348" style="flex-shrink:0">📞 12348 免费法律援助</a>
       <a class="btn" href="tel:12315" style="flex-shrink:0">🛒 12315 消费投诉</a>
       <a class="btn" href="tel:12345" style="flex-shrink:0">🏛️ 12345 政务热线</a>
       <button class="btn" onclick="gotoPage('calc')" style="flex-shrink:0">🧮 打官司要花多少钱？</button>
     </div>
-    <div class="chat-input">
-      <button id="attach" title="上传判决书、合同等材料（图片/txt/docx）" style="background:var(--card);border:1.5px solid var(--line);border-radius:14px;font-size:20px;cursor:pointer;min-height:74px;min-width:52px;flex-shrink:0">📎</button>
-      <textarea id="q" placeholder="用大白话描述您的事，也可点 📎 上传判决书/合同照片让我帮您分析"></textarea>
-      <button id="send">发送</button>
-    </div>
     <input type="file" id="fileInput" multiple accept="image/*,.txt,.md,.docx" style="display:none">
-    <p class="muted" style="margin-top:8px;font-size:11px">依据：内置法律库（39 部法律法规全文 5325 条 + 1044 条案例库 + 15 个场景包 + 29 份范本），资料截至 2026-10，重要事项请在官方渠道核实。<button onclick="clearChat()" style="margin-left:10px;border:1px solid #4d5a67;background:none;color:#7C6A57;border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">清空对话</button><button onclick="exportChat()" style="margin-left:6px;border:1px solid var(--brand);background:none;color:var(--brand);border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">导出对话归档</button></p>
+    <p class="muted" style="margin-top:8px;font-size:11px">依据：内置法律库（<b>中国法律法规全库 1477 部 54932 条</b>，来源国家法律法规数据库现行有效文本 + 1044 条案例库 + 15 个场景包 + 29 份范本），法条随官方更新，重要事项请在官方渠道核实。<button onclick="clearChat()" style="margin-left:10px;border:1px solid #4d5a67;background:none;color:#7C6A57;border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">清空对话</button><button onclick="exportChat()" style="margin-left:6px;border:1px solid var(--brand);background:none;color:var(--brand);border-radius:6px;padding:2px 8px;font-size:11px;cursor:pointer">导出对话归档</button></p>
   </section>
 
   <!-- 文书工坊 -->
@@ -207,9 +221,33 @@ a{color:var(--brand)}
     <div class="card" id="caseList" style="padding:6px 14px"><p class="muted">加载中……</p></div>
   </section>
 
+  <!-- 法条库 -->
+  <section class="page" id="p-laws">
+    <div class="card" id="lawIntro">
+      <h2>📜 法条库 <span class="badge" id="lawCount"></span></h2>
+      <p class="muted">收录国家法律法规数据库公布的现行有效宪法、法律、行政法规、监察法规、司法解释，逐条可查。点任意一部看全文，条文可一键复制引用。</p>
+    </div>
+    <div id="lawBrowse">
+      <div class="searchbar"><input id="lawKw" placeholder="输入法律名称或关键词，如：劳动合同 / 反诈 / 物业 / 工伤"><button class="btn solid" id="lawSearch" style="min-width:76px">搜索</button></div>
+      <div class="chips" id="lawChips"></div>
+      <div class="card" id="lawList" style="padding:6px 14px"><p class="muted">加载中……</p></div>
+    </div>
+    <div id="lawDetail" style="display:none">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+          <h2 id="lawTitle" style="margin:0;line-height:1.4"></h2>
+          <button class="btn" id="lawBack" style="flex-shrink:0">← 返回</button>
+        </div>
+        <p class="muted" id="lawMeta" style="margin-top:6px"></p>
+        <div class="searchbar" style="margin:10px 0 0"><input id="artKw" placeholder="在本部法律内搜关键词，如：违约金"><button class="btn solid" id="artSearch" style="min-width:76px">条内搜</button></div>
+      </div>
+      <div class="card" id="lawBody" style="padding:10px 14px"></div>
+    </div>
+  </section>
+
   <!-- 上报 -->
   <section class="page" id="p-submit">
-    <div class="tip">⚠️ 上报纪律：只写案情，<b>不要填写身份证号、银行卡号</b>。联系方式选填（仅用于案例核实回访）。提交后由普法工委审核，通过后进入案例库供智能体引用。</div>
+    <div class="tip">⚠️ 上报纪律：只写案情，<b>不要填写身份证号、银行卡号</b>。联系方式选填（仅用于案例核实回访）。提交后由中文法律智库审核，通过后进入案例库供智能体引用。</div>
     <div class="card">
       <h2>✍️ 案例上报</h2>
       <div class="field"><label>案件标题 *</label><input id="sTitle" placeholder="一句话概括，如：某健身房收预付款后闭店跑路"></div>
@@ -232,7 +270,7 @@ a{color:var(--brand)}
 
   <!-- 关于 -->
   <section class="page" id="p-about">
-    <div class="card"><h2>🏛️ 这是什么</h2><p class="muted"><b>中国流通政研会普法委员会</b>主办的普法服务工具：把「法律依据 + 解决方案 + 范本文档 + 案例参考」装进一个对话框，各地办事处人员和普通人都能直接用。<b>不止答这一问</b>——每条回答末尾带【跟案清单】，帮您把往后的关键节点（期限、到期动作、回访时点）盯出来，照单办事不误事。</p></div>
+    <div class="card"><h2>🏛️ 这是什么</h2><p class="muted"><b>中文法律智库</b>主办的普法服务工具：把「法律依据 + 解决方案 + 范本文档 + 案例参考」装进一个对话框，各地办事处人员和普通人都能直接用。<b>不止答这一问</b>——每条回答末尾带【跟案清单】，帮您把往后的关键节点（期限、到期动作、回访时点）盯出来，照单办事不误事。</p></div>
     <div class="card"><h2>💬 怎么问最好用</h2><p class="muted">① 说清<b>什么事</b>（被裁员/加盟被骗/借钱不还）；② 说清<b>走到哪一步</b>（还在协商/已投诉/已起诉）；③ 说清<b>有什么证据</b>；④ 说清<b>想要什么</b>（要钱/要说法/要止损）。四样说清，答案最准。</p></div>
     <div class="card"><h2>📎 传材料 · 让专家团帮您读文书</h2><p class="muted">点输入框旁的 📎 可上传<b>判决书、合同、借条、收据、聊天记录截图</b>（拍照即可）或 txt/docx 文档，一次最多 4 个。上传后提问题，专家团会先读材料再回答：帮您指出条款要点、算金额、看对您有利和不利的地方。上传内容仅本次回答使用，不会保存到服务器。</p></div>
     <div class="card"><h2>✅ 会做什么 · ❌ 不做什么</h2><p class="muted">✅ 给法律依据（引自内置法律库）、给应对策略（方案A/B/C+成本周期）、给分步做法；<b>能读您上传的判决书/合同等材料</b>；<b>每条回答可一键复制、存档下载、带着上下文去写文书、跳转官网核实</b>；<b>文书工坊能照范本现场起草 29 种文书草稿</b>；<b>整场对话可导出归档</b>。❌ 不出律师函、不承诺结果、不代替律师；涉刑事、金额超 5 万、房产过户，直接建议转介执业律师或 12348。</p></div>
@@ -262,7 +300,7 @@ a{color:var(--brand)}
     <div class="card"><h2>最近提问（脱敏 · 只留摘要）</h2><div id="stRecent" class="muted">加载中……</div></div>
   </section>
 </main>
-<div class="foot">中国流通政研会普法委员会 · 普法工委法律专家团 · v2.9 · 案例1000+/39部法条/跟案清单/计算器/材料分析/文书起草/使用统计 · 库内资料截至 2026-10 · 时效复核周期 90 天</div>
+<div class="foot">中文法律智库 · v3.0 · 法条全库1477部/54932条 · 案例1000+ · 跟案清单/计算器/材料分析/文书起草 · 法条来源：国家法律法规数据库（现行有效文本）· 时效复核周期 90 天</div>
 
 <div class="mask" id="tplMask">
   <div class="sheet">
@@ -295,7 +333,126 @@ document.getElementById("nav").addEventListener("click", e => {
   b.classList.add("on");
   document.getElementById("p-" + b.dataset.p).classList.add("on");
   window.scrollTo(0, 0);
+  if (b.dataset.p === "laws") lawInit();
 });
+
+/* ---------------- 法条库 ---------------- */
+const LAW = { index: null, cat: "", kw: "", shown: 0, cur: null, ready: false };
+const LAW_CAT_ORDER = ["常用", "宪法", "法律", "法律解释", "行政法规", "监察法规", "司法解释", "有关法律问题和重大问题的决定", "修正案", "修改、废止的决定"];
+async function lawIndex() {
+  if (!LAW.index) {
+    const idx = await loadJSON("data/laws_index.json");
+    LAW.index = idx.map(x => { x.cat = x.cat || "法律"; return x; });
+  }
+  return LAW.index;
+}
+function lawChipsRender() {
+  const counts = {};
+  LAW.index.forEach(x => { counts[x.cat] = (counts[x.cat] || 0) + 1; });
+  const cats = Object.keys(counts).sort((a, b) => {
+    const ia = LAW_CAT_ORDER.indexOf(a), ib = LAW_CAT_ORDER.indexOf(b);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
+  });
+  let h = '<button class="' + (LAW.cat === "" ? "on" : "") + '" data-c="">全部 ' + LAW.index.length + "</button>";
+  h += cats.map(c => '<button class="' + (LAW.cat === c ? "on" : "") + '" data-c="' + esc(c) + '">' + esc(c) + " " + counts[c] + "</button>").join("");
+  const box = document.getElementById("lawChips");
+  box.innerHTML = h;
+  box.querySelectorAll("button").forEach(btn => {
+    btn.onclick = () => { LAW.cat = btn.dataset.c; LAW.shown = 0; lawChipsRender(); lawRender(); };
+  });
+}
+function lawFilter() {
+  const kw = LAW.kw;
+  return LAW.index.filter(x => (!LAW.cat || x.cat === LAW.cat) &&
+    (!kw || (x.name + " " + (x.keywords || []).join(" ")).indexOf(kw) > -1));
+}
+const LAW_PAGE = 60;
+function lawRender() {
+  const box = document.getElementById("lawList");
+  const all = lawFilter();
+  if (!all.length) { box.innerHTML = '<p class="muted">没找到相关法律，换个词试试，或直接去“智能问答”里问。</p>'; return; }
+  const show = all.slice(0, LAW.shown || LAW_PAGE);
+  let html = show.map(x => {
+    const meta = [x.cat, x.zdjg, x.gbrq ? "公布 " + x.gbrq : "", x.sxrq ? "施行 " + x.sxrq : "", x.nart ? x.nart + "条" : ""].filter(Boolean).join(" · ");
+    return '<div class="row" data-id="' + esc(x.id) + '"><div class="ic">📜</div><div class="mid"><div class="t">' + esc(x.name) +
+      '</div><div class="m">' + esc(meta) + '</div></div><div class="ops"><span class="btn" style="padding:5px 11px">查看</span></div></div>';
+  }).join("");
+  if (all.length > show.length) {
+    html += '<div style="text-align:center;padding:12px"><button class="btn" id="lawMore">再看 ' + Math.min(LAW_PAGE, all.length - show.length) + " 部</button></div>";
+  }
+  box.innerHTML = html;
+  box.querySelectorAll(".row").forEach(r => { r.onclick = () => lawOpen(r.dataset.id); });
+  const more = document.getElementById("lawMore");
+  if (more) more.onclick = () => { LAW.shown = show.length + LAW_PAGE; lawRender(); };
+}
+async function lawOpen(id) {
+  const e = LAW.index.find(x => x.id === id);
+  if (!e) return;
+  document.getElementById("lawBrowse").style.display = "none";
+  document.getElementById("lawDetail").style.display = "block";
+  document.getElementById("lawTitle").textContent = e.name;
+  document.getElementById("lawMeta").textContent = [e.cat, e.zdjg, e.gbrq ? "公布 " + e.gbrq : "", e.sxrq ? "施行 " + e.sxrq : ""].filter(Boolean).join(" · ");
+  const body = document.getElementById("lawBody");
+  body.innerHTML = '<p class="muted">正在打开……</p>';
+  window.scrollTo(0, 0);
+  try {
+    LAW.cur = await getStatute(e.id, e.file);
+    lawPaint("");
+  } catch (err) {
+    body.innerHTML = '<p class="muted">这部法律暂时打不开（数据可能还没同步），换一部试试。</p>';
+  }
+}
+function hl(s, kw) {
+  const t = esc(s || "");
+  if (!kw) return t;
+  const k = esc(kw);
+  return t.split(k).join('<mark style="background:#FFE9A8;color:inherit;border-radius:3px">' + k + "</mark>");
+}
+function artHTML(a, kw) {
+  const lines = a.split("\n");
+  const head = (lines[0] || "").replace(/^##\s*/, "");
+  const rest = lines.slice(1).join("\n");
+  if (!/^第[一二三四五六七八九十百千零两〇]+条/.test(head)) {
+    return '<div style="margin:16px 0 8px;padding:7px 12px;background:var(--brand-soft);border-left:3px solid var(--brand);border-radius:6px;font-weight:700;color:var(--brand2);font-size:14.5px">' + hl(head, kw) + "</div>";
+  }
+  return '<div style="margin-bottom:12px"><div style="font-weight:700;color:var(--brand2);font-size:14.5px">' + hl(head, kw) + "</div>" +
+    '<div style="font-size:14.5px;line-height:1.9;color:#3A2E23">' + hl(rest, kw) + "</div></div>";
+}
+function lawPaint(kw) {
+  const data = LAW.cur; if (!data) return;
+  const arts = data.articles || [];
+  let html = "", hit = 0;
+  for (const a of arts) {
+    if (kw && a.indexOf(kw) < 0) continue;
+    if (kw) hit++;
+    html += artHTML(a, kw);
+  }
+  if (kw) html = '<p class="muted" style="margin-bottom:8px">命中 ' + hit + " 处</p>" + html;
+  document.getElementById("lawBody").innerHTML = html || '<p class="muted">本部法律里没搜到这个词。</p>';
+}
+document.getElementById("lawBack").onclick = () => {
+  document.getElementById("lawDetail").style.display = "none";
+  document.getElementById("lawBrowse").style.display = "block";
+  document.getElementById("artKw").value = "";
+  window.scrollTo(0, 0);
+};
+document.getElementById("lawSearch").onclick = () => { LAW.kw = document.getElementById("lawKw").value.trim(); LAW.shown = 0; lawRender(); };
+document.getElementById("lawKw").addEventListener("keydown", e => { if (e.key === "Enter") { LAW.kw = e.target.value.trim(); LAW.shown = 0; lawRender(); } });
+document.getElementById("artSearch").onclick = () => lawPaint(document.getElementById("artKw").value.trim());
+document.getElementById("artKw").addEventListener("keydown", e => { if (e.key === "Enter") lawPaint(e.target.value.trim()); });
+async function lawInit() {
+  if (LAW.ready) return;
+  LAW.ready = true;
+  try {
+    await lawIndex();
+    document.getElementById("lawCount").textContent = LAW.index.length + " 部";
+    lawChipsRender();
+    lawRender();
+  } catch (e) {
+    LAW.ready = false;
+    document.getElementById("lawList").innerHTML = '<p class="muted">法条库加载失败，请检查网络后重试。</p>';
+  }
+}
 
 /* ---------------- 使用统计埋点（匿名：只记功能使用次数，不记姓名/联系方式/身份证号） ---------------- */
 function trackUsage(action, q, retried) {
@@ -338,8 +495,8 @@ async function ensureBase() {
   if (!KB.cases) KB.cases = await loadJSON("data/cases.json");
   if (!KB.lawsIndex) KB.lawsIndex = await loadJSON("data/laws_index.json");
 }
-async function getStatute(id) {
-  if (!KB.statutes[id]) KB.statutes[id] = await loadJSON("data/statutes/" + id + ".json");
+async function getStatute(id, file) {
+  if (!KB.statutes[id]) KB.statutes[id] = await loadJSON(file || ("data/statutes/" + id + ".json"));
   return KB.statutes[id];
 }
 async function retrieve(question) {
@@ -348,10 +505,10 @@ async function retrieve(question) {
   const oneChar = [...new Set(question.replace(/[，。、？！?!,.:：;"'（）()【】\[\]\s]/g, "").split(""))].filter(c => c.charCodeAt(0) > 127);
   const sc = KB.scenarios.map(s => ({ s, v: score(s.title + s.keywords + s.content.slice(0, 800), terms) })).sort((a, b) => b.v - a.v).filter(x => x.v > 0).slice(0, 2);
   const cs = KB.cases.map(c => ({ c, v: score(c.title + c.meta + c.gist, terms) })).sort((a, b) => b.v - a.v).filter(x => x.v > 0).slice(0, 6);
-  const lawPick = KB.lawsIndex.map(l => ({ l, v: score(l.name + l.keywords.join(" "), terms) + (oneChar.some(ch => l.keywords.join("").includes(ch)) ? 1 : 0) })).sort((a, b) => b.v - a.v).slice(0, 3).filter(x => x.v > 0);
+  const lawPick = KB.lawsIndex.map(l => ({ l, v: score(l.name + (l.keywords || []).join(" "), terms) + ((l.keywords || []).some(k => oneChar.filter(ch => k.includes(ch)).length >= 2) ? 1 : 0) + (l.cat === "常用" ? 2 : 0) })).sort((a, b) => b.v - a.v).slice(0, 3).filter(x => x.v > 0);
   const arts = [];
   for (const { l } of lawPick) {
-    const data = await getStatute(l.id);
+    const data = await getStatute(l.id, l.file);
     const all = data.articles.map(a => ({ a, v: score(a, terms) })).sort((x, y) => y.v - x.v);
     let hits = all.filter(x => x.v >= 2).slice(0, 6);
     if (!hits.length) hits = all.filter(x => x.v >= 1).slice(0, 4); // 降级：群众口语和法言法语对不上时，给最接近的条文
@@ -366,7 +523,7 @@ async function retrieve(question) {
   return { scenarios: sc.map(x => x.s), cases: cs.map(x => x.c), articles: arts, cloudCases: relevantCloud };
 }
 function buildSystemPrompt(r) {
-  let p = `你是"普法工委法律专家团"，由普法委员会法律自助库支持，面向各地办事处人员和普通群众，角色是办案主任+自助向导（L3 自治式：不止答这一问，还要替来访者把案子往后的关键节点盯出来），不是律师。
+  let p = `你是"中文法律智库"，由普法委员会法律自助库支持，面向各地办事处人员和普通群众，角色是办案主任+自助向导（L3 自治式：不止答这一问，还要替来访者把案子往后的关键节点盯出来），不是律师。
 
 【工作方式】像"章有法"接访：先用一句话确认来访人的事和诉求，再给参考意见。用户经常连续追问，"刚才/那个/上面说的"都指之前聊过的内容，回答前先看【先前对话记录】，接着上文答，别当新问题处理。按事由对应专家视角：劳动（劳有偿）、交通事故（陆平安）、婚姻家事/继承/赡养（戚传家）、消费维权/预付卡/网购（费省心）、房产/土地拆迁（房立契）、刑事风险（辛慎行，先判断是否转介）、整体方案（解千愁）。
 
@@ -489,7 +646,7 @@ function clearChat() {
   localStorage.removeItem(HISTORY_KEY);
   const box = document.getElementById("chatBox");
   // 保留欢迎消息
-  box.innerHTML = '<div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。\n\n点上面的问题气泡可以直接体验；也可以在下方输入您自己的事。\n\n提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>';
+  box.innerHTML = '<div class="msg bot"><div class="who">中文法律智库</div><div class="bubble">您好，我是中文法律智库。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。\n\n点上面的问题气泡可以直接体验；也可以直接在顶部输入框里写您自己的事。\n\n提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>';
   toast("对话已清空");
 }
 async function initModel() {
@@ -509,7 +666,7 @@ function renderSysNote(t) {
 function addMsg(role, html) {
   const d = document.createElement("div");
   d.className = "msg " + (role === "user" ? "user" : "bot");
-  d.innerHTML = '<div class="who">' + (role === "user" ? "我" : "普法工委法律专家团") + '</div><div class="bubble"></div>';
+  d.innerHTML = '<div class="who">' + (role === "user" ? "我" : "中文法律智库") + '</div><div class="bubble"></div>';
   d.querySelector(".bubble").innerHTML = html;
   const box = document.getElementById("chatBox"); box.appendChild(d); box.scrollTop = 1e9;
   return d.querySelector(".bubble");
@@ -746,7 +903,7 @@ function cleanMd(t) {
 function dateSlug() { const d = new Date(); const p = n => String(n).padStart(2, "0"); return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()); }
 function fmtBody(text) { return cleanMd(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>"); }
 function downloadDoc(filename, title, text, note) {
-  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title></head><body style="font-family:SimSun,serif;font-size:12pt;line-height:1.9"><p style="text-align:center;font-size:11pt;color:#666;margin:0">中国流通政研会普法委员会</p><h2 style="text-align:center;font-size:16pt;margin:6pt 0">' + esc(title) + '</h2>' + (note ? '<p style="color:#666;font-size:10pt">' + esc(note) + '</p>' : "") + '<div>' + fmtBody(text) + '</div><p style="color:#666;font-size:10pt;margin-top:24pt;border-top:1px solid #ccc;padding-top:8pt">中国流通政研会普法委员会 · 本文件由普法工委法律专家团生成，属普法参考材料，不构成法律意见书；重要事项请以执业律师意见及司法机关认定为准。</p></body></html>';
+  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title></head><body style="font-family:SimSun,serif;font-size:12pt;line-height:1.9"><p style="text-align:center;font-size:11pt;color:#666;margin:0">中文法律智库</p><h2 style="text-align:center;font-size:16pt;margin:6pt 0">' + esc(title) + '</h2>' + (note ? '<p style="color:#666;font-size:10pt">' + esc(note) + '</p>' : "") + '<div>' + fmtBody(text) + '</div><p style="color:#666;font-size:10pt;margin-top:24pt;border-top:1px solid #ccc;padding-top:8pt">本文件由中文法律智库生成，属普法参考材料，不构成法律意见书；重要事项请以执业律师意见及司法机关认定为准。</p></body></html>';
   const blob = new Blob(["\ufeff" + html], { type: "application/msword" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = filename; a.click();
@@ -756,7 +913,7 @@ function downloadDoc(filename, title, text, note) {
 function exportChat() {
   if (!history.length) { toast("还没有对话可以导出"); return; }
   const text = history.map(m => (m.role === "user" ? "【我问】" : "【智能体答】") + "\n" + m.content).join("\n\n——————————————\n\n");
-  downloadDoc("普法咨询归档-" + dateSlug() + ".doc", "普法咨询对话归档（" + new Date().toLocaleDateString("zh-CN") + "）", text, "共 " + history.length + " 条消息 · 普法工委法律专家团");
+  downloadDoc("普法咨询归档-" + dateSlug() + ".doc", "普法咨询对话归档（" + new Date().toLocaleDateString("zh-CN") + "）", text, "共 " + history.length + " 条消息 · 中文法律智库");
 }
 window.exportChat = exportChat;
 
@@ -819,7 +976,7 @@ document.getElementById("wGen").onclick = async () => {
   try { tpl = await (await fetch("templates/" + m.file)).text(); } catch (e) { toast("范本加载失败，请重试"); return; }
   const opposite = document.getElementById("wOpposite").value.trim();
   const goal = document.getElementById("wGoal").value.trim();
-  const sys = "你是『普法工委法律专家团』的文书起草模式，任务：照给定范本，把用户的情况写成一份可直接使用的文书草稿。\n【硬规则】1. 严格按范本的结构、段落、格式写；范本里【】占位处用用户信息填入；2. 用户没提供的信息一律写成《待补：XX》，绝不编造姓名、金额、日期、案号；3. 事实部分只准用用户提供的内容，不得添加情节；4. 结尾单独一段【使用提示】：列出所有《待补》项和递交注意事项；5. 不承诺结果，不代替律师。\n【口径】像有经验的基层法律工作者起草，条理清晰、用词规范。";
+  const sys = "你是『中文法律智库』的文书起草模式，任务：照给定范本，把用户的情况写成一份可直接使用的文书草稿。\n【硬规则】1. 严格按范本的结构、段落、格式写；范本里【】占位处用用户信息填入；2. 用户没提供的信息一律写成《待补：XX》，绝不编造姓名、金额、日期、案号；3. 事实部分只准用用户提供的内容，不得添加情节；4. 结尾单独一段【使用提示】：列出所有《待补》项和递交注意事项；5. 不承诺结果，不代替律师。\n【口径】像有经验的基层法律工作者起草，条理清晰、用词规范。";
   const uq = "文书类型：" + m.name + "\n\n【范本】\n" + tpl.slice(0, 3500) + "\n\n【我的情况】\n" + facts + (opposite ? "\n\n【对方信息】" + opposite : "") + (goal ? "\n\n【我的诉求】" + goal : "") + "\n\n请照范本把这份文书草稿写出来。";
   wBusy = true; wFull = "";
   const btn = document.getElementById("wGen"); btn.disabled = true; btn.textContent = "起草中…约 1 分钟";
@@ -840,7 +997,7 @@ document.getElementById("wCopy").onclick = async () => {
   if (!wFull) return;
   try { await navigator.clipboard.writeText(wFull); toast("已复制全文"); } catch (e) { toast("复制失败，请手动选择复制"); }
 };
-document.getElementById("wDl").onclick = () => { if (wFull) downloadDoc(wTitle + ".doc", wTitle.replace(/草稿-\d+$/, ""), wFull, "文书类型草稿 · 普法工委法律专家团起草 ·《待补》处需自行补齐"); };
+document.getElementById("wDl").onclick = () => { if (wFull) downloadDoc(wTitle + ".doc", wTitle.replace(/草稿-\d+$/, ""), wFull, "文书类型草稿 · 中文法律智库起草 ·《待补》处需自行补齐"); };
 document.getElementById("q").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.metaKey) { e.preventDefault(); send(); } });
 
 /* ---------------- 范本 ---------------- */

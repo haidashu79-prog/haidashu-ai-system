@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>案例 · 法律智库（普法工委法律专家团）｜海大叔</title>
-<meta name="description" content="法律智库：内置 39 部法律 5325 条法条、1044 个入库案例、29 套文书范本。你说事，它出咨询、出建议、出策略。打开就能用。">
+<title>案例 · 中文法律智库｜海大叔</title>
+<meta name="description" content="中文法律智库：内置 1,477 部法律法规、54,932 条法条、1,000+ 入库案例、30 套文书范本。你说事，它出咨询、出建议、出策略。打开就能用。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
 <link rel="stylesheet" href="/assets/site.css">
 <style>
@@ -58,13 +58,13 @@
       <span class="badge live">完整版 · 打开即用</span>
       <span class="eyebrow" style="margin:0">案例 · 法律智库</span>
     </div>
-    <h1 class="h2" style="margin-top:10px">法律智库 · 普法工委法律专家团</h1>
-    <p class="lead">不是"跳个链接给你自己看"。它背后压着 <b>39 部法律全文、5,325 条法条、1,044 个入库案例、29 套文书范本</b>。你用自己的话说清一件事，它当场给你三样东西：<b>咨询</b>（这事法律上到底怎么定）、<b>建议</b>（你该做什么、别做什么）、<b>策略</b>（走哪条路、先做哪一步）。</p>
+    <h1 class="h2" style="margin-top:10px">中文法律智库</h1>
+    <p class="lead">不是"跳个链接给你自己看"。它背后压着 <b>1,477 部法律法规全文、54,932 条法条、1,000+ 个入库案例、30 套文书范本</b>。你用自己的话说清一件事，它当场给你三样东西：<b>咨询</b>（这事法律上到底怎么定）、<b>建议</b>（你该做什么、别做什么）、<b>策略</b>（走哪条路、先做哪一步）。</p>
 
     <div class="stat-band">
-      <div class="s"><b>5,325 条</b><span>收录法条全文 · 39 部法律</span></div>
-      <div class="s"><b>1,044 个</b><span>入库案例 · 可检索可对照</span></div>
-      <div class="s"><b>29 套</b><span>文书范本 · 填完就能交</span></div>
+      <div class="s"><b>54,932 条</b><span>收录法条全文 · 1,477 部法律法规</span></div>
+      <div class="s"><b>1,000+ 个</b><span>入库案例 · 可检索可对照</span></div>
+      <div class="s"><b>30 套</b><span>文书范本 · 填完就能交</span></div>
       <div class="s"><b>15 个</b><span>高频场景包 · 一步到做法</span></div>
     </div>
 
@@ -91,42 +91,12 @@
 
     <p class="lead" style="margin-top:30px">下面是真实在跑的完整版，直接在框里问——问题气泡点一下就能看它怎么答，也可以说你自己那件事。</p>
 
-    
-    <!-- ===== 站内 AI 问答（/api/expert · Workers AI · 免密钥）===== -->
-    <section id="hsd-ai-sec" style="margin:44px 0 0">
-      <div style="background:#FBF6EE;border:1px solid rgba(140,95,50,.16);border-radius:18px;padding:22px 22px 18px">
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span style="font-size:19px;font-weight:800;color:#2B2119">🤖 先问一句，再下去自己查</span>
-          <span style="font-size:11.5px;border-radius:20px;padding:3px 10px;background:rgba(47,158,107,.12);color:#2F9E6B;border:1px solid rgba(47,158,107,.28)">AI 在线</span>
-        </div>
-        <p style="font-size:13.5px;color:#7C6A57;line-height:1.85;margin:9px 0 15px">不方便在框里翻页签，或者只想先弄明白“我这情况到底算什么事、有没有得争”，直接在这儿问。答的是三段：<b>这算什么</b>（对应哪部法、哪几条）、<b>你手上有什么牌</b>（证据还差哪样、哪些话别先说）、<b>接下来怎么走</b>（先协商还是先投诉，大概多久多少钱）。</p>
-        <div id="hsd-ai"></div>
-      </div>
-    </section>
-    <script src="/assets/ai.js"></script>
-    <script>
-    (function () {
-      if (typeof HSDAI === 'undefined') return;
-      HSDAI.panel('#hsd-ai', {
-        title: "🤖 先问一句，再下去自己查",
-        badge: 'AI 在线',
-        subtitle: "普法参考，给依据、给步骤，不当律师意见。",
-        system: "你是“普法工委法律专家团”的普法顾问，面向中国大陆普通老百姓答法律问题。铁律：\n1) 只答中国大陆现行法律（民法典、劳动法/劳动合同法、工伤保险条例、劳动争议调解仲裁法、民事诉讼法、消费者权益保护法、治安管理处罚法、道路交通安全法、反电信网络诈骗法、个人信息保护法、妇女权益保障法、未成年人保护法、法律援助法等）。\n2) 每答必分三段，用小标题写清：【这算什么】说清法律性质和对应法条（能给条号就给，给不准就说“主要是《XX法》关于XX的规定”，绝不编条号）；【你手上有什么牌】列出对他有利的点 + 还缺哪些证据 + 哪些话/哪些字现在绝对别做；【接下来怎么走】给有先后顺序的具体步骤，每步写清找谁（12333/12348/12315/劳动监察/仲裁委/法院/派出所）、大概多久、要不要花钱、成功率大概什么水平。\n3) 必须给“要不要打”的实话：金额小、证据弱、对方没钱，就直接说“不建议硬打”，并给成本更低的替代路径。\n4) 时效必提：劳动仲裁 1 年、民事诉讼 3 年、工伤认定单位 30 日/个人 1 年、行政复议 60 日。\n5) 涉刑事、金额超 5 万、房产过户、公司股权、涉外，一律明确说“这事必须找真人律师”，并给 12348。\n6) 语言用大白话，不用法言法语。不承诺结果，不说“包赢”。结尾固定一句：以上是普法参考材料，不是律师意见，重要事项请由执业律师把关。",
-        quick: ["公司拖欠工资三个月，我能直接去仲裁吗？", "借钱给朋友，只有转账记录，能要回来吗？", "被辞退说我不胜任工作，该拿 N 还是 2N？", "房东不退押金，最快怎么处理？", "工伤没签合同，单位不认，怎么证明劳动关系？"],
-        placeholder: "把事说清楚：什么时候、谁对你做了什么、你手上有什么证据、你想达到什么结果…",
-        greeting: "我是普法顾问。说事就行，不用懂法条编号。\n\n我最想先知道四样：① 什么时候发生的 ② 对方是谁（个人/公司/单位）③ 你手上有哪些证据（合同、聊天记录、转账、录音、打卡） ④ 你想要的到底是什么（要钱、要恢复、要道歉、要离婚）。\n\n这四样说清，我给你的就是能照着做的步骤，不是“建议咨询律师”。",
-        hint: "普法参考 · 不是律师意见 · 涉刑或大额请拨 12348",
-        disclaimer: "⚖️ 本回答为普法参考材料，不构成律师意见，不承诺结果。涉刑事案件、争议金额超过 5 万元、房产与股权事项，请拨打 12348 法律援助热线或委托执业律师。"
-      });
-    })();
-    </script>
-
     <div class="case-frame">
-      <iframe src="/cases/app/app.html" title="普法工委法律专家团 · 法律自助助手（完整版）" loading="lazy"></iframe>
+      <iframe src="/cases/app/app.html" title="中文法律智库 · 法律自助助手（完整版）" loading="lazy"></iframe>
     </div>
 
     <div class="note">
-      <b>里面一共七个页签，全开着：</b>智能问答（说事、出三样）· 文书工坊（选类型、填情况、现场起草，可复制可下载）· 计算器（诉讼费、赔偿金、违法辞退 2N、工伤待遇）· 范本文档（29 套现成范本）· 案例库（1,044 个入库案例，按场景检索）· 案例上报 · 使用说明。<br>
+      <b>里面一共七个页签，全开着：</b>智能问答（说事、出三样）· 文书工坊（选类型、填情况、现场起草，可复制可下载）· 计算器（诉讼费、赔偿金、违法辞退 2N、工伤待遇）· 范本文档（30 套现成范本）· 案例库（1,000+ 个入库案例，按场景检索）· 案例上报 · 使用说明。<br>
       <b>边界说清楚：</b>它给的是普法参考材料，不是律师意见，也不承诺结果。涉刑事、金额超 5 万、房产过户这类，页面里直接接 12348 免费法律援助，请转真人律师把关。
     </div>
 

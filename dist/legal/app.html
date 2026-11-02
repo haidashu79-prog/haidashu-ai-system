@@ -10,8 +10,8 @@
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="中文法律智库">
-<title>中文法律智库 · 法律自助助手</title>
+<meta name="apple-mobile-web-app-title" content="普法智能体">
+<title>普法工委法律专家团 · 法律自助助手</title>
 <style>
 :root{
   color-scheme:light;
@@ -137,7 +137,7 @@ a{color:var(--brand)}
 <body>
 <header>
   <p style="font-size:12px;letter-spacing:2px;opacity:.95;margin:0 0 3px">中国流通政研会普法委员会</p>
-  <h1>⚖️ 中文法律智库</h1>
+  <h1>⚖️ 普法工委法律专家团</h1>
   <p>法律依据 · 应对策略 · 范本文档 · 真实案例</p>
   <span class="tag">普法自助参考 · 不构成法律意见 · 涉刑事/大额/房产请转介执业律师</span>
 </header>
@@ -168,7 +168,7 @@ a{color:var(--brand)}
 
     <div class="ansline"><i></i>回答在下面<i></i></div>
     <div id="chatBox">
-      <div class="msg bot"><div class="who">中文法律智库</div><div class="bubble">您好，我是中文法律智库。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。
+      <div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。
 
 点上面的问题气泡可以直接体验；也可以直接在顶部输入框里写您自己的事。
 
@@ -300,7 +300,7 @@ a{color:var(--brand)}
     <div class="card"><h2>最近提问（脱敏 · 只留摘要）</h2><div id="stRecent" class="muted">加载中……</div></div>
   </section>
 </main>
-<div class="foot">中国流通政研会普法委员会 · 中文法律智库 · v3.0 · 法条全库1477部/54932条 · 案例1000+ · 跟案清单/计算器/材料分析/文书起草 · 法条来源：国家法律法规数据库（现行有效文本）· 时效复核周期 90 天</div>
+<div class="foot">中国流通政研会普法委员会 · 普法工委法律专家团 · v3.0 · 法条全库1477部/54932条 · 案例1000+ · 跟案清单/计算器/材料分析/文书起草 · 法条来源：国家法律法规数据库（现行有效文本）· 时效复核周期 90 天</div>
 
 <div class="mask" id="tplMask">
   <div class="sheet">
@@ -523,7 +523,7 @@ async function retrieve(question) {
   return { scenarios: sc.map(x => x.s), cases: cs.map(x => x.c), articles: arts, cloudCases: relevantCloud };
 }
 function buildSystemPrompt(r) {
-  let p = `你是"中文法律智库"，由普法委员会法律自助库支持，面向各地办事处人员和普通群众，角色是办案主任+自助向导（L3 自治式：不止答这一问，还要替来访者把案子往后的关键节点盯出来），不是律师。
+  let p = `你是"普法工委法律专家团"，由普法委员会法律自助库支持，面向各地办事处人员和普通群众，角色是办案主任+自助向导（L3 自治式：不止答这一问，还要替来访者把案子往后的关键节点盯出来），不是律师。
 
 【工作方式】像"章有法"接访：先用一句话确认来访人的事和诉求，再给参考意见。用户经常连续追问，"刚才/那个/上面说的"都指之前聊过的内容，回答前先看【先前对话记录】，接着上文答，别当新问题处理。按事由对应专家视角：劳动（劳有偿）、交通事故（陆平安）、婚姻家事/继承/赡养（戚传家）、消费维权/预付卡/网购（费省心）、房产/土地拆迁（房立契）、刑事风险（辛慎行，先判断是否转介）、整体方案（解千愁）。
 
@@ -646,7 +646,7 @@ function clearChat() {
   localStorage.removeItem(HISTORY_KEY);
   const box = document.getElementById("chatBox");
   // 保留欢迎消息
-  box.innerHTML = '<div class="msg bot"><div class="who">中文法律智库</div><div class="bubble">您好，我是中文法律智库。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。\n\n点上面的问题气泡可以直接体验；也可以直接在顶部输入框里写您自己的事。\n\n提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>';
+  box.innerHTML = '<div class="msg bot"><div class="who">普法工委法律专家团</div><div class="bubble">您好，我是普法工委法律专家团。把您遇到的事用大白话说清楚（什么事、走到哪一步、有什么证据、想要什么），我会给您：<b>法律依据 + 应对策略 + 分步做法 + 能用的范本</b>。\n\n点上面的问题气泡可以直接体验；也可以直接在顶部输入框里写您自己的事。\n\n提醒：我给的是普法参考材料，不是律师函，不承诺结果；涉刑事、金额超 5 万、房产过户的事，请直接找执业律师或拨打 12348。</div></div>';
   toast("对话已清空");
 }
 async function initModel() {
@@ -666,7 +666,7 @@ function renderSysNote(t) {
 function addMsg(role, html) {
   const d = document.createElement("div");
   d.className = "msg " + (role === "user" ? "user" : "bot");
-  d.innerHTML = '<div class="who">' + (role === "user" ? "我" : "中文法律智库") + '</div><div class="bubble"></div>';
+  d.innerHTML = '<div class="who">' + (role === "user" ? "我" : "普法工委法律专家团") + '</div><div class="bubble"></div>';
   d.querySelector(".bubble").innerHTML = html;
   const box = document.getElementById("chatBox"); box.appendChild(d); box.scrollTop = 1e9;
   return d.querySelector(".bubble");
@@ -903,7 +903,7 @@ function cleanMd(t) {
 function dateSlug() { const d = new Date(); const p = n => String(n).padStart(2, "0"); return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()); }
 function fmtBody(text) { return cleanMd(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>"); }
 function downloadDoc(filename, title, text, note) {
-  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title></head><body style="font-family:SimSun,serif;font-size:12pt;line-height:1.9"><p style="text-align:center;font-size:11pt;color:#666;margin:0">中国流通政研会普法委员会</p><h2 style="text-align:center;font-size:16pt;margin:6pt 0">' + esc(title) + '</h2>' + (note ? '<p style="color:#666;font-size:10pt">' + esc(note) + '</p>' : "") + '<div>' + fmtBody(text) + '</div><p style="color:#666;font-size:10pt;margin-top:24pt;border-top:1px solid #ccc;padding-top:8pt">中国流通政研会普法委员会 · 本文件由中文法律智库生成，属普法参考材料，不构成法律意见书；重要事项请以执业律师意见及司法机关认定为准。</p></body></html>';
+  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title></head><body style="font-family:SimSun,serif;font-size:12pt;line-height:1.9"><p style="text-align:center;font-size:11pt;color:#666;margin:0">中国流通政研会普法委员会</p><h2 style="text-align:center;font-size:16pt;margin:6pt 0">' + esc(title) + '</h2>' + (note ? '<p style="color:#666;font-size:10pt">' + esc(note) + '</p>' : "") + '<div>' + fmtBody(text) + '</div><p style="color:#666;font-size:10pt;margin-top:24pt;border-top:1px solid #ccc;padding-top:8pt">中国流通政研会普法委员会 · 本文件由普法工委法律专家团生成，属普法参考材料，不构成法律意见书；重要事项请以执业律师意见及司法机关认定为准。</p></body></html>';
   const blob = new Blob(["\ufeff" + html], { type: "application/msword" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = filename; a.click();
@@ -913,7 +913,7 @@ function downloadDoc(filename, title, text, note) {
 function exportChat() {
   if (!history.length) { toast("还没有对话可以导出"); return; }
   const text = history.map(m => (m.role === "user" ? "【我问】" : "【智能体答】") + "\n" + m.content).join("\n\n——————————————\n\n");
-  downloadDoc("普法咨询归档-" + dateSlug() + ".doc", "普法咨询对话归档（" + new Date().toLocaleDateString("zh-CN") + "）", text, "共 " + history.length + " 条消息 · 中文法律智库");
+  downloadDoc("普法咨询归档-" + dateSlug() + ".doc", "普法咨询对话归档（" + new Date().toLocaleDateString("zh-CN") + "）", text, "共 " + history.length + " 条消息 · 普法工委法律专家团");
 }
 window.exportChat = exportChat;
 
@@ -976,7 +976,7 @@ document.getElementById("wGen").onclick = async () => {
   try { tpl = await (await fetch("templates/" + m.file)).text(); } catch (e) { toast("范本加载失败，请重试"); return; }
   const opposite = document.getElementById("wOpposite").value.trim();
   const goal = document.getElementById("wGoal").value.trim();
-  const sys = "你是『中文法律智库』的文书起草模式，任务：照给定范本，把用户的情况写成一份可直接使用的文书草稿。\n【硬规则】1. 严格按范本的结构、段落、格式写；范本里【】占位处用用户信息填入；2. 用户没提供的信息一律写成《待补：XX》，绝不编造姓名、金额、日期、案号；3. 事实部分只准用用户提供的内容，不得添加情节；4. 结尾单独一段【使用提示】：列出所有《待补》项和递交注意事项；5. 不承诺结果，不代替律师。\n【口径】像有经验的基层法律工作者起草，条理清晰、用词规范。";
+  const sys = "你是『普法工委法律专家团』的文书起草模式，任务：照给定范本，把用户的情况写成一份可直接使用的文书草稿。\n【硬规则】1. 严格按范本的结构、段落、格式写；范本里【】占位处用用户信息填入；2. 用户没提供的信息一律写成《待补：XX》，绝不编造姓名、金额、日期、案号；3. 事实部分只准用用户提供的内容，不得添加情节；4. 结尾单独一段【使用提示】：列出所有《待补》项和递交注意事项；5. 不承诺结果，不代替律师。\n【口径】像有经验的基层法律工作者起草，条理清晰、用词规范。";
   const uq = "文书类型：" + m.name + "\n\n【范本】\n" + tpl.slice(0, 3500) + "\n\n【我的情况】\n" + facts + (opposite ? "\n\n【对方信息】" + opposite : "") + (goal ? "\n\n【我的诉求】" + goal : "") + "\n\n请照范本把这份文书草稿写出来。";
   wBusy = true; wFull = "";
   const btn = document.getElementById("wGen"); btn.disabled = true; btn.textContent = "起草中…约 1 分钟";
@@ -997,7 +997,7 @@ document.getElementById("wCopy").onclick = async () => {
   if (!wFull) return;
   try { await navigator.clipboard.writeText(wFull); toast("已复制全文"); } catch (e) { toast("复制失败，请手动选择复制"); }
 };
-document.getElementById("wDl").onclick = () => { if (wFull) downloadDoc(wTitle + ".doc", wTitle.replace(/草稿-\d+$/, ""), wFull, "文书类型草稿 · 中文法律智库起草 ·《待补》处需自行补齐"); };
+document.getElementById("wDl").onclick = () => { if (wFull) downloadDoc(wTitle + ".doc", wTitle.replace(/草稿-\d+$/, ""), wFull, "文书类型草稿 · 普法工委法律专家团起草 ·《待补》处需自行补齐"); };
 document.getElementById("q").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.metaKey) { e.preventDefault(); send(); } });
 
 /* ---------------- 范本 ---------------- */
