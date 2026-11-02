@@ -3,56 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI 创业赚钱 100 种方法 · 海大叔商业智脑</title>
-<meta name="description" content="AI 创业赚钱一百种方法：10 大类 100 条路子，每条写清怎么做、要什么门槛、第一笔钱从哪来、最容易栽的坑。普通人用 AI 挣钱的可执行清单。">
+<title>普通人用 AI 赚钱 100 种方法（带案例详解）· 海大叔商业智脑</title>
+<meta name="description" content="普通人怎么用 AI 赚钱：10 大类 100 条路子，每条都有真实案例、三步做法、门槛、第一笔钱从哪来、最容易栽的坑。想学哪条加海大叔微信 haidashu79 取完整操作手册。">
 <link rel="canonical" href="https://haidashu.com.cn/zhinao/aimoney/">
 <style>
-:root{--bg:#0d0f12;--card:#15181d;--line:#242932;--txt:#e8eaed;--dim:#9aa3ae;--acc:#c9a227}
+:root{--bg:#FBF6EE;--card:#ffffff;--line:rgba(140,95,50,.16);--txt:#2B2119;--dim:#7C6A57;--acc:#C2571C}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.75}
-a{color:var(--acc);text-decoration:none}
+body{margin:0;background:linear-gradient(170deg,#FDF9F3,#F8EEE1 45%,#F3E5D2);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.75}
+a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(194,87,28,.32)}
+a:hover{border-bottom-color:var(--acc)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 header{padding:44px 0 24px;border-bottom:1px solid var(--line)}
 .eyebrow{display:inline-block;font-size:12.5px;letter-spacing:.12em;color:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:2px 12px;margin-bottom:16px}
 h1{font-size:30px;margin:0 0 12px;line-height:1.35}
 .lead{color:var(--dim);font-size:15px;margin:0 0 6px}
 .note{color:var(--dim);font-size:13px;margin-top:10px}
-.bar{position:sticky;top:0;z-index:9;background:rgba(13,15,18,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+.cta{margin:18px 0 0;background:#FBF7F1;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;padding:13px 16px;font-size:14px;color:#4A3A2B}
+.cta b{color:var(--acc)}
+.bar{position:sticky;top:0;z-index:9;background:rgba(253,249,243,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
 .bar-in{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-input[type=search]{flex:1 1 220px;min-width:180px;background:#0a0c0f;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 14px;font-size:14px;outline:none}
+input[type=search]{flex:1 1 220px;min-width:180px;background:#fff;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 14px;font-size:14px;outline:none}
 input[type=search]:focus{border-color:var(--acc)}
-.chip{background:#1b1f26;border:1px solid var(--line);color:var(--dim);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;white-space:nowrap}
-.chip.on{background:var(--acc);border-color:var(--acc);color:#141414;font-weight:700}
+.chip{background:#FBF7F1;border:1px solid var(--line);color:var(--dim);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
 .sec{margin:34px 0 6px}
 .sec h2{font-size:19px;margin:0 0 4px}
 .sec p{color:var(--dim);font-size:13px;margin:0 0 14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px}
-.card h3{font-size:15.5px;margin:0 0 10px;display:flex;gap:8px;align-items:baseline}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px 13px}
+.card h3{font-size:15.5px;margin:0 0 8px;display:flex;gap:8px;align-items:baseline;line-height:1.5}
 .no{color:var(--acc);font-size:12.5px;font-weight:700;flex:0 0 auto}
-.row{font-size:13.5px;color:#cfd5dd;margin:3px 0}
-.k{color:var(--dim);font-size:12.5px;margin-right:4px}
-.pit{color:#e0b980}
+.what{font-size:13.5px;color:#4A3A2B;margin:0 0 8px}
+details{margin-top:2px}
+summary{cursor:pointer;color:var(--acc);font-size:12.8px;outline:none;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"＋ 展开：三步做法 · 真事一例 · 解读";}
+details[open] summary:before{content:"－ 收起"}
+.row{font-size:13px;color:#4A3A2B;margin:8px 0 0}
+.k{display:block;color:var(--dim);font-size:12px;letter-spacing:.04em;margin-bottom:2px}
+ol{margin:2px 0 0;padding-left:19px;font-size:13px;color:#4A3A2B}
+ol li{margin:2px 0}
+.case{background:#FBF7F1;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13px;color:#4A3A2B}
+.pit{color:#A34A15}
 footer{margin:48px 0 60px;padding-top:22px;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
-.btn{display:inline-block;margin-top:14px;background:var(--acc);color:#141414;font-weight:700;border-radius:10px;padding:10px 18px;font-size:14px}
+.btn{display:inline-block;margin-top:14px;background:var(--acc);color:#fff;font-weight:700;border-radius:10px;padding:10px 18px;font-size:14px;border:0;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc);margin-left:8px}
-@media(max-width:520px){h1{font-size:23px}}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:var(--acc);color:#fff;font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s}
+.toast.on{opacity:1}
+@media(max-width:520px){h1{font-size:23px}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
     <span class="eyebrow">海大叔商业智脑 · 方法库</span>
-    <h1>AI 创业赚钱 100 种方法</h1>
-    <p class="lead">10 大类、100 条路子。每条写清：怎么做、要什么门槛、第一笔钱从哪来、最容易栽的坑。</p>
-    <p class="note">不承诺收益，只讲路径。挑一条能今天就动手的，比看完 100 条有用。</p>
+    <h1>普通人怎么用 AI 赚钱：100 种方法（带案例详解）</h1>
+    <p class="lead">不会技术、没有团队、手里钱不多的人，能照着做的一百条路子。10 大类，每条都给：这件事具体干什么、三步怎么做、一个真人真事的例子、为什么能成立、要什么门槛、第一笔钱从哪来、最容易栽的坑。</p>
+    <p class="note">不承诺收益，只讲路径和真事。挑一条今天就能动手的，比看完 100 条有用。</p>
+    <div class="cta">想学其中哪一条、要完整操作手册和话术模板：加海大叔微信 <b>haidashu79</b>，说清你会什么、每天几个小时、想挣多少。<button class="btn ghost" id="cp" style="margin-left:10px;padding:6px 12px;font-size:13px">复制微信号</button></div>
     <a class="btn" href="/zhinao/">回智脑问一句 →</a><a class="btn ghost" href="#all">直接看 100 条</a>
   </div>
 </header>
 
 <div class="bar">
   <div class="wrap bar-in">
-    <input id="kw" type="search" placeholder="搜关键词，比如 口播、接单、模板、本地、出海…">
+    <input id="kw" type="search" placeholder="搜关键词：口播、接单、模板、本地、出海、客服、陪跑…">
     <div id="chips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
 </div>
@@ -63,18 +78,19 @@ footer{margin:48px 0 60px;padding-top:22px;border-top:1px solid var(--line);colo
 
 <footer>
   <div class="wrap">
+    <p><b style="color:var(--acc)">想学这些方法，加海大叔</b>：微信 <b style="color:var(--acc)">haidashu79</b>，说清你会什么、每天有几个小时、想挣多少，他按你的情况挑三条最可能做成的。</p>
     <p>海大叔 AI 新媒体工作室 · 云南昆明｜一个人 + AI 干活的地方</p>
-    <p>想让我按你的情况挑三条能立刻干的路子：加微信 <b style="color:var(--acc)">haidashu79</b>，说清你会什么、每天有几个小时、想挣多少。</p>
     <p><a href="/zhinao/">→ 回商业智脑继续问</a>　<a href="/products/">→ 看产品体系</a></p>
   </div>
 </footer>
+<div class="toast" id="toast">微信号已复制：haidashu79</div>
 
 <script>
 var DATA=null, cur='all', kw='';
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function hit(it,c){
   if(!kw) return true;
-  var s=(it.name+it.how+it.gate+it.first+it.pit+c.name).toLowerCase();
+  var s=[it.name,it.what,(it.steps||[]).join(' '),it.case,it.read,it.gate,it.first,it.pit,(it.how||''),c.name].join(' ').toLowerCase();
   return s.indexOf(kw)>=0;
 }
 function render(){
@@ -87,19 +103,28 @@ function render(){
     total+=items.length;
     h.push('<section class="sec"><h2>'+esc(c.name)+'</h2><p>'+esc(c.desc)+'</p><div class="grid">');
     items.forEach(function(it){
-      h.push('<div class="card"><h3><span class="no">'+it.no+'</span>'+esc(it.name)+'</h3>'
-        +'<div class="row"><span class="k">怎么做</span>'+esc(it.how)+'</div>'
-        +'<div class="row"><span class="k">门槛</span>'+esc(it.gate)+'</div>'
-        +'<div class="row"><span class="k">第一笔钱</span>'+esc(it.first)+'</div>'
-        +'<div class="row pit"><span class="k">坑</span>'+esc(it.pit)+'</div></div>');
+      var steps=(it.steps||[]).map(function(s){return '<li>'+esc(s)+'</li>'}).join('');
+      h.push('<div class="card" id="m-'+it.no+'"><h3><span class="no">'+it.no+'</span>'+esc(it.name)+'</h3>'
+        +'<p class="what">'+esc(it.what||it.how||'')+'</p>'
+        +'<details'+(kw?' open':'')+'><summary></summary>'
+        +'<div class="row"><span class="k">三步怎么做</span><ol>'+steps+'</ol></div>'
+        +'<div class="row"><span class="k">真事一例</span><div class="case">'+esc(it.case||'')+'</div></div>'
+        +'<div class="row"><span class="k">为什么能成立 / 谁别碰</span>'+esc(it.read||'')+'</div>'
+        +'<div class="row"><span class="k">门槛</span>'+esc(it.gate||'')+'</div>'
+        +'<div class="row"><span class="k">第一笔钱</span>'+esc(it.first||'')+'</div>'
+        +'<div class="row pit"><span class="k">最容易栽的坑</span>'+esc(it.pit||'')+'</div>'
+        +'<div class="row"><span class="k">想学这条</span>加海大叔微信 <b>haidashu79</b>，说“第 '+it.no+' 条”，他给你完整操作手册和话术模板。</div>'
+        +'</details></div>');
     });
     h.push('</div></section>');
   });
-  document.getElementById('out').innerHTML = total? h.join('') : '<section class="sec"><p>没搜到，换个词试试，比如「口播」「模板」「出海」。</p></section>';
+  if(!total){ document.getElementById('out').innerHTML='<section class="sec"><p>没搜到，换个词试试，比如「口播」「模板」「出海」「客服」。</p></section>'; return; }
+  h.push('<section class="sec"><div class="cta">100 条看完还是不知道挑哪条？加海大叔微信 <b>haidashu79</b>，说清你会什么、每天几个小时、想挣多少，他按你的情况挑三条。也可以 <a href="/zhinao/">回智脑问一句</a>。</div></section>');
+  document.getElementById('out').innerHTML = h.join('');
 }
 function chips(){
   if(!DATA) return;
-  var box=document.getElementById('chips'), h=['<span class="chip'+(cur==='all'?' on':'')+'" data-c="all">全部 100 条</span>'];
+  var box=document.getElementById('chips'), h=['<span class="chip'+(cur==='all'?' on':'')+'" data-c="all">全部 '+DATA.count+' 条</span>'];
   DATA.categories.forEach(function(c){
     h.push('<span class="chip'+(cur===c.id?' on':'')+'" data-c="'+c.id+'">'+esc(c.name)+'</span>');
   });
@@ -107,12 +132,21 @@ function chips(){
   box.onclick=function(e){
     var t=e.target.closest('.chip'); if(!t) return;
     cur=t.getAttribute('data-c'); chips(); render();
-    window.scrollTo({top:document.querySelector('.bar').offsetTop-0,behavior:'smooth'});
+    window.scrollTo({top:document.querySelector('.bar').offsetTop,behavior:'smooth'});
   };
 }
 document.getElementById('kw').oninput=function(e){ kw=e.target.value.trim().toLowerCase(); render(); };
+document.getElementById('cp').onclick=function(){
+  var t=document.getElementById('toast');
+  try{ navigator.clipboard.writeText('haidashu79'); }catch(e){
+    var ta=document.createElement('textarea'); ta.value='haidashu79'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+  }
+  t.classList.add('on'); setTimeout(function(){ t.classList.remove('on'); },1800);
+};
 fetch('/zhinao/ai-money.json').then(function(r){return r.json()}).then(function(d){
-  DATA=d; document.querySelector('.eyebrow').textContent='海大叔商业智脑 · 方法库 v'+d.version+' · 共 '+d.count+' 条';
+  DATA=d;
+  document.querySelector('.eyebrow').textContent='海大叔商业智脑 · 方法库 · 共 '+d.count+' 条 · 含案例详解';
+  if(d.note) document.querySelector('.note').textContent=d.note;
   chips(); render();
 }).catch(function(){ document.getElementById('out').innerHTML='<section class="sec"><p>方法库加载失败，请<a href="/zhinao/">回智脑</a>问，或刷新重试。</p></section>'; });
 </script>

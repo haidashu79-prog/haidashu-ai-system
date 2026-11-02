@@ -45,6 +45,8 @@
     + '.msg.u{text-align:right}'
     + '.msg.u span{display:inline-block;background:rgba(255,255,255,.07);padding:9px 13px;border-radius:4px;text-align:left;max-width:86%}'
     + '.msg.a{color:#e8e5de}'
+    + '.msg.a .tx{white-space:normal}'
+    + '.msg.a a{color:' + ACCENT + ';text-decoration:underline;word-break:break-all}'
     + '.msg.a .tag{display:block;font-size:10.5px;color:' + ACCENT + ';letter-spacing:.1em;margin-bottom:6px}'
     + '.ft{border-top:1px solid rgba(255,255,255,.09);padding:12px;display:flex;gap:8px}'
     + 'textarea{flex:1;resize:none;height:44px;padding:11px 12px;background:#111116;color:#f0ede6;'
@@ -84,6 +86,13 @@
 
   var busy = false;
 
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function rich(t){
+    var h=esc(t).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,function(m,txt,u){return '<a href="'+u+'" target="_blank" rel="noopener">'+txt+'</a>'});
+    h=h.replace(/(^|[^"'=>])(https?:\/\/[^\s<)）"，。]+)/g,function(m,pre,u){return pre+'<a href="'+u+'" target="_blank" rel="noopener">'+u+'</a>'});
+    return h.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+  }
+
   function bubble(role, text) {
     var d = document.createElement('div');
     d.className = 'msg ' + role;
@@ -96,7 +105,11 @@
       tag.className = 'tag';
       tag.textContent = '智脑';
       d.appendChild(tag);
-      d.appendChild(document.createTextNode(text));
+      var tx = document.createElement('div');
+      tx.className = 'tx';
+      tx.innerHTML = rich(text);
+      d.appendChild(tx);
+      d._tx = tx;
     }
     bd.appendChild(d);
     bd.scrollTop = bd.scrollHeight;
@@ -141,9 +154,9 @@
                 var piece = j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content;
                 if (piece) {
                   acc += piece;
-                  body.lastChild && body.lastChild.nodeType === 3
-                    ? (body.lastChild.textContent = acc)
-                    : body.appendChild(document.createTextNode(acc));
+                  var tx = body._tx;
+                  if (!tx) { tx = document.createElement('div'); tx.className = 'tx'; body.appendChild(tx); body._tx = tx; }
+                  tx.innerHTML = rich(acc);
                   bd.scrollTop = bd.scrollHeight;
                 }
               } catch (e) {}

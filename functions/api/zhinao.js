@@ -22,8 +22,8 @@ let KB = null;
 async function loadKB(request, env) {
   if (KB) return KB;
   try {
-    const url = new URL('/zhinao/knowledge.json', request.url);
-    const res = await env.ASSETS.fetch(new Request(url.toString(), { cf: { cacheTtl: 300 } }));
+    const url = new URL('/zhinao/kb.json', request.url);
+    const res = await env.ASSETS.fetch(new Request(url.toString(), { cf: { cacheTtl: 30 } }));
     if (!res.ok) return null;
     KB = await res.json();
     return KB;
@@ -42,7 +42,7 @@ export async function onRequest(context) {
     brain: (kb && kb.brain) || '海大叔智脑 · 商业智脑',
     version: (kb && kb.version) || '2026-10-23',
     owner: '海大叔 AI 新媒体工作室',
-    positioning: '一人公司辅助外挂（商业智脑）：商业模式大脑、一人公司运营、新媒体 IP 运营、AI 新媒体 IP 智慧生态，自动升级、自己学习、替你干活，也是可被接入、可挂载插件的底座',
+    positioning: '专答「普通人怎么用 AI 赚钱」的商业智脑：100 种带真实案例的赚钱方法，加上商业模式大脑、一人公司运营、新媒体 IP 运营、AI 新媒体 IP 智慧生态，说清第一步做什么、第一笔钱从哪来，也是可被接入、可挂载插件的底座',
     stats: (kb && kb.stats) || { collections: 31, files: 4323, scripts: 1676, topics: 1368 },
     cards: kb ? kb.cards.length : 0,
     domains: kb && kb.domains

@@ -51,8 +51,8 @@ let KB = null; // 模块级缓存
 async function loadKB(request, env) {
   if (KB) return KB;
   try {
-    const url = new URL('/zhinao/knowledge.json', request.url);
-    const res = await env.ASSETS.fetch(new Request(url.toString(), { cf: { cacheTtl: 300 } }));
+    const url = new URL('/zhinao/kb.json', request.url);
+    const res = await env.ASSETS.fetch(new Request(url.toString(), { cf: { cacheTtl: 30 } }));
     if (!res.ok) return null;
     KB = await res.json();
     return KB;
@@ -184,29 +184,105 @@ function methodsLine(kb) {
   const m = (kb && kb.methods) || null;
   const url = (m && m.url) || 'https://haidashu.com.cn/zhinao/aimoney/';
   const n = (m && m.count) || 100;
-  return `AI 创业赚钱 ${n} 种方法全表在这儿，10 类、每条写清怎么做、门槛、第一笔钱、坑：${url}`;
+  const wx = (m && m.learn_wechat) || (kb && kb.pricing && kb.pricing.wechat) || 'haidashu79';
+  return `普通人用 AI 赚钱 ${n} 种方法，全表在这儿（每条都有真实案例、三步做法、门槛、第一笔钱、坑）：[${url}](${url})\n想学其中哪一条、要完整操作手册和话术模板的，加海大叔微信 ${wx}，说清你会什么、每天几个小时、想挣多少。`;
 }
 
 const contactLine = (kb) =>
   (kb && kb.pricing && kb.pricing.contact) ||
   '想直接问的，加海大叔微信 haidashu79，说清你会什么、每天有几个小时，他本人回。';
 
-function buildSystem(cards, pageSystem, kb) {
+function pickMethodDetail(kb, q) {
+  const det = (kb && kb.methods_detail) || [];
+  if (!det.length) return '';
+  const s = String(q || '').replace(/\s/g, '');
+  const grams = [];
+  for (let i = 0; i < s.length - 1; i++) grams.push(s.slice(i, i + 2));
+  const uniq = Array.from(new Set(grams));
+  const scored = det.map(it => {
+    const blob = it.name + it.what + it.case + it.gate + (it.steps || []).join('') + it.cat;
+    let sc = 0;
+    uniq.forEach(g => { if (blob.indexOf(g) >= 0) sc += 1; });
+    return { it, sc };
+  }).filter(x => x.sc > 0).sort((a, b) => b.sc - a.sc).slice(0, 5);
+  const list = scored.length ? scored : det.filter(it => it.no <= 3).map(it => ({ it }));
+  return list.map(x => {
+    const it = x.it;
+    return `#${it.no}【${it.cat}】${it.name}\n干什么：${it.what}\n三步：${(it.steps || []).join(' / ')}\n真事：${it.case}\n能不能成：${it.read}\n门槛：${it.gate}｜第一笔钱：${it.first}｜坑：${it.pit}`;
+  }).join('\n\n');
+}
+
+/* 指定条目直答：问「第N条」或点名某条方法时，直接用档案原文拼答案，避免模型改写案例里的人名金额 */
+function directAnswer(kb, q) {
+  const det = (kb && kb.methods_detail) || [];
+  if (!det.length) return '';
+  const s = String(q || '');
+  let it = null;
+  const m = s.match(/第\s*([0-9]{1,3})\s*条/);
+  if (m) it = det.find((x) => x.no === parseInt(m[1], 10)) || null;
+  if (!it) {
+    let best = null;
+    let bs = 0;
+    det.forEach((x) => {
+      const chars = Array.from(new Set(x.name.replace(/[，。、·\s]/g, '').split('')));
+      if (!chars.length) return;
+      let hitc = 0;
+      chars.forEach((ch) => { if (s.indexOf(ch) >= 0) hitc += 1; });
+      const sc = hitc / chars.length;
+      if (sc > bs) { bs = sc; best = x; }
+    });
+    if (best && bs >= 0.8) it = best;
+  }
+  if (!it) return '';
+  const url = (kb.methods && kb.methods.url) || 'https://haidashu.com.cn/zhinao/aimoney/';
+  const wx = (kb.methods && kb.methods.learn_wechat) || 'haidashu79';
+  const steps = (it.steps || []).map((x, i) => `${'①②③④⑤'[i] || i + 1 + '.'} ${x}`).join('\n');
+  return [
+    `**第 ${it.no} 条 · ${it.name}**（${it.cat}类）`,
+    '',
+    `**这件事具体干什么**：${it.what}`,
+    '',
+    `**三步怎么做**：`,
+    steps,
+    '',
+    `**真人真事**：${it.case}`,
+    '',
+    `**为什么能成立**：${it.read}`,
+    '',
+    `**门槛**：${it.gate}`,
+    '',
+    `**第一笔钱从哪来**：${it.first}`,
+    '',
+    `**最容易栽的坑**：${it.pit}`,
+    '',
+    `[普通人用 AI 赚钱 100 种方法 · 全表](<${url}>)`,
+    '',
+    `想学这一条的完整操作手册和话术模板，加海大叔微信 ${wx}，说清你会什么、每天几个小时、想挣多少。`,
+    '',
+    `（要我再按你的情况挑三条最能马上动手的，说一下你现在会什么、每天能腾几个小时。）`,
+  ].join('\n');
+}
+
+function buildSystem(cards, pageSystem, kb, q) {
   const st = (kb && kb.stats) || {};
   const pr = (kb && kb.pricing) || null;
   const priceBlock = pr ? `【海大叔这边能帮的事（事实资料）】
 ${pr.line}
 对外统一用这句话说：${pr.reply}
 各档明细：${pr.items.map(i => `${i.name}——${i.price}，交付${i.deliver}`).join('；')}` : '';
-  const mth = (kb && kb.methods) ? `【AI 创业赚钱一百种方法（档案里有全表）】
-一共 ${kb.methods.count} 条，分 ${kb.methods.categories.length} 类：${kb.methods.categories.map(c => c.name).join('、')}。每条写清怎么做、要什么门槛、第一笔钱从哪来、最容易栽的坑。
+  const detQ = (typeof isMethodsAsk === 'function' && isMethodsAsk(q) && kb && kb.methods_detail) ? pickMethodDetail(kb, q) : '';
+  const mth = (kb && kb.methods) ? `【普通人用 AI 赚钱一百种方法（详解版，档案里有全表）】
+一共 ${kb.methods.count} 条，分 ${kb.methods.categories.length} 类：${kb.methods.categories.map(c => c.name).join('、')}。
+每条都有六样东西：这件事具体干什么、三步怎么做、一个真人真事的例子（什么处境、做了什么、收了多少钱）、为什么能成立（适合谁不适合谁）、要什么门槛、第一笔钱从哪来、最容易栽的坑。
 ${kb.methods.rule}
-要全表就报这个网址：${kb.methods.url}` : '';
+全表链接（回答里要写成可点的 Markdown 链接）：[${kb.methods.url}](${kb.methods.url})
+学习入口：想照着做、要完整操作手册与话术模板的，加海大叔微信 ${(kb.methods && kb.methods.learn_wechat) || 'haidashu79'}。${detQ ? '\n\n【本次挑出来的几条真条目：要讲就照这个讲，案例里的人名、地名、金额、做法一个字都不许改，更不许另编】\n' + detQ : ''}` : '';
   const hit = cards.length
     ? cards.map((c, i) => `${i + 1}. 【${c.title}】${c.text}`).join('\n')
     : '（本次没匹配到专门档案，按海大叔通用口径答，别硬编具体数字）';
 
   return `你是「海大叔智脑」，海大叔 AI 新媒体工作室对外放出来的商业智脑，一个人的公司都能挂上的辅助外挂。你说清楚自己的身份：你不是一个写文案的，你是一台管生意的脑子加一双干活的手，帮人把一件事做成能持续收钱的生意。
+你对外只主打一件事：普通人（不会技术、没有团队、手里钱不多）怎么用 AI 赚到钱——先挑一条能动手的路子，再做出第一份能收钱的交付，最后做成每月收得住的生意。所有回答都往这条主线上收。
 
 【你的六条主线，都归到"怎么赚钱"上】
 1. 商业模式大脑：钱从哪来、卖给谁、怎么收、成本结构、定价三档、现金流怎么排、第一笔钱最短路径、这门生意能不能放大。
@@ -232,12 +308,18 @@ ${kb.methods.rule}
 先给判断，一句话说死；再给理由；最后给今天能做的一步。说人话、短句、20-40 字一段，不端架子、不喊口号、不写"首先其次最后"。200-450 字为佳。问钱的事就谈钱，别绕成励志。
 
 【你要守的红线】
-不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。客户问自家怎么收费，照上面口径说：不卖课、没有固定套餐价，先看他要做什么，钱的事海大叔本人跟他谈；不许自造价格、不许编档位；别家东西的价一律不报。不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
+不承诺收益、不用绝对化极限词（最、第一、百分百）、不夸大功效、不涉政治敏感、不指名道姓做负面评价、不诱导互动。客户问自家怎么收费，照上面口径说：没有固定套餐价，先看他要做什么，钱的事海大叔本人跟他谈；不许自造价格、不许编档位；别家东西的价一律不报。不代签合同、不替人拍板。涉及法律、财税、医疗的具体处置，只给方向和"该找谁"，不给结论性意见。
 
 【数字纪律（最容易被扣分的就这条）】
 用户没给的数字，一个都不许替他填。不许自拟人工工资、单价、毛利率、转化率、月销、回本周期。
 要算账时按这个顺序：①先只用他给出的数字推；②缺关键数就点明缺哪个，并给一个区间算法（"你按你实际的 X% 换进去"）；③必须假设时，写成"假设毛利 30%（你按实际换）"，绝不许把假设说成事实。
 算错一个数，整段判断就废了，宁可少算一步。
+
+【案例纪律（讲方法时最容易被扣分的就这条）】
+讲例子只能用档案里真实存在的案例，地名、姓、金额、耗时都要和档案一致。
+绝不许自己编「云南小李」「成都小张」这类人物和数字，也不许把"举个例子"写成真事。
+档案里这条没案例，就直接讲这一步怎么做，别补故事；想知道真事，让他点全表链接看第几条。
+讲的那条方法，名字必须和 100 条清单里的名字一字不差；清单里没有的，先说明"这条不在 100 条里"，再按常识答。
 
 【海大叔的家底（可引用，不要编）】
 知识库共 ${st.collections || 31} 个集合、${st.files || 4323} 份资料：口播成稿 ${st.scripts || 1676} 篇、成稿归档 ${st.archive || 1840} 篇、历史选题 ${st.topics || 1368} 条、各平台课程课件 ${st.courses || 338} 件、可复用合同模板 ${st.contracts || 15} 份、成案案例 ${st.cases || 6} 个。方法论基石是《赚钱的秘密》《个人IP从0到1》两部著作。海大叔本人是昆明的 AI 新媒体 IP 博主，做 AI 新媒体 + IP + 智慧生态，客户里有企业、有一人公司、也有门店。
@@ -255,11 +337,12 @@ ${hit}
 【回答要求】
 1. 优先用上面调出的档案，不许添油加醋，档案没有的数字不要编。
 2. 尽量往"这事怎么变成钱、下一步谁去做、做什么"上收，别停在道理。
-3. 对方问"Ai 怎么赚钱/AI 能怎么挣钱/有哪些路子/我能干点什么/有没有更多方法"这一类，必须先把【AI 创业赚钱一百种方法】用上：说清共 100 条、分 10 类、类名报全（内容与流量、一人接单服务、小工具与小产品、卖货与电商、教与陪跑、本地生意、职场与专业加持、出海与跨境、自动化与代运营、资产型与长期），再从里面挑 4–6 条最贴他情况的，每条写清怎么做、第一笔钱从哪来、坑在哪，最后把全表网址给出去。一次最多列 8 条，不许把 100 条全倒出来。
+3. 对方问"普通人怎么用 AI 赚钱/AI 怎么赚钱/有哪些路子/我啥都不会能干什么/有没有更多方法"这一类，必须先把【普通人用 AI 赚钱一百种方法】用上：①第一句说清共 100 条、分 10 类，类名报全（内容与流量、一人接单服务、小工具与小产品、卖货与电商、教与陪跑、本地生意、职场与专业加持、出海与跨境、自动化与代运营、资产型与长期）；②从里面挑 1–2 条最贴他情况的讲透，每条都要给：这件事具体干什么、三步怎么做、一个真人案例（什么处境、做了什么、收了多少钱）、为什么能成立、门槛、第一笔钱从哪来、最容易栽的坑；③第三条起只报名字，别展开；④最后给全表链接，写成可点的 Markdown 链接 [https://haidashu.com.cn/zhinao/aimoney/](https://haidashu.com.cn/zhinao/aimoney/)。一次最多讲 2 条详解、列 6 条名字，不许把 100 条全倒出来。
 4. 只有对方明确问收费/多少钱/怎么算钱时，才按收费答：先讲【对外统一用这句话说】那句原话，再补 1–2 档细节（原话讲过一次就不再重复贴）；资料里没有的项目，说"这项得海大叔本人跟你谈"。对方没问价（只问你能干什么、怎么做、怎么落地），别主动报价，也别写"若涉及收费"这类括号提示。
 5. 拿不准或者要报价、要签约、要下结论的，直接说"这块得海大叔本人接"，别硬答。
 6. 结尾给一个今天就能动手的动作，一句话。
-7. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
+7. 只要这轮谈到了具体路子、方法、怎么做，结尾固定加两行：第一行放可点全表链接，第二行写"想学哪一条、要完整操作手册和话术模板，加海大叔微信 haidashu79，说清你会什么、每天几个小时、想挣多少"。跟方法无关的问题别硬塞。
+8. 跟海大叔的业务完全无关的问题，照实答，但保持口吻。
 
 ${pageSystem ? '【当前专家角色设定，叠加在上面的口径之内】\n' + pageSystem : ''}`;
 }
@@ -315,10 +398,37 @@ export async function onRequest(context) {
   if (!question) return jsonResp({ error: '问题不能为空' }, 400);
 
   const cards = retrieve(kb, question, 4);
-  const system = buildSystem(cards, String(body.system || ''), kb);
+  const system = buildSystem(cards, String(body.system || ''), kb, question);
 
   if (!env.AI) {
     return new Response(sse({ error: '智脑的推理通道未就绪（AI 绑定未配置）。' }), {
+      status: 200,
+      headers: { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache', ...CORS },
+    });
+  }
+
+  const direct = directAnswer(kb, question);
+  if (direct) {
+    const enc0 = new TextEncoder();
+    const meta0 = {
+      brain: (kb && kb.brain) || '海大叔智脑',
+      version: (kb && kb.version) || '',
+      cards: cards.map((c) => ({ id: c.id, title: c.title, kind: c.kind })),
+      model: 'zhinao-direct',
+    };
+    const stream0 = new ReadableStream({
+      start(controller) {
+        controller.enqueue(enc0.encode(': model=zhinao-direct\n'));
+        controller.enqueue(enc0.encode(':zhinao ' + JSON.stringify(meta0) + '\n\n'));
+        for (let i = 0; i < direct.length; i += 18) {
+          const chunk = direct.slice(i, i + 18);
+          controller.enqueue(enc0.encode(sse({ choices: [{ delta: { content: chunk } }], text: chunk })));
+        }
+        controller.enqueue(enc0.encode('data: [DONE]\n\n'));
+        controller.close();
+      },
+    });
+    return new Response(stream0, {
       status: 200,
       headers: { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache', ...CORS },
     });

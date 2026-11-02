@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>海大叔商业智脑 · 一人公司辅助外挂</title>
-<meta name="description" content="海大叔商业智脑：一人公司辅助外挂。算清钱从哪来、公司怎么开、账号怎么做、这单接不接。有介绍，有问答入口，问一句就答。">
+<title>海大叔商业智脑 · 普通人怎么用 AI 赚钱</title>
+<meta name="description" content="海大叔商业智脑：专答普通人怎么用 AI 赚钱。不会技术、没有团队、钱不多的人，怎么挑一条能动手的路子、做出第一份能收钱的交付、做成每月收得住的生意。100 种方法带案例详解。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><text x='16' y='22' font-size='18' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>海</text></svg>">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/tool3d.css">
@@ -138,11 +138,10 @@
 
 <section class="zhero">
   <div class="wrap center">
-    <span class="eyebrow">商业智脑 · 一人公司辅助外挂</span>
-    <h1 class="h2">卡在哪，问一句</h1>
-    <p class="lead">算清钱从哪来、公司怎么开、账号怎么做、这单接不接。用大白话问，它用大白话答，给能落地的步骤和清单，不灌鸡汤。</p>
-    <div style="margin-top:16px"><a class="btn btn-primary" href="/zhinao/aimoney/">看 100 种 AI 赚钱方法 →</a></div>
-    <p style="margin-top:12px;font-size:12.5px;color:var(--dim2)">内核 v0.35.0 · 2026-11-01 更新：口径切到「用 AI 赚钱」，新增 100 种赚钱方法。</p>
+    <span class="eyebrow">商业智脑 · 普通人怎么用 AI 赚钱</span>
+    <h1 class="h2">普通人怎么用 AI 赚钱，问一句</h1>
+    <p class="lead">不会技术、没有团队、手里钱不多，也能靠 AI 挣到钱。你先说清三件事：你会什么、每天有几个小时、想挣多少，它按这三样挑路子，给能落地的步骤和清单，不灌鸡汤。</p>
+    <div style="margin-top:16px"><a class="btn btn-primary" href="/zhinao/aimoney/">看 100 种方法（带案例详解）→</a><a class="btn" href="/zhinao/aimoney/" style="margin-left:10px">想学哪条加海大叔 haidashu79</a></div>
   </div>
 </section>
 
@@ -175,7 +174,7 @@
     <h2 class="center" style="font-size:21px;margin:0 0 8px">能帮你干什么，怎么开始</h2>
     <p class="lead center" style="margin:0 0 18px;color:var(--dim2)">先给你三条能立刻干的路子，标出哪条最快见钱；挑中一条，一周做出第一份能收钱的交付。</p>
     <div class="grid c3" id="priceGrid"></div>
-    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">不卖课、没有固定套餐价；钱的事海大叔本人按你要做的事谈。</p>
+    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">没有固定套餐价；钱的事海大叔本人按你要做的事谈。</p>
   </div>
 </section>
 
@@ -228,7 +227,7 @@ var EXPERTS={
   earn:{n:'我这活能不能挣钱',sys:'你现在是「生意参谋」。他用一线经验换钱：先问清他手上有什么、谁会付钱、隔壁同样的人有没有同样的烦事。给一个能当天卖的最小单元、能报的价、第一单从哪来。不许承诺收益，不许编数字。'}
 };
 
-/* ── 智脑内核 v0.35.0：加载 brain.json，拼成统一底座 ── */
+/* ── 智脑内核：加载 brain.json，拼成统一底座 ── */
 var BRAIN=null;
 function renderPrice(){
   var g=document.getElementById('priceGrid'); if(!g||!BRAIN||!BRAIN.skus) return;
@@ -291,7 +290,13 @@ var busy=false, exKey='';
   if(nc){ nc.onclick=doNew; nc.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();doNew();} }; }
 })();
 function esc(t){return String(t).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
-function md(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');}
+function md(t){
+  var h=esc(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  h=h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,function(m,txt,u){return '<a href="'+u+'" target="_blank" rel="noopener">'+txt+'</a>';});
+  h=h.replace(/(^|[^"'=>])(https?:\/\/[^\s<)）"，。]+)/g,function(m,pre,u){return pre+'<a href="'+u+'" target="_blank" rel="noopener">'+u+'</a>';});
+  h=h.replace(/\n/g,'<br>');
+  return h;
+}
 function addMsg(who,text){
   var e=document.getElementById('empty'); if(e) e.remove();
   var m=document.createElement('div'); m.className='msg '+who+' fresh';
