@@ -601,6 +601,9 @@ footer a{color:var(--qing); cursor:pointer; text-decoration:none; border-bottom:
 .me-fold{padding:11px 14px; display:flex; align-items:center; gap:10px; font-size:13px; color:var(--ink2);
   line-height:1.7; flex-wrap:wrap}
 .me-fold .zk{font-family:var(--serif); color:var(--qing); letter-spacing:.04em}
+/* 顶部常驻命主条：一处填八字，所有页同步显示 */
+.mebar{margin:14px 0 2px}
+.mebar .me{margin-bottom:6px}
 @media (max-width:760px){
   .entries{grid-template-columns:repeat(2,1fr); gap:10px; margin-top:16px}
   .entry{padding:12px 12px 13px}
@@ -710,6 +713,7 @@ footer a{color:var(--qing); cursor:pointer; text-decoration:none; border-bottom:
     <div class="sub">周易六爻 · 生辰八字 · 奇门遁甲 · 风水布局 · 万年历 · 五行八卦　<b>真排真算</b></div>
     <div class="chipline"><span>问事先出结论</span><span>再说凭什么</span><span>最后给今天能做的三件事</span></div>
   </header>
+  <div id="meBar" class="mebar"></div>
   <main id="view"></main>
   <footer>
     <div class="dm">本页所出，皆中华传统术数文化之推演，依传统算法逐项排定。</div>

@@ -204,7 +204,7 @@
     '三、有热乎气。开口先递一句体己话，让他觉得你听懂了。他急你就稳，他虚你就托底，他熬得久你先心疼。',
     '',
     '【答事的死规矩，一条都不能破】',
-    '一、先答所问。他问什么，头一句就把他的事接住：能不能、该不该、什么时候、往哪边走。文言断语只占一小句（像古书批语，四五到十来个字，有古意），紧跟着用大白话把这句话掰开讲透。不许绕开问题去背卦辞。',
+    '一、先答所问。他问什么，头一句就把他的事接住：能不能、该不该、什么时候、往哪边走。直接说人话，像老师傅面对面跟你唠，不许拽文言、不许背卦辞、不许用「气场」「能量」「磁场」这类糊弄词。把结论先撂出来，再讲为啥，最后给一件今天就能干的事。',
     '二、说人话，说狠话。每个人都能看懂是大前提。要说到具体的人、事、方位、颜色、动作，不许用「气场」「能量」「磁场」这类糊弄词。',
     '三、去 AI 味，一条一条都给我盯死：',
     '　· 不许出现任何英文单词、字母、数字编号；',
@@ -549,12 +549,18 @@
     if (!ME) return '';
     var m = ME.load(), me = ME.read();
     var filled = !!(m && m.y && m.d);
-    var open = meEditing || !filled;
+    var open = meEditing;
 
-    var head = '<div class="me-h"><span class="tag">先填你的生辰</span>' +
+    var head = '<div class="me-h"><span class="tag">命主</span>' +
       (filled ? '<span class="st">已记下</span>' : '<span class="st no">还没填</span>') + '</div>';
 
     if (!open) {
+      if (!filled) {
+        return '<div class="me">' + head +
+          '<div class="me-fold"><span class="zk" style="color:var(--warn)">还没填生辰</span>' +
+          '<span>填了之后，所有页面都按你的命来断</span>' +
+          '<button class="btn ghost sm" id="meEdit">填一下</button></div></div>';
+      }
       return '<div class="me">' + head +
         '<div class="me-fold"><span class="zk">' + esc(me ? me.zao : '') + '</span>' +
         '<span>' + esc(ME.line(me)) + '</span>' +
@@ -590,7 +596,7 @@
   }
 
   function renderMeBox() {
-    var box = $('meBox'); if (!box) return;
+    var box = $('meBar'); if (!box) return;
     box.innerHTML = meCard();
     var seg = box.querySelectorAll('.me-seg button');
     Array.prototype.forEach.call(seg, function (b) {
@@ -610,7 +616,7 @@
   }
 
   function saveMe() {
-    var box = $('meBox');
+    var box = $('meBar');
     var y = parseInt(($('meY') || {}).value, 10);
     var mo = parseInt(($('meM') || {}).value, 10);
     var d = parseInt(($('meD') || {}).value, 10);
@@ -652,7 +658,7 @@
       }
       meEditing = true;
       renderMeBox();
-      var box = $('meBox');
+      var box = $('meBar');
       if (box) { try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { } }
       pendingAfterMe = next || null;
       toast('把年月日和时辰挑一下，填完接着算');
@@ -663,7 +669,6 @@
   function viewGua() {
     return pbar('周易起卦 · 问事') + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>起卦问事</h2><span class="hint">三钱法与时间起卦</span></div>' +
-      '<div id="meBox"></div>' +
       '<div class="frow"><div class="fld" style="flex:1 1 100%"><label>你想问的那件事（写清楚，答案才咬得住）</label>' +
       '<input id="guaQ" placeholder="例：今年还能不能赚到钱"></div></div>' +
       '<div class="frow" style="margin-top:12px"><div class="fld"><label>起卦方式</label>' +
@@ -823,8 +828,8 @@
     /* 照着他的命和需求讲：同一句话换个人来问，答法就得不一样 */
     if (nd && nd.prompt) { L.push(''); L.push(nd.prompt); }
     L.push('');
-    L.push('请照着上面这些实排结果讲。先给一句文言断语，再用大白话把这件事讲透，说清楚为什么是这个结论。最后给一件今天就能做的小事。');
-    L.push('若看出有灾有碍，务必给出破解之法；若看出缺什么，给出改运建议，要具体到方位、颜色、物件、动作。不要把上面的数字再念一遍，讲成溜的话。');
+    L.push('请照着上面这些实排结果讲。直接说人话，像街坊唠嗑，第一句就把他的事接住。不许拽文言、不许排比、不许「首先其次最后」这类词。把结论先撂出来，再讲为啥，最后给一件今天就能做的小事。');
+    L.push('有灾有碍就给具体的破解（方位、颜色、物件、动作），别绕弯子；缺什么给改运建议，也要具体到能动手做的。不要把上面的数字再念一遍。');
     var brief = '排盘解读·' + v.topicName + (v.question ? '｜' + v.question : '');
     askAI(L.join('\n'), out, v.topic, btn, stopBtn, brief, { q: v.question || v.topicName, human: hm })
       .then(function () { askQuota(1); refreshAskHint(); });
@@ -841,8 +846,7 @@
     if (cat === '自动') cat = '';
     /* 这套东西记住：下次进来还是问这件、还是这一头、还是这种起法，不想改的不用重填 */
     if (PROF) PROF.gua({ guaQ: q, guaWay: way, guaCat: cat });
-    /* 起卦之前先知道你属什么。少了这一步，断出来就是通用话术，谁问都一样。 */
-    if (ME && !ME.has() && !guaSkipMe) { askForMe(renderGua); return; }
+    /* 起卦之前先知道你属什么：命主条常驻在顶部，没填就按通用规矩断，不拦你 */
     var t = today();
     var r;
     if (way === 'time') {
@@ -904,19 +908,22 @@
 
   /* ---- 生辰八字 ---- */
   function viewBazi() {
+    var me = (ME && ME.has()) ? ME.read() : null, iv = me ? me.input : null;
+    var dvY = iv ? iv.y : 1990, dvM = iv ? iv.m : 1, dvD = iv ? iv.d : 1,
+        dvH = (iv && iv.h != null) ? iv.h : 12, dvMi = iv ? (iv.mi || 0) : 0, dvS = iv ? iv.gender : 'male';
     return pbar('生辰八字 · 命理') + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>生辰八字</h2><span class="hint">四柱 · 五行 · 十神 · 大运</span></div>' +
-      '<div class="frow"><div class="fld"><label>出生年</label><input id="bzY" type="number" value="1990" min="1900" max="' + ME.YMAX + '"></div>' +
-      '<div class="fld"><label>月</label><input id="bzM" type="number" value="1" min="1" max="12"></div>' +
-      '<div class="fld"><label>日</label><input id="bzD" type="number" value="1" min="1" max="31"></div>' +
-      '<div class="fld"><label>时</label><input id="bzH" type="number" value="12" min="0" max="23"></div>' +
-      '<div class="fld"><label>分</label><input id="bzMi" type="number" value="0" min="0" max="59"></div>' +
-      '<div class="fld"><label>性别</label><select id="bzS"><option value="male">男</option><option value="female">女</option></select></div></div>' +
+      '<div class="frow"><div class="fld"><label>出生年</label><input id="bzY" type="number" value="' + dvY + '" min="1900" max="' + ME.YMAX + '"></div>' +
+      '<div class="fld"><label>月</label><input id="bzM" type="number" value="' + dvM + '" min="1" max="12"></div>' +
+      '<div class="fld"><label>日</label><input id="bzD" type="number" value="' + dvD + '" min="1" max="31"></div>' +
+      '<div class="fld"><label>时</label><input id="bzH" type="number" value="' + dvH + '" min="0" max="23"></div>' +
+      '<div class="fld"><label>分</label><input id="bzMi" type="number" value="' + dvMi + '" min="0" max="59"></div>' +
+      '<div class="fld"><label>性别</label><select id="bzS"><option value="male"' + (dvS === 'male' ? ' selected' : '') + '>男</option><option value="female"' + (dvS === 'female' ? ' selected' : '') + '>女</option></select></div></div>' +
       '<div class="tip" style="font-size:12.5px;color:var(--ink3)">日柱按传统<b>子时（23 时）换日</b>定；年柱、月柱按<b>立春与十二节</b>分界，与部分万年历的零点换日略有出入。不知生时者，默认按午时（12 时）试排。</div>' +
       '<div class="tools"><button class="btn" id="bzGo">排 盘</button></div>' +
       '<div class="res" id="bzOut"></div></div>';
   }
-  function renderBazi() {
+  function renderBazi(writeMe) {
     var y = +$('bzY').value, m = +$('bzM').value, d = +$('bzD').value, h = +$('bzH').value, mi = +$('bzMi').value, g = $('bzS').value;
     if (PROF) PROF.bazi({ bzY: y, bzM: m, bzD: d, bzH: h, bzMi: mi, bzS: g });
     if (!(y >= ME.YMIN && y <= ME.YMAX)) { toast('年份取 ' + ME.YMIN + ' 至 ' + ME.YMAX + ' 之间'); return; }
@@ -956,6 +963,7 @@
       '<div class="sec-h" style="margin-top:18px"><span class="bar"></span><h2>大运流转</h2></div>' + dyTb +
       secs + fix + '</div>';
     bindAskFrom('bazi', fp, stat, dy, g);
+    if (writeMe && ME) ME.save({ y: y, m: m, d: d, h: h, mi: mi, gender: g });
     track('#/bazi');
   }
   function bindAskFrom(kind, fp, stat, dy, g) {
@@ -1020,16 +1028,19 @@
 
   /* ---- 风水布局 ---- */
   function viewFengshui() {
+    var me = (ME && ME.has()) ? ME.read() : null;
+    var tip = me ? ('按命主 ' + me.zao + ' 算宅命') : '先在顶部「命主」填一下生辰，风水才认得你（没填就先按 1990 年男看个大概）';
     return pbar('风水布局 · 宅命') + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>风水布局</h2><span class="hint">八宅 · 流年飞星 · 现代风水</span></div>' +
-      '<div class="frow"><div class="fld"><label>出生年</label><input id="fsY" type="number" value="1990" min="1900" max="' + ME.YMAX + '"></div>' +
-      '<div class="fld"><label>性别</label><select id="fsS"><option value="male">男</option><option value="female">女</option></select></div>' +
-      '<div class="fld"><label>看哪一年的流年</label><input id="fsYr" type="number" value="' + today().y + '"></div></div>' +
+      '<div class="tip" style="font-size:12.5px;color:var(--ink3);margin-bottom:10px">' + tip + '</div>' +
+      '<div class="frow"><div class="fld"><label>看哪一年的流年</label><input id="fsYr" type="number" value="' + today().y + '"></div></div>' +
       '<div class="tools"><button class="btn" id="fsGo">看 宅</button></div>' +
       '<div class="res" id="fsOut"></div></div>';
   }
   function renderFengshui() {
-    var y = +$('fsY').value, g = $('fsS').value, yr = +$('fsYr').value;
+    var me = (ME && ME.has()) ? ME.read() : null;
+    var y = me ? me.input.y : 1990, g = me ? me.input.gender : 'male';
+    var yr = +$('fsYr').value;
     var mg = FS.mingGua(y, g);
     var house = FS.eightHouse(mg.gua);
     var ys = FS.yearStar(yr);
@@ -1188,7 +1199,6 @@
     return pbar('问易玄机 · AI 大师') + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>问易玄机</h2><span class="hint">先答四题，再听他讲</span></div>' +
       '<div class="hero" style="padding:0 0 6px;text-align:left"><div class="desc">把你那件事写出来。老先生要先问清情况，才肯开口。上来就给答案的，多半是糊弄人的。<b>答完四题，先当场起一卦，把结论摆给你看，再把你这句话背后那一层说给你听。</b></div></div>' +
-      '<div id="meBox" style="margin-top:12px"></div>' +
       '<div class="frow" style="margin-top:12px"><div class="fld" style="flex:1 1 100%">' +
       '<textarea id="askInput" placeholder="一句话说清楚就好。例：做了三年的店想转手，不知道是不是时候。"></textarea></div></div>' +
       caseChipsHtml() +
@@ -1226,7 +1236,7 @@
       if (wantMe === 'me' && ME && !ME.has()) {
         meEditing = true;
         renderMeBox();
-        var box = $('meBox');
+        var box = $('meBar');
         if (box) { try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { } }
         pendingAfterMe = function () { doAskFlow(q, topic, situation, hmPick); };
         toast('先把生辰填上，填完接着算');
@@ -1278,7 +1288,7 @@
     }
     if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
     if (nd && nd.prompt) { lines.push(nd.prompt); lines.push(''); }
-    lines.push('请先给一句文言断语，再用大白话把这件事讲透，最后给一件今天就能做的小事。若看出有灾有碍，务必给出破解之法与改运建议。');
+    lines.push('请直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥，最后给一件今天就能做的小事。有灾有碍就给具体的破解（方位、颜色、物件、动作），别拽文言、别排比、别「首先其次」。');
     // 存进台账的摘要：只留人话，不留提示词
     var brief = '方向·' + (TOPIC_NAME[topic] || topic) + '｜情形·' + situation + (q ? '｜原话·' + q : '');
     if (q || situation) HM.note(q || situation);
@@ -1482,7 +1492,7 @@
       L.push('【要怎么答】按他这三个条件把这条路排出来，要讲清这几层：他该从哪个台阶起步、哪几个台阶可以快走或先跳过，为什么；');
       L.push('每个台阶大概花多久，每天具体做什么，做到什么样算过关；针对他说的那个卡点，给一个今天就能试的破法；');
       L.push('怎么检验自己真学会了。最后给一句他明天就能开始做的事。');
-      L.push('先给一句文言断语，再用大白话把这条路线讲给他听。不许写成一二三的清单，不许出现「首先」「其次」「最后」这类词，讲成溜的话。');
+      L.push('直接说人话，像街坊唠嗑，把这条路线讲给他听。不许写成一二三的清单，不许出现「首先」「其次」「最后」这类词，不许拽文言，讲成溜的话。');
       var brief = '学路线｜底子·' + base + '｜时间·' + time + '｜目标·' + goal + '｜卡点·' + stuck;
       var out = $('lrOut');
       askAI(L.join('\n'), out, 'general', $('lrGo'), $('lrStop'), brief, { q: '学这套体系 入门 顺序 卡点 读书', nosave: true })
@@ -1942,6 +1952,7 @@
     var r = ROUTES[h] || ROUTES.home;
     $('modal').innerHTML = '';
     $('view').innerHTML = r.v();
+    renderMeBox();
     bindBack();
     if (h === 'home') {
       Array.prototype.forEach.call(document.querySelectorAll('[data-h]'), function (e) {
@@ -1958,7 +1969,7 @@
       }
     }
     if (h === 'bazi') {
-      $('bzGo').onclick = renderBazi;
+      $('bzGo').onclick = function () { renderBazi(true); };
       if (PROF) {
         var pb = PROF.forBazi();
         if (pb.bzY != null) $('bzY').value = pb.bzY;
@@ -1968,13 +1979,15 @@
         if (pb.bzMi != null) $('bzMi').value = pb.bzMi;
         if (pb.bzS != null) $('bzS').value = pb.bzS;
       }
+      renderBazi(false);
     }
     if (h === 'qimen') {
       $('qmGo').onclick = renderQimen;
       $('qmNow').onclick = function () { var t = today(); $('qmY').value = t.y; $('qmM').value = t.m; $('qmD').value = t.d; $('qmH').value = t.h; $('qmMi').value = t.mi; renderQimen(); };
+      renderQimen();
     }
-    if (h === 'fengshui') { $('fsGo').onclick = renderFengshui; }
-    if (h === 'almanac') { $('alGo').onclick = renderAlmanac; $('alToday').onclick = function () { var t = today(); $('alY').value = t.y; $('alM').value = t.m; $('alD').value = t.d; renderAlmanac(); }; }
+    if (h === 'fengshui') { $('fsGo').onclick = renderFengshui; renderFengshui(); }
+    if (h === 'almanac') { $('alGo').onclick = renderAlmanac; $('alToday').onclick = function () { var t = today(); $('alY').value = t.y; $('alM').value = t.m; $('alD').value = t.d; renderAlmanac(); }; renderAlmanac(); }
     if (h === 'ask') {
       $('askGo').onclick = startAskFlow;
       $('askStop').onclick = stopAsk;

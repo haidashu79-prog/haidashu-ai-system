@@ -1,11 +1,15 @@
 /* =============================================================
-   易玄机 · 云服务配置
-   只放「可公开」的三个值；endpoint / publishableKey 由云端下发，
-   不要写死别的地址，也不要放任何密钥。
+   易玄机 · 云服务配置（已断开外部后端）
+   -------------------------------------------------------------
+   原来这里写的是别人的后端地址和公钥，现在全部清空。
+   本页的 AI 问答走站点自己的 /api/v1（见 lib/ui.js 的 LC），
+   排盘、起卦、看地全部在本机算，不联网。
+
+   要接自己的后端，把下面 endpoint / publishableKey 换成自己的即可。
    ============================================================= */
 window.YXJ_CLOUD = {
-  resourceId: 'wbcs_MEE59Kj25Ndt660jTqNQ9e',
-  endpoint: 'https://yixuanji.app.workbuddy.host',
-  oauthRelayBaseUrl: 'https://www.workbuddy.cn/v2/as/genie-baas/oauth',
-  publishableKey: 'wbpk_8uYPz13t0PPqwp9s0OULrX_6XqzifG4rHF34Tji9v6Tq6mXC6lZ0XhQ'
+  resourceId: '',
+  endpoint: '',
+  oauthRelayBaseUrl: '',
+  publishableKey: ''
 };
