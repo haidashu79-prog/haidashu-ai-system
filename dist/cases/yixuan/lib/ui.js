@@ -31,11 +31,13 @@
   } catch (e) { cloud = null; }
 
   /* ---- 站内问答通道 ----
-     不依赖任何外部云：直接打本站 /api/v1/chat/completions（OpenAI 兼容、流式）。
+     不依赖任何外部云：直接打本站易玄机专用通道 /api/yixuan/chat（OpenAI 兼容、流式）。
+     这条通道只把卦象推演的 messages 原样交给模型，不掺「智脑/赚钱方法」那套，
+     所以易玄机问卦就答卦、不会跑题去讲生意。
      外部云断开时，问事照样能答；访客统计、经验库同步这些依赖云库的功能自动关闭。 */
   var LC = {
     async *chat(p) {
-      var r = await fetch('/api/v1/chat/completions', {
+      var r = await fetch('/api/yixuan/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer haidashu-internal' },
         body: JSON.stringify({
