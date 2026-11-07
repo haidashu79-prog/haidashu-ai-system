@@ -94,20 +94,38 @@ npx wrangler d1 execute haidashu --remote --file=schema.sql
 > 说明：这是「够用就好」的账号体系——没有找回密码、没有第三方登录、没有短信验证。
 > 要加这些，在这个骨架上扩即可。
 
+## 构建规则（重要）
+
+**只改 `site/`，不要直接改 `dist/`。**
+
+`dist/` 是发布目录（`wrangler.toml` 里 `pages_build_output_dir = "dist"`），由构建脚本从 `site/` 单向生成。
+禁止再手工在 `site/` 与 `dist/` 之间互相同步——两边各自迭代过不同文件，历史上已造成过登录体系被覆盖回退。
+
+```bash
+./build.sh              # 构建：site/ → dist/ + 生成 sitemap + 自检
+./build.sh --dry-run    # 只看会改哪些文件，不落盘
+./build.sh --backup     # 先备份 dist 再构建（改动大时用）
+./build.sh --check      # 只跑自检
+```
+
+构建三步：
+
+1. **同步**：`rsync -a site/ dist/` 单向同步；`PROTECTED` 清单里 dist 独有的 13 项产物（3D 页面、PWA 图标、`products-v1`、`manifest`、法条原始索引等）不参与删除，保持原样。
+2. **sitemap**：调 `tools/gen_sitemap.py` 重生成 `dist/sitemap.xml`，只收白名单目录下的 `index.html`。lastmod 按**文件内容哈希**判断，基线存 `.sitemap-state.json`——页面内容真改了才刷新日期，避免每次构建把全站日期刷成当天。
+3. **自检**：dist 独有产物齐全 / site 文件全部落到 dist / 关键文件（index、llms.txt、robots.txt、sitemap、\_headers）存在 / 全部 JS 语法通过。任一项不过即非零退出，不部署。
+
 ## 本地跑起来
 
 ```bash
-# 只预览静态页面（AI 接口不会生效，需要用 wrangler）
-npx serve site
-
-# 完整本地环境（含 Functions 与 AI 绑定）
-npx wrangler pages dev site
+./build.sh                      # 先构建出 dist
+npx serve dist                  # 只预览静态页面（AI 接口不生效）
+npx wrangler pages dev dist     # 完整本地环境（含 Functions 与 AI 绑定）
 ```
 
 ## 部署
 
 ```bash
-npx wrangler pages deploy site --project-name=haidashu
+./build.sh && npx wrangler pages deploy dist --project-name=haidashu --branch=main --commit-dirty=true
 ```
 
 ## 素材库
