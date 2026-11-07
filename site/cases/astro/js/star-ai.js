@@ -24,14 +24,10 @@
   var VERDICT = {
     4: { t: '天然合拍', c: '#2F9E6B', s: '你们不用太使劲就能同频。难点不在"合不合"，在于太舒服了容易一起停步。' },
     2: { t: '要磨合，但值得', c: '#D98324', s: '差异是真实存在的，不是谁不爱你。看懂对方的节奏，这段关系会越走越稳。' },
-    1: { t: '最费劲的一型', c: '#C0392B', s: '你们表达爱的方式几乎相反。不是不能在一起，是必须两个人都愿意"翻译"对方。' },
-    // 对宫：相差六个星座。元素上是相生（火-风、土-水），但看事情的角度正好相反
-    0: { t: '对宫 · 既吸引又拉扯', c: '#C2571C', s: '你们是彼此缺失的另一半：他身上的东西你缺，你身上的东西他也缺，所以既被吸引又被拉扯。这段关系最大的风险不是不爱，是谁都不愿意先承认"你那种活法也有道理"。' }
+    1: { t: '最费劲的一型', c: '#C0392B', s: '你们表达爱的方式几乎相反。不是不能在一起，是必须两个人都愿意"翻译"对方。' }
   };
 
-  // zodiac-data.js 用 const 声明，是词法全局，不挂在 window 上，必须按裸名取
-  var SRC = (typeof ZODIAC_SIGNS !== 'undefined' && ZODIAC_SIGNS) || window.ZODIAC_SIGNS || [];
-  var signs = SRC.map(function (s) {
+  var signs = (window.ZODIAC_SIGNS || []).map(function (s) {
     return { name: s.name, range: s.dateRange, element: s.element, ruler: s.ruler, traits: s.traits };
   });
 
@@ -69,8 +65,6 @@
       var ib = signs.findIndex(function (s) { return s.name === b.name; });
       if (ia >= 0 && ib >= 0 && Math.abs(ia - ib) === 6) opposite = true;
     }
-    // 对宫单独判定，不再套用"天然合拍"——元素相生但看事角度相反
-    if (opposite && !same) { f = 0; v = VERDICT[0]; }
 
     var head = same
       ? '两个' + a.name + '，是照镜子。你在他身上看到自己最顺手的那部分，也看到自己最不想承认的那部分。'
@@ -89,8 +83,7 @@
           : a.element === '水' || b.element === '水'
           ? '水象那个人的情绪不是"作"，是他真的在用感受理解世界；另一个人的理性也不是冷血，是他真的在用逻辑保护你。谁也别要求对方换成自己的语言。'
           : a.element === '土' || b.element === '土'
-          ? '土象那个人不是不浪漫，是他的浪漫藏在"这件事我替你做完了"里；另一个人要的浪漫是说出来。两边都没错，只是方式不同。'
-          : '风象和火象凑一起，最不缺的是新鲜感，最缺的是收尾。开局都很热，热情退了以后要靠一个具体的事把两个人继续绑在一起——不是靠感觉，是靠一件共同在做的事。']
+          ? '土象那个人不是不浪漫，是他的浪漫藏在"这件事我替你做完了"里；另一个人要的浪漫是说出来。两边都没错，只是方式不同。']
     ];
 
     var html =
@@ -98,9 +91,10 @@
         '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
           '<b style="font-size:17px">' + a.name + ' × ' + b.name + '</b>' +
           '<span style="font-size:11.5px;border-radius:20px;padding:3px 10px;border:1px solid ' + v.c + '33;background:' + v.c + '14;color:' + v.c + '">' + v.t + '</span>' +
-          (opposite ? '<span style="font-size:11.5px;border-radius:20px;padding:3px 10px;border:1px solid rgba(140,95,50,.22);background:rgba(140,95,50,.06);color:#7C6A57">相差六个星座</span>' : '') +
+          (opposite ? '<span style="font-size:11.5px;border-radius:20px;padding:3px 10px;border:1px solid rgba(194,87,28,.25);background:rgba(194,87,28,.08);color:#C2571C">对宫 · 天生互相吸引</span>' : '') +
         '</div>' +
-        '<p style="font-size:13.5px;line-height:1.8;margin-top:10px;color:#2B2119">' + head + v.s + '</p>' +
+        '<p style="font-size:13.5px;line-height:1.8;margin-top:10px;color:#2B2119">' + head + v.s +
+        (opposite ? ' 你们正好相差六个星座（对宫）：他身上的东西你缺，你身上的东西他也缺，所以既被吸引又被拉扯。' : '') + '</p>' +
         rows.map(function (r) {
           return '<div style="margin-top:12px;padding-top:10px;border-top:1px dashed rgba(140,95,50,.18)">' +
             '<div style="font-size:12.5px;color:#C2571C;font-weight:600;margin-bottom:5px">' + r[0] + '</div>' +

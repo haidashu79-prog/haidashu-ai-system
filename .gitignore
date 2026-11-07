@@ -62,3 +62,6 @@ _bak/
 temp_aim/
 dist/downloads/
 site/downloads/
+
+# 中间产物
+temp/

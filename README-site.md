@@ -2,7 +2,7 @@
 
 海大叔 AI 新媒体 IP 智慧生态 · 全站源码与素材主仓库。
 
-站点线上地址：<https://haidashu.pages.dev>
+站点线上地址：<https://haidashu.com.cn/>（旧预览地址 <https://haidashu.pages.dev> 仅作备用）
 
 ---
 
