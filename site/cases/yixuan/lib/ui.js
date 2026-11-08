@@ -339,7 +339,7 @@
     }
     // 这一回的讲法：回回换骨架，不许一个模子
     var style = null;
-    if (!(ctx && ctx.nosave)) {
+    if (!(ctx && ctx.nosave) && !(ctx && ctx.noStyle)) {
       style = pickStyle();
       sendMsg += '\n\n' + styleBlock(style, (ctx && HM) ? HM.times(ctx.q || brief) : 0);
     }
@@ -1198,15 +1198,20 @@
   }
   function viewAsk() {
     var chips = ['我这份工作该不该换', '今年还能不能赚到钱', '我和他合不合', '家里最近不顺，是不是风水问题', '总睡不好，怎么调'];
+    var hasMe = !!(ME && ME.has());
+    var hintTxt = hasMe ? '照你的八字，直接问' : '先填生辰，再问';
+    var descTxt = hasMe
+      ? '你的生辰已经记下了。把想问的那句话直接写出来，老先生照着你的八字给你断——不用再一题一题填表。问属相、合盘、该不该跟谁合作这种，也直接写。'
+      : '把你那件事写出来。要断得准，先在上面把生辰填上；填完直接问，不用一题一题答。';
     return pbar('问易玄机 · AI 大师') + '<div class="card">' +
-      '<div class="sec-h"><span class="bar"></span><h2>问易玄机</h2><span class="hint">先答四题，再听他讲</span></div>' +
-      '<div class="hero" style="padding:0 0 6px;text-align:left"><div class="desc">把你那件事写出来。老先生要先问清情况，才肯开口。上来就给答案的，多半是糊弄人的。<b>答完四题，先当场起一卦，把结论摆给你看，再把你这句话背后那一层说给你听。</b></div></div>' +
+      '<div class="sec-h"><span class="bar"></span><h2>问易玄机</h2><span class="hint">' + esc(hintTxt) + '</span></div>' +
+      '<div class="hero" style="padding:0 0 6px;text-align:left"><div class="desc">' + esc(descTxt) + '</div></div>' +
       '<div class="frow" style="margin-top:12px"><div class="fld" style="flex:1 1 100%">' +
-      '<textarea id="askInput" placeholder="一句话说清楚就好。例：做了三年的店想转手，不知道是不是时候。"></textarea></div></div>' +
+      '<textarea id="askInput" placeholder="一句话说清楚就好。例：我这命，不该跟什么属相、什么命的人合作？"></textarea></div></div>' +
       caseChipsHtml() +
       '<div style="margin-top:8px;display:flex;gap:7px;flex-wrap:wrap">' +
       chips.map(function (c) { return '<button class="btn ghost sm chip">' + esc(c) + '</button>'; }).join('') + '</div>' +
-      '<div class="tools"><button class="btn" id="askGo">先答几个问题 →</button>' +
+      '<div class="tools"><button class="btn" id="askGo">问 易 玄 机 →</button>' +
       '<button class="btn ghost" id="askStop" style="display:none">停 下</button>' +
       '<span style="font-size:12.5px;color:var(--ink3)" id="askHint"></span></div>' +
       '<div id="askVd"></div>' +
@@ -1228,24 +1233,65 @@
   // 答题卡方向 → 起卦页「侧重」用的中文名（判决引擎以下拉为准）
   var CAT_FOR = { career: '事业', wealth: '求财', love: '感情', health: '健康', home: '综合', general: '自动' };
 
+  /* ---- 看命/合盘/任意问题：直接照八字 + 原话答，不再弹答题卡（治"老是那几样、千篇一律"） ---- */
+  var ZHI_XIAO = { 子: '鼠', 丑: '牛', 寅: '虎', 卯: '兔', 辰: '龙', 巳: '蛇', 午: '马', 未: '羊', 申: '猴', 酉: '鸡', 戌: '狗', 亥: '猪' };
+  function isFateQ(q) {
+    return /(命数|命理|八字|生辰|合盘|合八字|配对|属相|生肖|五行|日主|旺衰|喜用|忌讳|克|冲|害|刑|合作|合伙|搭档|共事|什么命|配不配|合不合|旺不旺)/.test(String(q || ''));
+  }
+  function askDirect(q) {
+    if (askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
+    var me = (ME && ME.has()) ? ME.read() : null;
+    var fate = isFateQ(q);
+    var out = $('askOut');
+    var vdBox = $('askVd'); if (vdBox) vdBox.innerHTML = '';
+    var lines = [];
+    lines.push('【他问的原话——只照这一句答，别答别的】' + q);
+    lines.push('');
+    if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
+    lines.push('【断的依据必须同时用上两样，缺一不可：一是他这个人的生辰八字（四柱、日主、喜用忌），二是他这一句原话。要落到他的八字上判断，别只讲放之四海皆准的通用话。】');
+    if (!me) lines.push('（他还没填生辰八字，先按这句话答，答完提醒他把生辰填上，下回按八字断得更准。）');
+    if (fate) {
+      var yz = (me && me.fp && me.fp.year) ? (me.fp.year.zhi || String(me.fp.year.gz || '').charAt(1)) : '';
+      var sx = ZHI_XIAO[yz] || '';
+      lines.push('【这一问是看命/合盘：直接按他的八字断，不起卦、不拿卦象硬套、不扯某一天的吉凶】');
+      if (sx) lines.push('他的年支是「' + yz + '」，即属' + sx + '。');
+      lines.push('判属相合不合，照这几条，别自己编：');
+      lines.push('· 属相取自年支（子鼠、丑牛、寅虎、卯兔、辰龙、巳蛇、午马、未羊、申猴、酉鸡、戌狗、亥猪）。');
+      lines.push('· 六冲（最不宜深交合作、易翻脸）：子午、丑未、寅申、卯酉、辰戌、巳亥。');
+      lines.push('· 六害（易互相消耗、暗里生怨）：子未、丑午、寅巳、卯辰、申亥、酉戌。');
+      lines.push('· 相刑（易起争执、拖累）：寅巳申、丑戌未、子卯、辰辰、午午、酉酉、亥亥。');
+      lines.push('· 三合宜合作：申子辰、亥卯未、寅午戌、巳酉丑；六合最合：子丑、寅亥、卯戌、辰酉、巳申、午未。');
+      lines.push('答法：先点出他的属相（年支），再说他最该避的 2 到 3 个属相（按六冲、六害、相刑排），讲清为什么；再说"什么命的人不宜深交合作"——按对方日主五行克不克他的喜用来讲；最后给一句能落地的做法。别泛泛而谈，落到属相和五行上。');
+    } else {
+      lines.push('【这一问是问一件具体事：按他的八字和常理给明确判断——能不能、该不该、什么时候、往哪边走。说清理由，最后给一件今天就能做的小事。】');
+    }
+    lines.push('');
+    lines.push('【这一回不许套模板】就着他这句话、他这个八字说，别用放之四海皆准的套话，开头和结构也不许和常见答复一个模子。');
+    lines.push('直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥。别拽文言、别排比、别「首先其次」。');
+    var brief = (me ? (me.zao + '｜') : '') + '原话·' + q;
+    askAI(lines.join('\n'), out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, noStyle: true })
+      .then(function (res) {
+        askQuota(1); refreshAskHint();
+        if (res && res.ok && CASE) {
+          try {
+            CASE.add({ q: q, topic: 'general', topicName: '看命', situation: '', gua: '', chg: '', badge: '', score: 0, brief: (res.text || '').slice(0, 160) });
+            var box = out.querySelector('.answer');
+            if (box && CASE.count() >= 2) {
+              var ml = document.createElement('div');
+              ml.className = 'memline';
+              ml.textContent = '这件事也记进你的档案了（第 ' + CASE.count() + ' 笔）。下回再来，老先生认得你。';
+              box.appendChild(ml);
+            }
+          } catch (e) { }
+        }
+      });
+  }
   function startAskFlow() {
     var q = (($('askInput') && $('askInput').value) || '').trim();
     if (PROF && q) PROF.ask({ askInput: q });
     if (askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
-    openCard('问易玄机', askSteps, function (a) {
-      var topic = a[0], situation = a[1], hmPick = a[2], wantMe = a[3];
-      /* 他说要按生辰断，却还没填过：先把人问清楚，填完自动接着算 */
-      if (wantMe === 'me' && ME && !ME.has()) {
-        meEditing = true;
-        renderMeBox();
-        var box = $('meBar');
-        if (box) { try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { } }
-        pendingAfterMe = function () { doAskFlow(q, topic, situation, hmPick); };
-        toast('先把生辰填上，填完接着算');
-        return;
-      }
-      doAskFlow(q, topic, situation, hmPick);
-    }, { key: 'ask', resume: true });
+    if (!q) { toast('先把想问的那句话写出来'); var el = $('askInput'); if (el) { try { el.focus(); } catch (e) { } } return; }
+    return askDirect(q);
   }
 
   /* 起卦 → 判词 → 交给智脑，一套走完 */
