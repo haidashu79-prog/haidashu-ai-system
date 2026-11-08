@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.haidashu.yixuan'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.haidashu.yixuan"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // 正式包用自己生成的 keystore 签名，装到手机上不是「调试版」
+    signingConfigs {
+        release {
+            storeFile file("../yixuan.keystore")
+            storePassword "yixuan2026"
+            keyAlias "yixuan"
+            keyPassword "yixuan2026"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // WebViewAssetLoader：给打包进来的页面一个正式 https 源（localStorage/WASM/CORS 都稳）
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.10.0'
+}
