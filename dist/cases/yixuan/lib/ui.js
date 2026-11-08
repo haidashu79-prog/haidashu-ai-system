@@ -213,13 +213,14 @@
     '　· 不许用「首先」「其次」「再次」「最后」「总而言之」「综上」「值得一提的是」「值得注意的是」；',
     '　· 不许写小标题、不许用「一二三」编号、不许用破折号串长句、不许用反问句；',
     '　· 不许作总结陈词、不许「希望对你有帮助」这种废话收尾；',
-    '　· 不许用星号、井号、斜体等任何排版符号；',
+    '　· 除开标重点用的两个星号，不许用井号、斜体等任何排版符号；',
     '　· 不许「作为一个 AI」「作为一位老先生」这种自我指称；',
     '　· 不许把话说得四平八稳、放谁身上都成立。你的每句话都得是「只跟他说」的。',
     '　· 同一层意思只许说一遍。说过了就别换个说法再讲一遍，同一个词全篇不许反复念（比如一句一个「东南方」，念三回就成了念经）。',
     '四、要落地。每次都给一件今天就能做的小事。说了有灾有祸，就必须给破解之法；说了缺什么，就必须给补法，具体到方位、颜色、物件、事情。',
     '五、不替人拍板，不打包票。把最后那句话留给他自己说。送他出门时，语气要暖，像「去吧，有事再来」。',
     '六、术语必须翻成大白话，这一条最要紧。你嘴里出来的每一个行话——日主、十神、偏财、伤官、正印、七杀、空亡、纳音、藏干、喜用忌神、大运、流年、神煞、天乙贵人、桃花、驿马、文昌、羊刃、华盖、六冲、六合、六害、相刑、三合、身强身弱——后头必须紧跟一句「就是……」，用街坊话把它说破。说「偏财」，就得跟一句「就是外面来的、不固定的钱」；说「空亡」，就得跟一句「就是这块力道打折，事容易落空」。只丢术语不解释，等于耍人。宁可少说一个术语，也不能让他读完不知道你在说啥。',
+    '七、重点一律标出来，让他扫一眼就看见。每一段最要紧的那句结论，用两个星号夹住，比方 **你这命最忌属鼠的**。全篇标五到八处，标的是结论和准数，不是整段——整段都标，等于没标。属相、方位、年份这些要紧的字眼，能标就标。',
     '',
     '【大师的讲法】',
     '你像真正的老先生那样断事：',
@@ -309,6 +310,161 @@
   function stopAsk() { if (__ctl) { try { __ctl.abort(); } catch (e) { } } }
 
   // 答案收尾时把排版符号洗掉：加粗、井号小标题、星号、引用号
+  /* ============ 语音解读 ============
+     走后端神经网络女声（melotts），一句一句念，自然不机械。
+     后端不可用（模型下线 / 没绑 AI）时，自动退回浏览器自带女声兜底，保证能出声。 */
+  var __spk = { on: false, btn: null, voice: null, tried: false, audio: null, style: 'xian', ctx: null };
+  function pickVoice() {
+    if (!window.speechSynthesis) return null;
+    if (!__spk.tried) {
+      __spk.tried = true;
+      try {
+        speechSynthesis.onvoiceschanged = function () { __spk.voice = null; __spk.tried = false; };
+      } catch (e) { }
+    }
+    var vs = speechSynthesis.getVoices() || [];
+    if (!vs.length) return null;
+    var zh = vs.filter(function (v) { return /^zh|^cmn|中文|Chinese/i.test((v.lang || '') + ' ' + (v.name || '')); });
+    if (!zh.length) return null;
+    /* 越靠前越仿真人：微软晓晓/晓伊这类神经声 → 谷歌普通话 → 苹果婷婷 */
+    var prefer = [/晓晓|小晓|xiaoxiao/i, /晓伊|xiaoyi/i, /云希/i, /Google.*普通话|Google.*Mandarin/i, /婷婷|ting.?ting/i, /female|女/i];
+    for (var i = 0; i < prefer.length; i++) {
+      for (var j = 0; j < zh.length; j++) if (prefer[i].test(zh[j].name)) return zh[j];
+    }
+    return zh[0];
+  }
+  function speakStop() {
+    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { }
+    try {
+      if (__spk.audio) {
+        if (typeof __spk.audio.stop === 'function') __spk.audio.stop();
+        else if (typeof __spk.audio.pause === 'function') { __spk.audio.pause(); __spk.audio.src = ''; }
+      }
+    } catch (e) { }
+    try { if (__spk.ctx) __spk.ctx.suspend(); } catch (e) { }
+    __spk.on = false; __spk.audio = null;
+    if (__spk.btn) __spk.btn.textContent = '🔊 听语音讲解';
+  }
+  /* 后端挂了或模型下线，退回浏览器自带女声把剩下的念完 */
+  function speakFallback(list, btn) {
+    var v = pickVoice();
+    list.forEach(function (s) {
+      if (!s) return;
+      var u = new SpeechSynthesisUtterance(s);
+      if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'zh-CN';
+      u.rate = 0.95; u.pitch = 1.05; u.volume = 1;
+      try { speechSynthesis.speak(u); } catch (e) { }
+    });
+  }
+  /* 走后端神经网络女声，一句句播；可切「仙风道骨」(带回响) / 「清音」两种声线 */
+  function speakText(txt, btn) {
+    var t = mdClean(txt).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+    if (!t) { toast('这段没话可念'); return; }
+    if (__spk.on) { speakStop(); return; }
+    var segs = t.replace(/([。！？；])/g, '$1\u0001').split('\u0001')
+      .map(function (s) { return s.trim(); }).filter(Boolean)
+      .reduce(function (acc, s) {
+        while (s.length > 60) {
+          var cut = s.lastIndexOf('，', 60);
+          if (cut < 0) cut = 60;
+          acc.push(s.slice(0, cut + 1)); s = s.slice(cut + 1);
+        }
+        if (s) acc.push(s);
+        return acc;
+      }, []);
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      if (!__spk.ctx) __spk.ctx = new AC();
+      if (__spk.ctx.state === 'suspended') __spk.ctx.resume();
+    }
+    __spk.on = true; __spk.btn = btn;
+    if (btn) btn.textContent = '⏸ 停一下';
+    var idx = 0;
+
+    function playBuffer(buf) {
+      var ac = window.AudioContext || window.webkitAudioContext;
+      if (!ac || !__spk.ctx) {
+        var a = new Audio();
+        a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+        a.onended = function () { if (__spk.on) playNext(); };
+        a.play().catch(function () {});
+        __spk.audio = a;
+        return;
+      }
+      var ctx = __spk.ctx;
+      ctx.decodeAudioData(buf.slice(0)).then(function (ab) {
+        if (!__spk.on) return;
+        var src = ctx.createBufferSource();
+        src.buffer = ab;
+        if (__spk.style === 'xian') {
+          // 仙风道骨：两道回响 + 轻微低通，像在山门大殿里说话
+          var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3800;
+          var d1 = ctx.createDelay(1); d1.delayTime.value = 0.18;
+          var d2 = ctx.createDelay(1); d2.delayTime.value = 0.36;
+          var g1 = ctx.createGain(); g1.gain.value = 0.28;
+          var g2 = ctx.createGain(); g2.gain.value = 0.15;
+          src.connect(lp); lp.connect(ctx.destination);
+          lp.connect(d1); d1.connect(g1); g1.connect(ctx.destination);
+          lp.connect(d2); d2.connect(g2); g2.connect(ctx.destination);
+        } else {
+          src.connect(ctx.destination);
+        }
+        src.onended = function () { if (__spk.on) playNext(); };
+        src.start(0);
+        __spk.audio = src;
+      }).catch(function () { if (__spk.on) playNext(); });
+    }
+    function fetchSeg(seg, done) {
+      var url = '/api/yixuan/tts?t=' + encodeURIComponent(seg.slice(0, 200)) + '&lang=zh';
+      fetch(url).then(function (r) {
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.arrayBuffer();
+      }).then(function (b) { done(b); }).catch(function () { done(null); });
+    }
+    function playNext() {
+      if (!__spk.on) return;
+      if (idx >= segs.length) { speakStop(); return; }
+      var seg = segs[idx++];
+      fetchSeg(seg, function (buf) {
+        if (!__spk.on) return;
+        if (!buf) {
+          __spk.on = false;
+          if (btn) btn.textContent = '🔊 听语音讲解';
+          try { if (__spk.ctx) __spk.ctx.suspend(); } catch (e) { }
+          speakFallback(segs.slice(idx - 1), btn);
+          return;
+        }
+        playBuffer(buf);
+      });
+    }
+    playNext();
+  }
+  function bindSpeakBtn(outEl, getText) {
+    if (!outEl) return;
+    var row = outEl.querySelector('.speak-row');
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'speak-row';
+      row.style.marginTop = '10px';
+      row.innerHTML =
+        '<button class="btn ghost sm spk-play" type="button">🔊 听语音讲解</button>' +
+        '<span class="spk-style">' +
+          '<button class="chip on" data-style="xian" type="button">仙风道骨</button>' +
+          '<button class="chip" data-style="clean" type="button">清音</button>' +
+        '</span>';
+      var host = outEl.querySelector('.answer');
+      if (host) host.appendChild(row); else outEl.appendChild(row);
+    }
+    var b = row.querySelector('.spk-play');
+    b.onclick = function () { speakText(getText(), b); };
+    row.querySelectorAll('.spk-style .chip').forEach(function (c) {
+      c.onclick = function () {
+        __spk.style = c.getAttribute('data-style');
+        row.querySelectorAll('.spk-style .chip').forEach(function (x) { x.classList.remove('on'); });
+        c.classList.add('on');
+      };
+    });
+  }
   function mdClean(s) {
     return String(s == null ? '' : s)
       .replace(/\*\*(.+?)\*\*/g, '$1')
@@ -316,6 +472,20 @@
       .replace(/`+/g, '')
       .replace(/^\s*>\s?/gm, '')
       .replace(/\*/g, '');
+  }
+  /* 落屏用：只认「两个星号夹重点」这一种记号，翻成高亮；别的排版符号照旧清掉。
+     模型爱标重点，标出来才看得出哪句是要紧的。 */
+  function mdHtml(s) {
+    var raw = String(s == null ? '' : s);
+    var out = '';
+    var re = /\*\*(.+?)\*\*/g, last = 0, m;
+    while ((m = re.exec(raw)) !== null) {
+      out += esc(mdClean(raw.slice(last, m.index)));
+      out += '<b class="hl">' + esc(m[1].trim()) + '</b>';
+      last = m.index + m[0].length;
+    }
+    out += esc(mdClean(raw.slice(last)));
+    return out;
   }
 
   async function askAI(userMsg, outEl, topic, btn, stopBtn, brief, ctx) {
@@ -375,7 +545,8 @@
     } finally {
       clearTimeout(slowT1); clearTimeout(slowT2); __ctl = null;
       if (btn) btn.disabled = false; if (stopBtn) stopBtn.style.display = 'none';
-      if (text) body.innerHTML = esc(mdClean(text));
+      if (text) body.innerHTML = mdHtml(text);
+      if (text) bindSpeakBtn(outEl, function () { return text; });
     }
     if (!ok || !text) return { ok: false, text: '' };
 
@@ -2082,6 +2253,7 @@
     admin: { t: '后台', v: viewAdmin }
   };
   function render() {
+    speakStop();
     var h = (location.hash || '#/home').replace('#/', '').split('?')[0] || 'home';
     var r = ROUTES[h] || ROUTES.home;
     $('modal').innerHTML = '';
