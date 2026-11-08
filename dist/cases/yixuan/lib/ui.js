@@ -548,7 +548,7 @@
     var body = outEl.querySelector('.body');
     if (btn) btn.disabled = true; if (stopBtn) stopBtn.style.display = 'inline-flex';
     __ctl = new AbortController();
-    var text = '', ok = true, started = false, lastChunk = Date.now();
+    var text = '', ok = true, started = false, didLocal = false, lastChunk = Date.now();
     // 首字安抚：真在算，别关。两档——30s 安抚、75s 提示可重开一轮。
     var slowT1 = setTimeout(function () { if (!started) { var l = body.querySelector('.loading'); if (l) l.innerHTML = '老先生正在推演，确实在算，再稍候，别关页面…'; } }, 30000);
     var slowT2 = setTimeout(function () { if (!started) { var l = body.querySelector('.loading'); if (l) l.innerHTML = '这次有点慢，要么再等等，要么点「停下」重开一轮…'; } }, 75000);
@@ -584,10 +584,13 @@
 
       // 2) 手动本地 / 云端挂了 / 云端额度空 → 用你的设备本地推演（零服务器额度、不限量）
       if (useLocal || serverFailed || quotaHit) {
+        // 手动开=任何设备都跑；自动兜底只在「能本地加速」(有 WebGPU)的机器上跑，
+        // 免得在跑不动的手机上硬塞个又慢又不准的小模型。
+        var canAuto = useLocal || !!navigator.gpu;
         if (!localAvail) { if (serverFailed) throw new Error('server_unavailable'); }
-        else {
+        else if (canAuto) {
           if (!useLocal && (serverFailed || quotaHit)) toast('云端算力额度用尽，已切到你的设备本地推演（不限量）');
-          useLocal = true; started = false; text = '';
+          useLocal = true; started = false; text = ''; didLocal = true;
           body.innerHTML = '<span class="loading"><span class="spin"></span>正在用你的设备本地推演…首次需下载模型，稍候</span><span class="caret"></span>';
           var lstream = window.YXJ_LOCAL.chat(askReq);
           for await (var lchunk of lstream) {
@@ -595,6 +598,10 @@
             var ld = lchunk.choices && lchunk.choices[0] && lchunk.choices[0].delta;
             if (ld && ld.content) { if (!started) { started = true; text = ''; } text += ld.content; body.innerHTML = esc(text) + '<span class="caret"></span>'; }
           }
+        } else {
+          // 设备跑不了本地加速（多为手机/老浏览器）且用户没主动开 → 不硬跑慢模型，说句明白话
+          body.innerHTML = '<span class="loading">云端今日算力额度用尽了。你这台设备暂时跑不了本地加速——明天再来，或者换用电脑打开这一页继续问，都不花钱。</span>';
+          ok = false;
         }
       }
     } catch (e) {
@@ -606,6 +613,16 @@
       if (btn) btn.disabled = false; if (stopBtn) stopBtn.style.display = 'none';
       if (text) body.innerHTML = mdHtml(text);
       if (text) bindSpeakBtn(outEl, function () { return text; });
+    }
+    // 本地小模型作答时，明确告知：能力有限、仅供参考，准数以上面「秒懂你这盘」为准（不装准、不编造）
+    if (text && didLocal) {
+      var ansBox = outEl.querySelector('.answer');
+      if (ansBox) {
+        var note = document.createElement('div');
+        note.className = 'memline';
+        note.textContent = '（这段由你设备上的本地小模型生成，能力有限、仅供参考；准确结论以上面「秒懂你这盘」为准。云端额度恢复后，断语会更细更准。）';
+        ansBox.appendChild(note);
+      }
     }
     if (!ok || !text) return { ok: false, text: '' };
 

@@ -162,8 +162,7 @@
     }
   };
 
-  // 没 WebGPU（多半是手机/老浏览器）→ 默认用更轻的 0.5B，省下载、跑得动
-  try { if (!navigator.gpu) M.modelId = 'onnx-community/Qwen2.5-0.5B-Instruct'; } catch (e) { }
-
+  // 默认统一用 1.5B：0.5B 实测太弱（会胡说八道），宁可慢一点也要说人话像样。
+  // 手机上本地推演是「手动开」才跑，且会明确标注；跑不动时由上层给明话，不硬塞。
   window.YXJ_LOCAL = M;
 })();
