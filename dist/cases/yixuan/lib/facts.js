@@ -115,6 +115,22 @@ window.YXJ = window.YXJ || {};
     return '';
   }
 
+  /* ---------- 十二属相跟某个地支的关系，一次算全，免得模型自己推错 ---------- */
+  function xiaoGroups(zhi) {
+    var g = { 冲: [], 害: [], 刑: [], 合: [], 半合: [], 平: [] };
+    ZHI.forEach(function (z) {
+      var r = relOf(zhi, z).join('|');
+      var name = z + XIAO[z];
+      if (r.indexOf('六冲') >= 0) g.冲.push(name);
+      else if (r.indexOf('六害') >= 0) g.害.push(name);
+      else if (r.indexOf('相刑') >= 0 || r.indexOf('自刑') >= 0) g.刑.push(name);
+      else if (r.indexOf('六合') >= 0) g.合.push(name);
+      else if (r.indexOf('半合') >= 0) g.半合.push(name);
+      else if (z !== zhi) g.平.push(name);
+    });
+    return g;
+  }
+
   /* =============================================================
      主函数：把 me 拆成一整套硬数据
      ============================================================= */
@@ -273,6 +289,10 @@ window.YXJ = window.YXJ || {};
       shen: shen,
       rels: rels,
       ju: ju,
+      xiaoRel: {
+        year: pillars[0] ? { zhi: pillars[0].zhi, g: xiaoGroups(pillars[0].zhi) } : null,
+        day: pillars[2] ? { zhi: pillars[2].zhi, g: xiaoGroups(pillars[2].zhi) } : null
+      },
       fix: fix
     };
   }
@@ -311,10 +331,11 @@ window.YXJ = window.YXJ || {};
       '（月令的分量最重，所以跟单纯数个数不一样）');
     L.push('· 最旺：' + f.wx.strongest.wx + '；最弱：' + f.wx.weakest.wx + '。');
     if (f.wx.zero.length) {
-      L.push('· 字面上缺：' + f.wx.zero.join('、') + '（＝八个字里头一个都没有，只在藏干里藏了一点点，等于这口最虚，得靠方位、颜色、行业、吃穿慢慢补）');
+      L.push('· 字面上缺：' + f.wx.zero.join('、') + '（＝八个字里头一个都没有，只在藏干里藏了一点点，等于这口最虚）');
     } else {
       L.push('· 字面上五行都齐，没有真正缺的那一口。');
     }
+    L.push('· 这里要分清两件事：缺的那口，不一定是该补的那口。该补什么，只看下面第三段的喜用，别拿「缺」当「该补」，两件事搅一起就全乱了。');
     L.push('');
 
     L.push('【三、日主与喜忌】');
@@ -323,6 +344,7 @@ window.YXJ = window.YXJ || {};
       (f.day.strong ? '（＝底子足、扛得住，但也容易一根筋）' : '（＝心细、扛不住压，得靠人扶）'));
     L.push('· 喜用：' + (f.day.use.join('、') || '—') + '（＝补这两口就顺，沾上就是帮你的）');
     L.push('· 忌：' + (f.day.avoid.join('、') || '—') + '（＝这两口越多越拧，该躲）');
+    L.push('· 别把两件事说岔：某一口在八字里最多，不等于他就是身强；论强弱只认上面这个百分比。讲的时候照实说，别自己圆成「旺得过头」。');
     if (f.fix.length) {
       f.fix.forEach(function (x) {
         L.push('· 补' + x.wx + '的办法：方位' + x.dir + '；颜色' + x.color + '；数字' + x.num +
@@ -368,6 +390,13 @@ window.YXJ = window.YXJ || {};
       L.push('· ' + s.n + '在「' + s.z + '」（＝' + s.bai + '）——' +
         (s.hit ? '他四柱里' + s.hit + '就带着，这条是真的，要讲' : '他四柱里没有，得碰上对应的大运流年才应，别硬说有'));
     });
+    var has = [], hasNot = [];
+    f.shen.forEach(function (s) {
+      if (!s.z) return;
+      if (s.hit) has.push(s.n + '（' + s.hit + '）'); else hasNot.push(s.n);
+    });
+    L.push('· 一句话记牢：他盘上现成的记号是' + (has.join('、') || '一个都没有') +
+      '；没现的是' + (hasNot.join('、') || '无') + '。照这句说，别把没现的说成现成。');
     L.push('');
 
     L.push('【七、地支之间的关系】');
@@ -378,12 +407,144 @@ window.YXJ = window.YXJ || {};
     } else {
       L.push('· 四柱之间没有明显的冲、合、害、刑，气比较散，靠自己攒。');
     }
+    L.push('· 关系名照抄，是「六害」就说六害，是「相刑」就说相刑，别一律说成「冲」。');
     L.push('');
 
-    L.push('【八、讲的时候，术语必须翻成大白话】');
+    L.push('【八、属相这一层已经算全了，照抄，不许自己推、不许自己改】');
+    if (f.xiaoRel.year) {
+      var yg = f.xiaoRel.year.g, yzz = f.xiaoRel.year.zhi;
+      L.push('以他的年支「' + yzz + '（属' + XIAO[yzz] + '）」为准：');
+      L.push('· 正冲（最忌深交、合伙，容易翻脸拆伙）：' + (yg.冲.join('、') || '无'));
+      L.push('· 相害（不吵不闹，暗里消耗）：' + (yg.害.join('、') || '无'));
+      L.push('· 相刑（磨人、拖累，事情反复）：' + (yg.刑.join('、') || '无'));
+      L.push('· 六合（最合得来，搭伙最省力）：' + (yg.合.join('、') || '无'));
+      L.push('· 三合（合得来，宜搭伙）：' + (yg.半合.join('、') || '无'));
+      L.push('· 跟他年支没有直接刑冲合害的：' + (yg.平.join('、') || '无') + '——这几位谈不上犯冲，别硬说忌');
+    }
+    if (f.xiaoRel.day && (!f.xiaoRel.year || f.xiaoRel.day.zhi !== f.xiaoRel.year.zhi)) {
+      var dg = f.xiaoRel.day.g, dzz = f.xiaoRel.day.zhi;
+      L.push('以他的日支「' + dzz + '（属' + XIAO[dzz] + '，这一格是夫妻宫）」为准：');
+      L.push('· 正冲：' + (dg.冲.join('、') || '无') + '；相害：' + (dg.害.join('、') || '无') +
+        '；相刑：' + (dg.刑.join('、') || '无') +
+        '；六合：' + (dg.合.join('、') || '无') + '；三合：' + (dg.半合.join('、') || '无'));
+    }
+    L.push('');
+
+    L.push('【九、讲的时候，术语必须翻成大白话】');
     L.push('· 上面每一条术语后面的「＝就是……」，讲的时候要跟着说出来，不许只丢一个术语就走。');
     L.push('· 说「偏财」，后头得跟一句「就是外面来的、不固定的钱」；说「空亡」，得跟一句「就是这块力道打折，事容易落空」。');
     L.push('· 不许出现他听不懂的词还不管。宁可少说一个术语，也不能让他读完不知道你在说什么。');
+    return L.join('\n');
+  }
+
+  /* =============================================================
+     组装这一问的整段提示词（看命走细的，问事走短的）
+     —— 放在这里，是为了本机可单独测；ui.js 只管调。
+     ============================================================= */
+  var FATE_RE = /(命数|命理|八字|生辰|合盘|合八字|配对|属相|生肖|五行|日主|旺衰|喜用|忌讳|克|冲|害|刑|合作|合伙|搭档|共事|什么命|配不配|合不合|旺不旺)/;
+  function isFateQ(q) { return FATE_RE.test(String(q || '')); }
+
+  /* 一屏看完的照抄区：放在最后，让模型最后看到的就是这几行准数 */
+  function quickRef(f) {
+    var L = [];
+    L.push('【照抄区——最后再叮一遍，答话里的数全从这几行取，别的都不算数】');
+    L.push('四柱：' + f.zao + '（属' + f.yearXiao + '）');
+    L.push('日主：' + f.day.gan + f.day.wx + '，' + (f.day.strong ? '身偏强' : '身偏弱') +
+      '（帮他生他的占 ' + Math.round(f.day.ratio * 100) + '%）；喜用 ' + (f.day.use.join('、') || '—') +
+      '；忌 ' + (f.day.avoid.join('、') || '—'));
+    L.push('缺的那口是：' + (f.wx.zero.length ? f.wx.zero.join('、') : '无') +
+      '。缺的不等于该补的，该补只认喜用那两口。');
+    if (f.xiaoRel && f.xiaoRel.year) {
+      var yg = f.xiaoRel.year.g, yz = f.xiaoRel.year.zhi;
+      L.push('属相（他属' + XIAO[yz] + '，年支' + yz + '）：犯冲 ' + (yg.冲.join('、') || '无') +
+        '；相害 ' + (yg.害.join('、') || '无') + '；相刑 ' + (yg.刑.join('、') || '无') +
+        '；六合 ' + (yg.合.join('、') || '无') + '；三合 ' + (yg.半合.join('、') || '无') +
+        '；其余属相不犯冲，别硬说忌。');
+    }
+    var has = [], hasNot = [];
+    f.shen.forEach(function (s) {
+      if (!s.z) return;
+      if (s.hit) has.push(s.n + '（' + s.hit + '）'); else hasNot.push(s.n);
+    });
+    L.push('神煞：现成的 ' + (has.join('、') || '无') + '；没现的 ' + (hasNot.join('、') || '无'));
+    if (f.dy && f.dy.cur) L.push('当前大运：' + f.dy.cur.gz + '（' + f.dy.cur.startAge + '到' + (f.dy.cur.startAge + 9) + '岁）');
+    if (f.ln) L.push('今年：' + f.ln.y + ' ' + f.ln.gz + '年，对他是「' + f.ln.ss + '」');
+    return L.join('\n');
+  }
+
+  function askPrompt(q, me, fate) {
+    var f = null;
+    try { f = me ? of(me) : null; } catch (e) { f = null; }
+    var L = [];
+    L.push('【他问的原话——答话要从这一句接住，别跑题去讲他压根没问的事】' + q);
+    L.push('');
+    var factsTxt = f ? prompt(me) : '';
+    if (factsTxt) { L.push(factsTxt); L.push(''); }
+    L.push('【断的依据必须同时用上两样，缺一不可：一是他这个人的生辰八字（四柱、日主、喜用忌），二是他这一句原话。要落到他的八字上判断，别只讲放之四海皆准的通用话。】');
+    if (!f) L.push('（他还没填生辰八字，先按这句话答，答完提醒他把生辰填上，下回按八字断得更准。）');
+
+    if (fate && f) {
+      var yz = f.xiaoRel && f.xiaoRel.year ? f.xiaoRel.year.zhi : '';
+      var sx = XIAO[yz] || '';
+      var hepan = /(属相|生肖|合盘|合八字|合作|合伙|搭档|共事|配不配|合不合|跟谁)/.test(String(q));
+      L.push('【这一问是看命／分析八字：就着他排好的这一盘断，不起卦、不拿卦象硬套、不扯某一天的吉凶】');
+      if (sx) L.push('他的年支是「' + yz + '」，即属' + sx + '。');
+      if (hepan) {
+        L.push('问到属相／合作，就照上面第八段那几行准数说，一个字都不许自己另推：');
+        L.push('· 属相取自年支（子鼠、丑牛、寅虎、卯兔、辰龙、巳蛇、午马、未羊、申猴、酉鸡、戌狗、亥猪）。');
+        L.push('· 六冲：子午、丑未、寅申、卯酉、辰戌、巳亥。六害：子未、丑午、寅巳、卯辰、申亥、酉戌。');
+        L.push('· 相刑：寅巳申、丑戌未、子卯、辰辰、午午、酉酉、亥亥。三合：申子辰、亥卯未、寅午戌、巳酉丑。六合：子丑、寅亥、卯戌、辰酉、巳申、午未。');
+        L.push('· 上面没列到的属相，跟他谈不上犯冲，别硬说忌——上一回就有把三合说成犯冲的错。');
+      }
+      /* 他问哪一类，就重点讲哪一类；底下几样基础的永远给全 */
+      var CATS = [
+        { k: 'partner', re: /(属相|生肖|合作|合伙|搭档|共事|跟谁|配不配|合不合|深交)/ },
+        { k: 'money', re: /(钱|财|挣|赚|生意|投资|亏|收入|回本)/ },
+        { k: 'career', re: /(工作|事业|跳槽|岗位|行业|干哪行|做什么|升职|创业)/ },
+        { k: 'love', re: /(感情|婚|对象|正缘|老婆|老公|配偶|恋爱|桃花)/ },
+        { k: 'health', re: /(身体|健康|病|睡不好|累|精神)/ },
+        { k: 'luck', re: /(运|今年|明年|什么时候|流年|大运|坎|机会)/ }
+      ];
+      var want = {}, anyCat = false;
+      CATS.forEach(function (c) { if (c.re.test(String(q))) { want[c.k] = 1; anyCat = true; } });
+      var broad = !anyCat;
+      var focus = want.partner ? '合伙与属相' : want.money ? '钱' : want.career ? '事业'
+        : want.love ? '感情' : want.health ? '身子' : want.luck ? '运程' : '整体命格';
+
+      var sec = [];
+      sec.push('命数。他这是什么命、八字里哪个星最旺、旺在哪儿；这几年是往上还是往下，眼下最要紧的是哪一头。');
+      if (broad || want.career || want.love) sec.push('性子。他自己是什么脾气、外人眼里又是什么样；好在哪儿，栽在哪儿。要拿十神说，不许空口夸。');
+      if (want.partner) sec.push('合伙。照上面属相那几行的准数说：先点出他属什么，再说哪几个属相最犯冲、绝对不能深交合伙（说清是冲还是害还是刑），哪几个属相最合、可以搭伙；再说清什么日主五行的人跟他拧着、不宜共事。');
+      if (broad || want.career) sec.push('事业。适合干什么行当、什么岗位、往哪个方向去；不适合干什么，说清为什么。');
+      if (broad || want.money) sec.push('钱。正财偏财哪一头旺，钱从哪儿来、怎么来、为什么留不住；忌怎么弄钱。');
+      if (broad || want.love) sec.push('感情。正缘大概什么性子、什么属相什么方位最合、早婚还是晚婚、忌什么。');
+      if (broad || want.health) sec.push('身子。哪一脏哪一腑最弱、忌什么、平时怎么养。只当提醒，不许吓人，不许下病名。');
+      if (broad || want.luck) sec.push('运程。现在这步大运是什么性质，今年明年顺不顺，哪一年是个坎、哪一年是个机会。');
+      sec.push('远离。该躲什么属相、什么日主五行的人，什么事、什么行业、什么颜色什么方位，一条一条说清为什么。');
+      sec.push('靠近。该亲近什么人、能做什么事、适合什么行业、常沾什么颜色什么方位，一条一条说清为什么。');
+      sec.push('方位。结合他的喜用五行，给一个明确方位（东南西北中之一），再说清这个方位配什么颜色、适合什么行业、能摆什么物件。');
+      sec.push('记号。天乙贵人、桃花、驿马、文昌、羊刃这些，他盘上有哪个就说哪个落在哪、主什么；没有就直说没有，别硬凑。');
+
+      L.push('【他这一问，重点是「' + focus + '」。先把这块说透，再把下面几样基础的给全。每一样单独一段，段头先把是哪一样点出来（比方「先说命数」「再看性子」），一篇里别把同一段格式重复十遍，读着像人话就行】');
+      sec.forEach(function (s, i) { L.push((i + 1) + '｜' + s); });
+      L.push('【上面这一列，一条都不能少，也不许拿一句空话糊过去】');
+      L.push('【别再报数】四柱、十神、五行、大运、流年、神煞这些数，他页面上那块「秒懂你这盘」已经看得见了。你不用再一样一样念一遍，直接说这些数落在他身上是什么意思、他该怎么办。');
+      L.push('【术语一律翻成大白话，这条最要紧】凡是「偏财」「伤官」「空亡」「纳音」「羊刃」「驿马」这类词，后头必须紧跟一句「就是……」，用街坊话把它说破。宁可少说一个术语，也不能让他读完不知道你在说啥。');
+      L.push('【篇幅】上面几段讲全，写到八九百字不嫌多。宁可长，不许漏项，不许拿「因人而异」混过去。末尾补一件今天就能照做的小事。');
+    } else if (fate) {
+      L.push('【这一问沾着命理，但他还没填生辰。先按常理答这一句，答完请他填生辰，说清填了才能按他的盘断。】');
+    } else {
+      L.push('【这一问是问一件具体事：按他的八字和常理给明确判断——能不能、该不该、什么时候、往哪边走。结合他的八字说，能给方位、宜忌就一并给出。说清理由，最后给一件今天就能做的小事。碰到行话，也要跟一句「就是……」。】');
+    }
+    L.push('');
+    L.push('【这一回不许套模板】就着他这句话、他这个八字说，别用放之四海皆准的套话，开头和结构也不许和常见答复一个模子。');
+    L.push('直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥。别拽文言、别排比、别「首先其次」。');
+    if (fate && f) {
+      L.push(quickRef(f));
+      L.push('');
+      L.push('【落笔前自己对一遍】上面列了几段，答话就得有几段：一段都不能少，一段都不能只写一句话打发。写完数一数，少哪段补哪段。');
+      L.push('【数一旦对不上照抄区，就是错】属相、喜忌、神煞这些，照抄区怎么写你就怎么说，不许自己另推一套。');
+    }
     return L.join('\n');
   }
 
@@ -396,5 +557,8 @@ window.YXJ = window.YXJ || {};
       (f.day.strong ? '身强' : '身弱') + '　喜' + (f.day.use.join('、') || '—');
   }
 
-  Y.FACTS = { of: of, prompt: prompt, line: line, GLOSS: GLOSS, XIAO: XIAO, relOf: relOf, ssBai: ssBai };
+  Y.FACTS = {
+    of: of, prompt: prompt, line: line, askPrompt: askPrompt, isFateQ: isFateQ,
+    GLOSS: GLOSS, XIAO: XIAO, relOf: relOf, ssBai: ssBai
+  };
 })(window.YXJ);

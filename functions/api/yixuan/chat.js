@@ -45,8 +45,12 @@ function deltaOf(j) {
 }
 
 async function runAI(env, messages, opts = {}) {
+  // 前端指名要某个模型（只在候选表里的才认），就优先试它，不行再按默认顺序兜底
+  const order = opts.prefer && MODELS.includes(opts.prefer)
+    ? [opts.prefer, ...MODELS.filter((m) => m !== opts.prefer)]
+    : MODELS;
   let lastErr = null;
-  for (const model of MODELS) {
+  for (const model of order) {
     try {
       const res = await env.AI.run(model, {
         messages,
@@ -93,6 +97,8 @@ export async function onRequest(context) {
   const stream = body.stream === true;
   const temperature = typeof body.temperature === 'number' ? body.temperature : 0.8;
   const maxTokens = Math.min(Math.max(parseInt(body.max_tokens, 10) || 1600, 128), 3000);
+  // 可选：前端指定优先用哪个模型（只认候选表里的），用来按题目难度挑模型
+  const prefer = typeof body.prefer === 'string' ? body.prefer : '';
 
   const _uid = () => 'yxj-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
   const _now = () => Math.floor(Date.now() / 1000);
@@ -101,7 +107,7 @@ export async function onRequest(context) {
   if (!stream) {
     let out;
     try {
-      out = await runAI(env, messages, { stream: true, temperature, maxTokens });
+      out = await runAI(env, messages, { stream: true, temperature, maxTokens, prefer });
     } catch (e) {
       return jsonErr('生成失败：' + (e && e.message ? e.message : '未知错误'), 502);
     }
@@ -149,7 +155,7 @@ export async function onRequest(context) {
   /* ── 流式 ── */
   let aiRes, usedModel;
   try {
-    const r = await runAI(env, messages, { stream: true, temperature, maxTokens });
+    const r = await runAI(env, messages, { stream: true, temperature, maxTokens, prefer });
     aiRes = r.res;
     usedModel = r.model;
   } catch (e) {
