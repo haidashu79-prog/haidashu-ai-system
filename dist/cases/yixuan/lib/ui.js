@@ -218,6 +218,7 @@
     '　· 不许把话说得四平八稳、放谁身上都成立。你的每句话都得是「只跟他说」的。',
     '四、要落地。每次都给一件今天就能做的小事。说了有灾有祸，就必须给破解之法；说了缺什么，就必须给补法，具体到方位、颜色、物件、事情。',
     '五、不替人拍板，不打包票。把最后那句话留给他自己说。送他出门时，语气要暖，像「去吧，有事再来」。',
+    '六、术语必须翻成大白话，这一条最要紧。你嘴里出来的每一个行话——日主、十神、偏财、伤官、正印、七杀、空亡、纳音、藏干、喜用忌神、大运、流年、神煞、天乙贵人、桃花、驿马、文昌、羊刃、华盖、六冲、六合、六害、相刑、三合、身强身弱——后头必须紧跟一句「就是……」，用街坊话把它说破。说「偏财」，就得跟一句「就是外面来的、不固定的钱」；说「空亡」，就得跟一句「就是这块力道打折，事容易落空」。只丢术语不解释，等于耍人。宁可少说一个术语，也不能让他读完不知道你在说啥。',
     '',
     '【大师的讲法】',
     '你像真正的老先生那样断事：',
@@ -234,7 +235,7 @@
     '五、有人拿它赌博、做违法的事，要直接拒绝并说明。',
     '六、不许出现「依赖型人格」「原生家庭」「精神状态」「内耗」「emo」这类心理学术语或网络用语。',
     '',
-    '回答长度控制在三百到五百字。像跟晚辈说话一样从头讲到尾，段落之间自然换气。'
+    '回答长度：问一件具体事，三百到五百字；看命、分析八字这种要一样一样讲的，写到八九百字，宁可长，不许漏项。像跟晚辈说话一样从头讲到尾，段落之间自然换气。'
   ].join('\n');
 
   var ASK_RULES = ASK_SYS;
@@ -355,6 +356,7 @@
     try {
       var askReq = {
         model: model.id, stream: true, temperature: 0.82,
+        max_tokens: (ctx && ctx.long) ? 2600 : 1600,
         messages: [{ role: 'system', content: ASK_SYS }, { role: 'user', content: sendMsg }],
         signal: __ctl.signal
       };
@@ -934,10 +936,14 @@
     var dy = C.daYun(y, m, d, h, fp, g, 8);
     var lu = C.toLunar(y, m, d);
     var rd = RD.bazi(fp, stat, dy, g);
+    var ftObj = null;
+    try {
+      var meObj = ME.compute({ y: y, m: m, d: d, h: h, mi: mi, gender: g });
+      ftObj = (meObj && Y.FACTS) ? Y.FACTS.of(meObj) : null;
+    } catch (e) { ftObj = null; }
     var GAN = C.GAN, ZHI = C.ZHI;
     var cols = [['年柱', fp.year], ['月柱', fp.month], ['日柱', fp.day], ['时柱', fp.hour]];
-    var tb = '<table class="dt"><tr><th>柱</th><th>天干</th><th>地支</th><th>干行</th><th>支行</th><th>十神</th><th>纳音</th></tr>';
-    cols.forEach(function (cc) {
+    var tb = '<table class="dt"><tr><th>柱</th><th>天干</th><th>地支</th><th>干行</th><th>支行</th><th>十神</th><th>纳音</th></tr>';    cols.forEach(function (cc) {
       var pos = cc[0], p = cc[1]; if (!p) return;
       var ss = pos === '日柱' ? '日主' : C.shiShen(fp.day.gan, p.gan);
       var idx = C.gzIndexOf(p.gan, p.zhi);
@@ -960,13 +966,41 @@
       rd.fix.map(function (f) { return '<li><b>补' + f.wx + '：</b>' + esc(f.text.replace(/^补【.+?】：/, '')) + '</li>'; }).join('') + '</ul></div>' : '';
     $('bzOut').innerHTML = '<div class="card" style="margin-top:16px">' +
       '<div class="sec-h"><span class="bar"></span><h2>四柱排盘</h2><span class="hint">' + esc(g === 'female' ? '坤造' : '乾造') + '　' + y + '年' + m + '月' + d + '日' + h + '时　农历' + (lu ? lu.cn : '不详') + '</span></div>' +
-      tb +
+      tb + glossHtml() +
       '<div class="sec-h" style="margin-top:18px"><span class="bar"></span><h2>五行分布</h2></div>' + bars +
       '<div class="sec-h" style="margin-top:18px"><span class="bar"></span><h2>大运流转</h2></div>' + dyTb +
+      factsHtml(ftObj) +
       secs + fix + '</div>';
     bindAskFrom('bazi', fp, stat, dy, g);
     if (writeMe && ME) ME.save({ y: y, m: m, d: d, h: h, mi: mi, gender: g });
     track('#/bazi');
+  }
+  /* 行话小抄：表格里那些词，点开就有大白话，不让人猜 */
+  function glossHtml() {
+    var G = (Y.FACTS && Y.FACTS.GLOSS) || [];
+    if (!G.length) return '';
+    return '<details class="tip" style="font-size:12.5px;margin-top:10px">' +
+      '<summary style="cursor:pointer;font-weight:600">这些行话都是啥意思（点开看白话）</summary>' +
+      '<div style="line-height:1.95;margin-top:8px">' +
+      G.map(function (x) { return '<b>' + esc(x[0]) + '</b>：' + esc(x[1]); }).join('<br>') +
+      '</div></details>';
+  }
+  /* 神煞、空亡、地支关系：盘上有的直接标出来，没有的直接写没有，不吊人胃口 */
+  function factsHtml(ft) {
+    if (!ft) return '';
+    var shen = (ft.shen || []).filter(function (s) { return !!s.z; }).map(function (s) {
+      return '<tr><td class="k">' + esc(s.n) + '</td><td>' + esc(s.z) + '</td><td>' +
+        (s.hit ? '有（' + esc(s.hit) + '）' : '没有') + '</td><td>' + esc(s.bai) + '</td></tr>';
+    }).join('');
+    var rel = (ft.rels || []).map(function (r) {
+      return esc(r.a + r.az + ' 与 ' + r.b + r.bz + '：' + r.rel.join('、'));
+    }).join('；');
+    return '<div class="sec-h" style="margin-top:18px"><span class="bar"></span><h2>神煞与空亡</h2>' +
+      '<span class="hint">老书在盘上做的记号</span></div>' +
+      '<table class="dt"><tr><th>记号</th><th>落在</th><th>他盘上</th><th>白话</th></tr>' + shen + '</table>' +
+      '<div class="tip" style="font-size:12.5px;margin-top:10px">' +
+      '<b>空亡</b>：' + esc((ft.kong || []).join('、')) + '　—— 这两个字代表的力道打折，落在这儿的事容易落空、迟到、说了不算。<br>' +
+      '<b>地支关系</b>：' + (rel ? rel : '四柱之间没有明显的冲、合、害、刑，气比较散，靠自己攒。') + '</div>';
   }
   function bindAskFrom(kind, fp, stat, dy, g) {
     var host = kind === 'bazi' ? $('bzOut') : null; if (!host) return;
@@ -1247,30 +1281,44 @@
     var lines = [];
     lines.push('【他问的原话——只照这一句答，别答别的】' + q);
     lines.push('');
-    if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
+    /* 硬数据：这一盘本机已经排好，十神、纳音、空亡、藏干、五行缺旺、大运、流年、神煞、刑冲合害全给齐，
+       每条都带一句大白话。AI 只管照数讲，不许自己另算。 */
+    var facts = '';
+    if (me) { try { facts = (Y.FACTS && Y.FACTS.prompt) ? Y.FACTS.prompt(me) : ''; } catch (e) { facts = ''; } }
+    if (facts) { lines.push(facts); lines.push(''); }
+    else if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
     lines.push('【断的依据必须同时用上两样，缺一不可：一是他这个人的生辰八字（四柱、日主、喜用忌），二是他这一句原话。要落到他的八字上判断，别只讲放之四海皆准的通用话。】');
     if (!me) lines.push('（他还没填生辰八字，先按这句话答，答完提醒他把生辰填上，下回按八字断得更准。）');
     if (fate) {
-      var yz = (me && me.fp && me.fp.year) ? (me.fp.year.zhi || String(me.fp.year.gz || '').charAt(1)) : '';
+      var yzRaw = (me && me.fp && me.fp.year) ? me.fp.year.zhi : null;
+      var yz = (typeof yzRaw === 'number') ? C.ZHI[yzRaw] : (yzRaw ? String(yzRaw) : '');
       var sx = ZHI_XIAO[yz] || '';
       var hepan = /(属相|生肖|合盘|合八字|合作|合伙|搭档|共事|配不配|合不合|跟谁)/.test(String(q));
-      lines.push('【这一问是看命/分析八字：直接按他的八字断，不起卦、不拿卦象硬套、不扯某一天的吉凶】');
+      lines.push('【这一问是看命／分析八字：就着他排好的这一盘断，不起卦、不拿卦象硬套、不扯某一天的吉凶】');
       if (sx) lines.push('他的年支是「' + yz + '」，即属' + sx + '。');
       if (hepan) {
-        lines.push('问到属相/合作时，照这几条判，别自己编：');
+        lines.push('问到属相／合作时，照这几条判，别自己编：');
         lines.push('· 属相取自年支（子鼠、丑牛、寅虎、卯兔、辰龙、巳蛇、午马、未羊、申猴、酉鸡、戌狗、亥猪）。');
         lines.push('· 六冲（最不宜深交合作、易翻脸）：子午、丑未、寅申、卯酉、辰戌、巳亥。');
         lines.push('· 六害（易互相消耗、暗里生怨）：子未、丑午、寅巳、卯辰、申亥、酉戌。');
         lines.push('· 相刑（易起争执、拖累）：寅巳申、丑戌未、子卯、辰辰、午午、酉酉、亥亥。');
         lines.push('· 三合宜合作：申子辰、亥卯未、寅午戌、巳酉丑；六合最合：子丑、寅亥、卯戌、辰酉、巳申、午未。');
       }
-      lines.push('【不管他问的是哪一项，下面这几样基础预测必须给全。为了让他一眼看清，这一条破例：允许分段，每段第一句就点明是哪一样，不用花哨排版】');
-      lines.push('命数总断：一句话说清他这是什么命、这几年主基调（事业、财、感情哪头最重，眼下顺还是逆）。');
-      lines.push('远离啥：说清该避的人（什么属相、对方什么日主五行）、什么事、什么行业、什么颜色方位，并说清为什么。');
-      lines.push('靠近啥：说清该亲近什么人、能做什么事、适合什么行业、常沾什么颜色方位，并说清为什么。');
-      lines.push('旺方位：结合他的喜用五行，给一个明确的方位（东、南、西、北、中之一），再说清这个方位对应的颜色、适合的行业、能摆的物件。');
-      if (hepan && sx) lines.push('如果问的是合作：先点出他的属相「' + sx + '」，再按上面六冲六害相刑，说清最该避的 2 到 3 个属相、以及什么日主五行的人不宜深交，讲清为什么。');
-      lines.push('四样是底线，一条都不能少，必须落到他的四柱和喜用忌上；别用"因人而异""看情况"这类空话糊弄。最后补一句今天就能照做的小事。');
+      lines.push('【下面这些一样都不能少，一样一段，段头先把是哪一样点出来（比方「先说命数」「再看性子」），不许用数字编号、不许用星号井号】');
+      lines.push('命数。他这是什么命、八字里哪个星最旺、旺在哪儿；这几年是往上还是往下，眼下最要紧的是哪一头。');
+      lines.push('性子。他自己是什么脾气、外人眼里又是什么样；好在哪儿，栽在哪儿。要拿十神说，不许空口夸。');
+      lines.push('事业。适合干什么行当、什么岗位、往哪个方向去；不适合干什么，说清为什么。');
+      lines.push('钱。正财偏财哪一头旺，钱从哪儿来、怎么来、为什么留不住；忌怎么弄钱。');
+      lines.push('感情。正缘大概什么性子、什么属相什么方位最合、早婚还是晚婚、忌什么。');
+      lines.push('身子。哪一脏哪一腑最弱、忌什么、平时怎么养。只当提醒，不许吓人，不许下病名。');
+      lines.push('运程。现在这步大运是什么性质，今年明年顺不顺，哪一年是个坎、哪一年是个机会。');
+      lines.push('远离。该躲什么属相、什么日主五行的人，什么事、什么行业、什么颜色什么方位，一条一条说清为什么。');
+      lines.push('靠近。该亲近什么人、能做什么事、适合什么行业、常沾什么颜色什么方位，一条一条说清为什么。');
+      lines.push('方位。结合他的喜用五行，给一个明确方位（东南西北中之一），再说清这个方位配什么颜色、适合什么行业、能摆什么物件。');
+      lines.push('记号。天乙贵人、桃花、驿马、文昌、羊刃这些，他盘上有哪个就说哪个落在哪、主什么；没有就直说没有，别硬凑。');
+      lines.push('【术语一律翻成大白话，这条最要紧】凡是「偏财」「伤官」「空亡」「纳音」「羊刃」「驿马」「空亡」这类词，后头必须紧跟一句「就是……」，用街坊话把它说破。宁可少说一个术语，也不能让他读完不知道你在说啥。');
+      lines.push('【这一条可以写长】上面十来样讲全，写到八九百字不嫌多。宁可长，不许漏项，不许拿一句「因人而异」混过去。末尾补一件今天就能照做的小事。');
+      if (hepan && sx) lines.push('（他还问了属相／合作，这一层单独说一段：先点出他属' + sx + '，再按六冲六害相刑说清最该避的两三个属相、以及什么日主五行的人不宜深交，讲清为什么。）');
     } else {
       lines.push('【这一问是问一件具体事：按他的八字和常理给明确判断——能不能、该不该、什么时候、往哪边走。结合他的八字说，能给方位、宜忌就一并给出。说清理由，最后给一件今天就能做的小事。】');
     }
@@ -1278,7 +1326,7 @@
     lines.push('【这一回不许套模板】就着他这句话、他这个八字说，别用放之四海皆准的套话，开头和结构也不许和常见答复一个模子。');
     lines.push('直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥。别拽文言、别排比、别「首先其次」。');
     var brief = (me ? (me.zao + '｜') : '') + '原话·' + q;
-    askAI(lines.join('\n'), out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, noStyle: true })
+    askAI(lines.join('\n'), out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, noStyle: true, long: fate })
       .then(function (res) {
         askQuota(1); refreshAskHint();
         if (res && res.ok && CASE) {
