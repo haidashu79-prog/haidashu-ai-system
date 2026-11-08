@@ -12,27 +12,26 @@
 <style>/* inlined /assets/site.css */
 /* ── 海大叔 · AI新媒体IP智慧生态 · 暖色干净主题 ── */
 :root{
-  --bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
-  --ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
-  --brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
-  --cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
-  --line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
-  --shadow:0 8px 28px -14px rgba(120,70,30,.20);
-  --shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+--bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
+--ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
+--brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
+--cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
+--line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
+--shadow:0 8px 28px -14px rgba(120,70,30,.20);
+--shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
+--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed;color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
-             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{width:min(1100px,100% - 44px);margin-inline:auto}
 ::selection{background:var(--brand-dd);color:#fff}
-
 /* ── 导航 ── */
 .nav{position:sticky;top:0;z-index:80;background:rgba(253,249,243,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:14px;height:62px}
@@ -48,14 +47,13 @@ img{max-width:100%;display:block}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;width:40px;height:38px;font-size:20px;color:var(--ink);cursor:pointer}
 @media(max-width:860px){
-  .nav-burger{display:block}
-  .nav-cta{display:none}
-  .nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
-  .nav-links a.active{background:var(--brand-d)}
+.nav-burger{display:block}
+.nav-cta{display:none}
+.nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
+.nav-links.open{display:flex}
+.nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
+.nav-links a.active{background:var(--brand-d)}
 }
-
 /* ── 通用区块 ── */
 section{padding:64px 0}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--brand);text-transform:uppercase;margin-bottom:12px;display:inline-block}
@@ -63,7 +61,6 @@ section{padding:64px 0}
 .lead{margin-top:14px;color:var(--dim);font-size:clamp(14px,1.6vw,16px);max-width:42em}
 .center{text-align:center}
 .center .lead{margin-inline:auto}
-
 /* ── 按钮 ── */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:11px;font-size:14.5px;font-weight:600;transition:.18s;border:1px solid transparent;cursor:pointer}
 .btn-primary{background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;box-shadow:var(--shadow)}
@@ -71,7 +68,6 @@ section{padding:64px 0}
 .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--brand-dd);color:var(--brand)}
 .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-
 /* ── 卡片栅格 ── */
 .grid{display:grid;gap:18px}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
@@ -83,7 +79,6 @@ section{padding:64px 0}
 .card p{color:var(--dim);font-size:13.5px}
 .card .ic{font-size:22px}
 .card .arrow{margin-top:14px;color:var(--brand);font-weight:600;font-size:13.5px}
-
 /* ── 徽标 ── */
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:999px}
 .badge.live{background:rgba(47,158,107,.12);color:#1F7A50}
@@ -92,7 +87,6 @@ section{padding:64px 0}
 .badge.soon{background:rgba(192,57,43,.12);color:#A93226}
 .badge.apk{background:rgba(47,158,107,.12);color:#1F7A50}
 .badge.apk::before{content:"";width:6px;height:6px;border-radius:50%;background:#2F9E6B}
-
 /* ── 九模块（一套班子） ── */
 .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);transition:.2s;display:flex;flex-direction:column}
@@ -106,7 +100,6 @@ section{padding:64px 0}
 .mod .links a.case{background:var(--card2);color:var(--brand)}
 @media(max-width:760px){.mods{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.mods{grid-template-columns:1fr}}
-
 /* ── 问答 UI ── */
 .chat{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;max-width:760px;margin-inline:auto}
 .chat-log{height:340px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -116,7 +109,7 @@ section{padding:64px 0}
 .msg.u{flex-direction:row-reverse}
 .msg.u .who{background:linear-gradient(135deg,#E08A2A,#C2571C)}
 .msg.a .who{width:auto;height:24px;padding:0 9px;border-radius:7px;margin-top:3px;
-  font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
+font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
 .msg .body{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.75;max-width:80%;color:var(--ink2)}
 .msg.u .body{background:var(--brand-d);border-color:var(--brand-dd);color:var(--ink)}
 .msg .body b{color:var(--ink)}
@@ -129,11 +122,9 @@ section{padding:64px 0}
 .inrow button{flex:none;height:46px;padding:0 22px;border-radius:10px;border:0;background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;font-size:14.5px;font-weight:600;cursor:pointer}
 .inrow button:disabled{opacity:.6;cursor:default}
 @media(max-width:520px){.chat-log{height:300px}}
-
 /* ── 素材封面 ── */
 .mt-cover{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line2);margin-bottom:12px;background:var(--card2)}
 .mt-cover img,.mt-cover svg{width:100%;height:100%;display:block;object-fit:cover}
-
 /* ── 页脚 ── */
 footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-top:30px}
 .foot-in{padding:40px 0;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
@@ -142,22 +133,19 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
 .foot-links a{color:var(--dim)}
 .foot-links a:hover{color:var(--brand)}
-
 @media(max-width:760px){
-  section{padding:48px 0}
-  .grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
+section{padding:48px 0}
+.grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:520px){
-  .grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
+.grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
 }
-
 /* ── 智脑三张可点的卡 ── */
 .askcard{cursor:pointer;transition:transform .2s,box-shadow .25s,border-color .2s}
 .askcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(150,100,50,.14)}
 .askcard .asktip{display:block;margin-top:10px;font-size:11.5px;font-weight:800;
-  color:var(--brand);opacity:.62;transition:opacity .2s}
+color:var(--brand);opacity:.62;transition:opacity .2s}
 .askcard:hover .asktip{opacity:1}
-
 </style>
 <link rel="stylesheet" href="/assets/tool3d.css">
 <link rel="stylesheet" href="/assets/p3app.css">
@@ -166,95 +154,82 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 <meta name="mobile-web-app-capable" content="yes">
 <style>
 /* ══════════════════════════════════════════════
-   智脑页 3D 化：对话记录做栈式纵深，输入条浮起
-   ──────────────────────────────────────────────
-   功能一行没改，只在外面加台面和纵深：
-   - .tstage / .tfloor   → 对话区摆在透视地面上（tool3d.css）
-   - .chat-log 的 nth-last-child → 越旧的对话越往后退
-   - 手机端整页变成「一个聊天 App」，不再是一张网页
-   ══════════════════════════════════════════════ */
-
+智脑页 3D 化：对话记录做栈式纵深，输入条浮起
+──────────────────────────────────────────────
+功能一行没改，只在外面加台面和纵深：
+- .tstage / .tfloor   → 对话区摆在透视地面上（tool3d.css）
+- .chat-log 的 nth-last-child → 越旧的对话越往后退
+- 手机端整页变成「一个聊天 App」，不再是一张网页
+══════════════════════════════════════════════ */
 .zhero{padding-top:52px;padding-bottom:6px}
 .zsec{padding-top:8px}
 .zstage{margin-inline:auto;max-width:760px}
-
 /* 对话栈式纵深：最新的贴脸，越旧的越靠后 */
 .chat-log{perspective:620px;perspective-origin:50% 44%}
 .chat-log .msg{transform-origin:50% 50%;will-change:transform;
-  transition:transform .5s cubic-bezier(.2,.85,.25,1),opacity .5s}
+transition:transform .5s cubic-bezier(.2,.85,.25,1),opacity .5s}
 .chat-log .msg:nth-last-child(1){transform:translateZ(0)}
 .chat-log .msg:nth-last-child(2){transform:translateZ(-34px)}
 .chat-log .msg:nth-last-child(3){transform:translateZ(-58px);opacity:.94}
 .chat-log .msg:nth-last-child(4){transform:translateZ(-76px);opacity:.88}
 .chat-log .msg:nth-last-child(n+5){transform:translateZ(-88px);opacity:.82}
-
 /* 新答完那条，轻轻往前顶一下，给人「刚说话」的感觉。
-   ⚠️ 这里千万不能写 animation-fill-mode:both —— 动画结束后它会把
-   transform 钉死在 translateZ(0)，后面那套 nth-last-child 纵深就全被
-   压平了（踩过一次，整屏气泡看着一样大）。 */
+⚠️ 这里千万不能写 animation-fill-mode:both —— 动画结束后它会把
+transform 钉死在 translateZ(0)，后面那套 nth-last-child 纵深就全被
+压平了（踩过一次，整屏气泡看着一样大）。 */
 .chat-log .msg.fresh{animation:zpop .55s cubic-bezier(.2,.85,.3,1)}
 @keyframes zpop{
-  from{transform:translateZ(-60px);opacity:.5}
-  to{transform:translateZ(0);opacity:1}
+from{transform:translateZ(-60px);opacity:.5}
+to{transform:translateZ(0);opacity:1}
 }
-
 /* 输入条：离地浮起 */
 .inrow{position:relative;box-shadow:0 -10px 26px -20px rgba(120,70,30,.55)}
 .inrow button{transition:transform .15s,filter .15s}
 .inrow button:active{transform:scale(.96);filter:brightness(.96)}
-
 /* 手机端才出现的引导条 */
 .ztip{display:none}
-
 /* ── 手机端：整页 = 一个聊天 App ── */
 @media(max-width:900px){
-  body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
-  .zhero{display:none}
-  .zsec{padding-top:0}
-  .zsec > .wrap{width:100%;padding:0}
-  .zstage{max-width:none}
-  .tstage{perspective:none}
-  .tfloor{display:none}
-
-  .chat{max-width:none;border:0;border-radius:0;box-shadow:none;background:transparent;
-    height:calc(100vh - 52px - 60px - env(safe-area-inset-bottom));
-    height:calc(100dvh - 52px - 60px - env(safe-area-inset-bottom));
-    display:flex;flex-direction:column;overflow:hidden}
-
-  .ztip{display:block;flex:none;padding:8px 16px 7px;font-size:11.5px;color:var(--dim2);
-    text-align:center;letter-spacing:.02em;background:rgba(251,246,238,.94);
-    border-bottom:1px solid rgba(140,95,50,.09);position:relative;z-index:2}
-
-  .chat-log{flex:1;min-height:0;height:auto;padding:10px 14px 4px;gap:11px;
-    overscroll-behavior:contain;-webkit-overflow-scrolling:touch;perspective:680px}
-  .chat-empty{font-size:12.5px;line-height:1.95;padding:0 6px}
-
-  .chips{flex:none;flex-wrap:nowrap;overflow-x:auto;padding:0 14px 9px;gap:7px;
-    scrollbar-width:none;-webkit-overflow-scrolling:touch;
-    -webkit-mask-image:linear-gradient(to right,#000 88%,transparent 100%);
-    mask-image:linear-gradient(to right,#000 88%,transparent 100%)}
-  .chips::-webkit-scrollbar{display:none}
-  .chips .chip{flex:none;white-space:nowrap;font-size:12px;padding:7px 12px}
-
-  .inrow{flex:none;padding:9px 12px 11px;gap:8px;background:#fff;
-    border-top:1px solid var(--line);
-    box-shadow:0 -12px 28px -22px rgba(120,70,30,.6)}
-  .inrow input{height:44px;font-size:15px}
-  .inrow button{height:44px;padding:0 20px;font-size:15px}
-
-  .msg .body{font-size:14px;max-width:84%;background:#fff;
-    border-color:rgba(140,95,50,.13)}
-  .msg.u .body{background:var(--brand-d);border-color:var(--brand-dd)}
-  .msg .who{width:26px;height:26px;font-size:10px}
-  .msg.a .who{height:22px;padding:0 8px;font-size:10px}
-
-  /* 三张卡 + 结尾，手机上收窄一点，别太占屏 */
-  .zmore{padding:26px 0 10px}
-  .zmore .grid{gap:12px}
-  .zmore .card{padding:16px}
-  .zmore .card h3{font-size:15.5px}
-  .zmore .card p{font-size:13px}
-  .zfoot-note{font-size:11.5px;padding:0 18px 8px}
+body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+.zhero{display:none}
+.zsec{padding-top:0}
+.zsec > .wrap{width:100%;padding:0}
+.zstage{max-width:none}
+.tstage{perspective:none}
+.tfloor{display:none}
+.chat{max-width:none;border:0;border-radius:0;box-shadow:none;background:transparent;
+height:calc(100vh - 52px - 60px - env(safe-area-inset-bottom));
+height:calc(100dvh - 52px - 60px - env(safe-area-inset-bottom));
+display:flex;flex-direction:column;overflow:hidden}
+.ztip{display:block;flex:none;padding:8px 16px 7px;font-size:11.5px;color:var(--dim2);
+text-align:center;letter-spacing:.02em;background:rgba(251,246,238,.94);
+border-bottom:1px solid rgba(140,95,50,.09);position:relative;z-index:2}
+.chat-log{flex:1;min-height:0;height:auto;padding:10px 14px 4px;gap:11px;
+overscroll-behavior:contain;-webkit-overflow-scrolling:touch;perspective:680px}
+.chat-empty{font-size:12.5px;line-height:1.95;padding:0 6px}
+.chips{flex:none;flex-wrap:nowrap;overflow-x:auto;padding:0 14px 9px;gap:7px;
+scrollbar-width:none;-webkit-overflow-scrolling:touch;
+-webkit-mask-image:linear-gradient(to right,#000 88%,transparent 100%);
+mask-image:linear-gradient(to right,#000 88%,transparent 100%)}
+.chips::-webkit-scrollbar{display:none}
+.chips .chip{flex:none;white-space:nowrap;font-size:12px;padding:7px 12px}
+.inrow{flex:none;padding:9px 12px 11px;gap:8px;background:#fff;
+border-top:1px solid var(--line);
+box-shadow:0 -12px 28px -22px rgba(120,70,30,.6)}
+.inrow input{height:44px;font-size:15px}
+.inrow button{height:44px;padding:0 20px;font-size:15px}
+.msg .body{font-size:14px;max-width:84%;background:#fff;
+border-color:rgba(140,95,50,.13)}
+.msg.u .body{background:var(--brand-d);border-color:var(--brand-dd)}
+.msg .who{width:26px;height:26px;font-size:10px}
+.msg.a .who{height:22px;padding:0 8px;font-size:10px}
+/* 三张卡 + 结尾，手机上收窄一点，别太占屏 */
+.zmore{padding:26px 0 10px}
+.zmore .grid{gap:12px}
+.zmore .card{padding:16px}
+.zmore .card h3{font-size:15.5px}
+.zmore .card p{font-size:13px}
+.zfoot-note{font-size:11.5px;padding:0 18px 8px}
 }
 .voicerow{display:flex;gap:8px;padding:12px 16px 0;background:var(--card);flex-wrap:wrap;align-items:center}
 .vbtn{flex:none;height:38px;padding:0 15px;border-radius:19px;border:1px solid var(--line);background:var(--card2);color:var(--ink);font-size:13.5px;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;transition:background .15s,color .15s}
@@ -267,321 +242,311 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 <link rel="canonical" href="https://haidashu.com.cn/zhinao/">
 </head>
 <body>
-
 <header class="nav">
-  <div class="nav-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <nav class="nav-links" id="nav">
-      <a href="/">首页</a>
-      <a href="/zhinao/" class="active">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </nav>
-    <a class="nav-cta" href="/products/#contact">加海大叔</a>
-    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
-  </div>
+<div class="nav-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<nav class="nav-links" id="nav">
+<a href="/">首页</a>
+<a href="/zhinao/" class="active">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</nav>
+<a class="nav-cta" href="/products/#contact">加海大叔</a>
+<button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+</div>
 </header>
-
 <section class="zhero">
-  <div class="wrap center">
-    <span class="eyebrow">商业智脑 · 普通人怎么用 AI 赚钱</span>
-    <h1 class="h2">普通人怎么用 AI 赚钱，问一句</h1>
-    <p class="lead">不会技术、没有团队、手里钱不多，也能靠 AI 挣到钱。你先说清三件事：你会什么、每天有几个小时、想挣多少，它按这三样挑路子，给能落地的步骤和清单，不灌鸡汤。</p>
-    <div style="margin-top:16px"><a class="btn btn-primary" href="/zhinao/aimoney/">看 100 种方法（带案例详解）→</a><a class="btn" href="/zhinao/aimoney/" style="margin-left:10px">想学哪条加海大叔 haidashu79</a></div>
-  </div>
+<div class="wrap center">
+<span class="eyebrow">商业智脑 · 普通人怎么用 AI 赚钱</span>
+<h1 class="h2">普通人怎么用 AI 赚钱，问一句</h1>
+<p class="lead">不会技术、没有团队、手里钱不多，也能靠 AI 挣到钱。你先说清三件事：你会什么、每天有几个小时、想挣多少，它按这三样挑路子，给能落地的步骤和清单，不灌鸡汤。</p>
+<div style="margin-top:16px"><a class="btn btn-primary" href="/zhinao/aimoney/">看 100 种方法（带案例详解）→</a><a class="btn" href="/zhinao/aimoney/" style="margin-left:10px">想学哪条加海大叔 haidashu79</a></div>
+</div>
 </section>
-
 <section class="zsec" style="padding-bottom:0">
-  <div class="wrap">
-    <div class="tstage zstage">
-      <div class="tfloor" aria-hidden="true"></div>
-      <div class="chat tfloat">
-        <div class="ztip">卡在哪，直接问 · 下面八个方向点一下就问<span id="newchat" role="button" tabindex="0" style="float:right;cursor:pointer;color:var(--acc,#c9a227);font-weight:600">新开一轮</span></div>
-        <div class="chat-log" id="log">
-          <div class="chat-empty" id="empty">下面是八个常用方向，点一下就问，也可以在输入框自己写。<br>答的是思路和步骤，涉及法律财税只给方向与该找谁。</div>
-        </div>
-        <div class="chips" id="chips"></div>
-      <div class="voicerow">
-        <button class="vbtn" id="mic" aria-label="按住说话">🎤 按住说话</button>
-        <button class="vbtn" id="spk" aria-pressed="false">🔊 朗读：关</button>
-        <span class="voicetip" id="vtip"></span>
-      </div>
-        <div class="inrow">
-          <input id="q" type="text" placeholder="说一句你现在卡在哪…" maxlength="200" autocomplete="off" aria-label="提问">
-          <button id="send">问</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="tstage zstage">
+<div class="tfloor" aria-hidden="true"></div>
+<div class="chat tfloat">
+<div class="ztip">卡在哪，直接问 · 下面八个方向点一下就问<span id="newchat" role="button" tabindex="0" style="float:right;cursor:pointer;color:var(--acc,#c9a227);font-weight:600">新开一轮</span></div>
+<div class="chat-log" id="log">
+<div class="chat-empty" id="empty">下面是八个常用方向，点一下就问，也可以在输入框自己写。<br>答的是思路和步骤，涉及法律财税只给方向与该找谁。</div>
+</div>
+<div class="chips" id="chips"></div>
+<div class="voicerow">
+<button class="vbtn" id="mic" aria-label="按住说话">🎤 按住说话</button>
+<button class="vbtn" id="spk" aria-pressed="false">🔊 朗读：关</button>
+<span class="voicetip" id="vtip"></span>
+</div>
+<div class="inrow">
+<input id="q" type="text" placeholder="说一句你现在卡在哪…" maxlength="200" autocomplete="off" aria-label="提问">
+<button id="send">问</button>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <section class="zmore zprice">
-  <div class="wrap">
-    <h2 class="center" style="font-size:21px;margin:0 0 8px">能帮你干什么，怎么开始</h2>
-    <p class="lead center" style="margin:0 0 18px;color:var(--dim2)">先给你三条能立刻干的路子，标出哪条最快见钱；挑中一条，一周做出第一份能收钱的交付。</p>
-    <div class="grid c3" id="priceGrid"></div>
-    <p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">没有固定套餐价；钱的事海大叔本人按你要做的事谈。</p>
-  </div>
+<div class="wrap">
+<h2 class="center" style="font-size:21px;margin:0 0 8px">能帮你干什么，怎么开始</h2>
+<p class="lead center" style="margin:0 0 18px;color:var(--dim2)">先给你三条能立刻干的路子，标出哪条最快见钱；挑中一条，一周做出第一份能收钱的交付。</p>
+<div class="grid c3" id="priceGrid"></div>
+<p class="center" style="color:var(--dim2);font-size:12.5px;margin-top:14px">没有固定套餐价；钱的事海大叔本人按你要做的事谈。</p>
+</div>
 </section>
-
 <section class="zmore">
-  <div class="wrap">
-    <div class="grid c3">
-      <div class="card askcard" data-q="为什么普通人现在要学 AI？说人话，别讲大道理，也别许诺我一夜暴富。"><h3><span class="ic">🎯</span>为什么学 AI</h3><p>不是学个技能，是换条道。AI 把「一个人干不了的活」变成「一个人能干」——这是普通人不靠关系、不靠本钱还能翻的那道口子。现在不动，两年后不是落后，是没位置。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
-      <div class="card askcard" data-q="我不懂技术，从哪开始学 AI？只给我今晚就能干的一件事。"><h3><span class="ic">🧭</span>怎么学 AI</h3><p>别先上课。先挑一件你天天在干、最烦的活，让 AI 替你干一遍。学不会的人都是先学原理后干活，学得快的人都是先干活再回头补原理。想象力要比知识大。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
-      <div class="card askcard" data-q="学会以后我具体怎么挣钱？我手上没货、也没人脉，先干哪一步？"><h3><span class="ic">💰</span>怎么赚钱</h3><p>三条路，从轻到重：转发就有分成；做出自己的工具去卖；接单帮人干。别一上来就想做大，先挣到第一笔一百块，那一步比什么都值钱。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
-    </div>
-    <p class="center zfoot-note" style="color:var(--dim2);font-size:12.5px;margin-top:16px">商业智脑给的是参考，不是法律意见或收益承诺；涉钱涉合同，最后一遍请你自己确认。</p>
-    <div class="center" style="margin-top:26px">
-      <p class="lead">想要有人陪你把这套系统真正跑起来？</p>
-      <div class="btn-row" style="justify-content:center">
-        <a class="btn btn-primary" href="/products/">看产品体系 →</a>
-        <a class="btn btn-ghost" href="/cases/">看真能跑通的案例</a>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="grid c3">
+<div class="card askcard" data-q="为什么普通人现在要学 AI？说人话，别讲大道理，也别许诺我一夜暴富。"><h3><span class="ic">🎯</span>为什么学 AI</h3><p>不是学个技能，是换条道。AI 把「一个人干不了的活」变成「一个人能干」——这是普通人不靠关系、不靠本钱还能翻的那道口子。现在不动，两年后不是落后，是没位置。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
+<div class="card askcard" data-q="我不懂技术，从哪开始学 AI？只给我今晚就能干的一件事。"><h3><span class="ic">🧭</span>怎么学 AI</h3><p>别先上课。先挑一件你天天在干、最烦的活，让 AI 替你干一遍。学不会的人都是先学原理后干活，学得快的人都是先干活再回头补原理。想象力要比知识大。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
+<div class="card askcard" data-q="学会以后我具体怎么挣钱？我手上没货、也没人脉，先干哪一步？"><h3><span class="ic">💰</span>怎么赚钱</h3><p>三条路，从轻到重：转发就有分成；做出自己的工具去卖；接单帮人干。别一上来就想做大，先挣到第一笔一百块，那一步比什么都值钱。</p><span class="asktip">点这张卡，直接问它 ↗</span></div>
+</div>
+<p class="center zfoot-note" style="color:var(--dim2);font-size:12.5px;margin-top:16px">商业智脑给的是参考，不是法律意见或收益承诺；涉钱涉合同，最后一遍请你自己确认。</p>
+<div class="center" style="margin-top:26px">
+<p class="lead">想要有人陪你把这套系统真正跑起来？</p>
+<div class="btn-row" style="justify-content:center">
+<a class="btn btn-primary" href="/products/">看产品体系 →</a>
+<a class="btn btn-ghost" href="/cases/">看真能跑通的案例</a>
+</div>
+</div>
+</div>
 </section>
-
 <footer>
-  <div class="foot-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <div class="foot-links">
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </div>
-    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
-  </div>
+<div class="foot-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<div class="foot-links">
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</div>
+<div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+</div>
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
-
 <script>
 /* ── 六个方向（真实专家系统提示） ── */
 var EXPERTS={
-  money:{n:'算清钱从哪来',sys:'你现在是「账房参谋」。只回答钱的问题：谁付钱、为什么付、定价三档、成本结构、现金流排期、第一笔钱最短路径、能不能放大。给能算的口径和动作，不给励志。不承诺收益，不编数字。'},
-  opc:{n:'一人公司怎么开',sys:'你现在是「一人公司总管」。只管一个人怎么把公司跑起来：主体与经营范围、公私账分离、报价与合同要点、交付边界、外包与工具替代人工、精力上限。给步骤和清单，涉及法律财税只给方向与该找谁。'},
-  ip:{n:'账号怎么做',sys:'你现在是「IP 操盘手」。管定位一句话、选题、内容配比、涨粉路径、私域承接与转化。账号不是发作品，是攒信任，信任要能换成单。文案只是其中一项，别一上来只谈写稿。'},
-  judge:{n:'这单接不接',sys:'你现在是「决策参谋」。管接不接单、降不降价、客户值不值得留、什么时候停。先给判断，再给理由与代价，最后给一个可回退的动作。话不说满，风险讲清。'},
-  eco:{n:'工具怎么选',sys:'你现在是「生态架构师」。管工具选型、插件与专家挂载、工作流编排、数据回流，让系统自己转而不是人硬扛。给具体怎么接、接上多出什么，讲清代价与维护成本。'},
-  auto:{n:'重复活怎么交出去',sys:'你现在是「升级教练」。管重复劳动怎么交出去、干过的活怎么回流成档案、短板怎么补、每月怎么复盘。给可执行的清单和顺序，别讲空道理。'},
-  nature:{n:'人性怎么破',sys:'你现在是「人性参谋」。管他为什么不动手：懒、怕难、怕白花钱、想一步到位。先替他说出心里那句真话，再给一个今晚就能干完的小动作。不讲大道理，不指责，不灌鸡汤。'},
-  earn:{n:'我这活能不能挣钱',sys:'你现在是「生意参谋」。他用一线经验换钱：先问清他手上有什么、谁会付钱、隔壁同样的人有没有同样的烦事。给一个能当天卖的最小单元、能报的价、第一单从哪来。不许承诺收益，不许编数字。'}
+money:{n:'算清钱从哪来',sys:'你现在是「账房参谋」。只回答钱的问题：谁付钱、为什么付、定价三档、成本结构、现金流排期、第一笔钱最短路径、能不能放大。给能算的口径和动作，不给励志。不承诺收益，不编数字。'},
+opc:{n:'一人公司怎么开',sys:'你现在是「一人公司总管」。只管一个人怎么把公司跑起来：主体与经营范围、公私账分离、报价与合同要点、交付边界、外包与工具替代人工、精力上限。给步骤和清单，涉及法律财税只给方向与该找谁。'},
+ip:{n:'账号怎么做',sys:'你现在是「IP 操盘手」。管定位一句话、选题、内容配比、涨粉路径、私域承接与转化。账号不是发作品，是攒信任，信任要能换成单。文案只是其中一项，别一上来只谈写稿。'},
+judge:{n:'这单接不接',sys:'你现在是「决策参谋」。管接不接单、降不降价、客户值不值得留、什么时候停。先给判断，再给理由与代价，最后给一个可回退的动作。话不说满，风险讲清。'},
+eco:{n:'工具怎么选',sys:'你现在是「生态架构师」。管工具选型、插件与专家挂载、工作流编排、数据回流，让系统自己转而不是人硬扛。给具体怎么接、接上多出什么，讲清代价与维护成本。'},
+auto:{n:'重复活怎么交出去',sys:'你现在是「升级教练」。管重复劳动怎么交出去、干过的活怎么回流成档案、短板怎么补、每月怎么复盘。给可执行的清单和顺序，别讲空道理。'},
+nature:{n:'人性怎么破',sys:'你现在是「人性参谋」。管他为什么不动手：懒、怕难、怕白花钱、想一步到位。先替他说出心里那句真话，再给一个今晚就能干完的小动作。不讲大道理，不指责，不灌鸡汤。'},
+earn:{n:'我这活能不能挣钱',sys:'你现在是「生意参谋」。他用一线经验换钱：先问清他手上有什么、谁会付钱、隔壁同样的人有没有同样的烦事。给一个能当天卖的最小单元、能报的价、第一单从哪来。不许承诺收益，不许编数字。'}
 };
-
 /* ── 智脑内核：加载 brain.json，拼成统一底座 ── */
 var BRAIN=null;
 function renderPrice(){
-  var g=document.getElementById('priceGrid'); if(!g||!BRAIN||!BRAIN.skus) return;
-  g.innerHTML=BRAIN.skus.map(function(s,i){
-    return '<div class="card askcard'+(i===0?' hot':'')+'" data-q="'+s.name+'，具体怎么交付、适合什么样的店？先说结论，给今天能做的一步。"><h3>'+s.name+'</h3><p style="font-weight:700;color:var(--acc,#c9a227);margin:2px 0 6px">'+s.price+'</p><p>'+s.deliver+'</p><span class="asktip">点这一档，直接问 ↗</span></div>';
-  }).join('');
+var g=document.getElementById('priceGrid'); if(!g||!BRAIN||!BRAIN.skus) return;
+g.innerHTML=BRAIN.skus.map(function(s,i){
+return '<div class="card askcard'+(i===0?' hot':'')+'" data-q="'+s.name+'，具体怎么交付、适合什么样的店？先说结论，给今天能做的一步。"><h3>'+s.name+'</h3><p style="font-weight:700;color:var(--acc,#c9a227);margin:2px 0 6px">'+s.price+'</p><p>'+s.deliver+'</p><span class="asktip">点这一档，直接问 ↗</span></div>';
+}).join('');
 }
 fetch('/zhinao/brain.json').then(function(r){return r.json()}).then(function(d){BRAIN=d;renderPrice()}).catch(function(){});
-
 function basePrompt(){
-  if(!BRAIN) return '';
-  var i=BRAIN.identity, s=[];
-  s.push('你是「'+i.name+'」的对外问答分身。定位：'+i.positioning+'。');
-  s.push('你的名字叫「商业智脑」。回答里不许自称「AI」「人工智能」「大模型」「助手」「机器人」，一律说「我」或「商业智脑」。被人问到你是谁，就说：我是海大叔的商业智脑。');
-  s.push(i.positioning_detail);
-  s.push('核心闸门（每答必过）：'+i.core_gate);
-  s.push('一句话：'+i.one_liner);
-  s.push('服务谁：'+BRAIN.customers.join('、')+'；不服务谁：'+BRAIN.not_customers.join('、')+'。');
-  s.push('钱的三层：'+BRAIN.money.layers.map(function(x){return x.layer+'='+x.by+'（卖'+x.sell+'）'}).join('；')+'。规矩：'+BRAIN.money.rule);
-  s.push('五档台阶：'+BRAIN.ladder.map(function(x){return x.price+'='+x.give+'（'+x.job+'）'}).join('；')+'。规矩：'+BRAIN.ladder_rule);
-  s.push('护城河：'+BRAIN.moat);
-  s.push('铺开的瓶颈：'+BRAIN.bottleneck.rule);
-  s.push('人性障碍与对策：'+BRAIN.humanity.factors.map(function(f){return f.name+'→'+f.fix}).join('；')+'。');
-  s.push('三不碰：'+BRAIN.never.join('；')+'。');
-  s.push('答法：'+BRAIN.answer_shape.join('；')+'。');
-  if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
-  if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
-  s.push('真干过的活（只能拿这些举例，不许编新的）：'+BRAIN.offers.map(function(o){return o.name+'（'+o.price+'）'}).join('；')+'。');
-  return s.join('\n');
+if(!BRAIN) return '';
+var i=BRAIN.identity, s=[];
+s.push('你是「'+i.name+'」的对外问答分身。定位：'+i.positioning+'。');
+s.push('你的名字叫「商业智脑」。回答里不许自称「AI」「人工智能」「大模型」「助手」「机器人」，一律说「我」或「商业智脑」。被人问到你是谁，就说：我是海大叔的商业智脑。');
+s.push(i.positioning_detail);
+s.push('核心闸门（每答必过）：'+i.core_gate);
+s.push('一句话：'+i.one_liner);
+s.push('服务谁：'+BRAIN.customers.join('、')+'；不服务谁：'+BRAIN.not_customers.join('、')+'。');
+s.push('钱的三层：'+BRAIN.money.layers.map(function(x){return x.layer+'='+x.by+'（卖'+x.sell+'）'}).join('；')+'。规矩：'+BRAIN.money.rule);
+s.push('五档台阶：'+BRAIN.ladder.map(function(x){return x.price+'='+x.give+'（'+x.job+'）'}).join('；')+'。规矩：'+BRAIN.ladder_rule);
+s.push('护城河：'+BRAIN.moat);
+s.push('铺开的瓶颈：'+BRAIN.bottleneck.rule);
+s.push('人性障碍与对策：'+BRAIN.humanity.factors.map(function(f){return f.name+'→'+f.fix}).join('；')+'。');
+s.push('三不碰：'+BRAIN.never.join('；')+'。');
+s.push('答法：'+BRAIN.answer_shape.join('；')+'。');
+if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
+if(BRAIN.methods) s.push('赚钱方法库：'+BRAIN.methods.count+'条，分'+BRAIN.methods.categories.length+'类（'+BRAIN.methods.categories.map(function(c){return c.name}).join('、')+'）。'+BRAIN.methods.rule);
+s.push('真干过的活（只能拿这些举例，不许编新的）：'+BRAIN.offers.map(function(o){return o.name+'（'+o.price+'）'}).join('；')+'。');
+return s.join('\n');
 }
-
 var turns=[];            // 本次会话的对话记忆：让追问能接上上文
 var TURN_MAX=6;          // 只带最近 3 问 3 答，够用又不撑爆上下文
 function pushTurn(q,a){
-  turns.push({role:'user',content:String(q).slice(0,600)});
-  turns.push({role:'assistant',content:String(a).slice(0,900)});
-  if(turns.length>TURN_MAX) turns=turns.slice(turns.length-TURN_MAX);
+turns.push({role:'user',content:String(q).slice(0,600)});
+turns.push({role:'assistant',content:String(a).slice(0,900)});
+if(turns.length>TURN_MAX) turns=turns.slice(turns.length-TURN_MAX);
 }
 function resetTurns(){ turns=[]; }
 function buildMsgs(q){
-  var parts=[], b=basePrompt();
-  if(b) parts.push(b);
-  if(exKey&&EXPERTS[exKey]) parts.push(EXPERTS[exKey].sys);
-  var m=[];
-  if(parts.length) m.push({role:'system',content:parts.join('\n\n')});
-  for(var i=0;i<turns.length;i++) m.push(turns[i]);
-  m.push({role:'user',content:q});
-  return m;
+var parts=[], b=basePrompt();
+if(b) parts.push(b);
+if(exKey&&EXPERTS[exKey]) parts.push(EXPERTS[exKey].sys);
+var m=[];
+if(parts.length) m.push({role:'system',content:parts.join('\n\n')});
+for(var i=0;i<turns.length;i++) m.push(turns[i]);
+m.push({role:'user',content:q});
+return m;
 }
 var log=document.getElementById('log'), input=document.getElementById('q'), sendBtn=document.getElementById('send');
 var busy=false, exKey='';
 (function(){
-  var nc=document.getElementById('newchat');
-  function doNew(){
-    if(busy) return;
-    resetTurns();
-    log.innerHTML='<div class="chat-empty" id="empty">新开一轮，说说你现在卡在哪。</div>';
-    input.value=''; input.focus();
-  }
-  if(nc){ nc.onclick=doNew; nc.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();doNew();} }; }
+var nc=document.getElementById('newchat');
+function doNew(){
+if(busy) return;
+resetTurns();
+log.innerHTML='<div class="chat-empty" id="empty">新开一轮，说说你现在卡在哪。</div>';
+input.value=''; input.focus();
+}
+if(nc){ nc.onclick=doNew; nc.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();doNew();} }; }
 })();
 function esc(t){return String(t).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
 function md(t){
-  var h=esc(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
-  h=h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,function(m,txt,u){return '<a href="'+u+'" target="_blank" rel="noopener">'+txt+'</a>';});
-  h=h.replace(/(^|[^"'=>])(https?:\/\/[^\s<)）"，。]+)/g,function(m,pre,u){return pre+'<a href="'+u+'" target="_blank" rel="noopener">'+u+'</a>';});
-  h=h.replace(/\n/g,'<br>');
-  return h;
+var h=esc(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+h=h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,function(m,txt,u){return '<a href="'+u+'" target="_blank" rel="noopener">'+txt+'</a>';});
+h=h.replace(/(^|[^"'=>])(https?:\/\/[^\s<)）"，。]+)/g,function(m,pre,u){return pre+'<a href="'+u+'" target="_blank" rel="noopener">'+u+'</a>';});
+h=h.replace(/\n/g,'<br>');
+return h;
 }
 function addMsg(who,text){
-  var e=document.getElementById('empty'); if(e) e.remove();
-  var m=document.createElement('div'); m.className='msg '+who+' fresh';
-  var w=document.createElement('div'); w.className='who'; w.textContent=who==='u'?'你':'商业智脑';
-  var b=document.createElement('div'); b.className='body'; b.innerHTML=md(text);
-  m.appendChild(w); m.appendChild(b); log.appendChild(m); log.scrollTop=log.scrollHeight;
-  return b;
+var e=document.getElementById('empty'); if(e) e.remove();
+var m=document.createElement('div'); m.className='msg '+who+' fresh';
+var w=document.createElement('div'); w.className='who'; w.textContent=who==='u'?'你':'商业智脑';
+var b=document.createElement('div'); b.className='body'; b.innerHTML=md(text);
+m.appendChild(w); m.appendChild(b); log.appendChild(m); log.scrollTop=log.scrollHeight;
+return b;
 }
 function ask(q){
-  if(busy||!q.trim()) return;
-  busy=true; sendBtn.disabled=true;
-  addMsg('u',q);
-  var body=addMsg('a','思考中…');
-  var text='';
-  fetch('/api/v1/chat/completions',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'zhinao',stream:true,messages:buildMsgs(q)})
-  }).then(function(res){
-    if(!res.ok||!res.body) throw new Error('接口返回 '+res.status);
-    var reader=res.body.getReader(), dec=new TextDecoder(), buf='';
-    function pump(){
-      return reader.read().then(function(r){
-        if(r.done) return;
-        buf+=dec.decode(r.value,{stream:true});
-        var lines=buf.split('\n'); buf=lines.pop()||'';
-        for(var i=0;i<lines.length;i++){
-          var t=lines[i].trim(); if(!t) continue;
-          if(t[0]===':') continue;
-          if(t.indexOf('data:')!==0) continue;
-          var p=t.slice(5).trim(); if(!p||p==='[DONE]') continue;
-          try{var j=JSON.parse(p); var piece=j.choices&&j.choices[0]&&j.choices[0].delta&&j.choices[0].delta.content; if(piece){text+=piece; body.innerHTML=md(text); log.scrollTop=log.scrollHeight;}}catch(e){}
-        }
-        return pump();
-      });
-    }
-    return pump();
-  }).then(function(){
-    if(!text) body.innerHTML=md('这次没生成出内容，换个说法再问一次。');
-    else { body.innerHTML=md(text); pushTurn(q,text); speak(text); }
-    busy=false; sendBtn.disabled=false; log.scrollTop=log.scrollHeight;
-  }).catch(function(e){
-    body.innerHTML=md('接不上了：'+(e&&e.message?e.message:'网络异常')+'。稍后再试，或加海大叔本人。');
-    busy=false; sendBtn.disabled=false;
-  });
+if(busy||!q.trim()) return;
+busy=true; sendBtn.disabled=true;
+addMsg('u',q);
+var body=addMsg('a','思考中…');
+var text='';
+fetch('/api/v1/chat/completions',{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({model:'zhinao',stream:true,messages:buildMsgs(q)})
+}).then(function(res){
+if(!res.ok||!res.body) throw new Error('接口返回 '+res.status);
+var reader=res.body.getReader(), dec=new TextDecoder(), buf='';
+function pump(){
+return reader.read().then(function(r){
+if(r.done) return;
+buf+=dec.decode(r.value,{stream:true});
+var lines=buf.split('\n'); buf=lines.pop()||'';
+for(var i=0;i<lines.length;i++){
+var t=lines[i].trim(); if(!t) continue;
+if(t[0]===':') continue;
+if(t.indexOf('data:')!==0) continue;
+var p=t.slice(5).trim(); if(!p||p==='[DONE]') continue;
+try{var j=JSON.parse(p); var piece=j.choices&&j.choices[0]&&j.choices[0].delta&&j.choices[0].delta.content; if(piece){text+=piece; body.innerHTML=md(text); log.scrollTop=log.scrollHeight;}}catch(e){}
+}
+return pump();
+});
+}
+return pump();
+}).then(function(){
+if(!text) body.innerHTML=md('这次没生成出内容，换个说法再问一次。');
+else { body.innerHTML=md(text); pushTurn(q,text); speak(text); }
+busy=false; sendBtn.disabled=false; log.scrollTop=log.scrollHeight;
+}).catch(function(e){
+body.innerHTML=md('接不上了：'+(e&&e.message?e.message:'网络异常')+'。稍后再试，或加海大叔本人。');
+busy=false; sendBtn.disabled=false;
+});
 }
 function submit(){var v=input.value.trim(); if(!v) return; input.value=''; ask(v);}
 sendBtn.addEventListener('click',submit);
 input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.isComposing){e.preventDefault();submit();}});
 var chips=document.getElementById('chips');
 Object.keys(EXPERTS).forEach(function(k){
-  var b=document.createElement('button'); b.className='chip'; b.textContent=EXPERTS[k].n;
-  b.onclick=function(){exKey=k; ask(EXPERTS[k].n+'：给我具体步骤。');};
-  chips.appendChild(b);
+var b=document.createElement('button'); b.className='chip'; b.textContent=EXPERTS[k].n;
+b.onclick=function(){exKey=k; ask(EXPERTS[k].n+'：给我具体步骤。');};
+chips.appendChild(b);
 });
 /* ── 语音：按住说话（Whisper 转写）＋ 答完朗读（系统自带语音，零成本） ── */
 var mic=document.getElementById('mic'), spkBtn=document.getElementById('spk'), vtip=document.getElementById('vtip');
 var mr=null, chunks=[], recT0=0, stream=null, recOn=false, speakOn=false, tipTimer=null;
 function tip(t,keep){
-  vtip.textContent=t||'';
-  if(tipTimer){clearTimeout(tipTimer);tipTimer=null;}
-  if(t&&!keep){ tipTimer=setTimeout(function(){vtip.textContent='';},3000); }
+vtip.textContent=t||'';
+if(tipTimer){clearTimeout(tipTimer);tipTimer=null;}
+if(t&&!keep){ tipTimer=setTimeout(function(){vtip.textContent='';},3000); }
 }
 function setRec(on){
-  recOn=on; mic.classList.toggle('rec',on);
-  mic.textContent = on?'🔴 松手发送':'🎤 按住说话';
+recOn=on; mic.classList.toggle('rec',on);
+mic.textContent = on?'🔴 松手发送':'🎤 按住说话';
 }
 function pickMime(){
-  if(!window.MediaRecorder) return '';
-  var list=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
-  for(var i=0;i<list.length;i++){ try{ if(MediaRecorder.isTypeSupported(list[i])) return list[i]; }catch(e){} }
-  return '';
+if(!window.MediaRecorder) return '';
+var list=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+for(var i=0;i<list.length;i++){ try{ if(MediaRecorder.isTypeSupported(list[i])) return list[i]; }catch(e){} }
+return '';
 }
 function startRec(){
-  if(recOn||busy) return;
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
-    tip('这个浏览器不支持录音，换 Chrome / Safari 再试'); return;
-  }
-  tip('要麦克风了…',true);
-  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}).then(function(s){
-    stream=s; chunks=[]; var mt=pickMime();
-    try{ mr = mt?new MediaRecorder(s,{mimeType:mt}):new MediaRecorder(s); }
-    catch(e){ s.getTracks().forEach(function(t){t.stop()}); tip('录音启动失败，换浏览器试试'); return; }
-    mr.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
-    mr.onstop=function(){
-      if(stream) stream.getTracks().forEach(function(t){t.stop()});
-      var dur=Date.now()-recT0, mt2=(mr&&mr.mimeType)||'audio/webm';
-      setRec(false); stream=null;
-      if(dur<700){ tip('按住多说一会，松手才发'); return; }
-      var blob=new Blob(chunks,{type:mt2});
-      chunks=[];
-      if(!blob.size){ tip('没录到声音，检查麦克风'); return; }
-      transcribe(blob);
-    };
-    mr.start(); recT0=Date.now(); setRec(true); tip('正在听…松手结束',true);
-  }).catch(function(e){ tip('麦克风没开成，请在浏览器里允许使用麦克风'); });
+if(recOn||busy) return;
+if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){
+tip('这个浏览器不支持录音，换 Chrome / Safari 再试'); return;
+}
+tip('要麦克风了…',true);
+navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}).then(function(s){
+stream=s; chunks=[]; var mt=pickMime();
+try{ mr = mt?new MediaRecorder(s,{mimeType:mt}):new MediaRecorder(s); }
+catch(e){ s.getTracks().forEach(function(t){t.stop()}); tip('录音启动失败，换浏览器试试'); return; }
+mr.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+mr.onstop=function(){
+if(stream) stream.getTracks().forEach(function(t){t.stop()});
+var dur=Date.now()-recT0, mt2=(mr&&mr.mimeType)||'audio/webm';
+setRec(false); stream=null;
+if(dur<700){ tip('按住多说一会，松手才发'); return; }
+var blob=new Blob(chunks,{type:mt2});
+chunks=[];
+if(!blob.size){ tip('没录到声音，检查麦克风'); return; }
+transcribe(blob);
+};
+mr.start(); recT0=Date.now(); setRec(true); tip('正在听…松手结束',true);
+}).catch(function(e){ tip('麦克风没开成，请在浏览器里允许使用麦克风'); });
 }
 function stopRec(){ if(mr&&mr.state==='recording'){ try{mr.stop();}catch(e){} } }
 function transcribe(blob){
-  tip('正在转成文字…',true);
-  fetch('/api/asr',{method:'POST',headers:{'Content-Type':blob.type||'audio/webm'},body:blob})
-    .then(function(r){ return r.json(); })
-    .then(function(j){
-      if(j&&j.text){ tip(''); input.value=''; ask(j.text); }
-      else { tip((j&&j.error)||'没听清，再说一遍'); }
-    })
-    .catch(function(){ tip('识别通道断了，稍后再试'); });
+tip('正在转成文字…',true);
+fetch('/api/asr',{method:'POST',headers:{'Content-Type':blob.type||'audio/webm'},body:blob})
+.then(function(r){ return r.json(); })
+.then(function(j){
+if(j&&j.text){ tip(''); input.value=''; ask(j.text); }
+else { tip((j&&j.error)||'没听清，再说一遍'); }
+})
+.catch(function(){ tip('识别通道断了，稍后再试'); });
 }
 mic.addEventListener('pointerdown',function(e){ e.preventDefault(); startRec(); });
 window.addEventListener('pointerup',stopRec);
 window.addEventListener('pointercancel',stopRec);
 mic.addEventListener('contextmenu',function(e){e.preventDefault();});
 spkBtn.addEventListener('click',function(){
-  speakOn=!speakOn;
-  spkBtn.classList.toggle('on',speakOn);
-  spkBtn.textContent = speakOn?'🔊 朗读：开':'🔊 朗读：关';
-  spkBtn.setAttribute('aria-pressed',speakOn?'true':'false');
-  if(!speakOn&&window.speechSynthesis){ try{speechSynthesis.cancel();}catch(e){} }
+speakOn=!speakOn;
+spkBtn.classList.toggle('on',speakOn);
+spkBtn.textContent = speakOn?'🔊 朗读：开':'🔊 朗读：关';
+spkBtn.setAttribute('aria-pressed',speakOn?'true':'false');
+if(!speakOn&&window.speechSynthesis){ try{speechSynthesis.cancel();}catch(e){} }
 });
 function speak(t){
-  if(!speakOn||!window.speechSynthesis||!t) return;
-  try{
-    speechSynthesis.cancel();
-    var clean=String(t).replace(/[*#>`_—]/g,' ').replace(/\s+/g,' ').slice(0,1500);
-    var u=new SpeechSynthesisUtterance(clean);
-    u.lang='zh-CN'; u.rate=1.06; u.pitch=1;
-    var vs=window.speechSynthesis.getVoices().filter(function(v){return /^zh/i.test(v.lang);});
-    if(vs.length) u.voice=vs[0];
-    speechSynthesis.speak(u);
-  }catch(e){}
+if(!speakOn||!window.speechSynthesis||!t) return;
+try{
+speechSynthesis.cancel();
+var clean=String(t).replace(/[*#>`_—]/g,' ').replace(/\s+/g,' ').slice(0,1500);
+var u=new SpeechSynthesisUtterance(clean);
+u.lang='zh-CN'; u.rate=1.06; u.pitch=1;
+var vs=window.speechSynthesis.getVoices().filter(function(v){return /^zh/i.test(v.lang);});
+if(vs.length) u.voice=vs[0];
+speechSynthesis.speak(u);
+}catch(e){}
 }
 if(window.speechSynthesis){ window.speechSynthesis.onvoiceschanged=function(){}; }
 /* 从产品体系/案例带 ?q= 进来可直接问 */
@@ -595,16 +560,47 @@ document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('clic
 <script>
 /* 卡片：点一下就带着问题去问智脑（事件委托，动态渲染的也生效） */
 document.addEventListener('click',function(e){
-  var el=e.target&&e.target.closest?e.target.closest('.askcard'):null;
-  if(!el) return;
-  var q=el.getAttribute('data-q'); if(!q) return;
-  var chat=document.querySelector('.chat');
-  if(chat) chat.scrollIntoView({behavior:'smooth',block:'center'});
-  exKey='';
-  ask(q);
+var el=e.target&&e.target.closest?e.target.closest('.askcard'):null;
+if(!el) return;
+var q=el.getAttribute('data-q'); if(!q) return;
+var chat=document.querySelector('.chat');
+if(chat) chat.scrollIntoView({behavior:'smooth',block:'center'});
+exKey='';
+ask(q);
 });
 </script>
 <script>window.P3D={appTitle:'商业智脑'};</script>
 <script src="/assets/p3d-shell.js"></script>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
+<script src="/assets/speak.js"></script>
 </body>
 </html>

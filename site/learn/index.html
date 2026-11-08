@@ -9,27 +9,26 @@
 <style>/*/assets/site.css*/
 /* ── 海大叔 · AI新媒体IP智慧生态 · 暖色干净主题 ── */
 :root{
-  --bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
-  --ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
-  --brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
-  --cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
-  --line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
-  --shadow:0 8px 28px -14px rgba(120,70,30,.20);
-  --shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+--bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
+--ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
+--brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
+--cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
+--line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
+--shadow:0 8px 28px -14px rgba(120,70,30,.20);
+--shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
+--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed;color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
-             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{width:min(1100px,100% - 44px);margin-inline:auto}
 ::selection{background:var(--brand-dd);color:#fff}
-
 /* ── 导航 ── */
 .nav{position:sticky;top:0;z-index:80;background:rgba(253,249,243,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:14px;height:62px}
@@ -45,14 +44,13 @@ img{max-width:100%;display:block}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;width:40px;height:38px;font-size:20px;color:var(--ink);cursor:pointer}
 @media(max-width:860px){
-  .nav-burger{display:block}
-  .nav-cta{display:none}
-  .nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
-  .nav-links a.active{background:var(--brand-d)}
+.nav-burger{display:block}
+.nav-cta{display:none}
+.nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
+.nav-links.open{display:flex}
+.nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
+.nav-links a.active{background:var(--brand-d)}
 }
-
 /* ── 通用区块 ── */
 section{padding:64px 0}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--brand);text-transform:uppercase;margin-bottom:12px;display:inline-block}
@@ -60,7 +58,6 @@ section{padding:64px 0}
 .lead{margin-top:14px;color:var(--dim);font-size:clamp(14px,1.6vw,16px);max-width:42em}
 .center{text-align:center}
 .center .lead{margin-inline:auto}
-
 /* ── 按钮 ── */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:11px;font-size:14.5px;font-weight:600;transition:.18s;border:1px solid transparent;cursor:pointer}
 .btn-primary{background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;box-shadow:var(--shadow)}
@@ -68,7 +65,6 @@ section{padding:64px 0}
 .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--brand-dd);color:var(--brand)}
 .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-
 /* ── 卡片栅格 ── */
 .grid{display:grid;gap:18px}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
@@ -80,7 +76,6 @@ section{padding:64px 0}
 .card p{color:var(--dim);font-size:13.5px}
 .card .ic{font-size:22px}
 .card .arrow{margin-top:14px;color:var(--brand);font-weight:600;font-size:13.5px}
-
 /* ── 徽标 ── */
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:999px}
 .badge.live{background:rgba(47,158,107,.12);color:#1F7A50}
@@ -89,7 +84,6 @@ section{padding:64px 0}
 .badge.soon{background:rgba(192,57,43,.12);color:#A93226}
 .badge.apk{background:rgba(47,158,107,.12);color:#1F7A50}
 .badge.apk::before{content:"";width:6px;height:6px;border-radius:50%;background:#2F9E6B}
-
 /* ── 九模块（一套班子） ── */
 .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);transition:.2s;display:flex;flex-direction:column}
@@ -103,7 +97,6 @@ section{padding:64px 0}
 .mod .links a.case{background:var(--card2);color:var(--brand)}
 @media(max-width:760px){.mods{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.mods{grid-template-columns:1fr}}
-
 /* ── 问答 UI ── */
 .chat{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;max-width:760px;margin-inline:auto}
 .chat-log{height:340px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -113,7 +106,7 @@ section{padding:64px 0}
 .msg.u{flex-direction:row-reverse}
 .msg.u .who{background:linear-gradient(135deg,#E08A2A,#C2571C)}
 .msg.a .who{width:auto;height:24px;padding:0 9px;border-radius:7px;margin-top:3px;
-  font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
+font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
 .msg .body{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.75;max-width:80%;color:var(--ink2)}
 .msg.u .body{background:var(--brand-d);border-color:var(--brand-dd);color:var(--ink)}
 .msg .body b{color:var(--ink)}
@@ -126,11 +119,9 @@ section{padding:64px 0}
 .inrow button{flex:none;height:46px;padding:0 22px;border-radius:10px;border:0;background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;font-size:14.5px;font-weight:600;cursor:pointer}
 .inrow button:disabled{opacity:.6;cursor:default}
 @media(max-width:520px){.chat-log{height:300px}}
-
 /* ── 素材封面 ── */
 .mt-cover{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line2);margin-bottom:12px;background:var(--card2)}
 .mt-cover img,.mt-cover svg{width:100%;height:100%;display:block;object-fit:cover}
-
 /* ── 页脚 ── */
 footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-top:30px}
 .foot-in{padding:40px 0;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
@@ -139,22 +130,19 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
 .foot-links a{color:var(--dim)}
 .foot-links a:hover{color:var(--brand)}
-
 @media(max-width:760px){
-  section{padding:48px 0}
-  .grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
+section{padding:48px 0}
+.grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:520px){
-  .grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
+.grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
 }
-
 /* ── 智脑三张可点的卡 ── */
 .askcard{cursor:pointer;transition:transform .2s,box-shadow .25s,border-color .2s}
 .askcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(150,100,50,.14)}
 .askcard .asktip{display:block;margin-top:10px;font-size:11.5px;font-weight:800;
-  color:var(--brand);opacity:.62;transition:opacity .2s}
+color:var(--brand);opacity:.62;transition:opacity .2s}
 .askcard:hover .asktip{opacity:1}
-
 </style>
 <link rel="stylesheet" href="/assets/p3d.css">
 <style>
@@ -172,112 +160,104 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 <link rel="canonical" href="https://haidashu.com.cn/learn/">
 </head>
 <body>
-
 <header class="nav">
-  <div class="nav-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <nav class="nav-links" id="nav">
-      <a href="/">首页</a>
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/" class="active">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </nav>
-    <a class="nav-cta" href="/products/#contact">加海大叔</a>
-    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
-  </div>
+<div class="nav-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<nav class="nav-links" id="nav">
+<a href="/">首页</a>
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/" class="active">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</nav>
+<a class="nav-cta" href="/products/#contact">加海大叔</a>
+<button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+</div>
 </header>
-
 <div id="p3"></div>
-
 <section class="learn-end" id="app">
-  <div class="wrap">
-    <span class="eyebrow">已经做出来的学习产品</span>
-    <h2 class="h2">不是课程，是能用的东西</h2>
-    <p class="lead">下面这个就是真实在跑的学习 App——打开就能用，不用注册、不用付费。</p>
-    <div class="btn-row">
-      <a class="btn btn-primary" href="/aixinshou/">打开学习 App →</a>
-      <a class="btn btn-ghost" href="/products/#contact">加海大叔带跑</a>
-    </div>
-  </div>
+<div class="wrap">
+<span class="eyebrow">已经做出来的学习产品</span>
+<h2 class="h2">不是课程，是能用的东西</h2>
+<p class="lead">下面这个就是真实在跑的学习 App——打开就能用，不用注册、不用付费。</p>
+<div class="btn-row">
+<a class="btn btn-primary" href="/aixinshou/">打开学习 App →</a>
+<a class="btn btn-ghost" href="/products/#contact">加海大叔带跑</a>
+</div>
+</div>
 </section>
-
 <footer>
-  <div class="foot-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <div class="foot-links">
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </div>
-    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
-  </div>
+<div class="foot-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<div class="foot-links">
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</div>
+<div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+</div>
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
-
 <script>
 window.P3D = {
-  appTitle:'AI学习',
-  maxScale:1.12,
-  head:{
-    eyebrow:'AI 学习系统 · 四件东西',
-    h1:'零基础也能学，先干活后学习',
-    p:'大部分人学不会 AI，不是笨，是顺序反了：先啃概念，学完还是不会写一条朋友圈。这里的顺序是——<b>先有一件要干的活</b>，让 AI 干，干完发现哪儿不对，再补知识。'
-  },
-  tiers:[
-    {k:'先搞清你在哪', s:'定位卡点 · 换个顺序'},
-    {k:'再决定要不要人带', s:'自己跑 / 有人带'}
-  ],
-  items:[
-    {no:'01',g:'诊',n:'四道题找卡点',r:'先定位，再学',t:0,col:0,
-     short:'不用做测试卷，问自己四件事',
-     lead:'不用做测试卷。问自己四件事：每天重复哪件活？它干多久了？如果不用你干能腾出什么？你现在最想让 AI 帮你哪一步？答完，路就清楚了。',
-     bullets:['第一题：你每天重复干的那件活是什么','第二题：这件事你自己干多久了','第三题：如果明天不用你干，你能腾出什么','第四题：你最想让 AI 先帮你哪一步'],
-     facts:[['要多久','四句话，两分钟'],['答完给什么','一条你自己的路径'],['不用','注册 / 测试卷 / 打分']],
-     badge:'先做这个',
-     url:'/aixinshou/', txt:'去做这四道题'},
-
-    {no:'02',g:'干',n:'先干活，后学习',r:'顺序别搞反',t:0,col:1,
-     short:'上来就用一个能跑的小工具干活',
-     lead:'先去干一件真活，别先看目录。干砸了才知道该补哪块——知识是用来补卡点的，不是用来背的。',
-     bullets:['先去干一件今天就要干的真活','干砸了，才知道该补哪一块','每页最前面有提示卡，30 秒看完就动手','不背名词、不先学原理'],
-     facts:[['先做','挑一件今天就要干的活'],['后做','卡住了再回来查'],['别做','先啃概念再动手']],
-     badge:'零基础可进',
-     url:'/aixinshou/', txt:'进去干一件'},
-
-    {no:'03',g:'包',n:'新手起步包',r:'免费的，先尝甜头',t:1,col:0,
-     short:'10 条即用指令，加微信就发',
-     lead:'10 条即用指令，加海大叔就发。今天就能用上，先尝到甜头——不用先买任何东西。',
-     bullets:['10 条指令，复制就能用','覆盖写文案、改稿、想选题、回客户','加微信直接发文件，不用注册','觉得值再往下走，不值就先停在这'],
-     facts:[['价格','免费'],['形式','微信发文件'],['怎么拿','备注「生态」通过更快']],
-     badge:'免费',
-     url:'/products/#contact', txt:'去加微信拿'},
-
-    {no:'04',g:'跑',n:'落地陪跑 6–8 周',r:'有人带着跑一遍',t:1,col:1,
-     short:'每周对练、每日成品、结案复盘',
-     lead:'自己跑不通？那就有人带着跑。6–8 周，每周对练一次、每天有成品、结案做复盘，带你真跑通一遍，不是听课。',
-     bullets:['每周对练：卡在哪，当场解决','每日成品：每天都得有能拿出手的东西','结案复盘：哪一步在赚钱，写清楚','同时只接 2 单，排不上就等下一期'],
-     facts:[['周期','6–8 周'],['形式','每周对练 + 每日成品 + 结案复盘'],['名额','同时只接 2 单']],
-     badge:'要排期',
-     url:'/products/', txt:'看陪跑怎么排'}
-  ],
-  hint:'点任意一件，看它到底怎么带你',
-  cta:{href:'/products/#contact', txt:'加海大叔'},
-  anchor:'p3stage-top'
+appTitle:'AI学习',
+maxScale:1.12,
+head:{
+eyebrow:'AI 学习系统 · 四件东西',
+h1:'零基础也能学，先干活后学习',
+p:'大部分人学不会 AI，不是笨，是顺序反了：先啃概念，学完还是不会写一条朋友圈。这里的顺序是——<b>先有一件要干的活</b>，让 AI 干，干完发现哪儿不对，再补知识。'
+},
+tiers:[
+{k:'先搞清你在哪', s:'定位卡点 · 换个顺序'},
+{k:'再决定要不要人带', s:'自己跑 / 有人带'}
+],
+items:[
+{no:'01',g:'诊',n:'四道题找卡点',r:'先定位，再学',t:0,col:0,
+short:'不用做测试卷，问自己四件事',
+lead:'不用做测试卷。问自己四件事：每天重复哪件活？它干多久了？如果不用你干能腾出什么？你现在最想让 AI 帮你哪一步？答完，路就清楚了。',
+bullets:['第一题：你每天重复干的那件活是什么','第二题：这件事你自己干多久了','第三题：如果明天不用你干，你能腾出什么','第四题：你最想让 AI 先帮你哪一步'],
+facts:[['要多久','四句话，两分钟'],['答完给什么','一条你自己的路径'],['不用','注册 / 测试卷 / 打分']],
+badge:'先做这个',
+url:'/aixinshou/', txt:'去做这四道题'},
+{no:'02',g:'干',n:'先干活，后学习',r:'顺序别搞反',t:0,col:1,
+short:'上来就用一个能跑的小工具干活',
+lead:'先去干一件真活，别先看目录。干砸了才知道该补哪块——知识是用来补卡点的，不是用来背的。',
+bullets:['先去干一件今天就要干的真活','干砸了，才知道该补哪一块','每页最前面有提示卡，30 秒看完就动手','不背名词、不先学原理'],
+facts:[['先做','挑一件今天就要干的活'],['后做','卡住了再回来查'],['别做','先啃概念再动手']],
+badge:'零基础可进',
+url:'/aixinshou/', txt:'进去干一件'},
+{no:'03',g:'包',n:'新手起步包',r:'免费的，先尝甜头',t:1,col:0,
+short:'10 条即用指令，加微信就发',
+lead:'10 条即用指令，加海大叔就发。今天就能用上，先尝到甜头——不用先买任何东西。',
+bullets:['10 条指令，复制就能用','覆盖写文案、改稿、想选题、回客户','加微信直接发文件，不用注册','觉得值再往下走，不值就先停在这'],
+facts:[['价格','免费'],['形式','微信发文件'],['怎么拿','备注「生态」通过更快']],
+badge:'免费',
+url:'/products/#contact', txt:'去加微信拿'},
+{no:'04',g:'跑',n:'落地陪跑 6–8 周',r:'有人带着跑一遍',t:1,col:1,
+short:'每周对练、每日成品、结案复盘',
+lead:'自己跑不通？那就有人带着跑。6–8 周，每周对练一次、每天有成品、结案做复盘，带你真跑通一遍，不是听课。',
+bullets:['每周对练：卡在哪，当场解决','每日成品：每天都得有能拿出手的东西','结案复盘：哪一步在赚钱，写清楚','同时只接 2 单，排不上就等下一期'],
+facts:[['周期','6–8 周'],['形式','每周对练 + 每日成品 + 结案复盘'],['名额','同时只接 2 单']],
+badge:'要排期',
+url:'/products/', txt:'看陪跑怎么排'}
+],
+hint:'点任意一件，看它到底怎么带你',
+cta:{href:'/products/#contact', txt:'加海大叔'},
+anchor:'p3stage-top'
 };
 </script>
 <script src="/assets/p3d-shell.js"></script>
@@ -287,5 +267,36 @@ document.getElementById('burger').addEventListener('click',function(){document.g
 document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
 </script>
 <script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
+<script src="/assets/speak.js"></script>
 </body>
 </html>

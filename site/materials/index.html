@@ -9,27 +9,26 @@
 <style>/*/assets/site.css*/
 /* ── 海大叔 · AI新媒体IP智慧生态 · 暖色干净主题 ── */
 :root{
-  --bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
-  --ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
-  --brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
-  --cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
-  --line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
-  --shadow:0 8px 28px -14px rgba(120,70,30,.20);
-  --shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+--bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
+--ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
+--brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
+--cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
+--line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
+--shadow:0 8px 28px -14px rgba(120,70,30,.20);
+--shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
+--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed;color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
-             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{width:min(1100px,100% - 44px);margin-inline:auto}
 ::selection{background:var(--brand-dd);color:#fff}
-
 /* ── 导航 ── */
 .nav{position:sticky;top:0;z-index:80;background:rgba(253,249,243,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:14px;height:62px}
@@ -45,14 +44,13 @@ img{max-width:100%;display:block}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;width:40px;height:38px;font-size:20px;color:var(--ink);cursor:pointer}
 @media(max-width:860px){
-  .nav-burger{display:block}
-  .nav-cta{display:none}
-  .nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
-  .nav-links a.active{background:var(--brand-d)}
+.nav-burger{display:block}
+.nav-cta{display:none}
+.nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
+.nav-links.open{display:flex}
+.nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
+.nav-links a.active{background:var(--brand-d)}
 }
-
 /* ── 通用区块 ── */
 section{padding:64px 0}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--brand);text-transform:uppercase;margin-bottom:12px;display:inline-block}
@@ -60,7 +58,6 @@ section{padding:64px 0}
 .lead{margin-top:14px;color:var(--dim);font-size:clamp(14px,1.6vw,16px);max-width:42em}
 .center{text-align:center}
 .center .lead{margin-inline:auto}
-
 /* ── 按钮 ── */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:11px;font-size:14.5px;font-weight:600;transition:.18s;border:1px solid transparent;cursor:pointer}
 .btn-primary{background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;box-shadow:var(--shadow)}
@@ -68,7 +65,6 @@ section{padding:64px 0}
 .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--brand-dd);color:var(--brand)}
 .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-
 /* ── 卡片栅格 ── */
 .grid{display:grid;gap:18px}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
@@ -80,7 +76,6 @@ section{padding:64px 0}
 .card p{color:var(--dim);font-size:13.5px}
 .card .ic{font-size:22px}
 .card .arrow{margin-top:14px;color:var(--brand);font-weight:600;font-size:13.5px}
-
 /* ── 徽标 ── */
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:999px}
 .badge.live{background:rgba(47,158,107,.12);color:#1F7A50}
@@ -89,7 +84,6 @@ section{padding:64px 0}
 .badge.soon{background:rgba(192,57,43,.12);color:#A93226}
 .badge.apk{background:rgba(47,158,107,.12);color:#1F7A50}
 .badge.apk::before{content:"";width:6px;height:6px;border-radius:50%;background:#2F9E6B}
-
 /* ── 九模块（一套班子） ── */
 .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);transition:.2s;display:flex;flex-direction:column}
@@ -103,7 +97,6 @@ section{padding:64px 0}
 .mod .links a.case{background:var(--card2);color:var(--brand)}
 @media(max-width:760px){.mods{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.mods{grid-template-columns:1fr}}
-
 /* ── 问答 UI ── */
 .chat{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;max-width:760px;margin-inline:auto}
 .chat-log{height:340px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -113,7 +106,7 @@ section{padding:64px 0}
 .msg.u{flex-direction:row-reverse}
 .msg.u .who{background:linear-gradient(135deg,#E08A2A,#C2571C)}
 .msg.a .who{width:auto;height:24px;padding:0 9px;border-radius:7px;margin-top:3px;
-  font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
+font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
 .msg .body{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.75;max-width:80%;color:var(--ink2)}
 .msg.u .body{background:var(--brand-d);border-color:var(--brand-dd);color:var(--ink)}
 .msg .body b{color:var(--ink)}
@@ -126,11 +119,9 @@ section{padding:64px 0}
 .inrow button{flex:none;height:46px;padding:0 22px;border-radius:10px;border:0;background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;font-size:14.5px;font-weight:600;cursor:pointer}
 .inrow button:disabled{opacity:.6;cursor:default}
 @media(max-width:520px){.chat-log{height:300px}}
-
 /* ── 素材封面 ── */
 .mt-cover{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line2);margin-bottom:12px;background:var(--card2)}
 .mt-cover img,.mt-cover svg{width:100%;height:100%;display:block;object-fit:cover}
-
 /* ── 页脚 ── */
 footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-top:30px}
 .foot-in{padding:40px 0;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
@@ -139,22 +130,19 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
 .foot-links a{color:var(--dim)}
 .foot-links a:hover{color:var(--brand)}
-
 @media(max-width:760px){
-  section{padding:48px 0}
-  .grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
+section{padding:48px 0}
+.grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:520px){
-  .grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
+.grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
 }
-
 /* ── 智脑三张可点的卡 ── */
 .askcard{cursor:pointer;transition:transform .2s,box-shadow .25s,border-color .2s}
 .askcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(150,100,50,.14)}
 .askcard .asktip{display:block;margin-top:10px;font-size:11.5px;font-weight:800;
-  color:var(--brand);opacity:.62;transition:opacity .2s}
+color:var(--brand);opacity:.62;transition:opacity .2s}
 .askcard:hover .asktip{opacity:1}
-
 </style>
 <link rel="stylesheet" href="/assets/p3d.css">
 <style>
@@ -162,17 +150,17 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 .tpl-entry{padding:46px 0 60px;border-top:1px solid var(--line);background:#FDF8F1}
 .tpl-entry .hd{text-align:center;margin-bottom:26px}
 .tpl-entry .hd .eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.16em;
-  color:#B3352A;background:#FBE6D2;padding:5px 13px;border-radius:999px}
+color:#B3352A;background:#FBE6D2;padding:5px 13px;border-radius:999px}
 .tpl-entry .hd h2{font-size:clamp(20px,2.6vw,26px);font-weight:900;color:var(--ink);margin:12px 0 8px}
 .tpl-entry .hd p{font-size:13px;color:var(--dim);max-width:600px;margin:0 auto;line-height:1.8}
 .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1000px;margin:0 auto}
 @media(max-width:820px){.tpl-grid{grid-template-columns:repeat(2,1fr)}}
 .tpl-c{display:block;background:#fff;border:1px solid var(--line);border-radius:15px;
-  padding:20px 18px;text-decoration:none;transition:.2s;box-shadow:0 2px 10px rgba(120,70,30,.05)}
+padding:20px 18px;text-decoration:none;transition:.2s;box-shadow:0 2px 10px rgba(120,70,30,.05)}
 .tpl-c:hover{border-color:var(--brand);box-shadow:0 12px 28px -14px rgba(120,70,30,.35);transform:translateY(-2px)}
 .tpl-c b{display:block;font-size:15px;color:var(--ink);font-weight:800}
 .tpl-c em{display:block;font-style:normal;font-size:24px;font-weight:900;color:var(--brand);
-  line-height:1.2;margin:8px 0 2px;letter-spacing:-.5px}
+line-height:1.2;margin:8px 0 2px;letter-spacing:-.5px}
 .tpl-c span{display:block;font-size:12px;color:var(--dim);line-height:1.6}
 </style>
 <meta name="theme-color" content="#C2571C">
@@ -185,192 +173,176 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 <link rel="canonical" href="https://haidashu.com.cn/materials/">
 </head>
 <body>
-
 <header class="nav">
-  <div class="nav-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <nav class="nav-links" id="nav">
-      <a href="/">首页</a>
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/" class="active">素材库</a>
-    </nav>
-    <a class="nav-cta" href="/products/#contact">加海大叔</a>
-    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
-  </div>
-</header>
-
-<div id="p3"></div>
-
-<div class="tpl-entry" id="tpl-entry">
-  <div class="hd">
-    <span class="eyebrow">模板素材 · 拿来就改</span>
-    <h2>595 套可商用模板，站里直接翻</h2>
-    <p>全部带许可证核对，网站、小程序、App 三类分开。点进去能按场景筛、按语言搜，看到合适的直接看源码。</p>
-  </div>
-  <div class="wrap">
-    <div class="tpl-grid">
-      <a class="tpl-c" href="/templates/?k=website">
-        <b>网站模板</b><em>220</em><span>官网 / 后台 / 电商 / 文档 / 作品集</span>
-      </a>
-      <a class="tpl-c" href="/templates/?k=miniprogram">
-        <b>小程序模板</b><em>163</em><span>点餐 / 门店 / 名片 / 工具</span>
-      </a>
-      <a class="tpl-c" href="/templates/?k=app">
-        <b>App 模板</b><em>212</em><span>社交 / 健康 / 资讯 / 音视频</span>
-      </a>
-      <a class="tpl-c" href="/templates/">
-        <b>全部模板</b><em>595</em><span>一个页面搜完，按场景挑</span>
-      </a>
-    </div>
-  </div>
+<div class="nav-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<nav class="nav-links" id="nav">
+<a href="/">首页</a>
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/" class="active">素材库</a>
+</nav>
+<a class="nav-cta" href="/products/#contact">加海大叔</a>
+<button class="nav-burger" id="burger" aria-label="菜单">≡</button>
 </div>
-
+</header>
+<div id="p3"></div>
+<div class="tpl-entry" id="tpl-entry">
+<div class="hd">
+<span class="eyebrow">模板素材 · 拿来就改</span>
+<h2>595 套可商用模板，站里直接翻</h2>
+<p>全部带许可证核对，网站、小程序、App 三类分开。点进去能按场景筛、按语言搜，看到合适的直接看源码。</p>
+</div>
+<div class="wrap">
+<div class="tpl-grid">
+<a class="tpl-c" href="/templates/?k=website">
+<b>网站模板</b><em>220</em><span>官网 / 后台 / 电商 / 文档 / 作品集</span>
+</a>
+<a class="tpl-c" href="/templates/?k=miniprogram">
+<b>小程序模板</b><em>163</em><span>点餐 / 门店 / 名片 / 工具</span>
+</a>
+<a class="tpl-c" href="/templates/?k=app">
+<b>App 模板</b><em>212</em><span>社交 / 健康 / 资讯 / 音视频</span>
+</a>
+<a class="tpl-c" href="/templates/">
+<b>全部模板</b><em>595</em><span>一个页面搜完，按场景挑</span>
+</a>
+</div>
+</div>
+</div>
 <footer>
-  <div class="foot-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <div class="foot-links">
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </div>
-    <div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
-  </div>
+<div class="foot-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<div class="foot-links">
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</div>
+<div class="foot-meta">© 2026 海大叔 · 云南 · 昆明</div>
+</div>
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
-
 <script>
 window.P3D = {
-  appTitle:'素材库',
-  head:{
-    eyebrow:'素材库 · 12 条真实文案',
-    h1:'不用想怎么写，点开直接复制',
-    p:'这些不是模板占位符，是真实发出去过的原话。<b>朋友圈 7 条、私信 3 条、文章结尾和报价单各 1 条</b>，点任意一条，右边整段摊开，一键复制。'
-  },
-  tiers:[
-    {k:'朋友圈 · 让人记住你', s:'前四条：自我介绍、场景、观点、反常识'},
-    {k:'朋友圈 · 让人信你', s:'后三条：案例、演示、劝退'},
-    {k:'私信 · 一对一', s:'加了好友之后怎么开口、怎么报价、怎么接犹豫'},
-    {k:'收尾 · 结尾和报价单', s:'文章固定段 + 对外报价单'}
-  ],
-  items:[
-    {no:'01',g:'介',n:'自我介绍（置顶用）',r:'朋友圈',t:0,col:0,
-     short:'我不教 AI，我把你每天重复的活做成工具',
-     lead:'置顶那条。第一次来的人点进你主页，三秒内要知道你是干什么的、大概多少钱、下一步做什么。这条一次说清。',
-     copyTitle:'全文，可直接复制',
-     copy:'我不教 AI。\n\n我做的是一件事：把你每天重复干的那件活儿，变成一个打开就能用的工具。\n\n你不用学提示词，不用配置，不用装软件。打开链接，把手头的东西粘进去，它出活。\n\n我给设计师、自媒体、小顾问各做了 5 个，299 一套。先用着，觉得值再说。\n\n不值的话，我这儿还有份免费的，10 条指令，加我就发，看完你自己判断。',
-     facts:[['发在哪','朋友圈，设为置顶'],['长度','约 150 字'],['什么时候用','任何时候都挂着']],
-     badge:'朋友圈 · 置顶',
-     url:'/products/', txt:'看这套东西怎么卖'},
-
-    {no:'02',g:'景',n:'场景（最容易被转发的一条）',r:'朋友圈',t:0,col:1,
-     short:'十一点还在改第四版的设计师',
-     lead:'不要讲你多厉害，讲一个别人认得出的画面。这条最容易被同路人转发，因为它写的就是他们昨晚。',
-     copyTitle:'全文，可直接复制',
-     copy:'晚上十一点，一个做设计的朋友还在改第四版。\n\n不是他不会设计，是他每次都得从零写一遍提案。\n\n我给他做了一套东西：客户发来需求，粘进去，十分钟出一版能直接发出去的提案初稿。\n\n他没变得更强，他只是把"从零开始"这件事省掉了。\n\n这就是我干的活。',
-     facts:[['发在哪','朋友圈'],['长度','约 130 字'],['什么时候用','冷启动期，一周发一次']],
-     badge:'朋友圈 · 引流款'},
-
-    {no:'03',g:'观',n:'观点（立态度用）',r:'朋友圈',t:0,col:2,
-     short:'我不劝任何人买 AI 工具',
-     lead:'立态度的一条。别人都在劝买，你先劝别买，反而把信任挣了。评论区会有人问「那我该买吗」，那就是你的客户。',
-     copyTitle:'全文，可直接复制',
-     copy:'我不劝任何人买 AI 工具。\n\n你先问自己一句：有没有一件活儿，每天都要干，又没人替你干？\n\n有，我这套东西对你有用。没有，你买了也是放着，不如省下这钱。\n\n我这行最不缺卖课的，缺的是敢劝你别买的人。',
-     facts:[['发在哪','朋友圈'],['长度','约 110 字'],['什么时候用','同行都在促销的时候']],
-     badge:'朋友圈 · 立人设'},
-
-    {no:'04',g:'反',n:'反常识（涨评论）',r:'朋友圈',t:0,col:3,
-     short:'大部分人学不会 AI，是学的顺序反了',
-     lead:'专门用来收评论的。给一个跟主流说法相反的判断，再给出理由，评论区自然吵起来，吵起来就有曝光。',
-     copyTitle:'全文，可直接复制',
-     copy:'说句不讨喜的话：大部分人学不会 AI，不是笨，是学的顺序反了。\n\n先去学"什么是大模型、什么是提示词工程"，学完发现自己还是不知道怎么让 AI 写一条朋友圈。\n\n正确的顺序是：先有一件具体要干的活，再让 AI 干，干完发现哪儿不对，再回去补知识。\n\n先干活，后学习。反过来一定死在半路。',
-     facts:[['发在哪','朋友圈 / 群里'],['长度','约 160 字'],['什么时候用','想涨互动的那条']],
-     badge:'朋友圈 · 涨评论'},
-
-    {no:'05',g:'案',n:'案例（有真实客户后再发）',r:'朋友圈',t:1,col:0,
-     short:'开店的老板晚上十点后不碰手机了',
-     lead:'有真实交付之后再发这条。重点不是「AI 多厉害」，是「他终于把那个小时拿回来了」——把价值落在人身上。',
-     copyTitle:'全文，可直接复制',
-     copy:'一个开店的老板，最早跟我说"AI 我用不上"。\n\n我问他：你每天回多少条客户消息？他说，几十条，晚上躺下还在回。\n\n我给他做了个东西：客户问什么，粘进去，出三条回复，他挑一条发。\n\n现在他晚上十点后基本不碰手机了。\n\n价值不在"AI 很厉害"，在于他终于能把那个小时拿回来。',
-     facts:[['发在哪','朋友圈'],['长度','约 150 字'],['什么时候用','手上有真实交付之后']],
-     badge:'朋友圈 · 讲案例'},
-
-    {no:'06',g:'演',n:'工具演示（配图或录屏）',r:'朋友圈',t:1,col:1,
-     short:'一段乱糟糟的语音转文字，三十秒出一张表',
-     lead:'配一张前后对比图或者十几秒录屏。这条的作用是让人相信「你是真会做」，不是只会说。',
-     copyTitle:'全文，可直接复制',
-     copy:'今天有人问我：客户发一大段语音转文字，看不懂他要什么，怎么办。\n\n我做了个东西：把那段乱糟糟的文字粘进去，出来一张表——他到底要什么、预算多少、什么时候要、还缺什么信息。\n\n三十秒。\n\n不是 AI 聪明，是这件事本来就不该用脑子硬扛。',
-     facts:[['发在哪','朋友圈 + 配图/录屏'],['长度','约 120 字'],['什么时候用','有人问过你某个具体问题之后']],
-     badge:'朋友圈 · 讲手艺'},
-
-    {no:'07',g:'退',n:'劝退（最建信任）',r:'朋友圈',t:1,col:2,
-     short:'4,980 值不值，先反问你三句',
-     lead:'有人来问价的时候发这条，或者直接发给他。敢劝退的人，说的「值」才有人信。',
-     copyTitle:'全文，可直接复制',
-     copy:'有人问我 4,980 值不值。\n\n我先反问三句：你每天有没有一件重复的活？这件事你自己干多久了？如果它明天开始不用你干，你手上能腾出什么？\n\n三个都答得出来，就值。答不出来，299 那套先用着，别花这个钱。\n\n我不缺这一单，我缺的是你用完还愿意跟别人提我一句。',
-     facts:[['发在哪','朋友圈 / 私信直接发'],['长度','约 150 字'],['什么时候用','有人问「多少钱」「值不值」']],
-     badge:'朋友圈 · 建信任'},
-
-    {no:'08',g:'聊',n:'陌生好友第一次聊',r:'私信',t:2,col:0,
-     short:'先问一句，别急着介绍自己',
-     lead:'刚加上好友的第一条。不要发自我介绍、不要发产品图，先问一句具体的，对方回了你再往下走。',
-     copyTitle:'全文，可直接复制',
-     copy:'问一句：你现在主要靠什么挣钱？一个人干还是有帮手？\n\n（等他答完，再发下面这段）\n\n我这边做的事可能对你有用：把你每天重复的那件活儿，做成一个打开就能用的工具。不用学 AI，粘内容进去就出东西。\n\n先给你一份免费的，10 条指令，今天就能用上。用着觉得对路，我们再聊深的。要的话我发你。',
-     facts:[['发在哪','私信，加好友当天'],['长度','约 130 字'],['关键','先问，别先讲']],
-     badge:'私信 · 开场'},
-
-    {no:'09',g:'价',n:'他问「多少钱」',r:'私信',t:2,col:1,
-     short:'三档价，别一次推最贵的',
-     lead:'一问价就报最高档，是最容易跑单的做法。给三档、并且主动把对方推去最便宜那档，成交率反而高。',
-     copyTitle:'全文，可直接复制',
-     copy:'分三档，你按需要挑，别一次买最贵的。\n\n免费的：10 条指令，加我就发。\n299：按职业打包的 5 个工具，当天发链接，打开就用。\n1,980 起：按你自己的生意改，3-5 天交付。\n\n建议你先拿免费的。用得顺手再考虑 299，别一上来就花大钱。',
-     facts:[['发在哪','私信'],['长度','约 110 字'],['关键','主动往下推一档']],
-     badge:'私信 · 报价'},
-
-    {no:'10',g:'贵',n:'他犹豫「太贵了」',r:'私信',t:2,col:2,
-     short:'先问这件事每周花你多少小时',
-     lead:'对方说贵，不要降价，也不要讲道理。把「价格」换成「他花的时间」，让他自己算这笔账。',
-     copyTitle:'全文，可直接复制',
-     copy:'理解，这个钱不算小。我不劝你。就问一句：你想解决的那件事，现在每周花你多少小时？\n\n如果是一小时以内，299 那套够用，别买贵的。如果是每天都要干，那 1,980 摊到一年，一天不到六块。\n\n你觉得不值，就是不值，那先别买。我这行不缺这一单。',
-     facts:[['发在哪','私信'],['长度','约 120 字'],['关键','把价格换算成时间']],
-     badge:'私信 · 接犹豫'},
-
-    {no:'11',g:'尾',n:'文章结尾固定段',r:'文章结尾',t:3,col:0,
-     short:'我是海大叔，我不卖 AI 课',
-     lead:'公众号每篇文末都挂这一段。一条固定落款，比每次现写一段介绍有效得多——看第三篇的人，才知道你是谁。',
-     copyTitle:'全文，可直接复制',
-     copy:'我是海大叔。\n\n我不卖 AI 课，也不讲大模型原理。\n\n我做的事很具体：把一个人干所有活的活儿里、每天重复的那一件，做成一个打开就能用的工具。你不用学，粘进去就出活。\n\n从免费清单到定制搭建，一共六件东西，按你能承受的深度排。先拿免费的那份，觉得值再往下走。\n\n不值就别买，我这儿不缺这一单。',
-     facts:[['发在哪','公众号 / 专栏文末'],['长度','约 150 字'],['什么时候用','每篇都挂，固定不动']],
-     badge:'文章结尾 · 固定段',
-     url:'/products/', txt:'六件东西是哪六件'},
-
-    {no:'12',g:'单',n:'对外报价单',r:'报价单',t:3,col:1,
-     short:'六件东西，价格统一，不私下议价',
-     lead:'客户认真问、准备下单的时候发。六档一次列清，底部写死三条统一说明——把后面所有扯皮的话提前说完。',
-     copyTitle:'全文，可直接复制',
-     copy:'海大叔 · 报价单\n\n一、小白 AI 落地清单｜免费｜10 条即用指令｜微信发文件\n二、AI 接单工具箱（设计师/自媒体/顾问三版）｜299 首发199｜该职业 5 个工具，当天发链接\n三、专属 AI 员工·标准版｜1,980｜按业务改造 5 工具+7天答疑｜3-5天交付\n四、专属 AI 员工·深度版｜4,980（加急+1,500）｜诊断到搭建到跑通+30天1次小改\n五、AI 落地陪跑｜9,800起｜6-8周，每周对练+每日成品+结案复盘｜同时只接2单\n六、年度维保｜2,000起/年｜仅限已交付客户\n\n统一说明：以上均不含代运营/代发内容/承诺涨粉或收入；AI 出初稿，涉钱涉合同涉承诺最后一遍须本人确认；价格统一，不私下议价。',
-     facts:[['发在哪','私信 / 微信文件'],['长度','约 260 字'],['关键','底下的统一说明别删']],
-     badge:'报价单 · 成交前',
-     url:'/products/#price', txt:'看完整价格表'}
-  ],
-  hint:'点任意一条，右边整段摊开，一键复制',
-  cta:{href:'/products/#contact', txt:'加海大叔聊聊'},
-  anchor:'p3stage-top'
+appTitle:'素材库',
+head:{
+eyebrow:'素材库 · 12 条真实文案',
+h1:'不用想怎么写，点开直接复制',
+p:'这些不是模板占位符，是真实发出去过的原话。<b>朋友圈 7 条、私信 3 条、文章结尾和报价单各 1 条</b>，点任意一条，右边整段摊开，一键复制。'
+},
+tiers:[
+{k:'朋友圈 · 让人记住你', s:'前四条：自我介绍、场景、观点、反常识'},
+{k:'朋友圈 · 让人信你', s:'后三条：案例、演示、劝退'},
+{k:'私信 · 一对一', s:'加了好友之后怎么开口、怎么报价、怎么接犹豫'},
+{k:'收尾 · 结尾和报价单', s:'文章固定段 + 对外报价单'}
+],
+items:[
+{no:'01',g:'介',n:'自我介绍（置顶用）',r:'朋友圈',t:0,col:0,
+short:'我不教 AI，我把你每天重复的活做成工具',
+lead:'置顶那条。第一次来的人点进你主页，三秒内要知道你是干什么的、大概多少钱、下一步做什么。这条一次说清。',
+copyTitle:'全文，可直接复制',
+copy:'我不教 AI。\n\n我做的是一件事：把你每天重复干的那件活儿，变成一个打开就能用的工具。\n\n你不用学提示词，不用配置，不用装软件。打开链接，把手头的东西粘进去，它出活。\n\n我给设计师、自媒体、小顾问各做了 5 个，299 一套。先用着，觉得值再说。\n\n不值的话，我这儿还有份免费的，10 条指令，加我就发，看完你自己判断。',
+facts:[['发在哪','朋友圈，设为置顶'],['长度','约 150 字'],['什么时候用','任何时候都挂着']],
+badge:'朋友圈 · 置顶',
+url:'/products/', txt:'看这套东西怎么卖'},
+{no:'02',g:'景',n:'场景（最容易被转发的一条）',r:'朋友圈',t:0,col:1,
+short:'十一点还在改第四版的设计师',
+lead:'不要讲你多厉害，讲一个别人认得出的画面。这条最容易被同路人转发，因为它写的就是他们昨晚。',
+copyTitle:'全文，可直接复制',
+copy:'晚上十一点，一个做设计的朋友还在改第四版。\n\n不是他不会设计，是他每次都得从零写一遍提案。\n\n我给他做了一套东西：客户发来需求，粘进去，十分钟出一版能直接发出去的提案初稿。\n\n他没变得更强，他只是把"从零开始"这件事省掉了。\n\n这就是我干的活。',
+facts:[['发在哪','朋友圈'],['长度','约 130 字'],['什么时候用','冷启动期，一周发一次']],
+badge:'朋友圈 · 引流款'},
+{no:'03',g:'观',n:'观点（立态度用）',r:'朋友圈',t:0,col:2,
+short:'我不劝任何人买 AI 工具',
+lead:'立态度的一条。别人都在劝买，你先劝别买，反而把信任挣了。评论区会有人问「那我该买吗」，那就是你的客户。',
+copyTitle:'全文，可直接复制',
+copy:'我不劝任何人买 AI 工具。\n\n你先问自己一句：有没有一件活儿，每天都要干，又没人替你干？\n\n有，我这套东西对你有用。没有，你买了也是放着，不如省下这钱。\n\n我这行最不缺卖课的，缺的是敢劝你别买的人。',
+facts:[['发在哪','朋友圈'],['长度','约 110 字'],['什么时候用','同行都在促销的时候']],
+badge:'朋友圈 · 立人设'},
+{no:'04',g:'反',n:'反常识（涨评论）',r:'朋友圈',t:0,col:3,
+short:'大部分人学不会 AI，是学的顺序反了',
+lead:'专门用来收评论的。给一个跟主流说法相反的判断，再给出理由，评论区自然吵起来，吵起来就有曝光。',
+copyTitle:'全文，可直接复制',
+copy:'说句不讨喜的话：大部分人学不会 AI，不是笨，是学的顺序反了。\n\n先去学"什么是大模型、什么是提示词工程"，学完发现自己还是不知道怎么让 AI 写一条朋友圈。\n\n正确的顺序是：先有一件具体要干的活，再让 AI 干，干完发现哪儿不对，再回去补知识。\n\n先干活，后学习。反过来一定死在半路。',
+facts:[['发在哪','朋友圈 / 群里'],['长度','约 160 字'],['什么时候用','想涨互动的那条']],
+badge:'朋友圈 · 涨评论'},
+{no:'05',g:'案',n:'案例（有真实客户后再发）',r:'朋友圈',t:1,col:0,
+short:'开店的老板晚上十点后不碰手机了',
+lead:'有真实交付之后再发这条。重点不是「AI 多厉害」，是「他终于把那个小时拿回来了」——把价值落在人身上。',
+copyTitle:'全文，可直接复制',
+copy:'一个开店的老板，最早跟我说"AI 我用不上"。\n\n我问他：你每天回多少条客户消息？他说，几十条，晚上躺下还在回。\n\n我给他做了个东西：客户问什么，粘进去，出三条回复，他挑一条发。\n\n现在他晚上十点后基本不碰手机了。\n\n价值不在"AI 很厉害"，在于他终于能把那个小时拿回来。',
+facts:[['发在哪','朋友圈'],['长度','约 150 字'],['什么时候用','手上有真实交付之后']],
+badge:'朋友圈 · 讲案例'},
+{no:'06',g:'演',n:'工具演示（配图或录屏）',r:'朋友圈',t:1,col:1,
+short:'一段乱糟糟的语音转文字，三十秒出一张表',
+lead:'配一张前后对比图或者十几秒录屏。这条的作用是让人相信「你是真会做」，不是只会说。',
+copyTitle:'全文，可直接复制',
+copy:'今天有人问我：客户发一大段语音转文字，看不懂他要什么，怎么办。\n\n我做了个东西：把那段乱糟糟的文字粘进去，出来一张表——他到底要什么、预算多少、什么时候要、还缺什么信息。\n\n三十秒。\n\n不是 AI 聪明，是这件事本来就不该用脑子硬扛。',
+facts:[['发在哪','朋友圈 + 配图/录屏'],['长度','约 120 字'],['什么时候用','有人问过你某个具体问题之后']],
+badge:'朋友圈 · 讲手艺'},
+{no:'07',g:'退',n:'劝退（最建信任）',r:'朋友圈',t:1,col:2,
+short:'4,980 值不值，先反问你三句',
+lead:'有人来问价的时候发这条，或者直接发给他。敢劝退的人，说的「值」才有人信。',
+copyTitle:'全文，可直接复制',
+copy:'有人问我 4,980 值不值。\n\n我先反问三句：你每天有没有一件重复的活？这件事你自己干多久了？如果它明天开始不用你干，你手上能腾出什么？\n\n三个都答得出来，就值。答不出来，299 那套先用着，别花这个钱。\n\n我不缺这一单，我缺的是你用完还愿意跟别人提我一句。',
+facts:[['发在哪','朋友圈 / 私信直接发'],['长度','约 150 字'],['什么时候用','有人问「多少钱」「值不值」']],
+badge:'朋友圈 · 建信任'},
+{no:'08',g:'聊',n:'陌生好友第一次聊',r:'私信',t:2,col:0,
+short:'先问一句，别急着介绍自己',
+lead:'刚加上好友的第一条。不要发自我介绍、不要发产品图，先问一句具体的，对方回了你再往下走。',
+copyTitle:'全文，可直接复制',
+copy:'问一句：你现在主要靠什么挣钱？一个人干还是有帮手？\n\n（等他答完，再发下面这段）\n\n我这边做的事可能对你有用：把你每天重复的那件活儿，做成一个打开就能用的工具。不用学 AI，粘内容进去就出东西。\n\n先给你一份免费的，10 条指令，今天就能用上。用着觉得对路，我们再聊深的。要的话我发你。',
+facts:[['发在哪','私信，加好友当天'],['长度','约 130 字'],['关键','先问，别先讲']],
+badge:'私信 · 开场'},
+{no:'09',g:'价',n:'他问「多少钱」',r:'私信',t:2,col:1,
+short:'三档价，别一次推最贵的',
+lead:'一问价就报最高档，是最容易跑单的做法。给三档、并且主动把对方推去最便宜那档，成交率反而高。',
+copyTitle:'全文，可直接复制',
+copy:'分三档，你按需要挑，别一次买最贵的。\n\n免费的：10 条指令，加我就发。\n299：按职业打包的 5 个工具，当天发链接，打开就用。\n1,980 起：按你自己的生意改，3-5 天交付。\n\n建议你先拿免费的。用得顺手再考虑 299，别一上来就花大钱。',
+facts:[['发在哪','私信'],['长度','约 110 字'],['关键','主动往下推一档']],
+badge:'私信 · 报价'},
+{no:'10',g:'贵',n:'他犹豫「太贵了」',r:'私信',t:2,col:2,
+short:'先问这件事每周花你多少小时',
+lead:'对方说贵，不要降价，也不要讲道理。把「价格」换成「他花的时间」，让他自己算这笔账。',
+copyTitle:'全文，可直接复制',
+copy:'理解，这个钱不算小。我不劝你。就问一句：你想解决的那件事，现在每周花你多少小时？\n\n如果是一小时以内，299 那套够用，别买贵的。如果是每天都要干，那 1,980 摊到一年，一天不到六块。\n\n你觉得不值，就是不值，那先别买。我这行不缺这一单。',
+facts:[['发在哪','私信'],['长度','约 120 字'],['关键','把价格换算成时间']],
+badge:'私信 · 接犹豫'},
+{no:'11',g:'尾',n:'文章结尾固定段',r:'文章结尾',t:3,col:0,
+short:'我是海大叔，我不卖 AI 课',
+lead:'公众号每篇文末都挂这一段。一条固定落款，比每次现写一段介绍有效得多——看第三篇的人，才知道你是谁。',
+copyTitle:'全文，可直接复制',
+copy:'我是海大叔。\n\n我不卖 AI 课，也不讲大模型原理。\n\n我做的事很具体：把一个人干所有活的活儿里、每天重复的那一件，做成一个打开就能用的工具。你不用学，粘进去就出活。\n\n从免费清单到定制搭建，一共六件东西，按你能承受的深度排。先拿免费的那份，觉得值再往下走。\n\n不值就别买，我这儿不缺这一单。',
+facts:[['发在哪','公众号 / 专栏文末'],['长度','约 150 字'],['什么时候用','每篇都挂，固定不动']],
+badge:'文章结尾 · 固定段',
+url:'/products/', txt:'六件东西是哪六件'},
+{no:'12',g:'单',n:'对外报价单',r:'报价单',t:3,col:1,
+short:'六件东西，价格统一，不私下议价',
+lead:'客户认真问、准备下单的时候发。六档一次列清，底部写死三条统一说明——把后面所有扯皮的话提前说完。',
+copyTitle:'全文，可直接复制',
+copy:'海大叔 · 报价单\n\n一、小白 AI 落地清单｜免费｜10 条即用指令｜微信发文件\n二、AI 接单工具箱（设计师/自媒体/顾问三版）｜299 首发199｜该职业 5 个工具，当天发链接\n三、专属 AI 员工·标准版｜1,980｜按业务改造 5 工具+7天答疑｜3-5天交付\n四、专属 AI 员工·深度版｜4,980（加急+1,500）｜诊断到搭建到跑通+30天1次小改\n五、AI 落地陪跑｜9,800起｜6-8周，每周对练+每日成品+结案复盘｜同时只接2单\n六、年度维保｜2,000起/年｜仅限已交付客户\n\n统一说明：以上均不含代运营/代发内容/承诺涨粉或收入；AI 出初稿，涉钱涉合同涉承诺最后一遍须本人确认；价格统一，不私下议价。',
+facts:[['发在哪','私信 / 微信文件'],['长度','约 260 字'],['关键','底下的统一说明别删']],
+badge:'报价单 · 成交前',
+url:'/products/#price', txt:'看完整价格表'}
+],
+hint:'点任意一条，右边整段摊开，一键复制',
+cta:{href:'/products/#contact', txt:'加海大叔聊聊'},
+anchor:'p3stage-top'
 };
 </script>
 <script src="/assets/p3d-shell.js"></script>
@@ -380,5 +352,36 @@ document.getElementById('burger').addEventListener('click',function(){document.g
 document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
 </script>
 <script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
+<script src="/assets/speak.js"></script>
 </body>
 </html>

@@ -6,324 +6,326 @@
 <title>一人公司启动 · 状态机 | 海大叔智脑</title>
 <meta name="description" content="不会技术、没团队、钱不多的人，用 AI 从零走到第一笔收入。每天只做一件事。">
 <style>
-  :root{
-    --bg:#0d1117; --panel:#151b24; --panel2:#1b232e; --line:#26303c;
-    --text:#e6edf3; --dim:#8b98a5; --accent:#3fb950; --warn:#d29922; --danger:#f85149; --blue:#58a6ff;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;background:var(--bg);color:var(--text);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;
-    padding:0 0 32px}
-  .wrap{max-width:720px;margin:0 auto;padding:16px 16px 0}
-  header{padding:20px 0 12px;border-bottom:1px solid var(--line);margin-bottom:16px}
-  h1{font-size:19px;margin:0 0 6px;letter-spacing:.3px}
-  .sub{color:var(--dim);font-size:13px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
-  .card.hl{border-color:#2d4a35;background:linear-gradient(180deg,#16241c,#151b24)}
-  .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-  .k{color:var(--dim);font-size:13px}
-  .stage{font-size:22px;font-weight:600;margin:6px 0 2px}
-  .goal{color:#b9c4cf;font-size:14px;margin:8px 0 0}
-  .bar{height:6px;background:#202833;border-radius:99px;overflow:hidden;margin:14px 0 6px}
-  .bar i{display:block;height:100%;background:linear-gradient(90deg,#2ea043,#3fb950);border-radius:99px;transition:width .4s}
-  .meta{display:flex;gap:14px;color:var(--dim);font-size:12px;flex-wrap:wrap}
-  .task-title{font-size:17px;font-weight:600;margin:0 0 8px;line-height:1.5}
-  .task-detail{color:#a9b6c3;font-size:14px;margin:0}
-  .tag{display:inline-block;background:#1f2b38;color:var(--blue);border-radius:6px;padding:2px 8px;font-size:12px;margin-top:12px}
-  .btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-  button{font:inherit;font-size:15px;border-radius:10px;border:1px solid var(--line);
-    background:var(--panel2);color:var(--text);padding:13px 16px;text-align:left;cursor:pointer;
-    transition:.15s;width:100%}
-  button:active{transform:scale(.99)}
-  button.primary{background:#238636;border-color:#2ea043;color:#fff;font-weight:600;text-align:center}
-  button.ghost{background:transparent;color:var(--dim)}
-  button:disabled{opacity:.5;cursor:not-allowed}
-  label{display:block;font-size:13px;color:var(--dim);margin:12px 0 6px}
-  input,select{width:100%;font:inherit;font-size:15px;background:#0f141b;color:var(--text);
-    border:1px solid var(--line);border-radius:10px;padding:12px}
-  input:focus,select:focus{outline:none;border-color:#2ea043}
-  .hint{font-size:12px;color:#6e7b88;margin-top:4px}
-  .err{color:var(--danger);font-size:13px;margin-top:8px}
-  .ok{color:var(--accent);font-size:13px;margin-top:8px}
-  .risk{color:var(--warn)}
-  .history{margin-top:6px;font-size:12px;color:#6e7b88;line-height:1.9}
-  .hidden{display:none!important}
-  .foot{text-align:center;color:#5a6673;font-size:12px;margin-top:24px;line-height:2}
-  .foot a{color:#7d8b99;text-decoration:none}
-  .loading{color:var(--dim);text-align:center;padding:40px 0}
-  @media(max-width:400px){ .wrap{padding:14px} .stage{font-size:20px} }
+:root{
+--bg:#0d1117; --panel:#151b24; --panel2:#1b232e; --line:#26303c;
+--text:#e6edf3; --dim:#8b98a5; --accent:#3fb950; --warn:#d29922; --danger:#f85149; --blue:#58a6ff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;
+padding:0 0 32px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 0}
+header{padding:20px 0 12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+h1{font-size:19px;margin:0 0 6px;letter-spacing:.3px}
+.sub{color:var(--dim);font-size:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.card.hl{border-color:#2d4a35;background:linear-gradient(180deg,#16241c,#151b24)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.k{color:var(--dim);font-size:13px}
+.stage{font-size:22px;font-weight:600;margin:6px 0 2px}
+.goal{color:#b9c4cf;font-size:14px;margin:8px 0 0}
+.bar{height:6px;background:#202833;border-radius:99px;overflow:hidden;margin:14px 0 6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#2ea043,#3fb950);border-radius:99px;transition:width .4s}
+.meta{display:flex;gap:14px;color:var(--dim);font-size:12px;flex-wrap:wrap}
+.task-title{font-size:17px;font-weight:600;margin:0 0 8px;line-height:1.5}
+.task-detail{color:#a9b6c3;font-size:14px;margin:0}
+.tag{display:inline-block;background:#1f2b38;color:var(--blue);border-radius:6px;padding:2px 8px;font-size:12px;margin-top:12px}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+button{font:inherit;font-size:15px;border-radius:10px;border:1px solid var(--line);
+background:var(--panel2);color:var(--text);padding:13px 16px;text-align:left;cursor:pointer;
+transition:.15s;width:100%}
+button:active{transform:scale(.99)}
+button.primary{background:#238636;border-color:#2ea043;color:#fff;font-weight:600;text-align:center}
+button.ghost{background:transparent;color:var(--dim)}
+button:disabled{opacity:.5;cursor:not-allowed}
+label{display:block;font-size:13px;color:var(--dim);margin:12px 0 6px}
+input,select{width:100%;font:inherit;font-size:15px;background:#0f141b;color:var(--text);
+border:1px solid var(--line);border-radius:10px;padding:12px}
+input:focus,select:focus{outline:none;border-color:#2ea043}
+.hint{font-size:12px;color:#6e7b88;margin-top:4px}
+.err{color:var(--danger);font-size:13px;margin-top:8px}
+.ok{color:var(--accent);font-size:13px;margin-top:8px}
+.risk{color:var(--warn)}
+.history{margin-top:6px;font-size:12px;color:#6e7b88;line-height:1.9}
+.hidden{display:none!important}
+.foot{text-align:center;color:#5a6673;font-size:12px;margin-top:24px;line-height:2}
+.foot a{color:#7d8b99;text-decoration:none}
+.loading{color:var(--dim);text-align:center;padding:40px 0}
+@media(max-width:400px){ .wrap{padding:14px} .stage{font-size:20px} }
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <header>
-    <h1>一人公司启动台</h1>
-    <div class="sub">不会技术、没团队、钱不多 —— 从今天走到第一笔收入，每天只做一件事</div>
-  </header>
-
-  <div id="loading" class="loading">读取进度中…</div>
-
-  <div id="login" class="card hidden">
-    <div class="task-title">先登录，进度才能存下来</div>
-    <p class="task-detail">这不是一次问答。你走到第几步、卡在哪、上次谈崩了谁，都得记着，下次打开才不会从头再来。</p>
-    <div class="btns">
-      <button class="primary" onclick="location.href='/me/'">去登录 / 注册</button>
-    </div>
-  </div>
-
-  <div id="app" class="hidden">
-
-    <div id="riskBanner" class="card hidden" style="border-color:#5a3d10;background:#20190c">
-      <div class="row"><span class="k risk">停滞预警</span></div>
-      <p class="task-detail" style="margin-top:8px" id="riskMsg">你停下来了。先别硬推，说一句卡在哪。</p>
-    </div>
-
-    <div class="card">
-      <div class="row">
-        <span class="k" id="stageK">当前阶段</span>
-        <span class="k" id="dayK"></span>
-      </div>
-      <div class="stage" id="stageName">—</div>
-      <p class="goal" id="goal"></p>
-      <div class="bar"><i id="barFill" style="width:0%"></i></div>
-      <div class="meta">
-        <span id="progressK">0%</span>
-        <span id="slaK"></span>
-      </div>
-    </div>
-
-    <div class="card hl">
-      <div class="k" id="taskK">今天就干这一件</div>
-      <p class="task-title" id="taskTitle" style="margin-top:8px">—</p>
-      <p class="task-detail" id="taskDetail"></p>
-      <div id="taskArtifact"></div>
-    </div>
-
-    <div id="profileCard" class="card hidden">
-      <div class="k">先填六项，智脑才知道给你排哪条路</div>
-      <label>所在城市</label>
-      <input id="f_city" placeholder="例：昆明">
-      <label>原有行业或技能</label>
-      <input id="f_industry_bg" placeholder="例：做了 12 年销售">
-      <label>手里资源（可多填，逗号隔开）</label>
-      <input id="f_resource" placeholder="例：本地人脉，会拍视频">
-      <label>每周能投入多少小时</label>
-      <input id="f_weekly_hours" type="number" inputmode="numeric" placeholder="例：20">
-      <label>启动资金（元，没有就填 0）</label>
-      <input id="f_capital" type="number" inputmode="numeric" placeholder="例：5000">
-      <label>目标月收入（元）</label>
-      <input id="f_goal_income" type="number" inputmode="numeric" placeholder="例：8000">
-      <div class="hint">数字填真话。填高了系统会给你排一条你走不完的路。</div>
-      <div class="btns">
-        <button class="primary" onclick="submitProfile()">锁定我的基本情况</button>
-      </div>
-    </div>
-
-    <div class="btns" id="actions"></div>
-
-    <div class="card hidden" id="historyCard">
-      <div class="k">最近动向</div>
-      <div class="history" id="history"></div>
-    </div>
-
-    <div class="foot">
-      AI 新媒体 IP 智慧生态流｜海大叔<br>
-      <a href="/zhinao/">回智脑首页</a>
-    </div>
-  </div>
+<header>
+<h1>一人公司启动台</h1>
+<div class="sub">不会技术、没团队、钱不多 —— 从今天走到第一笔收入，每天只做一件事</div>
+</header>
+<div id="loading" class="loading">读取进度中…</div>
+<div id="login" class="card hidden">
+<div class="task-title">先登录，进度才能存下来</div>
+<p class="task-detail">这不是一次问答。你走到第几步、卡在哪、上次谈崩了谁，都得记着，下次打开才不会从头再来。</p>
+<div class="btns">
+<button class="primary" onclick="location.href='/me/'">去登录 / 注册</button>
 </div>
-
+</div>
+<div id="app" class="hidden">
+<div id="riskBanner" class="card hidden" style="border-color:#5a3d10;background:#20190c">
+<div class="row"><span class="k risk">停滞预警</span></div>
+<p class="task-detail" style="margin-top:8px" id="riskMsg">你停下来了。先别硬推，说一句卡在哪。</p>
+</div>
+<div class="card">
+<div class="row">
+<span class="k" id="stageK">当前阶段</span>
+<span class="k" id="dayK"></span>
+</div>
+<div class="stage" id="stageName">—</div>
+<p class="goal" id="goal"></p>
+<div class="bar"><i id="barFill" style="width:0%"></i></div>
+<div class="meta">
+<span id="progressK">0%</span>
+<span id="slaK"></span>
+</div>
+</div>
+<div class="card hl">
+<div class="k" id="taskK">今天就干这一件</div>
+<p class="task-title" id="taskTitle" style="margin-top:8px">—</p>
+<p class="task-detail" id="taskDetail"></p>
+<div id="taskArtifact"></div>
+</div>
+<div id="profileCard" class="card hidden">
+<div class="k">先填六项，智脑才知道给你排哪条路</div>
+<label>所在城市</label>
+<input id="f_city" placeholder="例：昆明">
+<label>原有行业或技能</label>
+<input id="f_industry_bg" placeholder="例：做了 12 年销售">
+<label>手里资源（可多填，逗号隔开）</label>
+<input id="f_resource" placeholder="例：本地人脉，会拍视频">
+<label>每周能投入多少小时</label>
+<input id="f_weekly_hours" type="number" inputmode="numeric" placeholder="例：20">
+<label>启动资金（元，没有就填 0）</label>
+<input id="f_capital" type="number" inputmode="numeric" placeholder="例：5000">
+<label>目标月收入（元）</label>
+<input id="f_goal_income" type="number" inputmode="numeric" placeholder="例：8000">
+<div class="hint">数字填真话。填高了系统会给你排一条你走不完的路。</div>
+<div class="btns">
+<button class="primary" onclick="submitProfile()">锁定我的基本情况</button>
+</div>
+</div>
+<div class="btns" id="actions"></div>
+<div class="card hidden" id="historyCard">
+<div class="k">最近动向</div>
+<div class="history" id="history"></div>
+</div>
+<div class="foot">
+AI 新媒体 IP 智慧生态流｜海大叔<br>
+<a href="/zhinao/">回智脑首页</a>
+</div>
+</div>
+</div>
 <script>
 const LABELS = {
-  submit_profile: '提交基本情况，开始',
-  accept_track: '就这条赛道，继续',
-  reject_track: '换个赛道，重新给候选',
-  confirm_entity: '主体方案确认，继续',
-  back_to_track: '赛道不对，回去重选',
-  publish_offer: '产品与底价定了，继续',
-  back_to_entity: '主体还没办好，回退',
-  leads_ready: '名单和话术备好了，去开口',
-  back_to_offer: '产品不对，回去改',
-  outreach_replied: '有客户愿意听方案了',
-  switch_channel: '没人理，换渠道或换话术',
-  no_market: '这类客户根本不回，换一批',
-  proposal_sent: '方案发出去了',
-  need_more_info: '信息不够，补充后重出',
-  accept_price: '价格谈成了',
-  reject_price: '被压价 / 被拒，回改方案',
-  lost_deal: '这单丢了，重新找客户',
-  contract_signed: '合同签了',
-  stalled: '客户拖着不签',
-  delivered: '交付完成，客户验收通过',
-  delivery_blocked: '客户不配合，原地处理',
-  renew_won: '拿到续费或转介绍',
-  no_renew: '没续费，重新开口',
-  cycle_done: '再来一轮，找新客户',
-  graduate: '已经稳定出单，毕业',
-  resume: '我没停，继续推',
-  restart: '推倒重来，重新选赛道',
-  quit: '暂时不做了',
-  revive: '重新开始',
+submit_profile: '提交基本情况，开始',
+accept_track: '就这条赛道，继续',
+reject_track: '换个赛道，重新给候选',
+confirm_entity: '主体方案确认，继续',
+back_to_track: '赛道不对，回去重选',
+publish_offer: '产品与底价定了，继续',
+back_to_entity: '主体还没办好，回退',
+leads_ready: '名单和话术备好了，去开口',
+back_to_offer: '产品不对，回去改',
+outreach_replied: '有客户愿意听方案了',
+switch_channel: '没人理，换渠道或换话术',
+no_market: '这类客户根本不回，换一批',
+proposal_sent: '方案发出去了',
+need_more_info: '信息不够，补充后重出',
+accept_price: '价格谈成了',
+reject_price: '被压价 / 被拒，回改方案',
+lost_deal: '这单丢了，重新找客户',
+contract_signed: '合同签了',
+stalled: '客户拖着不签',
+delivered: '交付完成，客户验收通过',
+delivery_blocked: '客户不配合，原地处理',
+renew_won: '拿到续费或转介绍',
+no_renew: '没续费，重新开口',
+cycle_done: '再来一轮，找新客户',
+graduate: '已经稳定出单，毕业',
+resume: '我没停，继续推',
+restart: '推倒重来，重新选赛道',
+quit: '暂时不做了',
+revive: '重新开始',
 };
 const PRIMARY = new Set(['submit_profile','accept_track','publish_offer','leads_ready','outreach_replied','proposal_sent','accept_price','contract_signed','delivered','renew_won','graduate','resume']);
-
 function $(id){ return document.getElementById(id); }
 function fmtSla(sec){
-  if (!sec || sec <= 0) return '';
-  const h = Math.round(sec/3600);
-  if (h < 24) return '还剩 ' + h + ' 小时';
-  return '还剩 ' + Math.round(h/24) + ' 天';
+if (!sec || sec <= 0) return '';
+const h = Math.round(sec/3600);
+if (h < 24) return '还剩 ' + h + ' 小时';
+return '还剩 ' + Math.round(h/24) + ' 天';
 }
-
 let cur = null;
-
 async function api(path, opt){
-  const r = await fetch(path, Object.assign({ credentials:'same-origin', headers:{'Content-Type':'application/json'} }, opt||{}));
-  return r.json().catch(()=>({ok:false,code:'BAD_JSON',message:'返回解析失败'}));
+const r = await fetch(path, Object.assign({ credentials:'same-origin', headers:{'Content-Type':'application/json'} }, opt||{}));
+return r.json().catch(()=>({ok:false,code:'BAD_JSON',message:'返回解析失败'}));
 }
-
 async function boot(){
-  const me = await api('/api/auth/me');
-  $('loading').classList.add('hidden');
-  if (!me || !me.user){ $('login').classList.remove('hidden'); return; }
-  $('app').classList.remove('hidden');
-  await refresh();
+const me = await api('/api/auth/me');
+$('loading').classList.add('hidden');
+if (!me || !me.user){ $('login').classList.remove('hidden'); return; }
+$('app').classList.remove('hidden');
+await refresh();
 }
-
 async function refresh(){
-  const j = await api('/api/journey/today');
-  if (!j.ok){
-    if (j.code === 'LOGIN_REQUIRED'){ $('app').classList.add('hidden'); $('login').classList.remove('hidden'); return; }
-    renderErr(j.message || '读取失败');
-    return;
-  }
-  render(j.journey, j.tick);
+const j = await api('/api/journey/today');
+if (!j.ok){
+if (j.code === 'LOGIN_REQUIRED'){ $('app').classList.add('hidden'); $('login').classList.remove('hidden'); return; }
+renderErr(j.message || '读取失败');
+return;
 }
-
+render(j.journey, j.tick);
+}
 function render(j, tick){
-  cur = j;
-  $('stageName').textContent = j.name || '—';
-  $('goal').textContent = j.goal || '';
-  $('dayK').textContent = j.day != null ? ('第 ' + j.day + ' 天') : '';
-  $('stageK').textContent = j.terminal ? '已结束' : '当前阶段';
-  $('progressK').textContent = '进度 ' + (j.progress||0) + '%';
-  $('barFill').style.width = (j.progress||0) + '%';
-
-  const left = j.slaDueAt ? j.slaDueAt - Math.floor(Date.now()/1000) : 0;
-  $('slaK').textContent = j.terminal ? '' : fmtSla(left);
-  $('slaK').className = left < 0 ? 'risk' : '';
-
-  // 风险横幅
-  if (j.state === 'AT_RISK'){
-    $('riskBanner').classList.remove('hidden');
-    $('riskMsg').textContent = tick && tick.message ? tick.message : '连续超时或长期没动作。先别硬推，说一句卡在哪。';
-  } else {
-    $('riskBanner').classList.add('hidden');
-  }
-
-  // 今日任务
-  if (j.task){
-    $('taskTitle').textContent = j.task.title;
-    $('taskDetail').textContent = j.task.detail || '';
-    $('taskArtifact').innerHTML = j.task.artifact ? '<span class="tag">本步产出：' + escapeHtml(j.task.artifact) + '</span>' : '';
-  } else {
-    $('taskTitle').textContent = j.terminal ? '这一轮走完了' : '暂无待办';
-    $('taskDetail').textContent = j.terminal ? '账号保留，随时可以重新开始。' : '';
-    $('taskArtifact').innerHTML = '';
-  }
-
-  // 画像表单：仅 S0
-  $('profileCard').classList.toggle('hidden', j.state !== 'S0_INTAKE');
-  if (j.state === 'S0_INTAKE' && j.profile){
-    for (const k of ['city','industry_bg','resource','weekly_hours','capital','goal_income']){
-      const el = $('f_' + k);
-      if (el && j.profile[k] != null && !el.value){
-        el.value = Array.isArray(j.profile[k]) ? j.profile[k].join('，') : j.profile[k];
-      }
-    }
-  }
-
-  // 动作按钮
-  const box = $('actions');
-  box.innerHTML = '';
-  if (j.state === 'S0_INTAKE') return; // 用表单推进
-  (j.allowedEvents || []).forEach(ev => {
-    const b = document.createElement('button');
-    b.textContent = LABELS[ev] || ev;
-    if (PRIMARY.has(ev)) b.className = 'primary';
-    if (ev === 'quit' || ev === 'restart' || ev === 'lost_deal') b.className = 'ghost';
-    b.onclick = () => advance(ev, b);
-    box.appendChild(b);
-  });
-
-  // 历史
-  const h = j.history || [];
-  if (h.length){
-    $('historyCard').classList.remove('hidden');
-    $('history').innerHTML = h.slice(-6).map(x => {
-      const t = new Date((x.created_at||0)*1000);
-      const d = (t.getMonth()+1) + '/' + t.getDate() + ' ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
-      return d + ' · ' + (LABELS[x.event] || x.event);
-    }).join('<br>');
-  } else {
-    $('historyCard').classList.add('hidden');
-  }
+cur = j;
+$('stageName').textContent = j.name || '—';
+$('goal').textContent = j.goal || '';
+$('dayK').textContent = j.day != null ? ('第 ' + j.day + ' 天') : '';
+$('stageK').textContent = j.terminal ? '已结束' : '当前阶段';
+$('progressK').textContent = '进度 ' + (j.progress||0) + '%';
+$('barFill').style.width = (j.progress||0) + '%';
+const left = j.slaDueAt ? j.slaDueAt - Math.floor(Date.now()/1000) : 0;
+$('slaK').textContent = j.terminal ? '' : fmtSla(left);
+$('slaK').className = left < 0 ? 'risk' : '';
+// 风险横幅
+if (j.state === 'AT_RISK'){
+$('riskBanner').classList.remove('hidden');
+$('riskMsg').textContent = tick && tick.message ? tick.message : '连续超时或长期没动作。先别硬推，说一句卡在哪。';
+} else {
+$('riskBanner').classList.add('hidden');
 }
-
+// 今日任务
+if (j.task){
+$('taskTitle').textContent = j.task.title;
+$('taskDetail').textContent = j.task.detail || '';
+$('taskArtifact').innerHTML = j.task.artifact ? '<span class="tag">本步产出：' + escapeHtml(j.task.artifact) + '</span>' : '';
+} else {
+$('taskTitle').textContent = j.terminal ? '这一轮走完了' : '暂无待办';
+$('taskDetail').textContent = j.terminal ? '账号保留，随时可以重新开始。' : '';
+$('taskArtifact').innerHTML = '';
+}
+// 画像表单：仅 S0
+$('profileCard').classList.toggle('hidden', j.state !== 'S0_INTAKE');
+if (j.state === 'S0_INTAKE' && j.profile){
+for (const k of ['city','industry_bg','resource','weekly_hours','capital','goal_income']){
+const el = $('f_' + k);
+if (el && j.profile[k] != null && !el.value){
+el.value = Array.isArray(j.profile[k]) ? j.profile[k].join('，') : j.profile[k];
+}
+}
+}
+// 动作按钮
+const box = $('actions');
+box.innerHTML = '';
+if (j.state === 'S0_INTAKE') return; // 用表单推进
+(j.allowedEvents || []).forEach(ev => {
+const b = document.createElement('button');
+b.textContent = LABELS[ev] || ev;
+if (PRIMARY.has(ev)) b.className = 'primary';
+if (ev === 'quit' || ev === 'restart' || ev === 'lost_deal') b.className = 'ghost';
+b.onclick = () => advance(ev, b);
+box.appendChild(b);
+});
+// 历史
+const h = j.history || [];
+if (h.length){
+$('historyCard').classList.remove('hidden');
+$('history').innerHTML = h.slice(-6).map(x => {
+const t = new Date((x.created_at||0)*1000);
+const d = (t.getMonth()+1) + '/' + t.getDate() + ' ' + String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+return d + ' · ' + (LABELS[x.event] || x.event);
+}).join('<br>');
+} else {
+$('historyCard').classList.add('hidden');
+}
+}
 function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
 async function advance(ev, btn){
-  if (btn){ btn.disabled = true; btn.textContent = '处理中…'; }
-  const idem = ev + ':' + (cur ? cur.state : '') + ':' + Math.floor(Date.now()/1000);
-  const r = await api('/api/journey/advance', { method:'POST', body: JSON.stringify({ event: ev, idem }) });
-  if (!r.ok){
-    alert(r.message || '推进失败');
-    if (btn){ btn.disabled = false; btn.textContent = LABELS[ev] || ev; }
-    await refresh();
-    return;
-  }
-  await refresh();
-  window.scrollTo({ top:0, behavior:'smooth' });
+if (btn){ btn.disabled = true; btn.textContent = '处理中…'; }
+const idem = ev + ':' + (cur ? cur.state : '') + ':' + Math.floor(Date.now()/1000);
+const r = await api('/api/journey/advance', { method:'POST', body: JSON.stringify({ event: ev, idem }) });
+if (!r.ok){
+alert(r.message || '推进失败');
+if (btn){ btn.disabled = false; btn.textContent = LABELS[ev] || ev; }
+await refresh();
+return;
 }
-
+await refresh();
+window.scrollTo({ top:0, behavior:'smooth' });
+}
 async function submitProfile(){
-  const resource = $('f_resource').value.split(/[,，、;；]/).map(s=>s.trim()).filter(Boolean);
-  const profile = {
-    city: $('f_city').value.trim(),
-    industry_bg: $('f_industry_bg').value.trim(),
-    resource,
-    weekly_hours: Number($('f_weekly_hours').value),
-    capital: Number($('f_capital').value || 0),
-    goal_income: Number($('f_goal_income').value),
-  };
-  const r = await api('/api/journey/advance', {
-    method:'POST',
-    body: JSON.stringify({ event:'submit_profile', payload:{ profile }, idem:'profile:' + Date.now() })
-  });
-  if (!r.ok){
-    if (r.missing && r.missing.length) alert('还差：' + r.missing.join('、'));
-    else alert(r.message || '提交失败');
-    return;
-  }
-  await refresh();
-  window.scrollTo({ top:0, behavior:'smooth' });
+const resource = $('f_resource').value.split(/[,，、;；]/).map(s=>s.trim()).filter(Boolean);
+const profile = {
+city: $('f_city').value.trim(),
+industry_bg: $('f_industry_bg').value.trim(),
+resource,
+weekly_hours: Number($('f_weekly_hours').value),
+capital: Number($('f_capital').value || 0),
+goal_income: Number($('f_goal_income').value),
+};
+const r = await api('/api/journey/advance', {
+method:'POST',
+body: JSON.stringify({ event:'submit_profile', payload:{ profile }, idem:'profile:' + Date.now() })
+});
+if (!r.ok){
+if (r.missing && r.missing.length) alert('还差：' + r.missing.join('、'));
+else alert(r.message || '提交失败');
+return;
 }
-
+await refresh();
+window.scrollTo({ top:0, behavior:'smooth' });
+}
 function renderErr(msg){
-  $('loading').classList.remove('hidden');
-  $('loading').textContent = '出错了：' + msg;
+$('loading').classList.remove('hidden');
+$('loading').textContent = '出错了：' + msg;
 }
-
 boot();
 </script>
 <footer class="hds-ea-foot" style="padding:0 0 32px">
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
+<script src="/assets/speak.js"></script>
 </body>
 </html>

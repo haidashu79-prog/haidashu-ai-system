@@ -8,11 +8,11 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C2571C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%23C2571C' stroke-width='2'/><circle cx='16' cy='16' r='2.2' fill='%23C2571C'/></svg>">
 <style>
 :root{
-  --bg:#FBF6EE;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;
-  --cyan:#C2571C;--red:#C0392B;
-  --line:rgba(140,95,50,.16);--grid:rgba(194,87,28,.055);
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+--bg:#FBF6EE;--ink:#2B2119;--dim:#7C6A57;--dim2:#A8998A;
+--cyan:#C2571C;--red:#C0392B;
+--line:rgba(140,95,50,.16);--grid:rgba(194,87,28,.055);
+--mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -20,16 +20,15 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1120px,100% - 44px);margin-inline:auto}
 .bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:
-  radial-gradient(1100px 560px at 16% -10%,rgba(194,87,28,.12),transparent 62%),
-  radial-gradient(820px 460px at 90% 4%,rgba(224,84,63,.10),transparent 60%),
-  linear-gradient(180deg,#FBF6EE,#050810 50%,#FBF6EE)}
+radial-gradient(1100px 560px at 16% -10%,rgba(194,87,28,.12),transparent 62%),
+radial-gradient(820px 460px at 90% 4%,rgba(224,84,63,.10),transparent 60%),
+linear-gradient(180deg,#FBF6EE,#050810 50%,#FBF6EE)}
 .grid{position:absolute;left:-30%;right:-30%;bottom:-6%;height:56%;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:56px 56px;transform:perspective(560px) rotateX(66deg);
-  -webkit-mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent);
-  mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent)}
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+background-size:56px 56px;transform:perspective(560px) rotateX(66deg);
+-webkit-mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent);
+mask-image:linear-gradient(180deg,transparent,#000 44%,#000 80%,transparent)}
 .scan{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 4px);opacity:.5}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:rgba(253,249,243,.62);border-bottom:1px solid transparent;transition:.3s}
 nav.solid{background:rgba(253,249,243,.92);border-bottom-color:var(--line)}
 .nav-in{width:min(1120px,100% - 44px);margin:0 auto;height:62px;display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -40,7 +39,6 @@ nav.solid{background:rgba(253,249,243,.92);border-bottom-color:var(--line)}
 .nav-links a:hover,.nav-links a.on{color:var(--ink)}
 .nav-cta{font-size:12.5px;border:1px solid rgba(140,95,50,.28);border-radius:100px;padding:7px 15px;color:var(--ink);white-space:nowrap}
 .nav-cta.hi{background:var(--red);border-color:var(--red);color:#fff}
-
 .hero{padding:120px 0 46px}
 .eb{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--dim);display:flex;align-items:center;gap:9px}
 .eb b{color:var(--cyan);font-size:9px}
@@ -50,7 +48,6 @@ h1 em{font-style:normal;background:linear-gradient(96deg,#2B2119 10%,#a7f0ff 56%
 .lead b{color:var(--ink);font-weight:600}
 .note{margin-top:20px;display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:var(--dim);border:1px solid var(--line);border-radius:100px;padding:7px 15px;background:rgba(255,255,255,.02)}
 .note i{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
-
 main{padding-bottom:8px}
 .exs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:10px 0 54px}
 .ex{border:1px solid var(--line);border-radius:14px;padding:22px 20px 18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));display:flex;flex-direction:column;transition:.28s;position:relative;overflow:hidden}
@@ -70,7 +67,6 @@ main{padding-bottom:8px}
 .ask{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600;color:#ffffff;background:var(--cyan);border-radius:100px;padding:10px 16px;transition:.24s}
 .ask:hover{background:#8ceeff;box-shadow:0 0 26px -6px rgba(194,87,28,.75)}
 .ask span{font-family:var(--mono)}
-
 .how{border-top:1px solid var(--line);padding:44px 0 20px}
 .how h3{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--dim2);margin-bottom:20px}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -78,7 +74,6 @@ main{padding-bottom:8px}
 .step b{display:block;font-size:14px;margin-bottom:7px}
 .step p{font-size:12.5px;color:#93a3b1;line-height:1.75}
 .step .n{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:.14em;display:block;margin-bottom:9px}
-
 .end{padding:26px 0 62px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;padding:12px 22px;border-radius:100px;background:var(--red);color:#fff;transition:.24s}
 .btn:hover{background:#c9462f;transform:translateY(-1px)}
@@ -86,19 +81,17 @@ main{padding-bottom:8px}
 .btn.ghost:hover{background:rgba(255,255,255,.05)}
 footer{border-top:1px solid var(--line);padding:22px 0 34px;font-size:12px;color:var(--dim2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 footer a:hover{color:var(--ink)}
-
 @media(max-width:980px){.exs{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){
-  .exs{grid-template-columns:1fr;gap:13px}
-  .steps{grid-template-columns:1fr}
-  .nav-links{display:flex;gap:2px;font-size:12px}
-  .nav-links a{padding:5px 7px}
-  .nav-cta{display:none}
-  .brand small{display:none}
-  .hero{padding:100px 0 34px}
-  .sc{font-size:12px}
+.exs{grid-template-columns:1fr;gap:13px}
+.steps{grid-template-columns:1fr}
+.nav-links{display:flex;gap:2px;font-size:12px}
+.nav-links a{padding:5px 7px}
+.nav-cta{display:none}
+.brand small{display:none}
+.hero{padding:100px 0 34px}
+.sc{font-size:12px}
 }
-
 /* ── 内部页通栏头图（暗色科幻统一） ── */
 .hero-fig{max-width:1120px;margin:34px auto 6px;padding:0 20px;box-sizing:border-box;position:relative}
 .hero-fig .frame{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#05080f;box-shadow:0 26px 64px -34px rgba(0,0,0,.95)}
@@ -106,48 +99,45 @@ footer a:hover{color:var(--ink)}
 .hero-fig .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(253,249,243,.5),transparent 28%,transparent 66%,rgba(253,249,243,.62))}
 .hero-fig .cap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(180,215,230,.66);text-transform:uppercase}
 @media(max-width:720px){.hero-fig{margin-top:22px;padding:0 14px}.hero-fig img{aspect-ratio:16/10;border-radius:12px}.hero-fig .cap{font-size:10px;left:10px;bottom:9px}}
-
-
 /* ── 手机端导航加固（换行不裁切、加大点击区） ── */
 @media(max-width:740px){
-  .nav-in{height:auto !important;min-height:58px;flex-wrap:wrap;row-gap:6px;padding:8px 0}
-  .nav-links{width:100%;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-left:0 !important}
-  .nav-links a{flex:1 1 auto;text-align:center;font-size:12.5px !important;padding:9px 6px !important}
+.nav-in{height:auto !important;min-height:58px;flex-wrap:wrap;row-gap:6px;padding:8px 0}
+.nav-links{width:100%;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-left:0 !important}
+.nav-links a{flex:1 1 auto;text-align:center;font-size:12.5px !important;padding:9px 6px !important}
 }
 </style>
 <style id="nav7-fix">
 @media(max-width:880px){
-  .nav-links{justify-content:flex-start !important;gap:5px !important;row-gap:5px !important}
-  .nav-links a{flex:1 1 21% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-links{justify-content:flex-start !important;gap:5px !important;row-gap:5px !important}
+.nav-links a{flex:1 1 21% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 </style>
 <style id="nav8-fix">
 @media(max-width:880px){
-  .nav-links{justify-content:flex-start !important;gap:4px !important;row-gap:5px !important}
-  .nav-links a{flex:1 1 23% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-links{justify-content:flex-start !important;gap:4px !important;row-gap:5px !important}
+.nav-links a{flex:1 1 23% !important;min-width:0;text-align:center;font-size:12px !important;padding:8px 2px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
-
 /* ===== 暖色主题同步（与首页 site.css 一致） ===== */
 :root{
-  --bg:#FBF6EE; --bg2:#F5E9D8; --bg3:#F5E9D8;
-  --ink:#2B2119; --ink2:#4A3A2B; --txt:#2B2119; --text:#2B2119;
-  --dim:#7C6A57; --sub:#7C6A57; --dim2:#A8998A;
-  --card:#ffffff; --card2:#FBF7F1; --panel:#ffffff; --panel2:#ffffff;
-  --cyan:#C2571C; --cyan-d:rgba(194,87,28,.10);
-  --blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --amber:#E0892B;
-  --red:#C0392B; --green:#2F9E6B; --mag:#C2571C;
-  --brand:#C2571C; --brand-d:rgba(194,87,28,.10);
-  --line:rgba(140,95,50,.16); --line2:rgba(140,95,50,.08);
-  --grid:rgba(194,87,28,.05);
-  --glow:0 8px 28px -14px rgba(120,70,30,.20);
+--bg:#FBF6EE; --bg2:#F5E9D8; --bg3:#F5E9D8;
+--ink:#2B2119; --ink2:#4A3A2B; --txt:#2B2119; --text:#2B2119;
+--dim:#7C6A57; --sub:#7C6A57; --dim2:#A8998A;
+--card:#ffffff; --card2:#FBF7F1; --panel:#ffffff; --panel2:#ffffff;
+--cyan:#C2571C; --cyan-d:rgba(194,87,28,.10);
+--blue:#B5703E; --violet:#B5703E; --gold:#E0892B; --amber:#E0892B;
+--red:#C0392B; --green:#2F9E6B; --mag:#C2571C;
+--brand:#C2571C; --brand-d:rgba(194,87,28,.10);
+--line:rgba(140,95,50,.16); --line2:rgba(140,95,50,.08);
+--grid:rgba(194,87,28,.05);
+--glow:0 8px 28px -14px rgba(120,70,30,.20);
 }
 body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed !important;color:var(--ink) !important}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
-             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
 .sky,.bg,.stars,.aurora,.nebula{background:none !important;opacity:0 !important}
 h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
-  -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
+-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
 </style>
 <link rel="stylesheet" href="/assets/p3d.css">
 <style>
@@ -170,70 +160,94 @@ main.wrap > .how{margin-top:46px}
 </head>
 <body>
 <div class="bg"><div class="grid"></div><div class="scan"></div></div>
-
 <nav id="nav">
-  <div class="nav-in">
-    <a class="brand" href="/"><i></i>智脑网<small>海大叔 · AI 新媒体工作室</small></a>
-    <div class="nav-links">
-      <a href="/">生态首页</a>
-      <a href="/zhinao/">智脑AI</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/templates/">模板库</a>
-      <a href="/aixinshou/">AI 学习</a>
-      <a href="/legal/">法律护航</a>
-      <a href="/experts/" class="cur">六位专家</a>
-      <a href="/future/">未来舱</a>
-    </div>
-    <a class="nav-cta hi" href="/zhinao/">直接问它 →</a>
-  </div>
+<div class="nav-in">
+<a class="brand" href="/"><i></i>智脑网<small>海大叔 · AI 新媒体工作室</small></a>
+<div class="nav-links">
+<a href="/">生态首页</a>
+<a href="/zhinao/">智脑AI</a>
+<a href="/factory/">工具工厂</a>
+<a href="/templates/">模板库</a>
+<a href="/aixinshou/">AI 学习</a>
+<a href="/legal/">法律护航</a>
+<a href="/experts/" class="cur">六位专家</a>
+<a href="/future/">未来舱</a>
+</div>
+<a class="nav-cta hi" href="/zhinao/">直接问它 →</a>
+</div>
 </nav>
-
 <main class="wrap">
-  <div id="p3"></div>
-
-  <section class="how">
-    <h3>三步用完</h3>
-    <div class="steps">
-      <div class="step"><span class="n">01</span><b>选岗位</b><p>看哪张卡说的事最像你现在的处境，就点它。</p></div>
-      <div class="step"><span class="n">02</span><b>说人话</b><p>不用写得好，把情况一句一句讲清楚就行。</p></div>
-      <div class="step"><span class="n">03</span><b>照着做</b><p>它先给结论，再给三步。做完一步再回来问下一步。</p></div>
-    </div>
-  </section>
-
-  <div class="end">
-    <a class="btn" href="/zhinao/">直接问智脑 →</a>
-    <a class="btn ghost" href="/aixinshou/">我是新手，先学基础</a>
-  </div>
+<div id="p3"></div>
+<section class="how">
+<h3>三步用完</h3>
+<div class="steps">
+<div class="step"><span class="n">01</span><b>选岗位</b><p>看哪张卡说的事最像你现在的处境，就点它。</p></div>
+<div class="step"><span class="n">02</span><b>说人话</b><p>不用写得好，把情况一句一句讲清楚就行。</p></div>
+<div class="step"><span class="n">03</span><b>照着做</b><p>它先给结论，再给三步。做完一步再回来问下一步。</p></div>
+</div>
+</section>
+<div class="end">
+<a class="btn" href="/zhinao/">直接问智脑 →</a>
+<a class="btn ghost" href="/aixinshou/">我是新手，先学基础</a>
+</div>
 </main>
-
 <footer class="wrap">
-  <span>智脑网 · 普通人怎么用 AI 赚钱</span>
-  <span><a href="/">首页</a> · <a href="/zhinao/">智脑</a> · <a href="/aixinshou/">学习站</a></span>
+<span>智脑网 · 普通人怎么用 AI 赚钱</span>
+<span><a href="/">首页</a> · <a href="/zhinao/">智脑</a> · <a href="/aixinshou/">学习站</a></span>
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
-
 <script>
 window.P3D = {
-  head:{
-    eyebrow:'六位专家 · 两个层次',
-    h1:'六个岗位，共用一颗商业脑子',
-    p:'不是六个聊天机器人，是六个分工明确的岗位：<b>先把生意管住</b>（钱、主体、拍板），<b>再把增长跑起来</b>（账号、系统、长本事）。点任意一位，右边摊开他管什么、最常被问哪几句。'
-  },
-  tiers:[{"k": "把生意管住", "s": "钱、主体、该不该拍板"}, {"k": "把增长跑起来", "s": "账号、系统、长本事"}],
-  items:[{"no": "01", "g": "钱", "n": "账房参谋", "r": "商业模式大脑", "t": 0, "col": 0, "short": "付费人是谁、价怎么报、现金流怎么排", "lead": "管钱的那位。付费人是谁、价怎么报、成本怎么压、现金流怎么排、这生意能不能放大，都由他先算一遍。", "links": [{"href": "/zhinao/?expert=money&q=%E6%88%91%E5%81%9A%E4%BA%86%E5%8D%81%E5%B9%B4%E8%A3%85%E4%BF%AE%EF%BC%8C%E6%83%B3%E5%9C%A8%E7%BD%91%E4%B8%8A%E6%8E%A5%E5%8D%95%EF%BC%8C%E8%BF%99%E7%94%9F%E6%84%8F%E5%88%B0%E5%BA%95%E8%83%BD%E4%B8%8D%E8%83%BD%E6%88%90%E7%AB%8B%EF%BC%9F", "tip": "一套能不能做的判断 + 第一批客户从哪来", "q": "做了十年装修，想在网上接单"}, {"href": "/zhinao/?expert=money&q=%E5%AE%A2%E6%88%B7%E4%B8%80%E7%9B%B4%E7%A0%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E5%AE%88%E4%BB%B7%E8%BF%98%E6%98%AF%E8%AE%A9%E4%BB%B7%EF%BC%9F%E4%B8%89%E6%A1%A3%E6%8A%A5%E4%BB%B7%E6%80%8E%E4%B9%88%E8%AE%BE%EF%BC%9F", "tip": "三档报价怎么设 + 让价的底线在哪", "q": "报价总被客户砍"}, {"href": "/zhinao/?expert=money&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%EF%BC%8C%E6%94%B6%E5%85%A5%E5%BF%BD%E9%AB%98%E5%BF%BD%E4%BD%8E%EF%BC%8C%E7%8E%B0%E9%87%91%E6%B5%81%E6%80%8E%E4%B9%88%E6%8E%92%E6%89%8D%E4%B8%8D%E5%B4%A9%EF%BC%9F", "tip": "现金流的排法与安全线 + 先砍哪笔支出", "q": "收入忽高忽低"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=money", "txt": "直接问账房参谋"}, {"no": "02", "g": "管", "n": "一人公司总管", "r": "一人公司运营", "t": 0, "col": 1, "short": "注册、公私账、合同、交付边界", "lead": "管公司怎么一个人跑起来的那位。注册、经营范围、公私账、合同、交付边界、外包与工具替代，都是他的活。", "links": [{"href": "/zhinao/?expert=opc&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%20AI%20%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%B3%A8%E5%86%8C%E4%B8%AA%E4%BD%93%E6%88%B7%E8%BF%98%E6%98%AF%E4%B8%80%E4%BA%BA%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%9F%E7%BB%8F%E8%90%A5%E8%8C%83%E5%9B%B4%E6%80%8E%E4%B9%88%E5%86%99%EF%BC%9F", "tip": "一张对照表 + 该选哪个，为什么", "q": "想注册，不知道选什么主体"}, {"href": "/zhinao/?expert=opc&q=%E9%92%B1%E9%83%BD%E8%BF%9B%E6%88%91%E7%A7%81%E4%BA%BA%E5%8D%A1%EF%BC%8C%E5%85%AC%E7%A7%81%E8%B4%A6%E6%80%8E%E4%B9%88%E5%88%86%E5%BC%80%E6%89%8D%E5%AE%89%E5%85%A8%EF%BC%9F", "tip": "公私账怎么分 + 每月怎么走账", "q": "钱都进私人卡"}, {"href": "/zhinao/?expert=opc&q=%E5%AE%A2%E6%88%B7%E8%A6%81%E6%88%91%E5%87%BA%E5%90%88%E5%90%8C%EF%BC%8C%E4%BA%A4%E4%BB%98%E8%BE%B9%E7%95%8C%E6%80%8E%E4%B9%88%E5%86%99%E6%89%8D%E4%B8%8D%E8%83%8C%E9%94%85%EF%BC%9F", "tip": "合同必备条款 + 边界怎么写才不吃亏", "q": "客户要签合同"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=opc", "txt": "直接问一人公司总管"}, {"no": "06", "g": "判", "n": "决策参谋", "r": "判断与决策", "t": 0, "col": 2, "short": "接不接、降不降、什么时候该停", "lead": "管拍板的那位。这单接不接、要不要降价、这个客户值不值得留、什么时候该停，他给判断也给退路。", "links": [{"href": "/zhinao/?expert=judge&q=%E8%BF%99%E4%B8%AA%E5%AE%A2%E6%88%B7%E8%A6%81%E6%B1%82%E5%A4%9A%E4%BB%B7%E6%A0%BC%E5%8F%88%E4%BD%8E%EF%BC%8C%E8%BF%99%E5%8D%95%E6%8E%A5%E4%B8%8D%E6%8E%A5%EF%BC%9F", "tip": "接不接的判断线 + 怎么体面拒", "q": "客户要求多、价格低"}, {"href": "/zhinao/?expert=judge&q=%E5%90%8C%E8%A1%8C%E9%83%BD%E5%9C%A8%E9%99%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E4%B8%8D%E8%AF%A5%E8%B7%9F%EF%BC%9F", "tip": "该不该跟 + 不降价怎么守住", "q": "同行都在降价"}, {"href": "/zhinao/?expert=judge&q=%E5%81%9A%E4%BA%86%E5%8D%8A%E5%B9%B4%E6%B2%A1%E8%B5%B7%E8%89%B2%EF%BC%8C%E6%98%AF%E5%9D%9A%E6%8C%81%E8%BF%98%E6%98%AF%E6%8D%A2%E6%96%B9%E5%90%91%EF%BC%9F", "tip": "三个判断信号 + 什么时候该停", "q": "做了半年没起色"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=judge", "txt": "直接问决策参谋"}, {"no": "03", "g": "号", "n": "IP 操盘手", "r": "新媒体 IP 运营", "t": 1, "col": 0, "short": "定位、选题、涨粉到转化、私域承接", "lead": "管账号的那位。定位一句话、选题、内容配比、涨粉到转化、私域承接。写文案只是他手里的一项手艺。", "links": [{"href": "/zhinao/?expert=ip&q=%E6%88%91%E4%BB%80%E4%B9%88%E9%83%BD%E8%83%BD%E5%81%9A%E4%B8%80%E7%82%B9%EF%BC%8C%E8%B4%A6%E5%8F%B7%E5%AE%9A%E4%BD%8D%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%B4%EF%BC%9F", "tip": "一句能说清的定位 + 三个可讲的方向", "q": "什么都会一点，定位说不清"}, {"href": "/zhinao/?expert=ip&q=%E5%8F%91%E4%BA%86%E4%BA%94%E5%8D%81%E6%9D%A1%E6%B2%A1%E6%B5%81%E9%87%8F%EF%BC%8C%E5%85%88%E4%BB%8E%E5%93%AA%E6%9F%A5%E8%B5%B7%EF%BC%9F", "tip": "先查哪三项 + 怎么改内容配比", "q": "发了五十条没流量"}, {"href": "/zhinao/?expert=ip&q=%E6%9C%89%E5%87%A0%E5%8D%83%E7%B2%89%E4%BD%86%E6%B2%A1%E4%BA%BA%E4%B9%B0%EF%BC%8C%E7%A7%81%E5%9F%9F%E6%80%8E%E4%B9%88%E6%89%BF%E6%8E%A5%EF%BC%9F", "tip": "私域承接路径 + 第一次转化的动作", "q": "有几千粉没人买"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=ip", "txt": "直接问IP 操盘手"}, {"no": "04", "g": "架", "n": "生态架构师", "r": "AI 新媒体 IP 智慧生态", "t": 1, "col": 1, "short": "IP、内容、客户、工具怎么连起来", "lead": "管系统怎么自己转的那位。IP、内容、客户、工具、数据怎么连起来，插件和专家怎么挂、怎么互相调。", "links": [{"href": "/zhinao/?expert=eco&q=%E6%88%91%E4%B9%B0%E4%BA%86%E5%8D%81%E5%87%A0%E4%B8%AA%20AI%20%E5%B7%A5%E5%85%B7%EF%BC%8C%E6%80%8E%E4%B9%88%E4%B8%B2%E6%88%90%E4%B8%80%E6%9D%A1%E6%B5%81%E6%B0%B4%E7%BA%BF%EF%BC%9F", "tip": "一条能跑通的最小流水线 + 先留哪三个", "q": "买了一堆 AI 工具用不起来"}, {"href": "/zhinao/?expert=eco&q=%E6%88%91%E7%9A%84%E5%AE%A2%E6%9C%8D%E5%92%8C%E8%AE%B0%E8%B4%A6%E8%83%BD%E4%B8%8D%E8%83%BD%E5%90%84%E6%8C%82%E4%B8%80%E4%B8%AA%E4%B8%93%E5%AE%B6%EF%BC%9F%E6%80%8E%E4%B9%88%E6%8C%82%EF%BC%9F", "tip": "挂载方式 + 三行配置怎么填", "q": "想让专家进自己业务"}, {"href": "/zhinao/?expert=eco&q=%E6%80%8E%E4%B9%88%E8%AE%A9%E8%BF%99%E5%A5%97%E7%B3%BB%E7%BB%9F%E8%B6%8A%E7%94%A8%E8%B6%8A%E5%87%86%EF%BC%8C%E4%B8%8D%E7%94%A8%E6%88%91%E5%A4%A9%E5%A4%A9%E6%95%99%EF%BC%9F", "tip": "哪些该固化成档案 + 怎么定口径", "q": "系统越用越乱"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=eco", "txt": "直接问生态架构师"}, {"no": "05", "g": "练", "n": "升级教练", "r": "自动学习 · 干活", "t": 1, "col": 2, "short": "重复活怎么交出去、短板怎么补", "lead": "管长本事的那位。重复活怎么交出去、干完怎么回流成档案、短板怎么补、每月怎么复盘。", "links": [{"href": "/zhinao/?expert=auto&q=%E6%88%91%E6%AF%8F%E5%A4%A9%E5%86%99%E7%A8%BF%E5%9B%9E%E6%B6%88%E6%81%AF%E5%81%9A%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%93%AA%E4%BA%9B%E6%B4%BB%E8%83%BD%E5%85%88%E4%BA%A4%E7%BB%99%E7%B3%BB%E7%BB%9F%EF%BC%9F", "tip": "哪几件先交出去 + 交给什么", "q": "每天忙到没时间想事"}, {"href": "/zhinao/?expert=auto&q=%E6%AF%8F%E6%9C%88%E6%80%8E%E4%B9%88%E5%A4%8D%E7%9B%98%E6%89%8D%E7%9F%A5%E9%81%93%E5%93%AA%E4%B8%80%E6%AD%A5%E5%9C%A8%E8%B5%9A%E9%92%B1%EF%BC%9F", "tip": "复盘的三张表 + 每月看哪几个数", "q": "不知道哪一步在赚钱"}, {"href": "/zhinao/?expert=auto&q=%E6%88%91%E4%B8%8D%E4%BC%9A%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%9F%AD%E6%9D%BF%E8%AF%A5%E6%80%8E%E4%B9%88%E8%A1%A5%E6%89%8D%E4%B8%8D%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4%EF%BC%9F", "tip": "只补哪一项 + 用工具替代哪些", "q": "短板太多不知道补哪个"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=auto", "txt": "直接问升级教练"}],
-  hint:'点任意一位，看它管什么',
-  cta:{href:'/zhinao/',txt:'直接问智脑'}
+head:{
+eyebrow:'六位专家 · 两个层次',
+h1:'六个岗位，共用一颗商业脑子',
+p:'不是六个聊天机器人，是六个分工明确的岗位：<b>先把生意管住</b>（钱、主体、拍板），<b>再把增长跑起来</b>（账号、系统、长本事）。点任意一位，右边摊开他管什么、最常被问哪几句。'
+},
+tiers:[{"k": "把生意管住", "s": "钱、主体、该不该拍板"}, {"k": "把增长跑起来", "s": "账号、系统、长本事"}],
+items:[{"no": "01", "g": "钱", "n": "账房参谋", "r": "商业模式大脑", "t": 0, "col": 0, "short": "付费人是谁、价怎么报、现金流怎么排", "lead": "管钱的那位。付费人是谁、价怎么报、成本怎么压、现金流怎么排、这生意能不能放大，都由他先算一遍。", "links": [{"href": "/zhinao/?expert=money&q=%E6%88%91%E5%81%9A%E4%BA%86%E5%8D%81%E5%B9%B4%E8%A3%85%E4%BF%AE%EF%BC%8C%E6%83%B3%E5%9C%A8%E7%BD%91%E4%B8%8A%E6%8E%A5%E5%8D%95%EF%BC%8C%E8%BF%99%E7%94%9F%E6%84%8F%E5%88%B0%E5%BA%95%E8%83%BD%E4%B8%8D%E8%83%BD%E6%88%90%E7%AB%8B%EF%BC%9F", "tip": "一套能不能做的判断 + 第一批客户从哪来", "q": "做了十年装修，想在网上接单"}, {"href": "/zhinao/?expert=money&q=%E5%AE%A2%E6%88%B7%E4%B8%80%E7%9B%B4%E7%A0%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E5%AE%88%E4%BB%B7%E8%BF%98%E6%98%AF%E8%AE%A9%E4%BB%B7%EF%BC%9F%E4%B8%89%E6%A1%A3%E6%8A%A5%E4%BB%B7%E6%80%8E%E4%B9%88%E8%AE%BE%EF%BC%9F", "tip": "三档报价怎么设 + 让价的底线在哪", "q": "报价总被客户砍"}, {"href": "/zhinao/?expert=money&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%EF%BC%8C%E6%94%B6%E5%85%A5%E5%BF%BD%E9%AB%98%E5%BF%BD%E4%BD%8E%EF%BC%8C%E7%8E%B0%E9%87%91%E6%B5%81%E6%80%8E%E4%B9%88%E6%8E%92%E6%89%8D%E4%B8%8D%E5%B4%A9%EF%BC%9F", "tip": "现金流的排法与安全线 + 先砍哪笔支出", "q": "收入忽高忽低"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=money", "txt": "直接问账房参谋"}, {"no": "02", "g": "管", "n": "一人公司总管", "r": "一人公司运营", "t": 0, "col": 1, "short": "注册、公私账、合同、交付边界", "lead": "管公司怎么一个人跑起来的那位。注册、经营范围、公私账、合同、交付边界、外包与工具替代，都是他的活。", "links": [{"href": "/zhinao/?expert=opc&q=%E6%88%91%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%81%9A%20AI%20%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%B3%A8%E5%86%8C%E4%B8%AA%E4%BD%93%E6%88%B7%E8%BF%98%E6%98%AF%E4%B8%80%E4%BA%BA%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%EF%BC%9F%E7%BB%8F%E8%90%A5%E8%8C%83%E5%9B%B4%E6%80%8E%E4%B9%88%E5%86%99%EF%BC%9F", "tip": "一张对照表 + 该选哪个，为什么", "q": "想注册，不知道选什么主体"}, {"href": "/zhinao/?expert=opc&q=%E9%92%B1%E9%83%BD%E8%BF%9B%E6%88%91%E7%A7%81%E4%BA%BA%E5%8D%A1%EF%BC%8C%E5%85%AC%E7%A7%81%E8%B4%A6%E6%80%8E%E4%B9%88%E5%88%86%E5%BC%80%E6%89%8D%E5%AE%89%E5%85%A8%EF%BC%9F", "tip": "公私账怎么分 + 每月怎么走账", "q": "钱都进私人卡"}, {"href": "/zhinao/?expert=opc&q=%E5%AE%A2%E6%88%B7%E8%A6%81%E6%88%91%E5%87%BA%E5%90%88%E5%90%8C%EF%BC%8C%E4%BA%A4%E4%BB%98%E8%BE%B9%E7%95%8C%E6%80%8E%E4%B9%88%E5%86%99%E6%89%8D%E4%B8%8D%E8%83%8C%E9%94%85%EF%BC%9F", "tip": "合同必备条款 + 边界怎么写才不吃亏", "q": "客户要签合同"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=opc", "txt": "直接问一人公司总管"}, {"no": "06", "g": "判", "n": "决策参谋", "r": "判断与决策", "t": 0, "col": 2, "short": "接不接、降不降、什么时候该停", "lead": "管拍板的那位。这单接不接、要不要降价、这个客户值不值得留、什么时候该停，他给判断也给退路。", "links": [{"href": "/zhinao/?expert=judge&q=%E8%BF%99%E4%B8%AA%E5%AE%A2%E6%88%B7%E8%A6%81%E6%B1%82%E5%A4%9A%E4%BB%B7%E6%A0%BC%E5%8F%88%E4%BD%8E%EF%BC%8C%E8%BF%99%E5%8D%95%E6%8E%A5%E4%B8%8D%E6%8E%A5%EF%BC%9F", "tip": "接不接的判断线 + 怎么体面拒", "q": "客户要求多、价格低"}, {"href": "/zhinao/?expert=judge&q=%E5%90%8C%E8%A1%8C%E9%83%BD%E5%9C%A8%E9%99%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E8%AF%A5%E4%B8%8D%E8%AF%A5%E8%B7%9F%EF%BC%9F", "tip": "该不该跟 + 不降价怎么守住", "q": "同行都在降价"}, {"href": "/zhinao/?expert=judge&q=%E5%81%9A%E4%BA%86%E5%8D%8A%E5%B9%B4%E6%B2%A1%E8%B5%B7%E8%89%B2%EF%BC%8C%E6%98%AF%E5%9D%9A%E6%8C%81%E8%BF%98%E6%98%AF%E6%8D%A2%E6%96%B9%E5%90%91%EF%BC%9F", "tip": "三个判断信号 + 什么时候该停", "q": "做了半年没起色"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=judge", "txt": "直接问决策参谋"}, {"no": "03", "g": "号", "n": "IP 操盘手", "r": "新媒体 IP 运营", "t": 1, "col": 0, "short": "定位、选题、涨粉到转化、私域承接", "lead": "管账号的那位。定位一句话、选题、内容配比、涨粉到转化、私域承接。写文案只是他手里的一项手艺。", "links": [{"href": "/zhinao/?expert=ip&q=%E6%88%91%E4%BB%80%E4%B9%88%E9%83%BD%E8%83%BD%E5%81%9A%E4%B8%80%E7%82%B9%EF%BC%8C%E8%B4%A6%E5%8F%B7%E5%AE%9A%E4%BD%8D%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%AF%A5%E6%80%8E%E4%B9%88%E8%AF%B4%EF%BC%9F", "tip": "一句能说清的定位 + 三个可讲的方向", "q": "什么都会一点，定位说不清"}, {"href": "/zhinao/?expert=ip&q=%E5%8F%91%E4%BA%86%E4%BA%94%E5%8D%81%E6%9D%A1%E6%B2%A1%E6%B5%81%E9%87%8F%EF%BC%8C%E5%85%88%E4%BB%8E%E5%93%AA%E6%9F%A5%E8%B5%B7%EF%BC%9F", "tip": "先查哪三项 + 怎么改内容配比", "q": "发了五十条没流量"}, {"href": "/zhinao/?expert=ip&q=%E6%9C%89%E5%87%A0%E5%8D%83%E7%B2%89%E4%BD%86%E6%B2%A1%E4%BA%BA%E4%B9%B0%EF%BC%8C%E7%A7%81%E5%9F%9F%E6%80%8E%E4%B9%88%E6%89%BF%E6%8E%A5%EF%BC%9F", "tip": "私域承接路径 + 第一次转化的动作", "q": "有几千粉没人买"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=ip", "txt": "直接问IP 操盘手"}, {"no": "04", "g": "架", "n": "生态架构师", "r": "AI 新媒体 IP 智慧生态", "t": 1, "col": 1, "short": "IP、内容、客户、工具怎么连起来", "lead": "管系统怎么自己转的那位。IP、内容、客户、工具、数据怎么连起来，插件和专家怎么挂、怎么互相调。", "links": [{"href": "/zhinao/?expert=eco&q=%E6%88%91%E4%B9%B0%E4%BA%86%E5%8D%81%E5%87%A0%E4%B8%AA%20AI%20%E5%B7%A5%E5%85%B7%EF%BC%8C%E6%80%8E%E4%B9%88%E4%B8%B2%E6%88%90%E4%B8%80%E6%9D%A1%E6%B5%81%E6%B0%B4%E7%BA%BF%EF%BC%9F", "tip": "一条能跑通的最小流水线 + 先留哪三个", "q": "买了一堆 AI 工具用不起来"}, {"href": "/zhinao/?expert=eco&q=%E6%88%91%E7%9A%84%E5%AE%A2%E6%9C%8D%E5%92%8C%E8%AE%B0%E8%B4%A6%E8%83%BD%E4%B8%8D%E8%83%BD%E5%90%84%E6%8C%82%E4%B8%80%E4%B8%AA%E4%B8%93%E5%AE%B6%EF%BC%9F%E6%80%8E%E4%B9%88%E6%8C%82%EF%BC%9F", "tip": "挂载方式 + 三行配置怎么填", "q": "想让专家进自己业务"}, {"href": "/zhinao/?expert=eco&q=%E6%80%8E%E4%B9%88%E8%AE%A9%E8%BF%99%E5%A5%97%E7%B3%BB%E7%BB%9F%E8%B6%8A%E7%94%A8%E8%B6%8A%E5%87%86%EF%BC%8C%E4%B8%8D%E7%94%A8%E6%88%91%E5%A4%A9%E5%A4%A9%E6%95%99%EF%BC%9F", "tip": "哪些该固化成档案 + 怎么定口径", "q": "系统越用越乱"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=eco", "txt": "直接问生态架构师"}, {"no": "05", "g": "练", "n": "升级教练", "r": "自动学习 · 干活", "t": 1, "col": 2, "short": "重复活怎么交出去、短板怎么补", "lead": "管长本事的那位。重复活怎么交出去、干完怎么回流成档案、短板怎么补、每月怎么复盘。", "links": [{"href": "/zhinao/?expert=auto&q=%E6%88%91%E6%AF%8F%E5%A4%A9%E5%86%99%E7%A8%BF%E5%9B%9E%E6%B6%88%E6%81%AF%E5%81%9A%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%93%AA%E4%BA%9B%E6%B4%BB%E8%83%BD%E5%85%88%E4%BA%A4%E7%BB%99%E7%B3%BB%E7%BB%9F%EF%BC%9F", "tip": "哪几件先交出去 + 交给什么", "q": "每天忙到没时间想事"}, {"href": "/zhinao/?expert=auto&q=%E6%AF%8F%E6%9C%88%E6%80%8E%E4%B9%88%E5%A4%8D%E7%9B%98%E6%89%8D%E7%9F%A5%E9%81%93%E5%93%AA%E4%B8%80%E6%AD%A5%E5%9C%A8%E8%B5%9A%E9%92%B1%EF%BC%9F", "tip": "复盘的三张表 + 每月看哪几个数", "q": "不知道哪一步在赚钱"}, {"href": "/zhinao/?expert=auto&q=%E6%88%91%E4%B8%8D%E4%BC%9A%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%9F%AD%E6%9D%BF%E8%AF%A5%E6%80%8E%E4%B9%88%E8%A1%A5%E6%89%8D%E4%B8%8D%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4%EF%BC%9F", "tip": "只补哪一项 + 用工具替代哪些", "q": "短板太多不知道补哪个"}], "linksTitle": "这几句最常被问", "url": "/zhinao/?expert=auto", "txt": "直接问升级教练"}],
+hint:'点任意一位，看它管什么',
+cta:{href:'/zhinao/',txt:'直接问智脑'}
 };
 </script>
 <script src="/assets/p3d-shell.js"></script>
 <script>addEventListener("load",function(){if(!document.getElementById("p3"))return;var s=document.createElement("script");s.src="/assets/p3d.js";document.head.appendChild(s);});</script>
-
 <script>
 addEventListener('scroll', () => document.getElementById('nav').classList.toggle('solid', scrollY > 12), { passive: true });
 </script>
 <script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
+<script src="/assets/speak.js"></script>
 </body>
 </html>

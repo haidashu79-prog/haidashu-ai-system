@@ -9,27 +9,26 @@
 <style>/*/assets/site.css*/
 /* ── 海大叔 · AI新媒体IP智慧生态 · 暖色干净主题 ── */
 :root{
-  --bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
-  --ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
-  --brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
-  --cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
-  --line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
-  --shadow:0 8px 28px -14px rgba(120,70,30,.20);
-  --shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+--bg:#FBF6EE; --bg2:#F5E9D8; --card:#ffffff; --card2:#FBF7F1;
+--ink:#2B2119; --ink2:#4A3A2B; --dim:#7C6A57; --dim2:#A8998A;
+--brand:#C2571C; --brand-d:rgba(194,87,28,.10); --brand-dd:rgba(194,87,28,.20);
+--cyan:#D99A2B; --violet:#B5703E; --gold:#E0892B; --green:#2F9E6B; --red:#C0392B;
+--line:rgba(140,95,50,.14); --line2:rgba(140,95,50,.08);
+--shadow:0 8px 28px -14px rgba(120,70,30,.20);
+--shadow-lg:0 18px 50px -22px rgba(180,100,30,.34);
+--sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:linear-gradient(160deg,#FDF9F3 0%,#F8EEE1 52%,#F3E5D2 100%) fixed;color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
-             radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
+background:radial-gradient(900px 520px at 12% -6%,rgba(224,150,60,.12),transparent 60%),
+radial-gradient(760px 480px at 96% 0%,rgba(194,87,28,.07),transparent 60%)}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{width:min(1100px,100% - 44px);margin-inline:auto}
 ::selection{background:var(--brand-dd);color:#fff}
-
 /* ── 导航 ── */
 .nav{position:sticky;top:0;z-index:80;background:rgba(253,249,243,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:14px;height:62px}
@@ -45,14 +44,13 @@ img{max-width:100%;display:block}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;width:40px;height:38px;font-size:20px;color:var(--ink);cursor:pointer}
 @media(max-width:860px){
-  .nav-burger{display:block}
-  .nav-cta{display:none}
-  .nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
-  .nav-links a.active{background:var(--brand-d)}
+.nav-burger{display:block}
+.nav-cta{display:none}
+.nav-links{position:absolute;top:62px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:8px 22px 14px;display:none;box-shadow:var(--shadow)}
+.nav-links.open{display:flex}
+.nav-links a{padding:12px 8px;border-radius:8px;font-size:15px}
+.nav-links a.active{background:var(--brand-d)}
 }
-
 /* ── 通用区块 ── */
 section{padding:64px 0}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--brand);text-transform:uppercase;margin-bottom:12px;display:inline-block}
@@ -60,7 +58,6 @@ section{padding:64px 0}
 .lead{margin-top:14px;color:var(--dim);font-size:clamp(14px,1.6vw,16px);max-width:42em}
 .center{text-align:center}
 .center .lead{margin-inline:auto}
-
 /* ── 按钮 ── */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:11px;font-size:14.5px;font-weight:600;transition:.18s;border:1px solid transparent;cursor:pointer}
 .btn-primary{background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;box-shadow:var(--shadow)}
@@ -68,7 +65,6 @@ section{padding:64px 0}
 .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
 .btn-ghost:hover{border-color:var(--brand-dd);color:var(--brand)}
 .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-
 /* ── 卡片栅格 ── */
 .grid{display:grid;gap:18px}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
@@ -80,7 +76,6 @@ section{padding:64px 0}
 .card p{color:var(--dim);font-size:13.5px}
 .card .ic{font-size:22px}
 .card .arrow{margin-top:14px;color:var(--brand);font-weight:600;font-size:13.5px}
-
 /* ── 徽标 ── */
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:999px}
 .badge.live{background:rgba(47,158,107,.12);color:#1F7A50}
@@ -89,7 +84,6 @@ section{padding:64px 0}
 .badge.soon{background:rgba(192,57,43,.12);color:#A93226}
 .badge.apk{background:rgba(47,158,107,.12);color:#1F7A50}
 .badge.apk::before{content:"";width:6px;height:6px;border-radius:50%;background:#2F9E6B}
-
 /* ── 九模块（一套班子） ── */
 .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);transition:.2s;display:flex;flex-direction:column}
@@ -103,7 +97,6 @@ section{padding:64px 0}
 .mod .links a.case{background:var(--card2);color:var(--brand)}
 @media(max-width:760px){.mods{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.mods{grid-template-columns:1fr}}
-
 /* ── 问答 UI ── */
 .chat{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;max-width:760px;margin-inline:auto}
 .chat-log{height:340px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -113,7 +106,7 @@ section{padding:64px 0}
 .msg.u{flex-direction:row-reverse}
 .msg.u .who{background:linear-gradient(135deg,#E08A2A,#C2571C)}
 .msg.a .who{width:auto;height:24px;padding:0 9px;border-radius:7px;margin-top:3px;
-  font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
+font-size:10.5px;letter-spacing:.03em;white-space:nowrap;background:#3a2e22}
 .msg .body{background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.75;max-width:80%;color:var(--ink2)}
 .msg.u .body{background:var(--brand-d);border-color:var(--brand-dd);color:var(--ink)}
 .msg .body b{color:var(--ink)}
@@ -126,11 +119,9 @@ section{padding:64px 0}
 .inrow button{flex:none;height:46px;padding:0 22px;border-radius:10px;border:0;background:linear-gradient(100deg,#E08A2A,#C2571C);color:#fff;font-size:14.5px;font-weight:600;cursor:pointer}
 .inrow button:disabled{opacity:.6;cursor:default}
 @media(max-width:520px){.chat-log{height:300px}}
-
 /* ── 素材封面 ── */
 .mt-cover{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:1px solid var(--line2);margin-bottom:12px;background:var(--card2)}
 .mt-cover img,.mt-cover svg{width:100%;height:100%;display:block;object-fit:cover}
-
 /* ── 页脚 ── */
 footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-top:30px}
 .foot-in{padding:40px 0;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
@@ -139,113 +130,103 @@ footer{border-top:1px solid var(--line);background:rgba(255,255,255,.6);margin-t
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
 .foot-links a{color:var(--dim)}
 .foot-links a:hover{color:var(--brand)}
-
 @media(max-width:760px){
-  section{padding:48px 0}
-  .grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
+section{padding:48px 0}
+.grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:520px){
-  .grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
+.grid.c2,.grid.c3,.grid.c4{grid-template-columns:1fr}
 }
-
 /* ── 智脑三张可点的卡 ── */
 .askcard{cursor:pointer;transition:transform .2s,box-shadow .25s,border-color .2s}
 .askcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(150,100,50,.14)}
 .askcard .asktip{display:block;margin-top:10px;font-size:11.5px;font-weight:800;
-  color:var(--brand);opacity:.62;transition:opacity .2s}
+color:var(--brand);opacity:.62;transition:opacity .2s}
 .askcard:hover .asktip{opacity:1}
-
 </style>
 <style>
 :root{--p3ink:#2B2119;--p3dim:#7C6A57;--p3line:rgba(140,95,50,.16)}
 body{background:#FBF6EE}
-
 /* ── 头部 ── */
 .p3hd{padding:20px 0 2px;text-align:center}
 .p3hd .eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.16em;
-  color:#B3352A;background:#FBE6D2;padding:5px 13px;border-radius:999px}
+color:#B3352A;background:#FBE6D2;padding:5px 13px;border-radius:999px}
 .p3hd h1{font-size:clamp(22px,3vw,32px);line-height:1.28;margin:11px 0 7px;color:var(--p3ink);font-weight:900}
 .p3hd p{font-size:13.4px;color:var(--p3dim);max-width:640px;margin:0 auto;line-height:1.8}
 .p3hd p b{color:#B3352A}
-
 /* ── 舞台 ── */
 .p3{position:relative;height:calc(100vh - 66px);min-height:640px;display:flex;flex-direction:column;
-  overflow:hidden}
+overflow:hidden}
 .p3stage{position:relative;flex:1;min-height:0;margin-top:4px}
 .scene{position:absolute;inset:0;perspective:1800px;perspective-origin:50% 48%;
-  cursor:grab;touch-action:none;user-select:none}
+cursor:grab;touch-action:none;user-select:none}
 .scene:active{cursor:grabbing}
 .shift{position:absolute;inset:0;transform-style:preserve-3d;
-  transform:translate(var(--sx,0px),var(--sy,0px)) scale(var(--ws,1));
-  transition:transform .55s cubic-bezier(.3,.9,.35,1)}
+transform:translate(var(--sx,0px),var(--sy,0px)) scale(var(--ws,1));
+transition:transform .55s cubic-bezier(.3,.9,.35,1)}
 .world{position:absolute;left:calc(50% + 208px);top:50%;width:0;height:0;transform-style:preserve-3d}
-
 /* 地面网格 */
 .scene::after{content:"";position:absolute;left:-30%;right:-30%;bottom:-4%;height:52%;
-  background:
-    repeating-linear-gradient(90deg,rgba(150,100,50,.18) 0 1px,transparent 1px 62px),
-    repeating-linear-gradient(0deg,rgba(150,100,50,.18) 0 1px,transparent 1px 46px);
-  transform:perspective(700px) rotateX(64deg);transform-origin:bottom center;
-  mask-image:linear-gradient(to top,rgba(0,0,0,.85),transparent 72%);
-  -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.85),transparent 72%);
-  pointer-events:none;z-index:0}
+background:
+repeating-linear-gradient(90deg,rgba(150,100,50,.18) 0 1px,transparent 1px 62px),
+repeating-linear-gradient(0deg,rgba(150,100,50,.18) 0 1px,transparent 1px 46px);
+transform:perspective(700px) rotateX(64deg);transform-origin:bottom center;
+mask-image:linear-gradient(to top,rgba(0,0,0,.85),transparent 72%);
+-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.85),transparent 72%);
+pointer-events:none;z-index:0}
 .floor{display:none}
 .glow{position:absolute;left:50%;top:52%;width:900px;height:600px;margin:-300px 0 0 -450px;
-  background:radial-gradient(closest-side,rgba(194,87,28,.10),transparent);
-  pointer-events:none}
-
+background:radial-gradient(closest-side,rgba(194,87,28,.10),transparent);
+pointer-events:none}
 /* ── 层标签 ── */
 .tlab{position:absolute;left:50%;top:50%;width:162px;margin:-46px 0 0 -81px;text-align:right;
-  transform-style:preserve-3d;pointer-events:none}
+transform-style:preserve-3d;pointer-events:none}
 .tlab .in{display:inline-block;text-align:right}
 .tlab .t{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.14em;
-  color:#fff;background:#8E4A1B;padding:2px 8px;border-radius:20px;margin-bottom:5px}
+color:#fff;background:#8E4A1B;padding:2px 8px;border-radius:20px;margin-bottom:5px}
 .tlab .n{display:block;font-size:15px;font-weight:900;color:#4A2708;letter-spacing:.02em}
 .tlab .s{display:block;font-size:11px;color:var(--p3dim);margin-top:3px;line-height:1.55}
-
 /* ── 卡片 ── */
 .m3{position:absolute;left:50%;top:50%;width:230px;height:122px;margin:-61px 0 0 -115px;
-  transform-style:preserve-3d;cursor:pointer;
-  transition:transform .62s cubic-bezier(.3,.9,.35,1),opacity .4s}
+transform-style:preserve-3d;cursor:pointer;
+transition:transform .62s cubic-bezier(.3,.9,.35,1),opacity .4s}
 .m3in{position:absolute;inset:0;border-radius:15px;padding:12px 14px 11px;overflow:hidden;
-  background:linear-gradient(178deg,#FFFDF8,#FCF4E7);
-  border:1px solid rgba(140,95,50,.22);
-  box-shadow:0 14px 26px rgba(120,70,30,.15),0 1px 0 #fff inset;
-  transform-style:preserve-3d;
-  transition:box-shadow .3s,border-color .3s,background .3s}
+background:linear-gradient(178deg,#FFFDF8,#FCF4E7);
+border:1px solid rgba(140,95,50,.22);
+box-shadow:0 14px 26px rgba(120,70,30,.15),0 1px 0 #fff inset;
+transform-style:preserve-3d;
+transition:box-shadow .3s,border-color .3s,background .3s}
 .m3 .no{font-family:var(--mono,monospace);font-size:10px;font-weight:800;letter-spacing:.14em;
-  color:#B3352A;opacity:.85}
+color:#B3352A;opacity:.85}
 .m3 .g{position:absolute;right:11px;top:8px;font-size:30px;font-weight:900;line-height:1;
-  color:rgba(194,87,28,.16);letter-spacing:-.02em}
+color:rgba(194,87,28,.16);letter-spacing:-.02em}
 .m3 .n{font-size:15.5px;font-weight:900;color:var(--p3ink);margin-top:7px;line-height:1.25;
-  letter-spacing:.01em;position:relative;z-index:1}
+letter-spacing:.01em;position:relative;z-index:1}
 .m3 .r{display:inline-block;font-size:10.5px;font-weight:800;color:#8E4A1B;background:#FBE6D2;
-  padding:1px 7px;border-radius:20px;margin-top:5px}
+padding:1px 7px;border-radius:20px;margin-top:5px}
 .m3 .d{font-size:11px;color:var(--p3dim);line-height:1.55;margin-top:5px;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .m3:hover .m3in{border-color:rgba(194,87,28,.55);box-shadow:0 18px 32px rgba(120,70,30,.22)}
 .m3.dim{opacity:.42}
 .m3.on{cursor:default}
 .m3.on .m3in{border-color:#C2571C;background:linear-gradient(178deg,#FFFCF6,#FDF1E1);
-  box-shadow:0 0 0 2px rgba(194,87,28,.9),0 26px 48px rgba(120,60,20,.28)}
+box-shadow:0 0 0 2px rgba(194,87,28,.9),0 26px 48px rgba(120,60,20,.28)}
 .m3.on .g{color:rgba(194,87,28,.34)}
-
 /* ── 提示条 ── */
 .hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:11.5px;
-  color:var(--dim2,#9C8B78);letter-spacing:.04em;pointer-events:none}
-
+color:var(--dim2,#9C8B78);letter-spacing:.04em;pointer-events:none}
 /* ── 详情面板 ── */
 .panel{position:absolute;right:16px;top:8px;bottom:8px;width:404px;max-width:calc(100% - 32px);
-  background:linear-gradient(180deg,#FFFDF9,#FCF5EA);
-  border:1px solid #C98A4E;border-radius:18px;
-  box-shadow:0 24px 60px rgba(120,60,20,.20);
-  transform:translateX(36px);opacity:0;pointer-events:none;
-  transition:transform .45s cubic-bezier(.3,.9,.35,1),opacity .35s;
-  display:flex;flex-direction:column;overflow:hidden;z-index:6}
+background:linear-gradient(180deg,#FFFDF9,#FCF5EA);
+border:1px solid #C98A4E;border-radius:18px;
+box-shadow:0 24px 60px rgba(120,60,20,.20);
+transform:translateX(36px);opacity:0;pointer-events:none;
+transition:transform .45s cubic-bezier(.3,.9,.35,1),opacity .35s;
+display:flex;flex-direction:column;overflow:hidden;z-index:6}
 .panel.open{transform:none;opacity:1;pointer-events:auto}
 .panel .x{position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:9px;
-  border:1px solid var(--p3line);background:#fff;color:var(--p3dim);font-size:14px;
-  cursor:pointer;display:grid;place-items:center;z-index:2}
+border:1px solid var(--p3line);background:#fff;color:var(--p3dim);font-size:14px;
+cursor:pointer;display:grid;place-items:center;z-index:2}
 .panel .x:hover{color:#B3352A;border-color:#E3BFA6}
 .pp{overflow-y:auto;padding:18px 20px 20px}
 .pp-hd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-right:30px}
@@ -256,7 +237,7 @@ body{background:#FBF6EE}
 .pp-tier b{color:#8E4A1B}
 .pp-lead{margin-top:11px;font-size:13px;line-height:1.82;color:#3B2E22}
 .pp-h{margin-top:16px;padding-top:13px;border-top:1px dashed var(--p3line);
-  font-size:10.5px;font-weight:800;letter-spacing:.14em;color:#B3352A}
+font-size:10.5px;font-weight:800;letter-spacing:.14em;color:#B3352A}
 .pp-ul{list-style:none;padding:0;margin:8px 0 0}
 .pp-ul li{position:relative;padding-left:15px;font-size:12.6px;line-height:1.72;color:#3B2E22;margin-bottom:4px}
 .pp-ul li::before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:#C2571C}
@@ -270,219 +251,197 @@ body{background:#FBF6EE}
 .pp-hand p{margin:0;font-size:12px;color:var(--p3dim);line-height:1.7;flex:1;min-width:150px}
 .pp-act{margin-top:16px;display:flex;gap:9px}
 .pp-act a{flex:1;text-align:center;font-size:12.5px;font-weight:800;padding:9px 10px;border-radius:10px;
-  text-decoration:none;transition:.2s}
+text-decoration:none;transition:.2s}
 .pp-act a.p{background:#C2571C;color:#fff;border:1px solid #C2571C}
 .pp-act a.p:hover{background:#A94812}
 .pp-act a.g{background:#fff;color:#8E4A1B;border:1px solid #E3BFA6}
 .pp-act a.g:hover{border-color:#C2571C}
-
 /* ── 底部总览带 ── */
 .strip{flex:none;border-top:1px solid var(--p3line);background:rgba(255,253,248,.72);
-  backdrop-filter:blur(6px);padding:11px 0}
+backdrop-filter:blur(6px);padding:11px 0}
 .strip-in{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center}
 .stat{display:flex;align-items:baseline;gap:6px;font-size:12px;color:var(--p3dim)}
 .stat b{font-family:var(--mono,monospace);font-size:19px;font-weight:800;color:#C2571C}
 .strip .lnk{font-size:12.5px;font-weight:800;color:#8E4A1B;text-decoration:none;
-  border:1px solid #E3BFA6;background:#fff;padding:6px 14px;border-radius:999px;cursor:pointer}
+border:1px solid #E3BFA6;background:#fff;padding:6px 14px;border-radius:999px;cursor:pointer}
 .strip .lnk:hover{border-color:#C2571C;color:#B3352A}
-
 /* ── 浮层（咬合链 / 合伙） ── */
 .sheet{position:fixed;inset:0;background:rgba(43,33,25,.42);backdrop-filter:blur(3px);
-  display:none;place-items:center;padding:24px;z-index:50}
+display:none;place-items:center;padding:24px;z-index:50}
 .sheet.open{display:grid}
 .sheet .box{background:#FFFDF9;border-radius:18px;max-width:720px;width:100%;max-height:84vh;
-  overflow:auto;padding:26px 28px;box-shadow:0 30px 80px rgba(60,30,10,.3);position:relative}
+overflow:auto;padding:26px 28px;box-shadow:0 30px 80px rgba(60,30,10,.3);position:relative}
 .sheet h3{font-size:20px;margin:0 0 4px;color:var(--p3ink)}
 .sheet .sub{font-size:12.5px;color:var(--p3dim);margin-bottom:16px}
 .sheet .x{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:9px;
-  border:1px solid var(--p3line);background:#fff;cursor:pointer;font-size:14px;color:var(--p3dim)}
+border:1px solid var(--p3line);background:#fff;cursor:pointer;font-size:14px;color:var(--p3dim)}
 .chainrow{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed var(--p3line)}
 .chainrow:last-child{border-bottom:0}
 .chainrow .st{flex:none;width:26px;height:26px;border-radius:8px;background:#FBE6D2;color:#B3352A;
-  display:grid;place-items:center;font-family:var(--mono,monospace);font-size:11px;font-weight:800}
+display:grid;place-items:center;font-family:var(--mono,monospace);font-size:11px;font-weight:800}
 .chainrow .tx{flex:1;font-size:13px;line-height:1.7;color:#3B2E22}
 .chainrow .tx s{display:block;text-decoration:none;color:var(--p3dim);font-size:12px;margin-top:2px}
 .chainrow .ms{flex:none;font-size:11px;font-weight:800;color:#fff;background:#C2571C;
-  padding:4px 10px;border-radius:999px;white-space:nowrap}
+padding:4px 10px;border-radius:999px;white-space:nowrap}
 .money4{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:6px}
 .money4 div{background:#FCF5EA;border:1px solid var(--p3line);border-radius:11px;padding:11px 13px}
 .money4 b{display:block;font-size:12.5px;color:var(--p3ink)}
 .money4 span{font-size:11.5px;color:var(--p3dim);line-height:1.6}
-
 @media(max-width:1080px){
-  .panel{width:360px}
+.panel{width:360px}
 }
 </style>
 <link rel="canonical" href="https://haidashu.com.cn/products3d/">
 </head>
 <body>
-
 <header class="nav">
-  <div class="nav-in wrap">
-    <a class="brand" href="/">
-      <span class="logo">海</span>
-      <span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
-    </a>
-    <nav class="nav-links" id="nav">
-      <a href="/">首页</a>
-      <a href="/zhinao/">商业智脑</a>
-      <a href="/learn/">AI学习</a>
-      <a href="/factory/">工具工厂</a>
-      <a href="/products/" class="active">产品体系</a>
-      <a href="/cases/">案例库</a>
-      <a href="/materials/">素材库</a>
-    </nav>
-    <a class="nav-cta" href="#apply">加海大叔</a>
-    <button class="nav-burger" id="burger" aria-label="菜单">≡</button>
-  </div>
+<div class="nav-in wrap">
+<a class="brand" href="/">
+<span class="logo">海</span>
+<span class="brand-t"><b>海大叔</b><i>AI新媒体IP智慧生态</i></span>
+</a>
+<nav class="nav-links" id="nav">
+<a href="/">首页</a>
+<a href="/zhinao/">商业智脑</a>
+<a href="/learn/">AI学习</a>
+<a href="/factory/">工具工厂</a>
+<a href="/products/" class="active">产品体系</a>
+<a href="/cases/">案例库</a>
+<a href="/materials/">素材库</a>
+</nav>
+<a class="nav-cta" href="#apply">加海大叔</a>
+<button class="nav-burger" id="burger" aria-label="菜单">≡</button>
+</div>
 </header>
-
 <div class="p3">
-  <div class="p3hd wrap">
-    <span class="eyebrow">产品体系 · 九个模块</span>
-    <h1>九个模块，配成一套完整的班子</h1>
-    <p>不是九个产品，是一套班子。分三层：<b>先把活接住</b>、<b>再把活干稳</b>、<b>最后做成生意</b>。
-      点任意一块，右边就摊开它到底干什么、给你什么、几天、要你配合什么，还有哪块能交出去、哪块留在总部。</p>
-  </div>
-
-  <div class="p3stage">
-    <div class="scene" id="scene">
-      <div class="glow"></div>
-      <div class="shift" id="shift">
-        <div class="world" id="world">
-          <div class="floor"></div>
-        </div>
-      </div>
-      <div class="hint" id="hint"><span class="h-d">拖一下画面能转 · </span>点任意一块看它到底干什么</div>
-    </div>
-
-    <aside class="panel" id="panel" aria-live="polite">
-      <button class="x" id="px" aria-label="关闭">✕</button>
-      <div class="pp" id="pp"></div>
-    </aside>
-  </div>
-
-  <div class="strip">
-    <div class="strip-in wrap">
-      <div class="stat"><b>9</b>块能拆开卖</div>
-      <div class="stat"><b>6</b>块能交出去</div>
-      <div class="stat"><b>3</b>块留在总部</div>
-      <div class="stat"><b>4</b>层活，你从最上面进</div>
-      <a class="lnk" id="openChain">看九块怎么咬合 →</a>
-      <a class="lnk" id="openMoney">看钱怎么分 →</a>
-    </div>
-  </div>
+<div class="p3hd wrap">
+<span class="eyebrow">产品体系 · 九个模块</span>
+<h1>九个模块，配成一套完整的班子</h1>
+<p>不是九个产品，是一套班子。分三层：<b>先把活接住</b>、<b>再把活干稳</b>、<b>最后做成生意</b>。
+点任意一块，右边就摊开它到底干什么、给你什么、几天、要你配合什么，还有哪块能交出去、哪块留在总部。</p>
 </div>
-
-<!-- 浮层：咬合链 -->
+<div class="p3stage">
+<div class="scene" id="scene">
+<div class="glow"></div>
+<div class="shift" id="shift">
+<div class="world" id="world">
+<div class="floor"></div>
+</div>
+</div>
+<div class="hint" id="hint"><span class="h-d">拖一下画面能转 · </span>点任意一块看它到底干什么</div>
+</div>
+<aside class="panel" id="panel" aria-live="polite">
+<button class="x" id="px" aria-label="关闭">✕</button>
+<div class="pp" id="pp"></div>
+</aside>
+</div>
+<div class="strip">
+<div class="strip-in wrap">
+<div class="stat"><b>9</b>块能拆开卖</div>
+<div class="stat"><b>6</b>块能交出去</div>
+<div class="stat"><b>3</b>块留在总部</div>
+<div class="stat"><b>4</b>层活，你从最上面进</div>
+<a class="lnk" id="openChain">看九块怎么咬合 →</a>
+<a class="lnk" id="openMoney">看钱怎么分 →</a>
+</div>
+</div>
+</div>
 <div class="sheet" id="sheetChain">
-  <div class="box">
-    <button class="x" data-close>✕</button>
-    <h3>缺一环，这套东西就转不动</h3>
-    <p class="sub">不是九个东西各买各的，是一步一步把上一环缺的口子补上。</p>
-    <div id="chainBox"></div>
-  </div>
+<div class="box">
+<button class="x" data-close>✕</button>
+<h3>缺一环，这套东西就转不动</h3>
+<p class="sub">不是九个东西各买各的，是一步一步把上一环缺的口子补上。</p>
+<div id="chainBox"></div>
 </div>
-
-<!-- 浮层：钱怎么分 -->
+</div>
 <div class="sheet" id="sheetMoney">
-  <div class="box">
-    <button class="x" data-close>✕</button>
-    <h3>钱分四层，每层都对应真实使用者</h3>
-    <p class="sub">全程没有任何一笔钱，来自「想赚同一笔钱的人」。</p>
-    <div class="money4">
-      <div><b>第一层 · 前端资料</b><span>免费。用来筛人，也用来统一交付标准。不靠它赚钱。</span></div>
-      <div><b>第二层 · 工具</b><span>按年或按次，低客单走量。客户先用得起，才谈后面。</span></div>
-      <div><b>第三层 · 陪跑与定制</b><span>主要利润在这一层。靠真干活，不靠拉人。</span></div>
-      <div><b>第四层 · 伙伴分成</b><span>放大的一层。分佣绑在真实订单上，只做一级。</span></div>
-    </div>
-    <p style="margin-top:16px;font-size:12.5px;color:var(--p3dim);line-height:1.8">
-      五条自检有一条打钩就停：收入里超过三成来自资格费｜成为伙伴要先交钱｜分佣能穿透到第三层｜讲不清终端客户为什么付钱｜宣传里出现「躺赚／管道收益／团队裂变／总部全程扶持」。</p>
-    <p style="margin-top:12px"><a href="/products/#partner" style="font-size:12.5px;font-weight:800;color:#C2571C">看完整的合伙条款 →</a></p>
-  </div>
+<div class="box">
+<button class="x" data-close>✕</button>
+<h3>钱分四层，每层都对应真实使用者</h3>
+<p class="sub">全程没有任何一笔钱，来自「想赚同一笔钱的人」。</p>
+<div class="money4">
+<div><b>第一层 · 前端资料</b><span>免费。用来筛人，也用来统一交付标准。不靠它赚钱。</span></div>
+<div><b>第二层 · 工具</b><span>按年或按次，低客单走量。客户先用得起，才谈后面。</span></div>
+<div><b>第三层 · 陪跑与定制</b><span>主要利润在这一层。靠真干活，不靠拉人。</span></div>
+<div><b>第四层 · 伙伴分成</b><span>放大的一层。分佣绑在真实订单上，只做一级。</span></div>
 </div>
-
+<p style="margin-top:16px;font-size:12.5px;color:var(--p3dim);line-height:1.8">
+五条自检有一条打钩就停：收入里超过三成来自资格费｜成为伙伴要先交钱｜分佣能穿透到第三层｜讲不清终端客户为什么付钱｜宣传里出现「躺赚／管道收益／团队裂变／总部全程扶持」。</p>
+<p style="margin-top:12px"><a href="/products/#partner" style="font-size:12.5px;font-weight:800;color:#C2571C">看完整的合伙条款 →</a></p>
+</div>
+</div>
 <script>
 /* ══════════ 数据：九个模块 ══════════ */
 var T=[
- {k:'把活接住',s:'先有人来、有家伙干、有人分工'},
- {k:'把活干稳',s:'不出事、会判断、自己也会'},
- {k:'把活做成生意',s:'有人盯、经验留得下、知道下一步'}
+{k:'把活接住',s:'先有人来、有家伙干、有人分工'},
+{k:'把活干稳',s:'不出事、会判断、自己也会'},
+{k:'把活做成生意',s:'有人盯、经验留得下、知道下一步'}
 ];
 var M=[
- {no:'04',g:'嘴',n:'新媒体 IP 运营',r:'人从哪来',t:0,col:0,
-  short:'定位、内容批量做、让 AI 搜得到你',
-  d:'三层一起做：第一层把你这个人立起来（定位、人设、讲什么）；第二层把内容批量产出来（选题、口播、图文、一键发六个平台）；第三层让 AI 搜得到你，有人问「本地哪家做得好」，答案里有你。',
-  sell:['账号诊断：先看清现在为什么没人来','90 天内容作战表：哪天发什么，提前定好','装一条内容生产线，选题到发布一条龙','GEO 布局，让 AI 推荐你'],
-  give:'诊断单 / 30 个选题加发布节奏 / 一条能跑的生产线',days:'1 天 / 7 天 / 15 天',
-  you:'出一次镜，或给一段录音',hand:1,why:'流程最标准化，最容易整套交出去',
-  url:'/materials/',txt:'看内容素材'},
-
- {no:'01',g:'手',n:'AI 工具工厂',r:'谁干活',t:0,col:1,
-  short:'把最烦的那件活做成工具',
-  d:'你每天重复干、又特别烦的那件事，做成一个打开就能用的工具。能做成网页链接，也能做成插件装进你天天用的软件里（公众号、微信、表格、设计软件）。这是整套的手——所有活最后都要落到这儿。',
-  sell:['现成工具箱，按职业打包 5 件','按你的生意改一套','单独做一个插件，装进你日常用的软件'],
-  give:'能打开的链接或能装的插件，加一页使用说明',days:'当天到 3–5 天',
-  you:'填一张表（5 个问题）',hand:1,why:'工具最容易做成标准件',
-  url:'/factory/',txt:'去工厂造一个'},
-
- {no:'02',g:'班',n:'专家团',r:'谁分工',t:0,col:2,
-  short:'有人选题、写稿、回客、核数',
-  d:'工具是一件一件的，班子是有人分工的：有人管选题、有人管写稿、有人管回客户、有人管核数、有人专门挑错。你只做拍板那一下。一个人干不过来，往往不是不努力，是没有分工。',
-  sell:['按行业搭一套（零售 / 教培 / 装修 / 设计 / 顾问）','按你现有流程定制','从零设计一套新的'],
-  give:'装好的班子，加每个角色干什么的一张卡',days:'3–5 天',
-  you:'说清你每天干哪几件事',hand:1,why:'可按行业模板套，别人学得会',
-  url:'#apply',txt:'问怎么搭'},
-
- {no:'05',g:'盾',n:'风险盾牌',r:'风险把关',t:1,col:0,
-  short:'出街前先过一遍筛子',
-  d:'文案、宣传物料、业务流程方案做出来之后，先过一遍筛子：标出广告法用词、行业红线、业务踩坑点，出一张修改清单。它只做风险标记，不出法律、医疗、投资的结论——那是专业人士的事。',
-  sell:['业务合规扫描，排查现有物料和流程','AI 输出过滤规则配置','行业避坑知识库录入'],
-  give:'风险标记清单加修改建议、AI 过滤规则包、避坑知识库',days:'1–3 天 / 3–5 天',
-  you:'给宣传文案和业务流程材料，说清所属行业',hand:1,why:'常规合规扫描可以外放',
-  url:'/cases/legal',txt:'看法律案例'},
-
- {no:'03',g:'脑',n:'智脑',r:'怎么判断',t:1,col:1,
-  short:'记得你的坑，替你先想三件',
-  d:'装上之后，它记得住你的行话、你的客户、你踩过的坑；它会提醒你上次这么干亏过；它每天开工前先替你想一遍今天该先干哪三件；它把你定的规矩记成账，下次自动照做。用得越久，越像你自己的人。',
-  sell:['随专家团一起装','单独给已有系统挂一个','按年做一次体检和调校'],
-  give:'挂好的脑，你的规矩记成账，加一次复查',days:'随团一起',
-  you:'告诉我你最怕出什么错',hand:0,why:'要技术底子，判断力抄不走',
-  url:'/zhinao/',txt:'先问一句'},
-
- {no:'07',g:'本',n:'培训',r:'自己会不会',t:1,col:2,
-  short:'真手艺，学会自己做',
-  d:'不想一直靠别人的，就学会自己做。教的都是真手艺：怎么搭一个有分工的班子、怎么给班子装脑子、怎么写出一眼不像 AI 写的稿子、怎么从选题一路发到六个平台、怎么把插件装进你日常用的软件。',
-  sell:['一天小班，现场做出一个能带走的','三周陪学，边学边做','给团队做内训'],
-  give:'一天课上带走一个能用的东西 / 三周每周一个成品',days:'1 天 / 3 周',
-  you:'带电脑，肯动手',hand:1,why:'带出师就能讲，能教就能传',
-  url:'/learn/',txt:'先学一课'},
-
- {no:'08',g:'教',n:'落地陪跑',r:'有人盯',t:2,col:0,
-  short:'每周对练，卡住当场解决',
-  d:'绝大多数人不是不会买，是买了不用。陪跑解决的就是这个：每周固定对练一次，每天给你成品，每周给你一页看板，卡住当场解决。三个月后你能自己跑，不用再找我。',
-  sell:['3 个月陪跑','单月加练','陪跑结束转年度维护'],
-  give:'每周对练、每天成品、每周一页看板、结案复盘',days:'3 个月',
-  you:'每周固定半小时',hand:0,why:'靠判断力和现场应变，教不了',
-  url:'#apply',txt:'问陪跑怎么排'},
-
- {no:'06',g:'库',n:'资产保险柜',r:'资产沉淀',t:2,col:1,
-  short:'经验统一归档，不随人走',
-  d:'跑出来的 SOP、选题、话术、踩坑案例、工具配置，统一归档。做这件事只有一个目的：不让经验随人走。业务跑通之后换个赛道、开条新业务，不用从零重来，直接从库里萃取能用的。',
-  sell:['业务资产归档库搭建','跨项目模板萃取','旧业务资产迁到新项目'],
-  give:'统一归档资料库、可复用模板包、资产迁移配置',days:'3–7 天',
-  you:'给历史 SOP、话术、案例、过往项目资料',hand:1,why:'基础归档可以外放',
-  url:'#apply',txt:'问怎么归档'},
-
- {no:'09',g:'眼',n:'AI 创业项目打包',r:'往哪走',t:2,col:2,
-  short:'三个方向，不合适我直接说别干',
-  d:'想干点事但不知道干啥。我把自己真跑过的项目摊开：要花多少钱、多久见到回头钱、难点在哪、你适不适合。三个方向摆在桌上，不合适我直接说别干。方向错了，前面八块全白搭。',
-  sell:['项目选择报告，三个方向选一个','启动包，含工具、流程、首批客户怎么找','30 天带跑'],
-  give:'三个方向的报告（成本、难点、适不适合）加启动清单',days:'7 天',
-  you:'说清你有多少钱、多少时间',hand:0,why:'靠真跑过，没跑过就是空的',
-  url:'/cases/',txt:'看已跑通的'}
+{no:'04',g:'嘴',n:'新媒体 IP 运营',r:'人从哪来',t:0,col:0,
+short:'定位、内容批量做、让 AI 搜得到你',
+d:'三层一起做：第一层把你这个人立起来（定位、人设、讲什么）；第二层把内容批量产出来（选题、口播、图文、一键发六个平台）；第三层让 AI 搜得到你，有人问「本地哪家做得好」，答案里有你。',
+sell:['账号诊断：先看清现在为什么没人来','90 天内容作战表：哪天发什么，提前定好','装一条内容生产线，选题到发布一条龙','GEO 布局，让 AI 推荐你'],
+give:'诊断单 / 30 个选题加发布节奏 / 一条能跑的生产线',days:'1 天 / 7 天 / 15 天',
+you:'出一次镜，或给一段录音',hand:1,why:'流程最标准化，最容易整套交出去',
+url:'/materials/',txt:'看内容素材'},
+{no:'01',g:'手',n:'AI 工具工厂',r:'谁干活',t:0,col:1,
+short:'把最烦的那件活做成工具',
+d:'你每天重复干、又特别烦的那件事，做成一个打开就能用的工具。能做成网页链接，也能做成插件装进你天天用的软件里（公众号、微信、表格、设计软件）。这是整套的手——所有活最后都要落到这儿。',
+sell:['现成工具箱，按职业打包 5 件','按你的生意改一套','单独做一个插件，装进你日常用的软件'],
+give:'能打开的链接或能装的插件，加一页使用说明',days:'当天到 3–5 天',
+you:'填一张表（5 个问题）',hand:1,why:'工具最容易做成标准件',
+url:'/factory/',txt:'去工厂造一个'},
+{no:'02',g:'班',n:'专家团',r:'谁分工',t:0,col:2,
+short:'有人选题、写稿、回客、核数',
+d:'工具是一件一件的，班子是有人分工的：有人管选题、有人管写稿、有人管回客户、有人管核数、有人专门挑错。你只做拍板那一下。一个人干不过来，往往不是不努力，是没有分工。',
+sell:['按行业搭一套（零售 / 教培 / 装修 / 设计 / 顾问）','按你现有流程定制','从零设计一套新的'],
+give:'装好的班子，加每个角色干什么的一张卡',days:'3–5 天',
+you:'说清你每天干哪几件事',hand:1,why:'可按行业模板套，别人学得会',
+url:'#apply',txt:'问怎么搭'},
+{no:'05',g:'盾',n:'风险盾牌',r:'风险把关',t:1,col:0,
+short:'出街前先过一遍筛子',
+d:'文案、宣传物料、业务流程方案做出来之后，先过一遍筛子：标出广告法用词、行业红线、业务踩坑点，出一张修改清单。它只做风险标记，不出法律、医疗、投资的结论——那是专业人士的事。',
+sell:['业务合规扫描，排查现有物料和流程','AI 输出过滤规则配置','行业避坑知识库录入'],
+give:'风险标记清单加修改建议、AI 过滤规则包、避坑知识库',days:'1–3 天 / 3–5 天',
+you:'给宣传文案和业务流程材料，说清所属行业',hand:1,why:'常规合规扫描可以外放',
+url:'/cases/legal',txt:'看法律案例'},
+{no:'03',g:'脑',n:'智脑',r:'怎么判断',t:1,col:1,
+short:'记得你的坑，替你先想三件',
+d:'装上之后，它记得住你的行话、你的客户、你踩过的坑；它会提醒你上次这么干亏过；它每天开工前先替你想一遍今天该先干哪三件；它把你定的规矩记成账，下次自动照做。用得越久，越像你自己的人。',
+sell:['随专家团一起装','单独给已有系统挂一个','按年做一次体检和调校'],
+give:'挂好的脑，你的规矩记成账，加一次复查',days:'随团一起',
+you:'告诉我你最怕出什么错',hand:0,why:'要技术底子，判断力抄不走',
+url:'/zhinao/',txt:'先问一句'},
+{no:'07',g:'本',n:'培训',r:'自己会不会',t:1,col:2,
+short:'真手艺，学会自己做',
+d:'不想一直靠别人的，就学会自己做。教的都是真手艺：怎么搭一个有分工的班子、怎么给班子装脑子、怎么写出一眼不像 AI 写的稿子、怎么从选题一路发到六个平台、怎么把插件装进你日常用的软件。',
+sell:['一天小班，现场做出一个能带走的','三周陪学，边学边做','给团队做内训'],
+give:'一天课上带走一个能用的东西 / 三周每周一个成品',days:'1 天 / 3 周',
+you:'带电脑，肯动手',hand:1,why:'带出师就能讲，能教就能传',
+url:'/learn/',txt:'先学一课'},
+{no:'08',g:'教',n:'落地陪跑',r:'有人盯',t:2,col:0,
+short:'每周对练，卡住当场解决',
+d:'绝大多数人不是不会买，是买了不用。陪跑解决的就是这个：每周固定对练一次，每天给你成品，每周给你一页看板，卡住当场解决。三个月后你能自己跑，不用再找我。',
+sell:['3 个月陪跑','单月加练','陪跑结束转年度维护'],
+give:'每周对练、每天成品、每周一页看板、结案复盘',days:'3 个月',
+you:'每周固定半小时',hand:0,why:'靠判断力和现场应变，教不了',
+url:'#apply',txt:'问陪跑怎么排'},
+{no:'06',g:'库',n:'资产保险柜',r:'资产沉淀',t:2,col:1,
+short:'经验统一归档，不随人走',
+d:'跑出来的 SOP、选题、话术、踩坑案例、工具配置，统一归档。做这件事只有一个目的：不让经验随人走。业务跑通之后换个赛道、开条新业务，不用从零重来，直接从库里萃取能用的。',
+sell:['业务资产归档库搭建','跨项目模板萃取','旧业务资产迁到新项目'],
+give:'统一归档资料库、可复用模板包、资产迁移配置',days:'3–7 天',
+you:'给历史 SOP、话术、案例、过往项目资料',hand:1,why:'基础归档可以外放',
+url:'#apply',txt:'问怎么归档'},
+{no:'09',g:'眼',n:'AI 创业项目打包',r:'往哪走',t:2,col:2,
+short:'三个方向，不合适我直接说别干',
+d:'想干点事但不知道干啥。我把自己真跑过的项目摊开：要花多少钱、多久见到回头钱、难点在哪、你适不适合。三个方向摆在桌上，不合适我直接说别干。方向错了，前面八块全白搭。',
+sell:['项目选择报告，三个方向选一个','启动包，含工具、流程、首批客户怎么找','30 天带跑'],
+give:'三个方向的报告（成本、难点、适不适合）加启动清单',days:'7 天',
+you:'说清你有多少钱、多少时间',hand:0,why:'靠真跑过，没跑过就是空的',
+url:'/cases/',txt:'看已跑通的'}
 ];
-
 /* ══════════ 布景 ══════════ */
 var XS=[-300,0,300], YS=[160,0,-160], ZS=[0,66,132];
 var axDeg=9, azDeg=-3;
@@ -493,224 +452,214 @@ var panel=document.getElementById('panel');
 var pp=document.getElementById('pp');
 var hint=document.getElementById('hint');
 var cards=[], labels=[], cur=-1;
-
 function billboard(){ return 'rotateZ('+(-azDeg)+'deg) rotateX('+(-axDeg)+'deg)'; }
 function paintWorld(){ world.style.transform='rotateX('+axDeg+'deg) rotateZ('+azDeg+'deg)'; }
 function isFlat(){ return window.matchMedia('(max-width:900px)').matches; }
 function billboards(){
-  if(isFlat()){
-    for(var k=0;k<cards.length;k++) cards[k].inner.style.transform='';
-    for(var m=0;m<labels.length;m++) labels[m].inner.style.transform='';
-    return;
-  }
-  var t=billboard();
-  for(var i=0;i<cards.length;i++){
-    var c=cards[i].m.col, ry=(c===0?9:(c===2?-9:0));
-    cards[i].inner.style.transform='rotateY('+ry+'deg) '+t;
-  }
-  for(var j=0;j<labels.length;j++) labels[j].inner.style.transform=t;
+if(isFlat()){
+for(var k=0;k<cards.length;k++) cards[k].inner.style.transform='';
+for(var m=0;m<labels.length;m++) labels[m].inner.style.transform='';
+return;
 }
-
+var t=billboard();
+for(var i=0;i<cards.length;i++){
+var c=cards[i].m.col, ry=(c===0?9:(c===2?-9:0));
+cards[i].inner.style.transform='rotateY('+ry+'deg) '+t;
+}
+for(var j=0;j<labels.length;j++) labels[j].inner.style.transform=t;
+}
 /* 建卡 */
 M.forEach(function(m,i){
-  var el=document.createElement('div'); el.className='m3'; el.dataset.i=i;
-  el.style.transform='translate3d('+XS[m.col]+'px,'+YS[m.t]+'px,'+(ZS[m.t]-620)+'px)';
-  var inn=document.createElement('div'); inn.className='m3in';
-  inn.innerHTML='<div class="no">'+m.no+'</div><div class="g">'+m.g+'</div>'+
-    '<div class="n">'+m.n+'</div><div class="r">'+m.r+'</div><div class="d">'+m.short+'</div>';
-  el.appendChild(inn);
-  world.appendChild(el);
-  el.dataset.t=m.t; el.dataset.c=m.col;
-  el.dataset.tier='第 '+(m.t+1)+' 层 · '+T[m.t].k;
-  el.style.order=(m.t*10+m.col);
-  cards.push({el:el,inner:inn,m:m,base:{x:XS[m.col],y:YS[m.t],z:ZS[m.t]}});
+var el=document.createElement('div'); el.className='m3'; el.dataset.i=i;
+el.style.transform='translate3d('+XS[m.col]+'px,'+YS[m.t]+'px,'+(ZS[m.t]-620)+'px)';
+var inn=document.createElement('div'); inn.className='m3in';
+inn.innerHTML='<div class="no">'+m.no+'</div><div class="g">'+m.g+'</div>'+
+'<div class="n">'+m.n+'</div><div class="r">'+m.r+'</div><div class="d">'+m.short+'</div>';
+el.appendChild(inn);
+world.appendChild(el);
+el.dataset.t=m.t; el.dataset.c=m.col;
+el.dataset.tier='第 '+(m.t+1)+' 层 · '+T[m.t].k;
+el.style.order=(m.t*10+m.col);
+cards.push({el:el,inner:inn,m:m,base:{x:XS[m.col],y:YS[m.t],z:ZS[m.t]}});
 });
-
 /* 手机端的层名分隔条（桌面端隐藏，由 .tlab 承担） */
 T.forEach(function(t,k){
-  var sep=document.createElement('div');
-  sep.className='tsep';
-  sep.textContent='第 '+(k+1)+' 层 · '+t.k;
-  sep.style.order=(k*10-1);
-  world.appendChild(sep);
+var sep=document.createElement('div');
+sep.className='tsep';
+sep.textContent='第 '+(k+1)+' 层 · '+t.k;
+sep.style.order=(k*10-1);
+world.appendChild(sep);
 });
-
 /* 建层标签 */
 T.forEach(function(t,k){
-  var el=document.createElement('div'); el.className='tlab';
-  el.style.transform='translate3d(-624px,'+YS[k]+'px,'+ZS[k]+'px)';
-  var inn=document.createElement('div'); inn.className='in';
-  inn.innerHTML='<span class="t">第 '+(k+1)+' 层</span><span class="n">'+t.k+'</span><span class="s">'+t.s+'</span>';
-  el.appendChild(inn);
-  world.appendChild(el);
-  labels.push({el:el,inner:inn});
+var el=document.createElement('div'); el.className='tlab';
+el.style.transform='translate3d(-624px,'+YS[k]+'px,'+ZS[k]+'px)';
+var inn=document.createElement('div'); inn.className='in';
+inn.innerHTML='<span class="t">第 '+(k+1)+' 层</span><span class="n">'+t.k+'</span><span class="s">'+t.s+'</span>';
+el.appendChild(inn);
+world.appendChild(el);
+labels.push({el:el,inner:inn});
 });
-
 function tf(c,z){ return 'translate3d('+c.base.x+'px,'+c.base.y+'px,'+((z===undefined)?c.base.z:z)+'px)'; }
 paintWorld(); billboards();
-
 /* 入场（?nofly=1 直接落位，便于截图核对布局） */
 if(location.search.indexOf('nofly')>=0){
-  document.documentElement.className='nofly';
-  cards.forEach(function(c){ c.el.style.transition='none'; c.el.style.transform=tf(c); });
+document.documentElement.className='nofly';
+cards.forEach(function(c){ c.el.style.transition='none'; c.el.style.transform=tf(c); });
 }else{
-  setTimeout(function(){
-    cards.forEach(function(c,i){
-      setTimeout(function(){ c.el.style.transform=tf(c); },i*55);
-    });
-  },60);
-  setTimeout(function(){ fitShift(); },60+9*55+700);   /* 入场落位后再校一次比例 */
+setTimeout(function(){
+cards.forEach(function(c,i){
+setTimeout(function(){ c.el.style.transform=tf(c); },i*55);
+});
+},60);
+setTimeout(function(){ fitShift(); },60+9*55+700);   /* 入场落位后再校一次比例 */
 }
-
 /* ══════════ 选中 ══════════ */
 function fmtSell(arr){
-  var s=''; for(var i=0;i<arr.length;i++) s+='<li>'+arr[i]+'</li>'; return s;
+var s=''; for(var i=0;i<arr.length;i++) s+='<li>'+arr[i]+'</li>'; return s;
 }
 function openCard(i){
-  cur=i;
-  var m=M[i];
-  cards.forEach(function(c,k){
-    var on=(k===i);
-    c.el.style.transform=tf(c, c.base.z+(on?78:0))+' scale('+(on?1.05:1)+')';
-    c.el.classList.toggle('on',on);
-    c.el.classList.toggle('dim',!on);
-  });
-  pp.innerHTML=
-   '<div class="pp-hd"><span class="pp-no">'+m.no+'</span><span class="pp-nm">'+m.n+'</span>'+
-     '<span class="pp-rl">'+m.r+'</span></div>'+
-   '<div class="pp-tier">第 '+(m.t+1)+' 层 · <b>'+T[m.t].k+'</b> · '+T[m.t].s+'</div>'+
-   '<p class="pp-lead">'+m.d+'</p>'+
-   '<div class="pp-h">能给你什么</div><ul class="pp-ul">'+fmtSell(m.sell)+'</ul>'+
-   '<div class="pp-h">交付：给什么 · 几天 · 你要配合什么</div>'+
-   '<dl class="pp-dl"><dt>你拿到</dt><dd>'+m.give+'</dd>'+
-     '<dt>要多久</dt><dd>'+m.days+'</dd>'+
-     '<dt>你配合</dt><dd>'+m.you+'</dd></dl>'+
-   '<div class="pp-hand"><span class="pp-bd '+(m.hand?'ok':'no')+'">'+(m.hand?'可以交出去':'总部留着')+'</span>'+
-     '<p>'+m.why+'</p></div>'+
-   '<div class="pp-act"><a class="p" href="'+m.url+'">'+m.txt+' →</a>'+
-     '<a class="g" href="#apply">问这一块</a></div>';
-  pp.scrollTop=0;
-  panel.classList.add('open');
-  hint.style.opacity='0';
-  fitShift();
+cur=i;
+var m=M[i];
+cards.forEach(function(c,k){
+var on=(k===i);
+c.el.style.transform=tf(c, c.base.z+(on?78:0))+' scale('+(on?1.05:1)+')';
+c.el.classList.toggle('on',on);
+c.el.classList.toggle('dim',!on);
+});
+pp.innerHTML=
+'<div class="pp-hd"><span class="pp-no">'+m.no+'</span><span class="pp-nm">'+m.n+'</span>'+
+'<span class="pp-rl">'+m.r+'</span></div>'+
+'<div class="pp-tier">第 '+(m.t+1)+' 层 · <b>'+T[m.t].k+'</b> · '+T[m.t].s+'</div>'+
+'<p class="pp-lead">'+m.d+'</p>'+
+'<div class="pp-h">能给你什么</div><ul class="pp-ul">'+fmtSell(m.sell)+'</ul>'+
+'<div class="pp-h">交付：给什么 · 几天 · 你要配合什么</div>'+
+'<dl class="pp-dl"><dt>你拿到</dt><dd>'+m.give+'</dd>'+
+'<dt>要多久</dt><dd>'+m.days+'</dd>'+
+'<dt>你配合</dt><dd>'+m.you+'</dd></dl>'+
+'<div class="pp-hand"><span class="pp-bd '+(m.hand?'ok':'no')+'">'+(m.hand?'可以交出去':'总部留着')+'</span>'+
+'<p>'+m.why+'</p></div>'+
+'<div class="pp-act"><a class="p" href="'+m.url+'">'+m.txt+' →</a>'+
+'<a class="g" href="#apply">问这一块</a></div>';
+pp.scrollTop=0;
+panel.classList.add('open');
+hint.style.opacity='0';
+fitShift();
 }
 function closeCard(){
-  cur=-1;
-  panel.classList.remove('open');
-  hint.style.opacity='';
-  cards.forEach(function(c){
-    c.el.style.transform=tf(c);
-    c.el.classList.remove('on','dim');
-  });
-  fitShift();
+cur=-1;
+panel.classList.remove('open');
+hint.style.opacity='';
+cards.forEach(function(c){
+c.el.style.transform=tf(c);
+c.el.classList.remove('on','dim');
+});
+fitShift();
 }
 document.getElementById('px').addEventListener('click',closeCard);
-
 /* 点击卡片 */
 scene.addEventListener('click',function(e){
-  var el=e.target.closest?e.target.closest('.m3'):null;
-  if(el){ openCard(+el.dataset.i); }
+var el=e.target.closest?e.target.closest('.m3'):null;
+if(el){ openCard(+el.dataset.i); }
 });
 scene.addEventListener('pointerdown',function(e){
-  if(e.target.closest && e.target.closest('.m3')) return;   /* 点卡片不开始拖 */
-  drag=true; lx=e.clientX; ly=e.clientY; moved=0;
-  try{scene.setPointerCapture(e.pointerId)}catch(_){}
+if(e.target.closest && e.target.closest('.m3')) return;   /* 点卡片不开始拖 */
+drag=true; lx=e.clientX; ly=e.clientY; moved=0;
+try{scene.setPointerCapture(e.pointerId)}catch(_){}
 });
 var drag=false,lx=0,ly=0,moved=0;
 scene.addEventListener('pointermove',function(e){
-  if(!drag) return;
-  var dx=e.clientX-lx, dy=e.clientY-ly; lx=e.clientX; ly=e.clientY;
-  moved+=Math.abs(dx)+Math.abs(dy);
-  azDeg=Math.max(-9,Math.min(3,azDeg+dx*0.018));
-  axDeg=Math.max(2,Math.min(17,axDeg-dy*0.03));
-  paintWorld(); billboards();
+if(!drag) return;
+var dx=e.clientX-lx, dy=e.clientY-ly; lx=e.clientX; ly=e.clientY;
+moved+=Math.abs(dx)+Math.abs(dy);
+azDeg=Math.max(-9,Math.min(3,azDeg+dx*0.018));
+axDeg=Math.max(2,Math.min(17,axDeg-dy*0.03));
+paintWorld(); billboards();
 });
 scene.addEventListener('pointerup',function(){drag=false});
 scene.addEventListener('pointercancel',function(){drag=false});
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeCard(); });
-
 /* 面板打开时：把整个阵列等比缩进剩下的区域并居中，九卡三标签始终不出界 */
 function stageBox(){
-  var els=[].slice.call(document.querySelectorAll('.m3')).concat([].slice.call(document.querySelectorAll('.tlab')));
-  var l=1e9,t=1e9,r=-1e9,b=-1e9;
-  els.forEach(function(e){
-    var q=e.getBoundingClientRect();
-    if(q.width===0&&q.height===0) return;
-    l=Math.min(l,q.left); t=Math.min(t,q.top);
-    r=Math.max(r,q.right); b=Math.max(b,q.bottom);
-  });
-  if(r<l) return null;
-  return {l:l,t:t,w:r-l,h:b-t};
+var els=[].slice.call(document.querySelectorAll('.m3')).concat([].slice.call(document.querySelectorAll('.tlab')));
+var l=1e9,t=1e9,r=-1e9,b=-1e9;
+els.forEach(function(e){
+var q=e.getBoundingClientRect();
+if(q.width===0&&q.height===0) return;
+l=Math.min(l,q.left); t=Math.min(t,q.top);
+r=Math.max(r,q.right); b=Math.max(b,q.bottom);
+});
+if(r<l) return null;
+return {l:l,t:t,w:r-l,h:b-t};
 }
 function fitShift(){
-  var w=window.innerWidth, h=window.innerHeight;
-  if(isFlat()){
-    shift.style.setProperty('--sx','0px');
-    shift.style.setProperty('--sy','0px');
-    shift.style.setProperty('--ws','1');
-    return;
-  }
-  /* 先无过渡地回到原位量真实包围盒，再算缩放与位移（同一帧内完成，不会闪） */
-  var tr=shift.style.transition;
-  shift.style.transition='none';
-  shift.style.setProperty('--sx','0px');
-  shift.style.setProperty('--sy','0px');
-  shift.style.setProperty('--ws','1');
-  void shift.offsetWidth;
-  var box=stageBox();
-  shift.style.transition=tr;
-  if(!box) return;
-  var open=(cur>=0);
-  var sc=scene.getBoundingClientRect();
-  var scCx=sc.left+sc.width/2, scCy=sc.top+sc.height/2;
-  var pad=44, panelW=448;
-  var availL=pad, availR=(open? w-panelW : w-pad);
-  var s=Math.min(1,(availR-availL)/box.w,(sc.height-28)/box.h);
-  var cx=box.l+box.w/2, cy=box.t+box.h/2;
-  var sx=(availL+availR)/2 - scCx - (cx-scCx)*s;
-  var sy=-(cy-scCy)*s - 16;   /* 给底部提示条留位置 */
-  shift.style.setProperty('--sx',sx.toFixed(1)+'px');
-  shift.style.setProperty('--sy',sy.toFixed(1)+'px');
-  shift.style.setProperty('--ws',s.toFixed(3));
+var w=window.innerWidth, h=window.innerHeight;
+if(isFlat()){
+shift.style.setProperty('--sx','0px');
+shift.style.setProperty('--sy','0px');
+shift.style.setProperty('--ws','1');
+return;
+}
+/* 先无过渡地回到原位量真实包围盒，再算缩放与位移（同一帧内完成，不会闪） */
+var tr=shift.style.transition;
+shift.style.transition='none';
+shift.style.setProperty('--sx','0px');
+shift.style.setProperty('--sy','0px');
+shift.style.setProperty('--ws','1');
+void shift.offsetWidth;
+var box=stageBox();
+shift.style.transition=tr;
+if(!box) return;
+var open=(cur>=0);
+var sc=scene.getBoundingClientRect();
+var scCx=sc.left+sc.width/2, scCy=sc.top+sc.height/2;
+var pad=44, panelW=448;
+var availL=pad, availR=(open? w-panelW : w-pad);
+var s=Math.min(1,(availR-availL)/box.w,(sc.height-28)/box.h);
+var cx=box.l+box.w/2, cy=box.t+box.h/2;
+var sx=(availL+availR)/2 - scCx - (cx-scCx)*s;
+var sy=-(cy-scCy)*s - 16;   /* 给底部提示条留位置 */
+shift.style.setProperty('--sx',sx.toFixed(1)+'px');
+shift.style.setProperty('--sy',sy.toFixed(1)+'px');
+shift.style.setProperty('--ws',s.toFixed(3));
 }
 fitShift();
 window.addEventListener('resize',function(){ fitShift(); billboards(); });
 var op=new URLSearchParams(location.search).get('open');
 if(op!==null){ setTimeout(function(){
-  var k=-1,i=parseInt(op,10);
-  for(var q=0;q<M.length;q++) if(M[q].no===op) k=q;
-  if(k<0 && i>=0 && i<M.length) k=i;
-  if(k>=0) openCard(k);
+var k=-1,i=parseInt(op,10);
+for(var q=0;q<M.length;q++) if(M[q].no===op) k=q;
+if(k<0 && i>=0 && i<M.length) k=i;
+if(k>=0) openCard(k);
 },120); }
-
 /* ══════════ 浮层 ══════════ */
 var CHAIN=[
- ['01','买了工具，用了两周','东西是好，但没人来用啊','缺「嘴」'],
- ['02','内容做起来了，客户来了','活干不完了','缺「手」和「班」'],
- ['03','班子上线，事情变多，产出大量文案方案','产出这么多东西，怕踩坑惹麻烦','缺「盾」'],
- ['04','风险把过关，继续往前推','每天不知道先干哪件','缺「脑」'],
- ['05','脑子给了建议，但自己不会改','想自己会弄','缺「本事」'],
- ['06','学会了，但没人盯就松','需要有人推我一把','缺「教练」'],
- ['07','业务跑顺，手里攒了一堆经验素材','经验散得到处都是，换个业务又得重来','缺「库」'],
- ['08','经验能复用了，想再开一条线','下一个做什么','缺「眼」']
+['01','买了工具，用了两周','东西是好，但没人来用啊','缺「嘴」'],
+['02','内容做起来了，客户来了','活干不完了','缺「手」和「班」'],
+['03','班子上线，事情变多，产出大量文案方案','产出这么多东西，怕踩坑惹麻烦','缺「盾」'],
+['04','风险把过关，继续往前推','每天不知道先干哪件','缺「脑」'],
+['05','脑子给了建议，但自己不会改','想自己会弄','缺「本事」'],
+['06','学会了，但没人盯就松','需要有人推我一把','缺「教练」'],
+['07','业务跑顺，手里攒了一堆经验素材','经验散得到处都是，换个业务又得重来','缺「库」'],
+['08','经验能复用了，想再开一条线','下一个做什么','缺「眼」']
 ];
 var cb=document.getElementById('chainBox');
 CHAIN.forEach(function(c){
-  var d=document.createElement('div'); d.className='chainrow';
-  d.innerHTML='<div class="st">'+c[0]+'</div><div class="tx">'+c[1]+'<s>「'+c[2]+'」</s></div><div class="ms">'+c[3]+'</div>';
-  cb.appendChild(d);
+var d=document.createElement('div'); d.className='chainrow';
+d.innerHTML='<div class="st">'+c[0]+'</div><div class="tx">'+c[1]+'<s>「'+c[2]+'」</s></div><div class="ms">'+c[3]+'</div>';
+cb.appendChild(d);
 });
 function sheet(id,on){ document.getElementById(id).classList.toggle('open',on); }
 document.getElementById('openChain').addEventListener('click',function(){sheet('sheetChain',true)});
 document.getElementById('openMoney').addEventListener('click',function(){sheet('sheetMoney',true)});
 [].forEach.call(document.querySelectorAll('.sheet'),function(s){
-  s.addEventListener('click',function(e){
-    if(e.target===s || (e.target.hasAttribute&&e.target.hasAttribute('data-close'))) s.classList.remove('open');
-  });
+s.addEventListener('click',function(e){
+if(e.target===s || (e.target.hasAttribute&&e.target.hasAttribute('data-close'))) s.classList.remove('open');
+});
 });
 document.getElementById('burger').addEventListener('click',function(){document.getElementById('nav').classList.toggle('open')});
 [].forEach.call(document.querySelectorAll('#nav a'),function(a){
-  a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')});
+a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')});
 });
 </script>
 <style>
@@ -720,59 +669,85 @@ document.getElementById('burger').addEventListener('click',function(){document.g
 html.nofly .panel,html.nofly .shift,html.nofly .m3,html.nofly .m3in,html.nofly .tsep{transition:none!important}
 /* ── 窄屏：仍是 3D，改成「三层纵向叠放」 ── */
 @media(max-width:900px){
-  .p3{height:auto;min-height:0;overflow:visible;display:block}
-  .p3hd{padding:18px 22px 0}
-  .p3hd p{max-width:none;font-size:13px}
-  .p3stage{height:auto;position:static;margin:26px 0 0;width:100%}
-  .scene{position:static;height:auto;width:100%;perspective:none;cursor:default;
-    overflow:visible;touch-action:auto}
-  .scene::after{display:none}
-  .glow{display:none}
-  .hint{position:static;display:block;margin:10px 0 4px;opacity:1!important}
-  .hint .h-d{display:none}
-  .shift{position:static;transform:none!important;width:100%;box-sizing:border-box}
-  .world{position:static;width:auto;height:auto;transform:none!important;
-    display:flex;flex-direction:column;gap:12px;padding:6px 20px 8px;
-    transform-style:preserve-3d}
-  .m3{position:relative!important;left:auto!important;top:auto!important;
-    width:100%!important;height:auto!important;margin:0!important;
-    box-sizing:border-box;min-width:0;transform:none!important;
-    perspective:820px;transition:none;opacity:1!important}
-  .m3in{position:static;inset:auto;min-width:0;width:auto;height:150px;
-    padding:13px 15px;box-sizing:border-box}
-  .m3 .n,.m3 .d{overflow-wrap:anywhere}
-  .m3 .n{font-size:15px}
-  .m3 .d{-webkit-line-clamp:2}
-
-  /* 三层各站一档：每张卡以自己的中心缩放，越上层越靠前越大，并逐层缩进 */
-  .m3[data-t="0"] .m3in{transform:translateZ(-58px)}
-  .m3[data-t="1"] .m3in{transform:translateZ(0px);margin-left:10px}
-  .m3[data-t="2"] .m3in{transform:translateZ(58px);margin-left:20px}
-
-  /* 每层开头的层名条 */
-  .tsep{display:block;width:auto;margin:12px 0 2px;
-    font-size:11.5px;font-weight:900;letter-spacing:.02em;color:#fff;
-    background:#8E4A1B;padding:4px 12px;border-radius:20px;
-    align-self:flex-start;white-space:nowrap;
-    box-shadow:0 4px 12px rgba(120,60,20,.22)}
-  .tsep:first-child{margin-top:2px}
-
-  .m3.on .m3in{transform:translateZ(96px)!important}
-  .m3.dim{opacity:.45!important}
-
-  .panel{position:fixed;left:10px;right:10px;top:auto;bottom:10px;width:auto;
-    max-height:74vh;border-radius:16px;transform:translateY(40px)}
-  .panel.open{transform:none}
-  .strip{padding:12px 0}
-  .strip-in{gap:10px 16px}
-  .strip .lnk{padding:6px 12px;font-size:12px}
+.p3{height:auto;min-height:0;overflow:visible;display:block}
+.p3hd{padding:18px 22px 0}
+.p3hd p{max-width:none;font-size:13px}
+.p3stage{height:auto;position:static;margin:26px 0 0;width:100%}
+.scene{position:static;height:auto;width:100%;perspective:none;cursor:default;
+overflow:visible;touch-action:auto}
+.scene::after{display:none}
+.glow{display:none}
+.hint{position:static;display:block;margin:10px 0 4px;opacity:1!important}
+.hint .h-d{display:none}
+.shift{position:static;transform:none!important;width:100%;box-sizing:border-box}
+.world{position:static;width:auto;height:auto;transform:none!important;
+display:flex;flex-direction:column;gap:12px;padding:6px 20px 8px;
+transform-style:preserve-3d}
+.m3{position:relative!important;left:auto!important;top:auto!important;
+width:100%!important;height:auto!important;margin:0!important;
+box-sizing:border-box;min-width:0;transform:none!important;
+perspective:820px;transition:none;opacity:1!important}
+.m3in{position:static;inset:auto;min-width:0;width:auto;height:150px;
+padding:13px 15px;box-sizing:border-box}
+.m3 .n,.m3 .d{overflow-wrap:anywhere}
+.m3 .n{font-size:15px}
+.m3 .d{-webkit-line-clamp:2}
+/* 三层各站一档：每张卡以自己的中心缩放，越上层越靠前越大，并逐层缩进 */
+.m3[data-t="0"] .m3in{transform:translateZ(-58px)}
+.m3[data-t="1"] .m3in{transform:translateZ(0px);margin-left:10px}
+.m3[data-t="2"] .m3in{transform:translateZ(58px);margin-left:20px}
+/* 每层开头的层名条 */
+.tsep{display:block;width:auto;margin:12px 0 2px;
+font-size:11.5px;font-weight:900;letter-spacing:.02em;color:#fff;
+background:#8E4A1B;padding:4px 12px;border-radius:20px;
+align-self:flex-start;white-space:nowrap;
+box-shadow:0 4px 12px rgba(120,60,20,.22)}
+.tsep:first-child{margin-top:2px}
+.m3.on .m3in{transform:translateZ(96px)!important}
+.m3.dim{opacity:.45!important}
+.panel{position:fixed;left:10px;right:10px;top:auto;bottom:10px;width:auto;
+max-height:74vh;border-radius:16px;transform:translateY(40px)}
+.panel.open{transform:none}
+.strip{padding:12px 0}
+.strip-in{gap:10px 16px}
+.strip .lnk{padding:6px 12px;font-size:12px}
 }
 </style>
 <footer class="hds-ea-foot" style="padding:0 0 32px">
 <div class="hds-ea" style="width:100%;flex:0 0 100%;max-width:1080px;margin:16px auto 0;padding:16px 20px 0;border-top:1px solid rgba(128,128,128,.28);text-align:center;font-size:13px;line-height:1.9">
-  <p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
-  <p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
+<p style="margin:0 0 8px">海大叔 AI 新媒体工作室主理人，常驻云南昆明，专注一人公司（OPC）与 AI 新媒体落地，帮不会技术、没有团队的普通人用 AI 赚到第一笔钱。</p>
+<p style="margin:0;font-size:12.5px;opacity:.85"><a href="/start/" style="color:inherit;text-decoration:underline">0 元起步清单 + AI 赚钱自检表</a>　·　<a href="https://github.com/haidashu79-prog/haidashu-ai-system" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">本站源码（GitHub）</a></p>
 </div>
 </footer>
+<script>/*hds-accel*/(function(){
+function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
+try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
+var pf={};
+function pref(href){
+  try{
+    if(!href||href.charAt(0)!=='/'||href.indexOf('//')===0||pf[href])return;
+    var p=href.split('?')[0];
+    if(/\.[a-z0-9]{2,4}$/i.test(p))return;
+    pf[href]=1;
+    var l=document.createElement('link');l.rel='prefetch';l.href=href;l.as='document';document.head.appendChild(l);
+  }catch(e){}
+}
+function onEvt(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var a=t.closest('a[href]');if(!a)return;
+  pref(a.getAttribute('href'));
+}
+document.addEventListener('touchstart',onEvt,{passive:true,capture:true});
+document.addEventListener('pointerover',onEvt,{passive:true,capture:true});
+document.addEventListener('focusin',onEvt,true);
+// 空闲时预取最可能点击的站内页，点击后近乎秒开
+idle(function(){
+  var cand=['/products/','/about/','/contact/','/zhinao/','/services/','/cases/'],n=0;
+  for(var i=0;i<cand.length&&n<3;i++){
+    if(cand[i]===location.pathname)continue;
+    if(document.querySelector('a[href="'+cand[i]+'"]')){pref(cand[i]);n++;}
+  }
+});
+})();</script>
 </body>
 </html>
