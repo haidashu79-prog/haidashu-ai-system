@@ -560,11 +560,42 @@
         messages: [{ role: 'system', content: ASK_SYS }, { role: 'user', content: sendMsg }],
         signal: __ctl.signal
       };
-      var stream = cloud ? cloud.llm.chat.completions.create(askReq) : LC.chat(askReq);
-      for await (var chunk of stream) {
-        lastChunk = Date.now();
-        var d = chunk.choices && chunk.choices[0] && chunk.choices[0].delta;
-        if (d && d.content) { if (!started) { started = true; text = ''; } text += d.content; body.innerHTML = esc(text) + '<span class="caret"></span>'; }
+      var localAvail = !!(window.YXJ_LOCAL && window.YXJ_LOCAL.supported && window.YXJ_LOCAL.supported());
+      var useLocal = !!window.YXJ_USE_LOCAL && localAvail;   // 手动切本地：跳过云端，设备本地推演
+      var stream = null, serverFailed = false, quotaHit = false;
+
+      // 1) 云端/站内优先（免费档有额度时走这）
+      if (!useLocal) {
+        try {
+          stream = cloud ? cloud.llm.chat.completions.create(askReq) : LC.chat(askReq);
+          for await (var chunk of stream) {
+            lastChunk = Date.now();
+            var d = chunk.choices && chunk.choices[0] && chunk.choices[0].delta;
+            if (d && d.content) {
+              // 云端每日额度耗尽的特征串：记下来，待会儿转本地重算（同样的问法）
+              if (text.indexOf('算力额度使尽') < 0 && d.content.indexOf('算力额度使尽') >= 0) { quotaHit = true; break; }
+              if (!started) { started = true; text = ''; }
+              text += d.content;
+              body.innerHTML = esc(text) + '<span class="caret"></span>';
+            }
+          }
+        } catch (e) { serverFailed = true; }   // 云端请求失败（网络/503 等）→ 下面转本地
+      }
+
+      // 2) 手动本地 / 云端挂了 / 云端额度空 → 用你的设备本地推演（零服务器额度、不限量）
+      if (useLocal || serverFailed || quotaHit) {
+        if (!localAvail) { if (serverFailed) throw new Error('server_unavailable'); }
+        else {
+          if (!useLocal && (serverFailed || quotaHit)) toast('云端算力额度用尽，已切到你的设备本地推演（不限量）');
+          useLocal = true; started = false; text = '';
+          body.innerHTML = '<span class="loading"><span class="spin"></span>正在用你的设备本地推演…首次需下载模型，稍候</span><span class="caret"></span>';
+          var lstream = window.YXJ_LOCAL.chat(askReq);
+          for await (var lchunk of lstream) {
+            lastChunk = Date.now();
+            var ld = lchunk.choices && lchunk.choices[0] && lchunk.choices[0].delta;
+            if (ld && ld.content) { if (!started) { started = true; text = ''; } text += ld.content; body.innerHTML = esc(text) + '<span class="caret"></span>'; }
+          }
+        }
       }
     } catch (e) {
       ok = false;
@@ -1509,6 +1540,9 @@
       caseChipsHtml() +
       '<div style="margin-top:8px;display:flex;gap:7px;flex-wrap:wrap">' +
       chips.map(function (c) { return '<button class="btn ghost sm chip">' + esc(c) + '</button>'; }).join('') + '</div>' +
+      '<div style="margin-top:12px;padding:10px 12px;border:1px dashed var(--line2);border-radius:11px;background:rgba(47,107,92,.04);display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
+      '<label class="chk"><input type="checkbox" id="askLocal"> 用我的设备算力（不限量·首次下载模型）</label>' +
+      '<span id="askLocalState" style="font-size:12.5px;color:var(--ink3)"></span></div>' +
       '<div class="tools"><button class="btn" id="askGo">问 易 玄 机 →</button>' +
       '<button class="btn ghost" id="askStop" style="display:none">停 下</button>' +
       '<span style="font-size:12.5px;color:var(--ink3)" id="askHint"></span></div>' +
@@ -1525,8 +1559,39 @@
   }
   function refreshAskHint() {
     var h = $('askHint'); if (!h) return;
+    if (window.YXJ_USE_LOCAL) { h.textContent = '本地算力已开：不限量，问多少都行。'; return; }
     var left = askQuota();
     h.textContent = left > 0 ? ('今天还能问 ' + left + ' 次。') : '今天问得够多了，明天再来。';
+  }
+  /* 本地算力开关：开 → 跳过云端额度、设备本地推演（不限量）；关 → 走云端免费档 */
+  function bindLocalMode() {
+    var box = $('askLocal'); if (!box) return;
+    var st = $('askLocalState');
+    if (!window.YXJ_LOCAL || !window.YXJ_LOCAL.supported || !window.YXJ_LOCAL.supported()) {
+      if (box.parentNode) box.parentNode.style.display = 'none';
+      return;
+    }
+    function show(s, p, label) {
+      if (!st) return;
+      if (s === 'loading') st.textContent = '正在下载本地模型（' + label + '） ' + p + '%…';
+      else if (s === 'ready') st.textContent = '本地算力已就绪（' + (window.YXJ_LOCAL.device === 'webgpu' ? 'GPU' : 'CPU') + ' 跑）';
+      else if (s === 'error') st.textContent = '本地模型没加载成，已用云端';
+      else st.textContent = '首次需下载 ' + label + '，之后本机秒开';
+    }
+    window.YXJ_LOCAL.onStatus(show);
+    box.checked = !!window.YXJ_USE_LOCAL;
+    show(window.YXJ_LOCAL.status, window.YXJ_LOCAL.progress, window.YXJ_LOCAL.modelLabel());
+    box.onchange = function () {
+      window.YXJ_USE_LOCAL = box.checked;
+      if (box.checked) {
+        toast('已切到你的设备本地推演（不限量）。首次会自动下载模型，稍候');
+        window.YXJ_LOCAL.load().catch(function () { });
+        show('loading', 0, window.YXJ_LOCAL.modelLabel());
+      } else {
+        show(window.YXJ_LOCAL.status, window.YXJ_LOCAL.progress, window.YXJ_LOCAL.modelLabel());
+      }
+      refreshAskHint();
+    };
   }
   // 答题卡方向 → 起卦页「侧重」用的中文名（判决引擎以下拉为准）
   var CAT_FOR = { career: '事业', wealth: '求财', love: '感情', health: '健康', home: '综合', general: '自动' };
@@ -1537,7 +1602,7 @@
     return /(命数|命理|八字|生辰|合盘|合八字|配对|属相|生肖|五行|日主|旺衰|喜用|忌讳|克|冲|害|刑|合作|合伙|搭档|共事|什么命|配不配|合不合|旺不旺)/.test(String(q || ''));
   }
   function askDirect(q) {
-    if (askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
+    if (!window.YXJ_USE_LOCAL && askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
     var me = (ME && ME.has()) ? ME.read() : null;
     var fate = isFateQ(q);
     var out = $('askOut');
@@ -1556,7 +1621,7 @@
     var brief = (me ? (me.zao + '｜') : '') + '原话·' + q;
     askAI(promptTxt, out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, noStyle: true, long: fate })
       .then(function (res) {
-        askQuota(1); refreshAskHint();
+        if (!window.YXJ_USE_LOCAL) { askQuota(1); refreshAskHint(); }
         if (res && res.ok && CASE) {
           try {
             CASE.add({ q: q, topic: 'general', topicName: '看命', situation: '', gua: '', chg: '', badge: '', score: 0, brief: (res.text || '').slice(0, 160) });
@@ -1574,14 +1639,14 @@
   function startAskFlow() {
     var q = (($('askInput') && $('askInput').value) || '').trim();
     if (PROF && q) PROF.ask({ askInput: q });
-    if (askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
+    if (!window.YXJ_USE_LOCAL && askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
     if (!q) { toast('先把想问的那句话写出来'); var el = $('askInput'); if (el) { try { el.focus(); } catch (e) { } } return; }
     return askDirect(q);
   }
 
   /* 起卦 → 判词 → 交给智脑，一套走完 */
   function doAskFlow(q, topic, situation, hmPick) {
-    if (askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
+    if (!window.YXJ_USE_LOCAL && askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
     var t = today();
     var fpNow = C.fourPillars(t.y, t.m, t.d, t.h, t.mi);
     var me = (ME && ME.has()) ? ME.read() : null;
@@ -1629,7 +1694,7 @@
     askAI(lines.join('\n'), out, topic, $('askGo'), $('askStop'), brief,
       { q: q || situation, human: hm, hmPicked: hmPick, me: me })
       .then(function (res) {
-        askQuota(1); refreshAskHint();
+        if (!window.YXJ_USE_LOCAL) { askQuota(1); refreshAskHint(); }
         // 这一笔记进他自己的档案：下回他再来，老先生认得他
         if (res && res.ok && CASE) {
           try {
@@ -2335,6 +2400,7 @@
         var pa = PROF.forAsk();
         if (pa.askInput != null) { var ai = $('askInput'); if (ai) ai.value = pa.askInput; }
       }
+      bindLocalMode();
       refreshAskHint();
       renderMeBox();
     }
