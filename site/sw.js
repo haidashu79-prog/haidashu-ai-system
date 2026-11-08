@@ -1,5 +1,5 @@
 /* 海大叔站 · 离线加速 Service Worker */
-const VER = 'hds-2026-11-08-1';
+const VER = 'hds-2026-11-08-2';
 const ASSET_CACHE = VER + '-assets';
 const PAGE_CACHE  = VER + '-pages';
 const CORE = ['/assets/site.css', '/assets/p3d-shell.js'];

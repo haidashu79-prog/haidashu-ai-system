@@ -366,7 +366,6 @@ document.getElementById('burger').addEventListener('click',function(){document.g
 document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('nav').classList.remove('open')})});
 </script>
 <script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
-<script>
 <script>/*hds-accel*/(function(){
 function idle(f){('requestIdleCallback' in window)?requestIdleCallback(f,{timeout:2500}):setTimeout(f,1800);}
 try{if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(function(){});});}}catch(e){}
