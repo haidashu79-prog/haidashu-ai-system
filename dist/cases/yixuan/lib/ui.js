@@ -314,6 +314,22 @@
      走后端神经网络女声（melotts），一句一句念，自然不机械。
      后端不可用（模型下线 / 没绑 AI）时，自动退回浏览器自带女声兜底，保证能出声。 */
   var __spk = { on: false, btn: null, voice: null, tried: false, audio: null, style: 'clean', ctx: null };
+  /* 一段 1 采样静音 WAV，用来在用户点击时「解锁」移动端（尤其 iOS Safari）的播放限制。
+     移动端只允许在用户手势内播放过音频的元素后续自动播，否则会被静音。 */
+  var SILENT_WAV = 'data:audio/wav;base64,UklGRiUAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQEAAACA';
+  var __spkUnlock = null;
+  function unlockMobile() {
+    try {
+      if (!__spkUnlock) {
+        __spkUnlock = new Audio();
+        __spkUnlock.preload = 'auto';
+        __spkUnlock.src = SILENT_WAV;
+        __spkUnlock.volume = 0;
+      }
+      var p = __spkUnlock.play();
+      if (p && p.catch) p.catch(function () { });
+    } catch (e) { }
+  }
   function pickVoice() {
     if (!window.speechSynthesis) return null;
     if (!__spk.tried) {
@@ -377,30 +393,25 @@
       if (!__spk.ctx) __spk.ctx = new AC();
       if (__spk.ctx.state === 'suspended') __spk.ctx.resume();
     }
+    // 关键：在用户点击手势内先行「解锁」移动端播放限制，后续清音才出得了声
+    unlockMobile();
+    if (!__spkUnlock) __spkUnlock = new Audio();
     __spk.on = true; __spk.btn = btn;
     if (btn) btn.textContent = '⏸ 停一下';
     var idx = 0;
     var RATE = 1.15; // 朗读快一点
 
     function playBuffer(buf) {
+      var xian = (__spk.style === 'xian');
       var ac = window.AudioContext || window.webkitAudioContext;
-      if (!ac || !__spk.ctx) {
-        var a = new Audio();
-        a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
-        a.playbackRate = RATE;
-        a.onended = function () { if (__spk.on) playNext(); };
-        a.play().catch(function () {});
-        __spk.audio = a;
-        return;
-      }
-      var ctx = __spk.ctx;
-      ctx.decodeAudioData(buf.slice(0)).then(function (ab) {
-        if (!__spk.on) return;
-        var src = ctx.createBufferSource();
-        src.buffer = ab;
-        src.playbackRate.value = RATE;
-        if (__spk.style === 'xian') {
-          // 仙风道骨：两道回响 + 轻微低通，像在山门大殿里说话
+      // 仙风道骨：走 WebAudio 做回响（桌面端体验最佳；移动端回响会被系统压掉，故默认不走这条）
+      if (xian && ac && __spk.ctx) {
+        var ctx = __spk.ctx;
+        ctx.decodeAudioData(buf.slice(0)).then(function (ab) {
+          if (!__spk.on) return;
+          var src = ctx.createBufferSource();
+          src.buffer = ab;
+          src.playbackRate.value = RATE;
           var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3800;
           var d1 = ctx.createDelay(1); d1.delayTime.value = 0.18;
           var d2 = ctx.createDelay(1); d2.delayTime.value = 0.36;
@@ -409,13 +420,23 @@
           src.connect(lp); lp.connect(ctx.destination);
           lp.connect(d1); d1.connect(g1); g1.connect(ctx.destination);
           lp.connect(d2); d2.connect(g2); g2.connect(ctx.destination);
-        } else {
-          src.connect(ctx.destination);
-        }
-        src.onended = function () { if (__spk.on) playNext(); };
-        src.start(0);
-        __spk.audio = src;
-      }).catch(function () { if (__spk.on) playNext(); });
+          src.onended = function () { if (__spk.on) playNext(); };
+          src.start(0);
+          __spk.audio = src;
+        }).catch(function () { if (__spk.on) playNext(); });
+        return;
+      }
+      // 清音：一律用 <audio> 元素播放（移动端最稳），复用点击时已解锁的那个元素
+      var a = __spkUnlock;
+      if (!a) { a = new Audio(); __spkUnlock = a; }
+      try { a.pause(); } catch (e) { }
+      try { a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })); } catch (e) { a.src = ''; }
+      a.volume = 1;
+      a.playbackRate = RATE;
+      a.onended = function () { if (__spk.on) playNext(); };
+      __spk.audio = a;
+      var pp = a.play();
+      if (pp && pp.catch) pp.catch(function () { if (__spk.on) playNext(); });
     }
     function fetchSeg(seg, done) {
       var url = '/api/yixuan/tts?t=' + encodeURIComponent(seg.slice(0, 200)) + '&lang=zh';

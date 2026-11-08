@@ -168,7 +168,52 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 h1 .grad,h2 .grad,.grad{background:linear-gradient(96deg,#2B2119 4%,#C2571C 46%,#B5703E 70%,#E0892B 100%) !important;
   -webkit-background-clip:text !important;background-clip:text !important;color:transparent !important;filter:none !important}
 </style>
-<link rel="stylesheet" href="/assets/p3app.css">
+<style>/*/assets/p3app.css*/
+/* ══════════════════════════════════════════════════
+   手机端 App 外壳 · 独立版（给「不用 3D 舞台」的页面用）
+   ──────────────────────────────────────────────────
+   用途：未来舱 / 模板库 这类自成一套视觉的页面，
+         只想拿顶栏 + 底部 Tab，不想被 p3d.css 的
+         .floor / .panel / .m3 等三维样式干扰。
+
+   ⚠️ 文件里的规则和 p3d.css 末尾那段是同一套，
+      改一处就要同步另一处（p3d.css 是给 3D 页用的整包）。
+   ══════════════════════════════════════════════════ */
+
+.p3appbar,.p3tab{display:none}
+
+@media(max-width:900px){
+  body.p3app{background:#FBF6EE;padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+  /* 只隐藏「站点自带导航/页脚」，别误伤页面自己的 <header class="hero"> */
+  body.p3app .bg,body.p3app > nav,body.p3app > footer,
+  body.p3app > header.nav,body.p3app .nav{display:none!important}
+  body.p3app [data-hds-assist]{display:none!important}
+
+  .p3appbar{display:flex;position:sticky;top:0;z-index:60;align-items:center;gap:10px;
+    height:52px;padding:0 12px;background:rgba(251,246,238,.94);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(140,95,50,.13)}
+  .p3appbar .t{flex:1;text-align:center;font-size:15px;font-weight:900;color:#2B2119;
+    letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .p3appbar .ic{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+    background:#fff;border:1px solid rgba(140,95,50,.18);color:#8E4A1B;text-decoration:none;
+    font-size:15px;font-weight:800;-webkit-tap-highlight-color:transparent}
+  .p3appbar .ic:active{transform:scale(.94)}
+
+  .p3tab{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    padding:5px 4px calc(5px + env(safe-area-inset-bottom));
+    background:rgba(255,253,248,.96);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border-top:1px solid rgba(140,95,50,.13);box-shadow:0 -10px 26px rgba(120,70,30,.07)}
+  .p3tab a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:5px 0 3px;border-radius:13px;text-decoration:none;color:#A2917E;
+    font-size:10px;font-weight:800;letter-spacing:.01em;-webkit-tap-highlight-color:transparent}
+  .p3tab a.on{color:#C2571C;background:#FBEFDF}
+  .p3tab svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;
+    stroke-linecap:round;stroke-linejoin:round}
+  .p3tab a:active{transform:scale(.95)}
+}
+
+</style>
 <meta name="theme-color" content="#C2571C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -344,7 +389,59 @@ addEventListener('scroll', function () {
   document.getElementById('nav').classList.toggle('solid', scrollY > 12);
 }, { passive: true });
 </script>
-<script src="/assets/p3d-shell.js"></script>
-<script src="/assist.js" defer></script>
+<script>/*p3d-shell*/
+/* 手机端 App 外壳：顶部标题栏 + 底部 Tab 栏（任何页面都能单独引用） */
+(function () {
+  var CFG = window.P3D || {};
+  var path = location.pathname.replace(/\/index\.html$/, '/');
+  var TABS = [
+    { h: '/', t: '首页', ic: '<path d="M3.4 10.6 12 3.4l8.6 7.2"/><path d="M5.8 9.6V20h12.4V9.6"/>' },
+    { h: '/zhinao/', t: '智脑', ic: '<path d="M4 5.2h16v10.6H9.2L4 19.6z"/>' },
+    { h: '/products/', t: '产品', ic: '<rect x="3.6" y="3.6" width="7" height="7" rx="1.8"/><rect x="13.4" y="3.6" width="7" height="7" rx="1.8"/><rect x="3.6" y="13.4" width="7" height="7" rx="1.8"/><rect x="13.4" y="13.4" width="7" height="7" rx="1.8"/>' },
+    { h: '/cases/', t: '案例', ic: '<path d="M3.4 7.4h5.8l2 2.2h9.4v9.4H3.4z"/>' },
+    { h: '/experts/', t: '专家', ic: '<circle cx="12" cy="8" r="3.4"/><path d="M5.2 20c.9-3.9 3.6-5.9 6.8-5.9s5.9 2 6.8 5.9"/>' }
+  ];
+  /* 只有恰好落在某个 Tab 上才高亮；像 素材库 / 模板库 这种没进 Tab 的页面，
+     一个都不高亮，别硬指到「首页」上去。 */
+  var cur = TABS.filter(function (x) { return x.h === path; })[0] ||
+    TABS.filter(function (x) { return x.h !== '/' && path.indexOf(x.h) === 0; })[0] || null;
+
+  var bar = document.createElement('div');
+  bar.className = 'p3appbar';
+  bar.innerHTML =
+    '<a class="ic" href="/" aria-label="回首页">⌂</a>' +
+    '<div class="t">' + (CFG.appTitle || document.title.split(/[·|｜]/)[0] || '海大叔') + '</div>' +
+    '<a class="ic" href="/zhinao/" aria-label="问智脑">问</a>';
+  document.body.insertBefore(bar, document.body.firstElementChild);
+
+  var tab = document.createElement('div');
+  tab.className = 'p3tab';
+  tab.innerHTML = TABS.map(function (x) {
+    return '<a href="' + x.h + '"' + (x === cur ? ' class="on"' : '') + '>' +
+      '<svg viewBox="0 0 24 24">' + x.ic + '</svg><span>' + x.t + '</span></a>';
+  }).join('');
+  document.body.appendChild(tab);
+  document.body.classList.add('p3app');
+
+  /* 站点右下角那个「问」悬浮球（影子 DOM）会压住 Tab 栏，打个标记后隐藏 */
+  function tagAssist() {
+    for (var i = 0; i < document.body.children.length; i++) {
+      var k = document.body.children[i];
+      if (k.shadowRoot && !k.hasAttribute('data-hds-assist')) {
+        k.setAttribute('data-hds-assist', '1');
+        return true;
+      }
+    }
+    return false;
+  }
+  if (!tagAssist()) {
+    var tick = 0, iv = setInterval(function () {
+      if (tagAssist() || ++tick > 50) clearInterval(iv);
+    }, 50);
+  }
+})();
+
+</script>
+<script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
 </body>
 </html>

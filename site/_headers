@@ -1,12 +1,12 @@
 /
-  Cache-Control: no-store, no-cache, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
 
 /index.html
-  Cache-Control: no-store, no-cache, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 /*/index.html
-  Cache-Control: no-store, no-cache, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 /zhinao/micro.json
   Cache-Control: no-store, max-age=0
@@ -14,5 +14,22 @@
 /*.json
   Cache-Control: no-store, max-age=0
 
+# 静态资源：允许浏览器与边缘缓存，避免每次打开都回源校验
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  X-Content-Type-Options: nosniff
+
 /img/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=2592000
+
+/*/img/*
+  Cache-Control: public, max-age=2592000
+
+/assets/*.png
+  Cache-Control: public, max-age=2592000
+
+/assets/*.svg
+  Cache-Control: public, max-age=2592000
+
+/assets/*.ico
+  Cache-Control: public, max-age=2592000

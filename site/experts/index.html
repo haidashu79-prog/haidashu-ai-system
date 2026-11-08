@@ -229,11 +229,11 @@ window.P3D = {
 };
 </script>
 <script src="/assets/p3d-shell.js"></script>
-<script src="/assets/p3d.js"></script>
+<script>addEventListener("load",function(){if(!document.getElementById("p3"))return;var s=document.createElement("script");s.src="/assets/p3d.js";document.head.appendChild(s);});</script>
 
 <script>
 addEventListener('scroll', () => document.getElementById('nav').classList.toggle('solid', scrollY > 12), { passive: true });
 </script>
-<script src="/assist.js" defer></script>
+<script>addEventListener("load",function(){var s=document.createElement("script");s.src="/assist.js";document.head.appendChild(s);});</script>
 </body>
 </html>
