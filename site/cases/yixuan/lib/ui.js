@@ -313,7 +313,7 @@
   /* ============ 语音解读 ============
      走后端神经网络女声（melotts），一句一句念，自然不机械。
      后端不可用（模型下线 / 没绑 AI）时，自动退回浏览器自带女声兜底，保证能出声。 */
-  var __spk = { on: false, btn: null, voice: null, tried: false, audio: null, style: 'xian', ctx: null };
+  var __spk = { on: false, btn: null, voice: null, tried: false, audio: null, style: 'clean', ctx: null };
   function pickVoice() {
     if (!window.speechSynthesis) return null;
     if (!__spk.tried) {
@@ -380,12 +380,14 @@
     __spk.on = true; __spk.btn = btn;
     if (btn) btn.textContent = '⏸ 停一下';
     var idx = 0;
+    var RATE = 1.15; // 朗读快一点
 
     function playBuffer(buf) {
       var ac = window.AudioContext || window.webkitAudioContext;
       if (!ac || !__spk.ctx) {
         var a = new Audio();
         a.src = URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+        a.playbackRate = RATE;
         a.onended = function () { if (__spk.on) playNext(); };
         a.play().catch(function () {});
         __spk.audio = a;
@@ -396,6 +398,7 @@
         if (!__spk.on) return;
         var src = ctx.createBufferSource();
         src.buffer = ab;
+        src.playbackRate.value = RATE;
         if (__spk.style === 'xian') {
           // 仙风道骨：两道回响 + 轻微低通，像在山门大殿里说话
           var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3800;
@@ -421,11 +424,15 @@
         return r.arrayBuffer();
       }).then(function (b) { done(b); }).catch(function () { done(null); });
     }
+    // 一次性把所有句子的音频并行取回：第一句取回就播，后面早就在等着，句间零停顿
+    var proms = segs.map(function (seg) {
+      return new Promise(function (res) { fetchSeg(seg.slice(0, 200), res); });
+    });
     function playNext() {
       if (!__spk.on) return;
       if (idx >= segs.length) { speakStop(); return; }
-      var seg = segs[idx++];
-      fetchSeg(seg, function (buf) {
+      var p = proms[idx++];
+      p.then(function (buf) {
         if (!__spk.on) return;
         if (!buf) {
           __spk.on = false;
@@ -449,8 +456,8 @@
       row.innerHTML =
         '<button class="btn ghost sm spk-play" type="button">🔊 听语音讲解</button>' +
         '<span class="spk-style">' +
-          '<button class="chip on" data-style="xian" type="button">仙风道骨</button>' +
-          '<button class="chip" data-style="clean" type="button">清音</button>' +
+          '<button class="chip on" data-style="clean" type="button">清音</button>' +
+          '<button class="chip" data-style="xian" type="button">仙风道骨</button>' +
         '</span>';
       var host = outEl.querySelector('.answer');
       if (host) host.appendChild(row); else outEl.appendChild(row);
