@@ -582,15 +582,13 @@
         } catch (e) { serverFailed = true; }   // 云端请求失败（网络/503 等）→ 下面转本地
       }
 
-      // 2) 手动本地 / 云端挂了 / 云端额度空 → 用你的设备本地推演（零服务器额度、不限量）
+      // 2) 本地兜底：实测小模型（0.5B/1.5B）会跑题、编概念，质量撑不起命理，
+      //    故不做静默自动兜底——只有用户自己勾了「用我的设备算力」才跑；
+      //    否则给一句明白话，并把开关指给他，不硬塞不准的东西。
       if (useLocal || serverFailed || quotaHit) {
-        // 手动开=任何设备都跑；自动兜底只在「能本地加速」(有 WebGPU)的机器上跑，
-        // 免得在跑不动的手机上硬塞个又慢又不准的小模型。
-        var canAuto = useLocal || !!navigator.gpu;
         if (!localAvail) { if (serverFailed) throw new Error('server_unavailable'); }
-        else if (canAuto) {
-          if (!useLocal && (serverFailed || quotaHit)) toast('云端算力额度用尽，已切到你的设备本地推演（不限量）');
-          useLocal = true; started = false; text = ''; didLocal = true;
+        else if (useLocal) {
+          started = false; text = ''; didLocal = true;
           body.innerHTML = '<span class="loading"><span class="spin"></span>正在用你的设备本地推演…首次需下载模型，稍候</span><span class="caret"></span>';
           var lstream = window.YXJ_LOCAL.chat(askReq);
           for await (var lchunk of lstream) {
@@ -599,8 +597,10 @@
             if (ld && ld.content) { if (!started) { started = true; text = ''; } text += ld.content; body.innerHTML = esc(text) + '<span class="caret"></span>'; }
           }
         } else {
-          // 设备跑不了本地加速（多为手机/老浏览器）且用户没主动开 → 不硬跑慢模型，说句明白话
-          body.innerHTML = '<span class="loading">云端今日算力额度用尽了。你这台设备暂时跑不了本地加速——明天再来，或者换用电脑打开这一页继续问，都不花钱。</span>';
+          // 没主动开本地 → 不静默跑小模型，给句明白话（准确准数在「秒懂你这盘」里照样能看）
+          body.innerHTML = '<span class="loading">云端今日算力额度用尽了，明天再来就不花钱。' +
+            (localAvail ? '实在等不及，可以勾选上面的「用我的设备算力」，用你设备上的小模型先顶一下——它较慢、可能跑题，仅供参看。' : '') +
+            '</span>';
           ok = false;
         }
       }
@@ -1558,7 +1558,7 @@
       '<div style="margin-top:8px;display:flex;gap:7px;flex-wrap:wrap">' +
       chips.map(function (c) { return '<button class="btn ghost sm chip">' + esc(c) + '</button>'; }).join('') + '</div>' +
       '<div style="margin-top:12px;padding:10px 12px;border:1px dashed var(--line2);border-radius:11px;background:rgba(47,107,92,.04);display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
-      '<label class="chk"><input type="checkbox" id="askLocal"> 用我的设备算力（不限量·首次下载模型）</label>' +
+      '<label class="chk"><input type="checkbox" id="askLocal"> 用我的设备算力（实验·较慢、可能跑题）</label>' +
       '<span id="askLocalState" style="font-size:12.5px;color:var(--ink3)"></span></div>' +
       '<div class="tools"><button class="btn" id="askGo">问 易 玄 机 →</button>' +
       '<button class="btn ghost" id="askStop" style="display:none">停 下</button>' +
