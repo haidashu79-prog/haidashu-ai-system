@@ -351,6 +351,8 @@
   }
   function speakStop() {
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { }
+    try { if (window.YXJNative && window.YXJNative.ttsStop) window.YXJNative.ttsStop(); } catch (e) { }
+    __ttsPendingBtn = null;
     try {
       if (__spk.audio) {
         if (typeof __spk.audio.stop === 'function') __spk.audio.stop();
@@ -361,8 +363,28 @@
     __spk.on = false; __spk.audio = null;
     if (__spk.btn) __spk.btn.textContent = '🔊 听语音讲解';
   }
-  /* 后端挂了或模型下线，退回浏览器自带女声把剩下的念完 */
+  /* 后端挂了或模型下线，退回设备自带女声把剩下的念完。
+     App（WebView）里没有 speechSynthesis，改调原生系统语音；两样都没有才认输。 */
+  var __ttsSeq = 0, __ttsPendingBtn = null;
+  // 供外部（App 原生桥调试、其他页面复用）直接调用朗读
+  window.YXJ_SPEAK = function (txt, btn) { return speakText(txt, btn); };
+  window.YXJ_SPEAK_STOP = function () { return speakStop(); };
+  window.__yxjTtsDone = function (id) {
+    if (__ttsPendingBtn) { __ttsPendingBtn.textContent = '🔊 听语音讲解'; __ttsPendingBtn = null; }
+  };
   function speakFallback(list, btn) {
+    var N = window.YXJNative;
+    if (N && typeof N.ttsSpeak === 'function') {
+      var all = list.filter(function (s) { return !!s; }).join('');
+      if (!all) return;
+      var id = 'yxj' + (++__ttsSeq), ok = false;
+      try { ok = N.ttsSpeak(all, 0.95, id); } catch (e) { ok = false; }
+      if (ok) { __ttsPendingBtn = btn || null; return; }
+    }
+    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+      toast('这台设备没有可用的朗读声音');
+      return;
+    }
     var v = pickVoice();
     list.forEach(function (s) {
       if (!s) return;
@@ -562,7 +584,7 @@
       };
       var localAvail = !!(window.YXJ_LOCAL && window.YXJ_LOCAL.supported && window.YXJ_LOCAL.supported());
       var useLocal = !!window.YXJ_USE_LOCAL && localAvail;   // 手动切本地：跳过云端，设备本地推演
-      var stream = null, serverFailed = false, quotaHit = false;
+      var stream = null, serverFailed = false, quotaHit = false, serverErr = null;
 
       // 1) 云端/站内优先（免费档有额度时走这）
       if (!useLocal) {
@@ -579,7 +601,7 @@
               body.innerHTML = esc(text) + '<span class="caret"></span>';
             }
           }
-        } catch (e) { serverFailed = true; }   // 云端请求失败（网络/503 等）→ 下面转本地
+        } catch (e) { serverFailed = true; serverErr = e; }   // 云端请求失败（网络/503 等）→ 下面转本地
       }
 
       // 2) 本地兜底：实测小模型（0.5B/1.5B）会跑题、编概念，质量撑不起命理，
@@ -598,9 +620,17 @@
           }
         } else {
           // 没主动开本地 → 不静默跑小模型，给句明白话（准确准数在「秒懂你这盘」里照样能看）
-          body.innerHTML = '<span class="loading">云端今日算力额度用尽了，明天再来就不花钱。' +
-            (localAvail ? '实在等不及，可以勾选上面的「用我的设备算力」，用你设备上的小模型先顶一下——它较慢、可能跑题，仅供参看。' : '') +
-            '</span>';
+          // 分清「手机没连上网」和「云端额度用尽」：前者让用户去连网，后者才劝他明天来
+          var offMsg = String((serverErr && (serverErr.message || serverErr)) || '');
+          var offline = (typeof navigator !== 'undefined' && navigator.onLine === false) ||
+            /Failed to fetch|NetworkError|ERR_INTERNET|Load failed|network/i.test(offMsg);
+          if (offline) {
+            body.innerHTML = '<span class="loading">这会儿设备没连上网，问不了云端。连上网再问一次就行——排盘、起卦、黄历这些不用网，照样能用。</span>';
+          } else {
+            body.innerHTML = '<span class="loading">云端今日算力额度用尽了，明天再来就不花钱。' +
+              (localAvail ? '实在等不及，可以勾选上面的「用我的设备算力」，用你设备上的小模型先顶一下——它较慢、可能跑题，仅供参看。' : '') +
+              '</span>';
+          }
           ok = false;
         }
       }
@@ -1027,9 +1057,23 @@
       L.push('今天做一件：' + h.act);
     }
     var msg = '已复制，可以发给别人了', bad = '这台设备不让复制，手动选中也行';
-    try {
-      navigator.clipboard.writeText(L.join('\n')).then(function () { toast(msg); }, function () { toast(bad); });
-    } catch (e) { toast(bad); }
+    var txt = L.join('\n');
+    function nativeCopy() {
+      var N = window.YXJNative;
+      if (N && typeof N.copy === 'function') {
+        try { N.copy(txt); toast(msg); return true; } catch (e) { }
+      }
+      return false;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        navigator.clipboard.writeText(txt).then(function () { toast(msg); }, function () {
+          if (!nativeCopy()) toast(bad);
+        });
+      } catch (e) { if (!nativeCopy()) toast(bad); }
+    } else if (!nativeCopy()) {
+      toast(bad);
+    }
   }
 
   /* ---- 话外音：卦断的是事，人问的是心 ---- */
@@ -1593,6 +1637,7 @@
       if (s === 'loading') st.textContent = '正在下载本地模型（' + label + '） ' + p + '%…';
       else if (s === 'ready') st.textContent = '本地算力已就绪（' + (window.YXJ_LOCAL.device === 'webgpu' ? 'GPU' : 'CPU') + ' 跑）';
       else if (s === 'error') st.textContent = '本地模型没加载成，已用云端';
+      else if (window.YXJNative) st.textContent = '手机里跑本地模型要下 ' + label + '，纯 CPU 很慢（几分钟起），不建议；等云端额度恢复更省事';
       else st.textContent = '首次需下载 ' + label + '，之后本机秒开';
     }
     window.YXJ_LOCAL.onStatus(show);

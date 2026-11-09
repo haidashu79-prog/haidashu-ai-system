@@ -1,13 +1,23 @@
 package com.haidashu.yixuan;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -18,6 +28,8 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import androidx.webkit.WebViewAssetLoader;
 
@@ -38,6 +50,15 @@ public class MainActivity extends android.app.Activity {
     private WebView web;
     private ProgressBar bar;
     private long lastBack = 0L;
+
+    /** 自检广播：adb 发一条就能把全部页面走一遍并打点（正式使用不受影响） */
+    private static final String ACTION_SELFCHECK = "com.haidashu.yixuan.SELFCHECK";
+    private BroadcastReceiver selfcheck;
+
+    /** 系统语音引擎：网页里的 speechSynthesis 在 WebView 里不存在，这里补上 */
+    private TextToSpeech tts;
+    private volatile boolean ttsReady = false;
+    private volatile boolean ttsZh = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -81,6 +102,23 @@ public class MainActivity extends android.app.Activity {
             try { s.setForceDark(WebSettings.FORCE_DARK_OFF); } catch (Throwable ignored) {}
         }
 
+        initTts();
+        web.addJavascriptInterface(new Bridge(), "YXJNative");
+        // 保留 WebView 调试通道：只有本机 adb 能连，用于排查页面问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+
+        selfcheck = new BroadcastReceiver() {
+            @Override public void onReceive(Context c, Intent i) { runSelfCheck(); }
+        };
+        IntentFilter f = new IntentFilter(ACTION_SELFCHECK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(selfcheck, f, Context.RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(selfcheck, f);
+        }
+
         web.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int p) {
@@ -119,8 +157,11 @@ public class MainActivity extends android.app.Activity {
                 android.util.Log.i("YXJ", "[done] " + url);
                 view.evaluateJavascript(
                     "(function(){var v=document.getElementById('view'),m=document.getElementById('modal');" +
+                    "var n=window.YXJNative;" +
                     "return JSON.stringify({viewLen:v?v.innerHTML.length:-9,viewKids:v?v.children.length:-4," +
-                    "modalLen:m?m.innerHTML.length:-8,hash:location.hash,ready:document.readyState});})()",
+                    "modalLen:m?m.innerHTML.length:-8,hash:location.hash,ready:document.readyState," +
+                    "bridge:typeof n,info:(n&&n.info?n.info():'-')," +
+                    "speech:typeof window.speechSynthesis,wasm:typeof WebAssembly,gpu:!!navigator.gpu});})()",
                     v -> android.util.Log.i("YXJ", "[dom] " + v));
             }
 
@@ -158,6 +199,147 @@ public class MainActivity extends android.app.Activity {
         } else {
             web.loadUrl(START_URL);
         }
+    }
+
+    /** 依次打开每个页面，把渲染结果打进 logcat：[self] {"p":"#/bazi","len":1234,"txt":"..."} */
+    private void runSelfCheck() {
+        final String[] pages = {"#/home", "#/gua", "#/bazi", "#/qimen", "#/almanac",
+                "#/fengshui", "#/wuxing", "#/classics", "#/learn", "#/memory", "#/ask", "#/admin"};
+        final Handler h = new Handler(Looper.getMainLooper());
+        android.util.Log.i("YXJ", "[self] BEGIN pages=" + pages.length);
+        for (int i = 0; i < pages.length; i++) {
+            final String p = pages[i];
+            h.postDelayed(new Runnable() {
+                @Override public void run() {
+                    web.evaluateJavascript("location.hash='" + p + "'", null);
+                }
+            }, i * 900L);
+            h.postDelayed(new Runnable() {
+                @Override public void run() {
+                    web.evaluateJavascript(
+                        "(function(){var v=document.getElementById('view');" +
+                        "var t=v?v.innerText.replace(/\\s+/g,' ').slice(0,44):'';" +
+                        "return JSON.stringify({p:location.hash,len:v?v.innerHTML.length:-1,kids:v?v.children.length:-1,txt:t});})()",
+                        val -> android.util.Log.i("YXJ", "[self] " + val));
+                }
+            }, i * 900L + 650L);
+        }
+        h.postDelayed(new Runnable() {
+            @Override public void run() {
+                android.util.Log.i("YXJ", "[self] DONE");
+                web.evaluateJavascript("location.hash='#/home'", null);
+            }
+        }, pages.length * 900L + 600L);
+    }
+
+    /** 初始化系统 TTS：中文可用就报 tts=1，没装中文语音包就报 tts=0（网页据此决定提示语） */
+    private void initTts() {
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.SUCCESS) {
+                    android.util.Log.i("YXJ", "[tts] init failed status=" + status);
+                    return;
+                }
+                ttsReady = true;
+                int r = tts.setLanguage(Locale.SIMPLIFIED_CHINESE);
+                ttsZh = !(r == TextToSpeech.LANG_MISSING_DATA || r == TextToSpeech.LANG_NOT_SUPPORTED);
+                tts.setSpeechRate(1.0f);
+                tts.setPitch(1.0f);
+                tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override public void onStart(String id) {}
+                    @Override public void onDone(final String id) { notifyJsDone(id); }
+                    @Override public void onError(String id) { notifyJsDone(id); }
+                });
+                android.util.Log.i("YXJ", "[tts] ready zh=" + ttsZh);
+            }
+        });
+    }
+
+    private void notifyJsDone(final String id) {
+        if (web == null || id == null) return;
+        runOnUiThread(new Runnable() {
+            @Override public void run() {
+                web.evaluateJavascript("window.__yxjTtsDone&&window.__yxjTtsDone('" + id + "')", null);
+            }
+        });
+    }
+
+    /**
+     * 给网页用的原生能力桥（window.YXJNative）。
+     * 补 WebView 缺的三样：语音合成、剪贴板、系统提示。其余全走网页自己的实现。
+     */
+    public class Bridge {
+        @JavascriptInterface
+        public String info() {
+            return "{\"app\":true,\"ver\":\"1.0\",\"tts\":" + (ttsReady && ttsZh ? 1 : 0)
+                    + ",\"platform\":\"android\"}";
+        }
+
+        @JavascriptInterface
+        public boolean ttsSpeak(String text, float rate, String id) {
+            if (tts == null || !ttsReady || text == null) return false;
+            try {
+                tts.setSpeechRate(rate <= 0f ? 1.0f : rate);
+                // 单条过长会被系统截断，按 800 字切段依次排队
+                int step = 800;
+                for (int i = 0; i < text.length(); i += step) {
+                    String seg = text.substring(i, Math.min(text.length(), i + step));
+                    String uid = (id == null ? "yxj" : id) + "_" + i;
+                    int mode = (i == 0) ? TextToSpeech.QUEUE_FLUSH : TextToSpeech.QUEUE_ADD;
+                    tts.speak(seg, mode, null, uid);
+                }
+                return true;
+            } catch (Throwable e) {
+                android.util.Log.i("YXJ", "[tts] speak fail " + e);
+                return false;
+            }
+        }
+
+        @JavascriptInterface
+        public void ttsStop() {
+            try { if (tts != null) tts.stop(); } catch (Throwable ignored) {}
+        }
+
+        @JavascriptInterface
+        public void copy(String text) {
+            try {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm != null) cm.setPrimaryClip(ClipData.newPlainText("易玄机", text == null ? "" : text));
+            } catch (Throwable ignored) {}
+        }
+
+        @JavascriptInterface
+        public void toast(final String msg) {
+            runOnUiThread(new Runnable() {
+                @Override public void run() {
+                    Toast.makeText(MainActivity.this, msg == null ? "" : msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void open(String url) {
+            final String u = url == null ? "" : url;
+            runOnUiThread(new Runnable() {
+                @Override public void run() { openExternal(u); }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        try { if (selfcheck != null) unregisterReceiver(selfcheck); } catch (Throwable ignored) {}
+        try {
+            if (tts != null) { tts.stop(); tts.shutdown(); }
+        } catch (Throwable ignored) {}
+        if (web != null) {
+            try {
+                web.removeJavascriptInterface("YXJNative");
+                web.destroy();
+            } catch (Throwable ignored) {}
+        }
+        super.onDestroy();
     }
 
     /**
