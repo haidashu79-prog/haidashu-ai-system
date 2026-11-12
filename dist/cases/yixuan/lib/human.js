@@ -229,7 +229,9 @@
     if (opt.timeWord) hz = { h: opt.horizon || hz.h, w: opt.timeWord };
     var n = nounOf(topic, hz);
     var me = opt.me || null;
-    var hits = scoreDrives(q, topic, opt.pick, me);
+    var zw = opt.zw || null;
+    /* 紫微盘没有身强身弱，不再拿命给「心里卡在哪」加权；那一层只看他问的原话 */
+    var hits = scoreDrives(q, topic, opt.pick, zw ? null : me);
     var picked = hits.slice(0, 3).map(function (x) { return x.d; });
     if (!picked.length) picked = [FALLBACK];
 
@@ -267,7 +269,9 @@
       others: picked.slice(1).map(function (d) { return d.k; })
     };
     out.plain = plainOf(out);
-    out.meHumanNote = me ? meHumanNote(me, topic, main.k) : '';   // 八字 + 问事 的人性提示段
+    out.meHumanNote = zw
+      ? '按你的紫微盘：' + zw.note + '。你这一问背后卡在哪，主要看问的那句话，本站不拿紫微盘另断吉凶。'
+      : (me ? meHumanNote(me, topic, main.k) : '');   // 老口径兜底
     return out;
   }
 

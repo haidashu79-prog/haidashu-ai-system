@@ -58,6 +58,17 @@
     if (input.bzS != null) p.bzS = input.bzS;
     return save(p);
   }
+  /* 紫微斗数页默认值存回去 */
+  function ziwei(input) {
+    var p = {};
+    if (input.zwY != null) p.zwY = input.zwY;
+    if (input.zwM != null) p.zwM = input.zwM;
+    if (input.zwD != null) p.zwD = input.zwD;
+    if (input.zwH != null) p.zwH = input.zwH;
+    if (input.zwMi != null) p.zwMi = input.zwMi;
+    if (input.zwS != null) p.zwS = input.zwS;
+    return save(p);
+  }
   /* 起卦页回填：返回 {guaQ, guaWay, guaCat}，没有就返回 {} */
   function forGua() {
     var p = load();
@@ -87,10 +98,24 @@
     return o;
   }
 
+  /* 紫微斗数回填 */
+  function forZiwei() {
+    var p = load();
+    if (!p) return {};
+    var o = {};
+    if (p.zwY != null) o.zwY = p.zwY;
+    if (p.zwM != null) o.zwM = p.zwM;
+    if (p.zwD != null) o.zwD = p.zwD;
+    if (p.zwH != null) o.zwH = p.zwH;
+    if (p.zwMi != null) o.zwMi = p.zwMi;
+    if (p.zwS != null) o.zwS = p.zwS;
+    return o;
+  }
+
   Y.PROF = {
     KEY: KEY,
     load: load, save: save, clear: clear,
-    gua: gua, ask: ask, bazi: bazi,
-    forGua: forGua, forAsk: forAsk, forBazi: forBazi
+    gua: gua, ask: ask, bazi: bazi, ziwei: ziwei,
+    forGua: forGua, forAsk: forAsk, forBazi: forBazi, forZiwei: forZiwei
   };
 })();

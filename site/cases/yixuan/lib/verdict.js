@@ -473,14 +473,19 @@ window.YXJ = window.YXJ || {};
       factors.push(yqFactor);
     }
 
-    /* ---- 命主这一层：同一卦，落在不同人的命里，轻重不一样 ----
-       卦是当场摇的，改不了；但同一个卦对不同的人是补是耗，得按各人的喜用来看。
-       这里没有命主信息时整段跳过，老路子照旧。 */
+    /* ---- 命主这一层：同一卦，落在不同人的盘上，说法不一样 ----
+       现已改成读紫微斗数本命盘。紫微没有「喜用五行」，本站也不自造规则，
+       所以这一层只如实陈述盘面，不参与吉凶加减分；分数全由卦本身定。
+       只有紫微引擎没加载上时才退回老八字口径，避免整层空掉。 */
     var me = opt && opt.me;
+    var zw = opt && opt.zw;
     var meRead = null, meNote = '', meFactor = null;
     /* 取不到用神时，退一步看代表求测人自己的那一爻，别让「因人而异」这层空着 */
     var refYao = yongYao || (z.yao && z.shi ? z.yao[z.shi - 1] : null);
-    if (me && me.ys && refYao) {
+    if (zw && zw.ok) {
+      meNote = zw.note;
+      meRead = { zw: true, note: zw.note, short: zw.short };
+    } else if (me && me.ys && refYao) {
       var wxm = refYao.wx;
       var refWord = yongYao ? '这件事在卦里' : '卦里代表你的那一爻';
       var useM = me.ys.use || [], avoidM = me.ys.avoid || [];
@@ -586,11 +591,13 @@ window.YXJ = window.YXJ || {};
       '看这件事的是「' + (yongYao ? yongYao.qin + '」这一爻，' + vit.level : '（未取到用神）'),
       '，代表你的世爻是' + sy.shi.gz + '（' + sy.shi.qin + '）',
       '。',
-      meRead ? ('底下再说一层：' + meNote + '。' +
-        (meRead.onYong ? '这件事在卦里属' : '卦里代表他的那一爻属') + meRead.wx + '，' +
-        (meRead.hit === 'use' ? '正补在他的喜用上，落到他身上是顺水。'
-          : meRead.hit === 'avoid' ? '撞在他要避的那一口上，别人办兴许顺手，他办得先绕开这个坎。'
-            : '跟他的喜用不搭界，好与坏全看他自己使多大劲。')) : '',
+      meRead ? (meRead.zw
+        ? '底下再说一层：这个人的紫微本命盘是' + meNote + '。这部分只作背景，吉凶仍按上面已排定的卦来断，不要拿紫微另编一套加减分。'
+        : '底下再说一层：' + meNote + '。' +
+          (meRead.onYong ? '这件事在卦里属' : '卦里代表他的那一爻属') + meRead.wx + '，' +
+          (meRead.hit === 'use' ? '正补在他的喜用上，落到他身上是顺水。'
+            : meRead.hit === 'avoid' ? '撞在他要避的那一口上，别人办兴许顺手，他办得先绕开这个坎。'
+              : '跟他的喜用不搭界，好与坏全看他自己使多大劲。')) : '',
       '合到一块儿，' + head
     ].join('');
 

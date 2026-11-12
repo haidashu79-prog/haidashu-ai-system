@@ -472,6 +472,86 @@ window.YXJ = window.YXJ || {};
     return L.join('\n');
   }
 
+  /* 紫微版问答提示词：依据全换成紫微盘，保留原先「答全、说人话、不套模板」的架子。
+     紫微没有日主、喜用、十神、属相冲合，所以不拿这些去要求模型，也不自造分数。 */
+  function askPromptZW(q, me, fate, zw) {
+    if (!zw || !zw.ok) return askPrompt(q, me, fate);
+    var L = [], ps = (zw.chart && zw.chart.palaces) || [], b = zw.brief;
+    function palace(name, key) {
+      var p = null;
+      ps.forEach(function (x) { if (x.name === name || x.name === key) p = x; });
+      if (!p) return '（这一宫没取到）';
+      var stars = (p.majorStars || []).map(function (s) {
+        return s.name + (s.brightness ? '（' + s.brightness + '）' : '') +
+          (s.mutagen && s.mutagen !== '' ? ' ' + ({ '禄': '化禄', '权': '化权', '科': '化科', '忌': '化忌' }[s.mutagen] || '') : '');
+      }).join('、');
+      return p.heavenlyStem + p.earthlyBranch + '宫，' + (stars || '无十四主星（空宫，传统上借对宫看）');
+    }
+    var REF = [
+      '命宫：' + palace('命宫', '命'),
+      '身宫：' + (function () {
+        var p = null; ps.forEach(function (x) { if (x.isBodyPalace) p = x; });
+        return p ? p.name + '（' + p.heavenlyStem + p.earthlyBranch + '）' : '（盘上未标出身宫）';
+      })(),
+      '夫妻宫：' + palace('夫妻'), '财帛宫：' + palace('财帛'),
+      '官禄宫：' + palace('官禄', '事业'), '仆役宫：' + palace('仆役', '交友'),
+      '疾厄宫：' + palace('疾厄'), '迁移宫：' + palace('迁移'),
+      '田宅宫：' + palace('田宅'), '福德宫：' + palace('福德')
+    ].join('\n· ');
+
+    L.push('【他问的原话——答话要从这一句接住，别跑题去讲他压根没问的事】' + q);
+    L.push('');
+    L.push('【这个人的紫微斗数本命盘，讲的时候必须照这张盘说】');
+    L.push(zw.note + '。');
+    L.push('· ' + REF);
+    L.push('这张盘由 iztro 排定，属传统术数盘面。不要再另推日主、身强身弱、喜用五行、十神或属相冲合，也不要拿紫微另编一套吉凶加减分。');
+    L.push('');
+    L.push('【断的依据必须同时用上两样，缺一不可：一是上面这张紫微盘，二是他这一句原话。要落到他的盘上说，别只讲放之四海皆准的通用话。】');
+
+    var CATS = [
+      { k: 'partner', re: /(属相|生肖|合作|合伙|搭档|共事|跟谁|配不配|合不合|深交)/ },
+      { k: 'money', re: /(钱|财|挣|赚|生意|投资|亏|收入|回本)/ },
+      { k: 'career', re: /(工作|事业|跳槽|岗位|行业|干哪行|做什么|升职|创业)/ },
+      { k: 'love', re: /(感情|婚|对象|正缘|老婆|老公|配偶|恋爱|桃花)/ },
+      { k: 'health', re: /(身体|健康|病|睡不好|累|精神)/ },
+      { k: 'luck', re: /(运|今年|明年|什么时候|流年|大限|坎|机会)/ }
+    ];
+    var want = {}, anyCat = false;
+    CATS.forEach(function (c) { if (c.re.test(String(q))) { want[c.k] = 1; anyCat = true; } });
+    var broad = !anyCat;
+    var focus = want.partner ? '合伙与人缘' : want.money ? '钱' : want.career ? '事业'
+      : want.love ? '感情' : want.health ? '身子' : want.luck ? '运程' : '整张盘';
+
+    if (fate) {
+      L.push('【这一问是看命／看盘：就着他排好的这张紫微盘讲，不起卦、不拿卦象硬套，也不扯某一天的吉凶】');
+      var sec = [];
+      sec.push('命数。照命宫那几颗主星讲他的性子底子和这辈子大体往哪儿使劲，顺带说清五行局是什么。');
+      if (broad || want.career || want.love) sec.push('性子。命宫主星怎么说，身宫又落在哪儿；好在哪儿、容易栽在哪儿，别空口夸。');
+      if (want.partner) sec.push('合伙。看仆役宫和迁移宫；盘上有什么星就说什么星，别编属相冲合那一套。');
+      if (broad || want.career) sec.push('事业。看官禄宫；适合做什么路子、哪一头要留神，说清为什么。');
+      if (broad || want.money) sec.push('钱。看财帛宫；钱路偏稳还是偏动，照宫里主星说。');
+      if (broad || want.love) sec.push('感情。看夫妻宫；相处上容易较真的是哪一头。');
+      if (broad || want.health) sec.push('身子。看疾厄宫；只当提醒，不许吓人，不许下病名。');
+      if (broad || want.luck) sec.push('运程。说清眼下这步大限落在哪一宫、流年落在哪一宫，只讲盘面，不替他定哪年一定发财或一定有灾。');
+      sec.push('四化。把生年四化逐条说清落在哪一宫，传统上各主什么；' + (b.hua ? '他这张盘是' + b.hua + '。' : '盘上没取到四化就直说没取到。'));
+      sec.push('远离与靠近。照上面四化和各宫主星讲哪一头要多留心、哪一头可以多用劲，一条一条说清为什么；别编方位、颜色、数字。');
+      sec.push('记号。盘上有的辅星照实说落在哪、老书里怎么讲；没有就直说没有，别硬凑。');
+      L.push('【他这一问，重点是「' + focus + '」。先把这块说透，再把下面几样基础的给全。每一样单独一段，段头先把是哪一样点出来，一篇里别把同一段格式重复十遍，读着像人话就行】');
+      sec.forEach(function (s, i) { L.push((i + 1) + '｜' + s); });
+      L.push('【上面这一列，一条都不能少，也不许拿一句空话糊过去】');
+    } else {
+      L.push('【这一问是问一件具体事：按他这张紫微盘和常理给明确判断——能不能、该不该、什么时候、往哪边走。能给理由就给理由，最后给一件今天就能做的小事。碰到行话，也要跟一句「就是……」。】');
+    }
+    L.push('【别再报数】宫名、主星、四化这些，他页面上「秒懂你这盘」已经看得见了。你不用再一样一样念一遍，直接说这些落在他身上是什么意思、他该怎么办。');
+    L.push('【术语一律翻成大白话】凡是「化忌」「空宫」「借对宫」「大限」这类词，后头必须紧跟一句「就是……」，用街坊话把它说破。');
+    L.push('【重点要标出来】每段要紧的那句结论，用两个星号夹住；全篇标五到八处，别整段都标。');
+    L.push('【篇幅】上面几段讲全，写到八九百字不嫌多。宁可长，不许漏项，不许拿「因人而异」混过去。末尾补一件今天就能照做的小事。');
+    L.push('');
+    L.push('【这一回不许套模板】就着他这句话、他这张盘说，别用放之四海皆准的套话。');
+    L.push('直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥。别拽文言、别排比、别「首先其次」。');
+    return L.join('\n');
+  }
+
   function askPrompt(q, me, fate) {
     var f = null;
     try { f = me ? of(me) : null; } catch (e) { f = null; }
@@ -559,7 +639,7 @@ window.YXJ = window.YXJ || {};
   }
 
   Y.FACTS = {
-    of: of, prompt: prompt, line: line, askPrompt: askPrompt, isFateQ: isFateQ,
+    of: of, prompt: prompt, line: line, askPrompt: askPrompt, askPromptZW: askPromptZW, isFateQ: isFateQ,
     GLOSS: GLOSS, XIAO: XIAO, relOf: relOf, ssBai: ssBai
   };
 })(window.YXJ);

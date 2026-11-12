@@ -29,6 +29,14 @@
       open: '这话我慢慢说：你现在缺的不是主意，是一口顺过来的气。',
       stress: '别一上来就定大的，先挑一件小的、今天就能做完的动起来。',
       act: '今天只做第一步，小到不可能失败那一步，做完再回头看，不许顺手加码。'
+    },
+    /* 紫微斗数没有「身强身弱」这套说法，本站不自造：走平实口径 */
+    flat: {
+      k: '平实',
+      tone: 'plain',
+      open: '这话我照实说：先把眼前这一件捋清楚，别急着往两头想。',
+      stress: '把步子拆到今天就能做完，别一上来就定大的。',
+      act: '今天只做第一步，做完再回头看，比在心里来回掂量强。'
     }
   };
 
@@ -78,20 +86,23 @@
   /* ---------- 四、读数 ---------- */
   function read(opt) {
     opt = opt || {};
-    var me = opt.me || null;               // ME.compute() 的读数
+    var me = opt.me || null;               // ME.compute() 的读数（仅作老口径兜底）
+    var zw = opt.zw || null;               // 紫微本命盘读数（优先）
     var hm = opt.hm || null;               // HM.read() 的读数
     var vd = opt.vd || null;               // VD.judge() 的结果
 
     var strong = !!(me && me.ys && me.ys.strength && me.ys.strength.strong);
-    var S = strong ? BY_STRENGTH.strong : BY_STRENGTH.weak;
-    var hit = (vd && vd.me && vd.me.hit) ? vd.me.hit : null;
+    var mode = zw ? 'flat' : (strong ? 'strong' : 'weak');
+    var S = BY_STRENGTH[mode];
+    var hit = (!zw && vd && vd.me && !vd.me.zw && vd.me.hit) ? vd.me.hit : null;
     var driveKey = hm && hm.main ? hm.main : null;
     var D = driveKey ? BY_DRIVE[driveKey] : null;
 
-    var who = me
-      ? '日主' + me.dayGan + '（' + me.dayWx + '），' + (strong ? '身偏强' : '身偏弱') +
-        (me.ys && me.ys.use && me.ys.use.length ? '，喜用' + me.ys.use.join('、') : '')
-      : '（没给生辰，按通用口径讲）';
+    var who = zw ? zw.note
+      : me
+        ? '日主' + me.dayGan + '（' + me.dayWx + '），' + (strong ? '身偏强' : '身偏弱') +
+          (me.ys && me.ys.use && me.ys.use.length ? '，喜用' + me.ys.use.join('、') : '')
+        : '（没给生辰，按通用口径讲）';
 
     var open = S.open;
     if (D) open = open + ' ' + D.open;
@@ -100,11 +111,12 @@
 
     var out = {
       who: who,
-      strength: strong ? 'strong' : 'weak',
+      strength: mode,
       strengthName: S.k,
       tone: S.tone,
       hit: hit,
       hitLine: hit ? BY_HIT[hit] : '',
+      zw: !!zw,
       drive: driveKey || '',
       open: open,
       stress: S.stress,
@@ -129,7 +141,9 @@
     L.push('重点往这儿压：' + n.stress);
     L.push('收尾这么收：' + n.close);
     L.push('今天让他做一件：' + n.act);
-    L.push('身强的人别替他下决心，把他不敢挑的那一头点出来就行；身弱的人别给他加压，先把步子拆小。');
+    L.push(n.zw
+      ? '别替他下决心，也别给他加压；把步子拆小、把话说明白就行。'
+      : '身强的人别替他下决心，把他不敢挑的那一头点出来就行；身弱的人别给他加压，先把步子拆小。');
     L.push('同一句话换个人来问，答法就该不一样——别把上面这套话说成通用台词。');
     return L.join('\n');
   }

@@ -4,7 +4,7 @@
    ============================================================= */
 (function () {
   'use strict';
-  var Y = window.YXJ, C = Y.C, YJ = Y.YJ, QM = Y.QM, FS = Y.FS, AL = Y.AL, RD = Y.RD, VD = Y.VD, MEM = Y.MEM, HM = Y.HM, ME = Y.ME, NEED = Y.NEED, PROF = Y.PROF, CASE = Y.CASE;
+  var Y = window.YXJ, C = Y.C, YJ = Y.YJ, QM = Y.QM, FS = Y.FS, AL = Y.AL, RD = Y.RD, VD = Y.VD, MEM = Y.MEM, HM = Y.HM, ME = Y.ME, NEED = Y.NEED, PROF = Y.PROF, CASE = Y.CASE, ZW = Y.ZW;
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -73,6 +73,23 @@
     return v;
   }
   var __lastPv = '', __pvCount = 0;
+  /* ---- 全站统一的命盘读数：现在一律走紫微斗数 ----
+     同一份生辰只排一次，缓存住；起卦、话外音、AI 讲词、秒懂你这盘都吃这一份。
+     ZW 不在（引擎没加载）时返回 null，各模块自己退回老口径，不让页面空掉。 */
+  var __zwCache = {};
+  function zwOf(me) {
+    if (!me || !me.input || !ZW || !ZW.person) return null;
+    var i = me.input;
+    var key = [i.y, i.m, i.d, i.h, i.mi, i.gender].join('-');
+    if (__zwCache[key]) return __zwCache[key];
+    try {
+      var a = ZW.chart({ y: i.y, m: i.m, d: i.d, h: (i.h == null ? 12 : i.h), mi: i.mi || 0, gender: i.gender || 'male' });
+      var p = ZW.person(a, i);
+      __zwCache[key] = p;
+      return p;
+    } catch (e) { return null; }
+  }
+
   function track(page) {
     if (!cloud) return;
     var p = String(page || location.hash || '#/home').slice(0, 60);
@@ -795,6 +812,7 @@
     var t = today(), info = AL.dayInfo(t.y, t.m, t.d);
     var entries = [
       { ic: '命', tt: '生辰八字', dd: '四柱五行、十神大运，看强弱喜忌与调补', h: '#/bazi', a: '#b08d4f', b: '#cfa96a', badge: '常用' },
+      { ic: '微', tt: '紫微斗数', dd: '十二宫十四主星、四化大限，开源引擎本机排', h: '#/ziwei', a: '#7a5c9e', b: '#c49ad0', badge: '新' },
       { ic: '遁', tt: '奇门遁甲', dd: '时家排盘，定局九宫，择时择方办事', h: '#/qimen', a: '#a63a2e', b: '#c4574a' },
       { ic: '宅', tt: '风水布局', dd: '八宅八方、流年飞星、现代风水与化解', h: '#/fengshui', a: '#3d8574', b: '#7a9e7e' },
       { ic: '历', tt: '万年历', dd: '干支农历、建除宜忌、冲煞与三神方位', h: '#/almanac', a: '#cfa96a', b: '#7a9e7e' },
@@ -841,12 +859,12 @@
       if (!filled) {
         return '<div class="me">' + head +
           '<div class="me-fold"><span class="zk" style="color:var(--warn)">还没填生辰</span>' +
-          '<span>填了之后，所有页面都按你的命来断</span>' +
+          '<span>填了之后，所有页面都按你的紫微盘来断</span>' +
           '<button class="btn ghost sm" id="meEdit">填一下</button></div></div>';
       }
       return '<div class="me">' + head +
         '<div class="me-fold"><span class="zk">' + esc(me ? me.zao : '') + '</span>' +
-        '<span>' + esc(ME.line(me)) + '</span>' +
+        '<span>' + esc(zwOf(me) ? zwOf(me).short : ME.line(me)) + '</span>' +
         '<button class="btn ghost sm" id="meEdit">改</button></div></div>';
     }
 
@@ -984,8 +1002,10 @@
     /* 落在谁身上：同一卦，不同的人，轻重不一样 */
     var ME_HIT = { use: '正落在你的喜用上，对你是补的', avoid: '撞上你要避的那一口，得多绕一层', flat: '跟你的喜用不沾边，看你自己使多大劲' };
     var meLine = v.me
-      ? '<div class="vd-me">按你的命来看：' + esc(v.meNote) + '。这件事在卦里属' + esc(v.me.wx) + '，' + ME_HIT[v.me.hit] + '。</div>'
-      : '<div class="vd-me nog">这一卦没按你的命断，说的是事本身。把生辰填上再问，话就能落到你身上。</div>';
+      ? (v.me.zw
+          ? '<div class="vd-me">按你的紫微盘：' + esc(v.meNote) + '。这一层只作背景，吉凶仍由上面这一卦定，本站不拿紫微另加分。</div>'
+          : '<div class="vd-me">按你的命来看：' + esc(v.meNote) + '。这件事在卦里属' + esc(v.me.wx) + '，' + ME_HIT[v.me.hit] + '。</div>')
+      : '<div class="vd-me nog">这一卦没按你的命盘断，说的是事本身。把生辰填上再问，话就能落到你身上。</div>';
     var tools = opt.noTools ? '' :
       '<div class="vd-tools">' +
       '<button class="btn" id="vdAsk">让易玄机细说这件事 →</button>' +
@@ -1044,7 +1064,7 @@
     L.push('方向：' + v.topicName + ' · ' + v.horizonName);
     L.push('起卦：' + v.when);
     L.push('本卦《' + v.gua.prim + '》' + (v.gua.chg ? '　变卦《' + v.gua.chg + '》' : '　六爻皆静'));
-    if (v.meNote) L.push('按谁的命断的：' + v.meNote);
+    if (v.meNote) L.push((v.me && v.me.zw ? '按谁的紫微盘看的：' : '按谁的命断的：') + v.meNote);
     L.push('结论：' + v.badge + '｜' + v.headline);
     L.push('依据：' + v.whyShort.join(' '));
     L.push('今天能做的三件事：' + v.acts.join(' '));
@@ -1105,8 +1125,9 @@
     var hm = h || (HM ? HM.read({ q: v.question || '', topic: v.topic, times: HM.times(v.question || '') }) : null);
     /* 这个人是谁：同一卦落在不同的命里轻重不一样，讲的时候必须落到他身上 */
     var mNow = (ME && ME.has()) ? ME.read() : null;
-    /* 因人答法：没从外面传进来，就地照他的命和需求现算一套 */
-    var nd = n || (NEED ? NEED.read({ vd: v, me: mNow, hm: hm }) : null);
+    var zwNow = zwOf(mNow);
+    /* 因人答法：没从外面传进来，就地照他的盘和需求现算一套 */
+    var nd = n || (NEED ? NEED.read({ vd: v, me: mNow, zw: zwNow, hm: hm }) : null);
     var L = [];
     L.push('【下面是已经排定的卦，请照着讲，不要另起一卦，也不要再摇】');
     L.push('所问：' + (v.question || '（未写明，按通盘运程）'));
@@ -1117,7 +1138,8 @@
     L.push('用神旺衰：' + (v.vitality ? v.vitality.level + '。' + v.vitality.note.join('；') : '—'));
     L.push('世爻：' + v.shi.gz + '，六亲' + v.shi.qin + '；应爻：' + v.ying.gz + '，六亲' + v.ying.qin);
     if (v.year) L.push('流年：' + v.year.gz + '年，年气属' + v.year.wx + '。');
-    if (mNow && ME.promptBlock) { L.push(''); L.push(ME.promptBlock(mNow)); }
+    if (zwNow && zwNow.prompt) { L.push(''); L.push(zwNow.prompt); }
+    else if (mNow && ME.promptBlock) { L.push(''); L.push(ME.promptBlock(mNow)); }
     else if (v.meNote) { L.push(''); L.push('这个人：' + v.meNote + '。'); }
     L.push('已定的档位：' + v.badge + '（' + v.score + '／100）');
     L.push('已定的结论：' + v.headline);
@@ -1159,7 +1181,8 @@
 
     /* 先断事：认题 → 取用神 → 判旺衰 → 论世应 → 参流年 → 再看落在谁身上 */
     var me = (ME && ME.has()) ? ME.read() : null;
-    var vd = VD.judge({ q: q, dv: dv, fpNow: fpNow, yearFp: fpNow, cat: cat, me: me });
+    var zw = zwOf(me);
+    var vd = VD.judge({ q: q, dv: dv, fpNow: fpNow, yearFp: fpNow, cat: cat, me: me, zw: zw });
 
     /* 原文那一版，收进折叠里 */
     var rd = RD.liuyao(dv);
@@ -1190,9 +1213,9 @@
       '<span class="hint">' + esc(r.method) + '　' + fpNow.year.gz + '年 ' + (fpNow.month ? fpNow.month.gz + '月 ' : '') + fpNow.day.gz + '日 ' + fpNow.hour.gz + '时</span></div>' + guaHtml + '</details>';
 
     /* 话外音：把"他嘴上问的"和"他命里带的"合着读，缝进结论卡 */
-    var hm = HM ? HM.read({ q: q, topic: vd.topic, times: HM.times(q), me: me }) : null;
-    /* 因人答法：同一卦、同一句话，按他的命和需求换一套答法 */
-    var nd = NEED ? NEED.read({ vd: vd, me: me, hm: hm }) : null;
+    var hm = HM ? HM.read({ q: q, topic: vd.topic, times: HM.times(q), me: me, zw: zw }) : null;
+    /* 因人答法：同一卦、同一句话，按他的盘和需求换一套答法 */
+    var nd = NEED ? NEED.read({ vd: vd, me: me, zw: zw, hm: hm }) : null;
     var html = vdCard(vd, { h: hm, n: nd });
     // 折叠区塞进结论卡底部（落在 .vd-b 里、注释行之前）
     html = html.replace('<div class="vd-note">', tail + '<div class="vd-note">');
@@ -1220,6 +1243,59 @@
       '<div class="tools"><button class="btn" id="bzGo">排 盘</button></div>' +
       '<div class="res" id="bzOut"></div></div>';
   }
+  /* ---- 紫微斗数：开源引擎本机排盘，不联网也能出盘 ---- */
+  function viewZiwei() {
+    var me = (ME && ME.has()) ? ME.read() : null, iv = me ? me.input : null;
+    var dvY = iv ? iv.y : 1990, dvM = iv ? iv.m : 1, dvD = iv ? iv.d : 1,
+        dvH = (iv && iv.h != null) ? iv.h : 12, dvMi = iv ? (iv.mi || 0) : 0,
+        dvS = iv ? iv.gender : 'male';
+    return pbar('紫微斗数 · 十二宫') + '<div class="card">' +
+      '<div class="sec-h"><span class="bar"></span><h2>紫微斗数</h2><span class="hint">十二宫 · 十四主星 · 四化 · 大限</span></div>' +
+      '<div class="frow"><div class="fld"><label>出生年</label><input id="zwY" type="number" value="' + dvY + '" min="1900" max="' + ME.YMAX + '"></div>' +
+      '<div class="fld"><label>月</label><input id="zwM" type="number" value="' + dvM + '" min="1" max="12"></div>' +
+      '<div class="fld"><label>日</label><input id="zwD" type="number" value="' + dvD + '" min="1" max="31"></div>' +
+      '<div class="fld"><label>时</label><input id="zwH" type="number" value="' + dvH + '" min="0" max="23"></div>' +
+      '<div class="fld"><label>分</label><input id="zwMi" type="number" value="' + dvMi + '" min="0" max="59"></div>' +
+      '<div class="fld"><label>性别</label><select id="zwS"><option value="male"' + (dvS === 'male' ? ' selected' : '') + '>男</option><option value="female"' + (dvS === 'female' ? ' selected' : '') + '>女</option></select></div></div>' +
+      '<div class="tip" style="font-size:12.5px;color:var(--ink3)">紫微用<b>农历</b>定盘，这里填公历，引擎自己换算。晚子时（23 点后）按传统另算一格。已在「命主」填过的，进来就自动带上。</div>' +
+      '<div class="tools"><button class="btn" id="zwGo">排 盘</button></div>' +
+      '<div class="res" id="zwOut"></div></div>';
+  }
+  function renderZiwei() {
+    var out = $('zwOut'); if (!out) return;
+    track('#/ziwei');
+    var y = +$('zwY').value, m = +$('zwM').value, d = +$('zwD').value,
+        h = +$('zwH').value, mi = +$('zwMi').value, g = $('zwS').value;
+    if (PROF) PROF.ziwei({ zwY: y, zwM: m, zwD: d, zwH: h, zwMi: mi, zwS: g });
+    if (!(y >= ME.YMIN && y <= ME.YMAX)) { toast('年份取 ' + ME.YMIN + ' 至 ' + ME.YMAX + ' 之间'); return; }
+    var t = today(), ds = t.y + '-' + t.m + '-' + t.d;
+    try {
+      var a = ZW.chart({ y: y, m: m, d: d, h: h, mi: mi, gender: g });
+      out.innerHTML = ZW.html(a, { y: y, m: m, d: d, h: h, mi: mi, gender: g }, ds);
+      /* 跟八字页一个路子：排完盘，顺手能把这张盘带去问易玄机 */
+      var card = out.querySelector('.card');
+      if (card && ZW.brief) {
+        var b = ZW.brief(a);
+        var box = document.createElement('div');
+        box.className = 'tools';
+        box.innerHTML = '<button class="btn ghost" id="zwAsk">就这张紫微盘，问问易玄机</button>';
+        card.appendChild(box);
+        $('zwAsk').onclick = function () {
+          location.hash = '#/ask';
+          setTimeout(function () {
+            var q = $('askInput');
+            if (!q) return;
+            q.value = '我的紫微斗数本命盘：命宫在' + b.branch + '（' + b.gz + '），' + b.cls + '，命宫主星' + (b.stars || '空宫，借对宫看') +
+              '，命主' + b.soulStar + '、身主' + b.bodyStar + (b.hua ? '，生年四化是' + b.hua : '') +
+              '。请照这张盘讲讲我的性情底子和眼下这段大运，说人话，别堆术语。';
+          }, 60);
+        };
+      }
+    } catch (e) {
+      out.innerHTML = '<div class="tip" style="margin-top:16px">' + esc(e && e.message ? e.message : '这张盘没排出来') + '</div>';
+    }
+  }
+
   function renderBazi(writeMe) {
     var y = +$('bzY').value, m = +$('bzM').value, d = +$('bzD').value, h = +$('bzH').value, mi = +$('bzMi').value, g = $('bzS').value;
     if (PROF) PROF.bazi({ bzY: y, bzM: m, bzD: d, bzH: h, bzMi: mi, bzS: g });
@@ -1525,7 +1601,15 @@
   }
   /* 秒懂你这盘：不靠模型，本机算准，一屏看完，全是大白话。
      —— 模型答得再飘，这一块永远是准的。 */
-  function factsCard(me) {
+  function factsCard(me, zw) {
+    /* 全站已改用紫微斗数：这一块改摆紫微盘面，不再用八字喜用 */
+    if (zw && zw.chart && ZW && ZW.factsHtml) {
+      return '<details class="card" id="factsCard" open>' +
+        '<summary style="cursor:pointer;list-style:none"><div class="sec-h" style="margin:0"><span class="bar"></span>' +
+        '<h2>秒懂你这盘</h2><span class="hint">点一下收起 · 紫微盘本机排定，不是模型猜的</span></div></summary>' +
+        '<div style="margin-top:10px">' + ZW.factsHtml(zw.chart) + '</div>' +
+        '</details>';
+    }
     var f = null;
     try { f = (Y.FACTS && Y.FACTS.of) ? Y.FACTS.of(me) : null; } catch (e) { f = null; }
     if (!f) return '';
@@ -1593,7 +1677,7 @@
     var descTxt = hasMe
       ? '你的生辰已经记下了。把想问的那句话直接写出来，老先生照着你的八字给你断——不用再一题一题填表。问属相、合盘、该不该跟谁合作这种，也直接写。'
       : '把你那件事写出来。要断得准，先在上面把生辰填上；填完直接问，不用一题一题答。';
-    return pbar('问易玄机 · AI 大师') + (hasMe ? factsCard(ME.read()) : '') + '<div class="card">' +
+    return pbar('问易玄机 · AI 大师') + (hasMe ? factsCard(ME.read(), zwOf(ME.read())) : '') + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>问易玄机</h2><span class="hint">' + esc(hintTxt) + '</span></div>' +
       '<div class="hero" style="padding:0 0 6px;text-align:left"><div class="desc">' + esc(descTxt) + '</div></div>' +
       '<div class="frow" style="margin-top:12px"><div class="fld" style="flex:1 1 100%">' +
@@ -1666,6 +1750,7 @@
   function askDirect(q) {
     if (!window.YXJ_USE_LOCAL && askQuota() <= 0) { toast('今天问得够多了，明天再来'); return; }
     var me = (ME && ME.has()) ? ME.read() : null;
+    var zw = zwOf(me);
     var fate = isFateQ(q);
     var out = $('askOut');
     var vdBox = $('askVd'); if (vdBox) vdBox.innerHTML = '';
@@ -1673,15 +1758,16 @@
        这样本机就能单独跑、单独测，不用起浏览器。 */
     var promptTxt = '';
     try {
-      promptTxt = (Y.FACTS && Y.FACTS.askPrompt) ? Y.FACTS.askPrompt(q, me, fate) : '';
+      promptTxt = (Y.FACTS && zw && Y.FACTS.askPromptZW) ? Y.FACTS.askPromptZW(q, me, fate, zw)
+        : ((Y.FACTS && Y.FACTS.askPrompt) ? Y.FACTS.askPrompt(q, me, fate) : '');
     } catch (e) { promptTxt = ''; }
     if (!promptTxt) {
       promptTxt = '【他问的原话】' + q + '\n\n' +
-        (me && ME.promptBlock ? ME.promptBlock(me) + '\n\n' : '') +
-        '就着他这句话和这个八字说人话，别套模板，最后给一件今天就能做的小事。';
+        (zw ? zw.prompt + '\n\n' : (me && ME.promptBlock ? ME.promptBlock(me) + '\n\n' : '')) +
+        '就着他这句话和这张紫微盘说人话，别套模板，最后给一件今天就能做的小事。';
     }
-    var brief = (me ? (me.zao + '｜') : '') + '原话·' + q;
-    askAI(promptTxt, out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, noStyle: true, long: fate })
+    var brief = (zw ? (zw.short + '｜') : (me ? (me.zao + '｜') : '')) + '原话·' + q;
+    askAI(promptTxt, out, 'general', $('askGo'), $('askStop'), brief, { q: q, me: me, zw: zw, noStyle: true, long: fate })
       .then(function (res) {
         if (!window.YXJ_USE_LOCAL) { askQuota(1); refreshAskHint(); }
         if (res && res.ok && CASE) {
@@ -1712,6 +1798,7 @@
     var t = today();
     var fpNow = C.fourPillars(t.y, t.m, t.d, t.h, t.mi);
     var me = (ME && ME.has()) ? ME.read() : null;
+    var zw = zwOf(me);
     // 当场起一卦，让老先生手上有实排的东西，不至于空口讲
     var r = YJ.fromLines(YJ.tossSix()); r.method = '三钱摇卦';
     if (me) {
@@ -1720,12 +1807,12 @@
       r.method = '梅花易数·时间起卦';
     }
     var dv = YJ.divine(r, fpNow.day.gan);
-    var vd = VD.judge({ q: q || situation, dv: dv, fpNow: fpNow, yearFp: fpNow, cat: CAT_FOR[topic], me: me });
+    var vd = VD.judge({ q: q || situation, dv: dv, fpNow: fpNow, yearFp: fpNow, cat: CAT_FOR[topic], me: me, zw: zw });
     if (!vd) { toast('这一卦没排出来，再试一次'); return; }
     // 他亲口挑的那一头最重：卦断事，人断心
-    var hm = HM ? HM.read({ q: q || situation, topic: vd.topic, pick: hmPick, times: HM.times(q || situation) }) : null;
-    /* 因人答法：同一卦同一问，按他的命和需求换一套答法 */
-    var nd = NEED ? NEED.read({ vd: vd, me: me, hm: hm }) : null;
+    var hm = HM ? HM.read({ q: q || situation, topic: vd.topic, pick: hmPick, times: HM.times(q || situation), me: me, zw: zw }) : null;
+    /* 因人答法：同一卦同一问，按他的盘和需求换一套答法 */
+    var nd = NEED ? NEED.read({ vd: vd, me: me, zw: zw, hm: hm }) : null;
 
     var vdBox = $('askVd');
     if (vdBox) vdBox.innerHTML = vdCard(vd, { noTools: true, n: nd }) + hmCard(hm) +
@@ -1734,7 +1821,8 @@
     var lines = [];
     lines.push('【情况卡】问事方向：' + (TOPIC_HINT[topic] || ''));
     lines.push('具体情形：' + situation);
-    if (me) lines.push('他的生辰：' + me.zao + '，' + ME.line(me));
+    if (zw) lines.push('他的紫微本命盘：' + zw.note + '。');
+    else if (me) lines.push('他的生辰：' + me.zao + '，' + ME.line(me));
     if (q) lines.push('对方原话：' + q);
     lines.push('');
     if (vd) {
@@ -1746,7 +1834,8 @@
       lines.push('算法定的档位：' + vd.badge + '。依据：' + vd.why.join(' '));
       lines.push('');
     }
-    if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
+    if (zw) { lines.push(zw.prompt); lines.push(''); }
+    else if (me && ME.promptBlock) { lines.push(ME.promptBlock(me)); lines.push(''); }
     if (nd && nd.prompt) { lines.push(nd.prompt); lines.push(''); }
     lines.push('请直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥，最后给一件今天就能做的小事。有灾有碍就给具体的破解（方位、颜色、物件、动作），别拽文言、别排比、别「首先其次」。');
     // 存进台账的摘要：只留人话，不留提示词
@@ -2397,6 +2486,7 @@
     home: { t: '首页', v: viewHome },
     gua: { t: '周易起卦', v: viewGua },
     bazi: { t: '生辰八字', v: viewBazi },
+    ziwei: { t: '紫微斗数', v: viewZiwei },
     qimen: { t: '奇门遁甲', v: viewQimen },
     fengshui: { t: '风水布局', v: viewFengshui },
     almanac: { t: '万年历', v: viewAlmanac },
@@ -2441,6 +2531,19 @@
         if (pb.bzS != null) $('bzS').value = pb.bzS;
       }
       renderBazi(false);
+    }
+    if (h === 'ziwei') {
+      $('zwGo').onclick = renderZiwei;
+      if (PROF) {
+        var pz = PROF.forZiwei();
+        if (pz.zwY != null) $('zwY').value = pz.zwY;
+        if (pz.zwM != null) $('zwM').value = pz.zwM;
+        if (pz.zwD != null) $('zwD').value = pz.zwD;
+        if (pz.zwH != null) $('zwH').value = pz.zwH;
+        if (pz.zwMi != null) $('zwMi').value = pz.zwMi;
+        if (pz.zwS != null) $('zwS').value = pz.zwS;
+      }
+      renderZiwei();
     }
     if (h === 'qimen') {
       $('qmGo').onclick = renderQimen;
