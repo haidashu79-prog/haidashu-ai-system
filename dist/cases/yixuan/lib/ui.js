@@ -1244,13 +1244,31 @@
       '<div class="tools"><button class="btn" id="bzGo">排 盘</button></div>' +
       '<div class="res" id="bzOut"></div></div>';
   }
+  /* ---- 紫微页顶部的提示卡：30 秒看完再动手，不让人对着表单发懵 ---- */
+  function zwCard() {
+    function li(k, v) {
+      return '<div style="display:flex;gap:8px;margin-top:7px;font-size:13.5px;line-height:1.85">' +
+        '<b style="flex:0 0 76px;white-space:nowrap;color:var(--qing);font-weight:600">' + k + '</b>' +
+        '<span style="flex:1;min-width:0">' + v + '</span></div>';
+    }
+    return '<div class="card" style="background:rgba(176,141,79,.05);border-color:var(--jin2)">' +
+      '<div class="sec-h"><span class="bar"></span><h2>提示卡</h2><span class="hint">30 秒看完再动手</span></div>' +
+      li('这是干嘛的', '用开源引擎在本机排出紫微十二宫，再把明代刊本原文和倪海厦《天纪》讲义原话摆到盘面上。<b>它不是算命软件</b>，是把传统术数的盘面和通行说法摊开给你看。') +
+      li('怎么用', '填公历生日（时辰不确定就先按午时试）→ 点「排盘」→ 先看最上面那段<b>「先说人话」</b>，再往下看细节。') +
+      li('每次给四样', '① 十二宫盘（主星 / 亮度 / 四化 / 大限）② 规则直读八段，每句标出处 ③ 古籍原文 ④《天纪》讲义原话＋B 站时间码') +
+      li('不做两件事', '一不替你断吉凶：不说你哪天发财、哪年婚变、哪里生病。二不当现实决策依据：投资、医疗、法律、婚恋，别拿它拍板。') +
+      li('三句最常用', '① 我这盘命宫坐的什么星，老书里怎么说？<br>② 财帛、官禄、迁移这三宫，说明我这股劲该往哪使？<br>③ 眼下这步大限和今年流年，各落在哪一宫？') +
+      '<div class="tip" style="font-size:12px;color:var(--ink3);margin-top:10px">' +
+      '排完盘想听顺口一点的讲法，点结果里那个「让易玄机再讲一遍」；不过模型可能说错，<b>一切以规则解读和数据为准</b>。</div>' +
+      '</div>';
+  }
   /* ---- 紫微斗数：开源引擎本机排盘，不联网也能出盘 ---- */
   function viewZiwei() {
     var me = (ME && ME.has()) ? ME.read() : null, iv = me ? me.input : null;
     var dvY = iv ? iv.y : 1990, dvM = iv ? iv.m : 1, dvD = iv ? iv.d : 1,
         dvH = (iv && iv.h != null) ? iv.h : 12, dvMi = iv ? (iv.mi || 0) : 0,
         dvS = iv ? iv.gender : 'male';
-    return pbar('紫微斗数 · 十二宫') + '<div class="card">' +
+    return pbar('紫微斗数 · 十二宫') + zwCard() + '<div class="card">' +
       '<div class="sec-h"><span class="bar"></span><h2>紫微斗数</h2><span class="hint">十二宫 · 十四主星 · 四化 · 大限</span></div>' +
       '<div class="frow"><div class="fld"><label>出生年</label><input id="zwY" type="number" value="' + dvY + '" min="1900" max="' + ME.YMAX + '"></div>' +
       '<div class="fld"><label>月</label><input id="zwM" type="number" value="' + dvM + '" min="1" max="12"></div>' +

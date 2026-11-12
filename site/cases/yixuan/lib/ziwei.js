@@ -26,6 +26,54 @@
     '擎羊': 'qingyangMin', '陀罗': 'tuoluoMin'
   };
 
+  /* 术语白话对照：只解释词本身是什么意思，不推断这个人会怎样 */
+  var GLOSS = {
+    '命宫': '本人底子这一宫，老书拿它看性子',
+    '身宫': '三十岁以后往哪儿落脚那一宫',
+    '三方四正': '命宫加财帛、官禄、迁移四宫一起看',
+    '财帛': '钱从哪儿来、往哪儿去那一宫',
+    '官禄': '做事的位置、事业那一宫',
+    '迁移': '出门在外、换环境那一宫',
+    '夫妻': '婚恋相处那一宫',
+    '子女': '子女晚辈、也管作品和带人那一宫',
+    '兄弟': '同辈手足、合伙的人那一宫',
+    '仆役': '朋友同事下属那一宫',
+    '福德': '心里喜好、享不享得了福那一宫',
+    '田宅': '住处家业那一宫',
+    '父母': '长辈上司、文书出身那一宫',
+    '疾厄': '身体要多留意那一宫',
+    '庙': '这颗星在这个位置亮堂、使得上劲',
+    '旺': '这颗星在这个位置有力气',
+    '利': '这颗星在这个位置还算顺手',
+    '得': '这颗星在这个位置能使得上',
+    '平': '不特别强也不特别弱',
+    '陷': '这颗星在这个位置使不上劲',
+    '化禄': '老书里说这是顺手、来得容易那一路',
+    '化权': '老书里说这一头说了算的分量重',
+    '化科': '老书里说这是名声、有人搭把手',
+    '化忌': '老书里说这是容易较劲、放不下的那一头',
+    '大限': '十年一换的那段运',
+    '流年': '今年这一年的落点',
+    '空宫': '这一宫没坐十四主星，老书借正对面那宫的星来看',
+    '借对宫': '本宫没主星时，看正对面那一宫的星',
+    '紫微': '老书里的帝座星，主统筹',
+    '天机': '主思虑，脑子转得快',
+    '太阴': '主积累，细腻内敛',
+    '武曲': '主执行，认数字认结果',
+    '贪狼': '主兴趣，才艺和交际都旺',
+    '天梁': '主担当，讲原则、爱兜底',
+    '七杀': '主开创，独立果断',
+    '破军': '主破立，敢推倒重来',
+    '天府': '主守成，会攒会管',
+    '天同': '主感受，图个安稳',
+    '巨门': '主辨析，靠嘴靠脑吃饭',
+    '天相': '主辅佐，重体面、会调停',
+    '廉贞': '主分寸，讲规矩也讲才情',
+    '太阳': '主外放，愿意把光分给别人',
+    '六吉': '左辅右弼文昌文曲天魁天钺，老书里算帮衬的星',
+    '六煞': '擎羊陀罗火星铃星地空地劫，老书里算磨人的星'
+  };
+
   /* 十二宫在传统书里各管哪一头 */
   var PALACE_MEAN = {
     '命宫': '一个人的性情底子，和这辈子大体往哪儿使劲',
@@ -67,10 +115,10 @@
     '禄': '化禄', '权': '化权', '科': '化科', '忌': '化忌'
   };
   var SIHUA_MEAN = {
-    '禄': '传统说主顺、主得，这事容易顺手',
-    '权': '传统说主掌、主强，这一头你说了算的分量重',
-    '科': '传统说主名、主助，容易有人搭把手',
-    '忌': '传统说主执、主碍，这一头容易较劲、放不下'
+    '禄': '老书把这一路叫「顺手」：这头的事做起来不太费劲，来得也容易些',
+    '权': '老书把这一路叫「说了算」：这头你拿主意的分量重，也容易硬碰硬',
+    '科': '老书把这一路叫「有名声」：容易有人搭把手，事情摆到台面上好看',
+    '忌': '老书把这一路叫「放不下」：这头容易较劲、容易卡住，得多留个心'
   };
 
   /* 传统盘面是四四方方十二格，中间空出中宫 */
@@ -87,6 +135,20 @@
       .replace(/"/g, '&quot;');
   }
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  /* 宫名统一带上「宫」字，但「命宫」本身已带，别写成「命宫宫」 */
+  function palName(n) {
+    var s = String(n || '');
+    if (!s) return '';
+    return /宫$/.test(s) ? s : s + '宫';
+  }
+
+  /** 表格一律套一层横向滚动框：窄屏下列多也不会把整页撑宽。
+      注意：这是模块级函数，不能写进下面的 ZW 对象字面量里。 */
+  function wrapTables(h) {
+    return String(h || '').replace(/<table class="dt">([\s\S]*?)<\/table>/g,
+      '<div class="dtwrap"><table class="dt">$1</table></div>');
+  }
 
   /* 公历小时 → iztro 时辰序号：0 早子、1 丑…11 亥、12 晚子 */
   function timeIndex(h) {
@@ -183,7 +245,9 @@
       if (hs) {
         horo = {
           date: todayStr,
-          age: hs.age || null,
+          /* iztro 2.6.x 的 age 是 { nominalAge, index } 对象，页面只取虚岁数字 */
+          age: (hs.age && typeof hs.age === 'object') ? (hs.age.nominalAge != null ? hs.age.nominalAge : null)
+               : (hs.age != null ? hs.age : null),
           decadal: hs.decadal ? {
             palace: (hs.decadal.palaceNames || [])[0] || '',
             stem: hs.decadal.heavenlyStem || '', branch: hs.decadal.earthlyBranch || '',
@@ -312,6 +376,175 @@
   hmsToSec: function (s) {
     var p = String(s || '0:0:0').split(':').map(function (x) { return +x || 0; });
     return (p[0] || 0) * 3600 + (p[1] || 0) * 60 + (p[2] || 0);
+  },
+
+  /** 把一段原文里出现的行话逐条翻成白话 */
+  plainOf: function (text) {
+    var s = String(text || ''), hit = [];
+    Object.keys(GLOSS).forEach(function (k) {
+      if (s.indexOf(k) >= 0 && hit.length < 6) hit.push(k + '＝' + GLOSS[k]);
+    });
+    return hit;
+  },
+
+  /** 整张盘一句话说人话：只串盘面事实，不串吉凶 */
+  summary: function (d) {
+    var m = d.meta, soul = null;
+    d.palaces.forEach(function (p) { if (p.name === '命宫' || p.name === '命') soul = p; });
+    var names = soul ? soul.majorStars.map(function (s) { return s.name; }) : [];
+    var hua = d.siHua.map(function (x) { return x.star + x.hua + '在' + palName(x.palace); });
+    var horo = d.horoscope;
+    var L = [];
+    L.push('这张盘把你本人的底子放在「' + (names.length ? names.join('、') : '空宫，借对宫看') +
+      '」这几颗星上，落在' + m.soulPalace + '，五行局是' + m.fiveElementsClass + '。');
+    L.push('老书里管这叫命宫，就是看你性子底子那一宫；另外还要搭着财帛、官禄、迁移三宫一块看，才知道这股劲往哪儿使。');
+    if (hua.length) L.push('生年四化是' + hua.join('、') +
+      '。化禄化权化科化忌是老书给这四颗星标的四种劲儿，说的是传统归类，不是说你一定会碰上什么事。');
+    if (horo && horo.decadal) L.push('眼下这十年走的是' + horo.decadal.palace + '宫这一步大限' +
+      (horo.yearly ? '，今年落在' + horo.yearly.palace + '宫' : '') + '；大限就是十年一换的那段方向，流年就是今年这一年的落点。');
+    L.push('这一整段只讲盘上有什么、老书怎么说，不替你断发财、断婚姻、断病灾。');
+    return L.join('');
+  },
+
+  /** 紫微规则直读：不靠模型，每一句都指得回盘面数据、古籍原文或《天纪》讲义。
+      不做吉凶推断、不混宫位、不替古籍补话。来源标签让用户自己分得清哪句是数据、哪句是原文、哪句是白话直译。 */
+  reading: function (d) {
+    if (!d) return '';
+    var m = d.meta, ps = d.palaces;
+    function tag(t) {
+      var cls = { '盘面': 'data', '古籍': 'classic', '讲义': 'tianji', '白话': 'plain' }[t] || 'plain';
+      return '<span class="zwtag ' + cls + '">' + t + '</span>';
+    }
+    function sf(s) {
+      return s.name + (s.brightness ? '（' + s.brightness + '）' : '') +
+        (s.fiveElements ? ' · ' + s.fiveElements + (s.yinYang ? s.yinYang : '') : '');
+    }
+    function byName(n) { return ps.filter(function (p) { return p.name === n || p.name === (n === '命' ? '命宫' : ''); })[0] || null; }
+    /* 某颗星命中的古籍原文，只取确实含这颗星名的段落 */
+    function classicFor(name) {
+      return (d.classics && d.classics.hits || []).filter(function (h) {
+        return h.match.indexOf(name) >= 0;
+      }).slice(0, 2);
+    }
+    function quoteBox(label, text, src, link) {
+      var terms = ZW.plainOf(text);
+      return '<div class="wen" data-lb="' + esc(label) + '">' + esc(text) +
+        '<div style="font-size:11px;color:var(--ink3);margin-top:5px">' + esc(src) +
+        (link ? '　<a href="' + esc(link) + '" target="_blank" rel="noopener" style="color:var(--qing)">看原视频这一秒 ↗</a>' : '') +
+        '</div></div>' +
+        (terms.length ? '<div class="bai" style="font-size:12.5px;padding:7px 11px">' + tag('白话') +
+          '这段里的行话：' + esc(terms.join('；')) + '。</div>' : '');
+    }
+
+    var soul = byName('命宫');
+    var bodyPal = ps.filter(function (p) { return p.isBodyPalace; })[0] || null;
+
+    /* 零、先把整张盘说成人话，不摆术语 */
+    var sec0 = '<div class="rsec zw-rsec" id="zwPlain"><h3><span class="dot"></span>先说人话：这张盘到底在讲啥</h3>' +
+      '<div class="bai" style="font-size:14.5px">' + tag('白话') + esc(ZW.summary(d)) + '</div></div>';
+
+    /* 一、口径 */
+    var sanQuote = (d.tianji && d.tianji.corpusHits || []).filter(function (h) {
+      return h.quote.indexOf('兼看另外三个宫') >= 0 || h.quote.indexOf('三方') >= 0;
+    })[0];
+    var sec1 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>一、这张盘按什么口径读</h3>' +
+      '<div class="bai">' + tag('白话') + '命宫看的是本人底子，财帛、官禄、迁移三宫看这股劲往哪儿使。这套读法叫三合派，来自倪海厦《天纪》讲义：' +
+      esc(d.tianji ? d.tianji.school.core : '') + '</div>' +
+      (sanQuote ? quoteBox('讲义', sanQuote.quote, sanQuote.book + '　' + sanQuote.t, sanQuote.url) : '') +
+      '<div class="tip" style="font-size:12px;color:var(--ink3)">' + tag('白话') +
+      '下面每一段都标了出处：' + tag('盘面') + '是 iztro 排出的数据，' + tag('古籍') + '是明代刊本原文，' + tag('讲义') + '是《天纪》原话，' + tag('白话') + '是本站对上面的直译。本站不另加吉凶判断。</div></div>';
+
+    /* 二、命宫 */
+    var soulLines = soul ? soul.majorStars.map(function (s) {
+      var cs = classicFor(s.name);
+      return '<div style="margin-top:8px">' + tag('盘面') + '<b>' + esc(sf(s)) + '</b>　' + tag('白话') +
+        esc(STAR_BRIEF[s.name] || '（这颗星的传统说法本站还没收，不硬编）') +
+        cs.map(function (h) { return quoteBox('古籍', h.text, h.dynasty + '《' + h.book + '》'); }).join('') +
+        '</div>';
+    }).join('') : '<div class="tip">命宫没有十四主星，传统上借对宫看，本站不替它硬填。</div>';
+    var sec2 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>二、命宫：本人底子</h3>' +
+      '<div class="bai">' + tag('盘面') + '命宫落在 <b>' +
+      esc(soul ? soul.branch + '宫（' + soul.stem + soul.branch + '）' : m.soulPalace) + '</b>，' + esc(m.fiveElementsClass) +
+      '，命主 <b>' + esc(m.soulStar) + '</b>、身主 <b>' + esc(m.bodyStar) + '</b>' +
+      (bodyPal ? '，身宫落在 <b>' + esc(palName(bodyPal.name) + '（' + bodyPal.stem + bodyPal.branch + '）') + '</b>' : '') + '。</div>' +
+      soulLines + '</div>';
+
+    /* 三、三方四正 */
+    var sanRows = d.sanFang.map(function (p) {
+      return '<tr><td class="k">' + esc(p.palace) + '</td><td class="gz">' + esc(p.stemBranch) + '</td>' +
+        '<td style="text-align:left">' + esc(p.majorStars.join('、') || '—') + '</td>' +
+        '<td style="text-align:left;font-size:12px">' + esc(PALACE_MEAN[p.palace] || '—') + '</td></tr>';
+    }).join('');
+    function san(name) {
+      var p = null;
+      d.sanFang.forEach(function (x) { if (x.palace === name || (name === '命宫' && x.palace === '命')) p = x; });
+      return p && p.majorStars && p.majorStars.length ? p.majorStars.join('、') : '空宫';
+    }
+    var sec3 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>三、三方四正：劲往哪儿使</h3>' +
+      '<div class="bai">' + tag('白话') + '说白了，命宫是你的底子，另外三宫是这底子往哪儿用：财帛看钱怎么进出，官禄看你在哪儿做事，迁移看出门在外和换环境。' +
+      '这张盘里，命宫是' + esc(san('命宫')) + '，财帛是' + esc(san('财帛')) +
+      '，官禄是' + esc(san('官禄')) + '，迁移是' + esc(san('迁移')) +
+      '。空宫就是这一宫没坐主星，老书看正对面那宫的星。</div>' +
+      '<div class="bai">' + tag('盘面') + '下面四宫是三合派看盘的主框，表里只列引擎排出的数据。</div>' +
+      '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星</th><th>这一宫传统上管什么</th></tr>' + sanRows + '</table></div>';
+
+    /* 四、生年四化：只说传统归类，不翻成具体事件 */
+    var huaRows = d.siHua.map(function (x) {
+      var pm = PALACE_MEAN[x.palace] || '';
+      var k = ({ '化禄': '禄', '化权': '权', '化科': '科', '化忌': '忌' })[x.hua] || '';
+      return '<div style="margin-top:7px">' + tag('盘面') + '<b>' + esc(x.star + x.hua) + '</b> 在 <b>' + esc(palName(x.palace)) + '</b>　' +
+        tag('白话') + esc(SIHUA_MEAN[k] || '') + '；这一宫传统上管' + esc(pm) + '。' +
+        '<div style="font-size:11.5px;color:var(--ink3);margin-top:3px">这里说的是传统对四化的归类，不是对这个人会发生什么的判断。</div></div>';
+    }).join('');
+    var sec4 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>四、生年四化</h3>' +
+      '<div class="bai">' + tag('白话') + '四化说白了，就是老书给四颗星标的四种劲儿：化禄是顺手、化权是这头你说了算、化科是有名声有人帮、化忌是容易较劲放不下。' +
+      '哪颗星带上哪种劲儿，就说它落的那宫那摊事偏哪种劲。这是传统归类，不是说你一定会碰上什么事，更不是好坏评分。</div>' +
+      (huaRows || '<div class="tip">盘上未取到生年四化。</div>') + '</div>';
+
+    /* 五、十二宫逐宫 */
+    /* 古籍书名塞在「主星」格里做小字，不单列一列——单列一列窄屏下会把整张表挤成一团 */
+    var pRows = ps.map(function (p) {
+      var ms = p.majorStars.map(function (s) { return s.name + (s.brightness ? '（' + s.brightness + '）' : ''); }).join('、');
+      var hitBooks = (d.classics && d.classics.hits || []).filter(function (h) {
+        return h.match.some(function (n) { return p.majorStars.some(function (s) { return s.name === n; }); });
+      }).map(function (h) { return h.book; }).filter(function (v, i, arr) { return arr.indexOf(v) === i; });
+      return '<tr><td class="k">' + esc(p.name) + (p.isBodyPalace ? '<sup>身</sup>' : '') + '</td>' +
+        '<td class="gz">' + esc(p.stem + p.branch) + '</td>' +
+        '<td style="text-align:left">' + esc(ms || '—') +
+        (hitBooks.length ? '<div style="font-size:10.5px;color:var(--ink3)">古籍：' + esc(hitBooks.join('、')) + '</div>' : '') +
+        '</td>' +
+        '<td style="text-align:left;font-size:12px">' + esc(PALACE_MEAN[p.name] || '—') + '</td></tr>';
+    }).join('');
+    var sec5 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>五、十二宫逐宫</h3>' +
+      '<div class="bai">' + tag('白话') + '十二宫就是把一辈子的事分成十二摊：性情、手足、婚恋、子女、钱、身体、出外、朋友、事业、住处、心气、长辈，一宫管一摊。' +
+      '表里写的是每宫坐了哪颗主星、这宫管什么；主星下面小字是这颗星在古籍里查到了哪本书。</div>' +
+      '<div class="bai">' + tag('盘面') + '点开下面的「命盘数据」可看古籍原文全句与全部辅星。</div>' +
+      '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星</th><th>传统上管什么</th></tr>' + pRows + '</table></div>';
+
+    /* 六、讲义原话 */
+    var corpus = (d.tianji && d.tianji.corpusHits || []).slice(0, 6);
+    var sec6 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>六、《天纪》讲义怎么讲这几宫</h3>' +
+      '<div class="bai">' + tag('讲义') + '下面原话按这张盘上的星名与宫名从 ' + esc((d.tianji && d.tianji.total) || 0) +
+      ' 条里检索，只作口径参照，不是对这个人下的结论。</div>' +
+      (corpus.length ? corpus.map(function (h) {
+        return quoteBox(h.book, h.quote, h.h3 + '　' + h.t + '　命中：' + h.match.join('、'), h.url);
+      }).join('') : '<div class="tip">没检索到对应段落，本站不硬凑。</div>') + '</div>';
+
+    /* 七、运限：只列数据 */
+    var horo = d.horoscope;
+    var sec7 = horo ? '<div class="rsec zw-rsec"><h3><span class="dot"></span>七、大限与流年</h3>' +
+      '<div class="bai">' + tag('盘面') + esc(horo.date) +
+      (horo.decadal ? '　大限：<b>' + esc(palName(horo.decadal.palace) + '（' + horo.decadal.stem + horo.decadal.branch + '）') + '</b>' : '') +
+      (horo.yearly ? '　流年：<b>' + esc(palName(horo.yearly.palace) + '（' + horo.yearly.stem + horo.yearly.branch + '）') + '</b>' : '') +
+      '。</div><div class="tip" style="font-size:12px;color:var(--ink3)">' + tag('白话') +
+      '这里只报宫位与干支。传统上大限管十年一段的方向、流年管一年的落脚处；本站不据此断哪年发财、哪年有灾。</div></div>' : '';
+
+    var sec8 = '<div class="rsec zw-rsec"><h3><span class="dot"></span>八、这一段的边界</h3>' +
+      '<div class="bai">上面这一整段由规则按数据直读，不经过模型，所以断网也能出、每一句都查得到出处。古籍与讲义是传统说法的整理，不具科学预测效力，不构成投资、医疗、法律、婚恋等任何现实决策依据。</div></div>';
+
+    return '<div class="card" style="margin-top:16px">' +
+      '<div class="sec-h"><span class="bar"></span><h2>紫微解读（规则直读）</h2><span class="hint">不靠模型 · 每句标得出来源</span></div>' +
+      sec0 + sec1 + sec2 + sec3 + sec4 + sec5 + sec6 + sec7 + sec8 + '</div>';
   },
 
   /** 给大模型用的精简快照：页面展示全量，问答只递必要字段，省 token */
@@ -450,16 +683,20 @@
           return bits.join('·');
         }).join('、');
       }
+      /* 辅星不单列一列：窄屏下五列会把表撑到 680px，只能靠横向滚动，看着像被截断。
+         改成「主星」格里第二行小字列辅星，四列就装得下。 */
       var prows = d.palaces.map(function (p) {
+        var minor = stars(p.minorStars);
         return '<tr><td class="k">' + esc(p.name) + (p.isBodyPalace ? '<sup>身</sup>' : '') + '</td>' +
-          '<td>' + esc(p.stem + p.branch) + '</td>' +
-          '<td style="text-align:left">' + esc(stars(p.majorStars)) + '</td>' +
-          '<td style="text-align:left;font-size:12px">' + esc(stars(p.minorStars)) + '</td>' +
+          '<td class="gz">' + esc(p.stem + p.branch) + '</td>' +
+          '<td style="text-align:left">' + esc(stars(p.majorStars)) +
+          (minor ? '<div style="font-size:10.5px;color:var(--ink3)">辅：' + esc(minor) + '</div>' : '') +
+          '</td>' +
           '<td style="font-size:12px">' + esc(p.decadal && p.decadal.range ? p.decadal.range.join('-') + '岁' : '') + '</td></tr>';
       }).join('');
 
       var san = d.sanFang.map(function (p) {
-        return '<tr><td class="k">' + esc(p.palace) + '</td><td>' + esc(p.stemBranch) + '</td>' +
+        return '<tr><td class="k">' + esc(p.palace) + '</td><td class="gz">' + esc(p.stemBranch) + '</td>' +
           '<td style="text-align:left">' + esc(p.majorStars.join('、') || '—') + '</td></tr>';
       }).join('');
       var hua = d.siHua.length ? d.siHua.map(function (x) {
@@ -467,8 +704,8 @@
       }).join('') : '<tr><td colspan="2">盘上未取到生年四化</td></tr>';
       var horo = d.horoscope
         ? '<div class="tip" style="font-size:13px">' + esc(d.horoscope.date) +
-          (d.horoscope.decadal ? '　大限：<b>' + esc(d.horoscope.decadal.palace + '（' + d.horoscope.decadal.stem + d.horoscope.decadal.branch + '）') + '</b>' : '') +
-          (d.horoscope.yearly ? '　流年：<b>' + esc(d.horoscope.yearly.palace + '（' + d.horoscope.yearly.stem + d.horoscope.yearly.branch + '）') + '</b>' : '') +
+          (d.horoscope.decadal ? '　大限：<b>' + esc(palName(d.horoscope.decadal.palace) + '（' + d.horoscope.decadal.stem + d.horoscope.decadal.branch + '）') + '</b>' : '') +
+          (d.horoscope.yearly ? '　流年：<b>' + esc(palName(d.horoscope.yearly.palace) + '（' + d.horoscope.yearly.stem + d.horoscope.yearly.branch + '）') + '</b>' : '') +
           (d.horoscope.age != null ? '　虚岁 ' + esc(d.horoscope.age) : '') + '</div>'
         : '';
 
@@ -519,7 +756,7 @@
         '<div class="bai">下面每一项都由 iztro 排出或取自它的星曜元数据，本站不另加推断。数据是全的，白话解释交给易玄机。</div>' +
         '<table class="dt"><tr><th>项</th><th>值</th></tr>' + basics + '</table>' +
         '<div class="sec-h" style="margin-top:16px"><span class="bar"></span><h3 style="font-size:15px">十二宫逐宫数据</h3><span class="hint">星名后依次是亮度、四化、五行·阴阳</span></div>' +
-        '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星</th><th>辅星</th><th>大限</th></tr>' + prows + '</table>' +
+        '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星／辅星</th><th>大限</th></tr>' + prows + '</table>' +
         '<div class="sec-h" style="margin-top:16px"><span class="bar"></span><h3 style="font-size:15px">三方四正</h3></div>' +
         '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星</th></tr>' + san + '</table>' +
         '<div class="sec-h" style="margin-top:16px"><span class="bar"></span><h3 style="font-size:15px">生年四化</h3></div>' +
@@ -542,6 +779,9 @@
       var L = [];
       L.push('【任务】把下面这张紫微斗数命盘的**真实数据**讲成大白话。数据由 iztro 实排，古籍原文按星名检索所得，你只负责翻译，不负责新增内容。');
       L.push('');
+      L.push('【规则直读的结论，你只能照这个讲，不许扩写】');
+      L.push(ZW.summary(d));
+      L.push('');
       L.push('【铁规矩，一条都不许破】');
       L.push('1. 只能解释下面已有的星名、宫位、干支、亮度、四化、五行、大限、流年和古籍原文。盘上没有的，一句都不许添。');
       L.push('2. 不许另推八字、日主、喜用、十神、属相冲合；不许编格局名、不许编吉凶分数、不许断「一定发财／一定有灾」。');
@@ -551,6 +791,8 @@
       L.push('6. 讲义短引只译成白话，不许当成对这个人下的结论；短引里没提到的吉凶，一句都不许添。');
       L.push('7. 说人话，像老师傅面对面唠。第一句先把这张盘最显眼的地方点出来，再分几段讲：命宫是什么星、这颗星老书里怎么说、四化落在哪几宫、眼下这步大限走到哪、古籍与《天纪》讲义里哪句话跟这张盘对得上。');
       L.push('8. 结尾给一件今天就能做的小事，别拽文言、别排比、别「首先其次」。');
+      L.push('9. 【实测过的错，一律不许再犯】不许编古籍里没有的句子（比如凭空说「太阴在申宫主富贵」）；不许把不同宫的星混着讲（比如贪狼在父母宫，却拿命宫的地空去配）；' +
+        '不许把四化翻成具体事件（比如「跟孩子容易有财运」「感情方面得特别注意」「跟朋友容易有误会」）；不许说「要特别注意」「一定有灾」「必然发财」这类断言。');
       L.push('');
       L.push('【盘面数据（精简快照，供核对，不要照抄进答话）】');
       L.push(JSON.stringify(ZW.compact(d)));
@@ -590,10 +832,14 @@
         return '<tr><td class="k">' + esc(p.name) + '</td><td>' + esc(p.heavenlyStem + p.earthlyBranch) +
           '</td><td>' + esc(major) + '</td><td>' + esc(PALACE_MEAN[p.name] || '—') + '</td></tr>';
       }).join('');
-      return '<div class="sec-h" style="margin-top:4px"><span class="bar"></span><h2>你的紫微盘</h2><span class="hint">本机排定 · 不靠模型</span></div>' +
+      return wrapTables('<div class="sec-h" style="margin-top:4px"><span class="bar"></span><h2>你的紫微盘</h2><span class="hint">本机排定 · 不靠模型</span></div>' +
         '<div class="tip" style="font-size:13.5px;line-height:1.9">' + esc(ZW.person(a).note) + '。</div>' +
+        '<div class="bai"><b>说人话：</b>命宫那几颗星，老书拿来性子底子；十二宫是把一辈子的事分成十二摊，一宫管一摊。' +
+        '表里「主星与四化」写的是每宫坐了什么星、「传统上管什么」写的是这一摊事。星名后面的庙旺得利平陷，说的是这颗星在这个位置使得上劲还是使不上劲。</div>' +
+        '<div class="bai">这块只摆盘面，不替你下结论。想看一句一句的大白话（带古籍原文和《天纪》讲义出处），' +
+        '<a class="btn ghost" href="#/ziwei" style="display:inline-block;padding:2px 10px;text-decoration:none">看紫微规则解读 →</a></div>' +
         '<table class="dt"><tr><th>宫</th><th>干支</th><th>主星与四化</th><th>传统上管什么</th></tr>' + rows + '</table>' +
-        '<div class="bai" style="margin-top:10px">这一块是引擎排出来的盘面，不是模型猜的。紫微斗数没有「喜用五行」这套说法，所以本站不拿它给吉凶加减分，只把盘面摆清楚。</div>';
+        '<div class="bai" style="margin-top:10px">这一块是引擎排出来的盘面，不是模型猜的。紫微斗数没有「喜用五行」这套说法，所以本站不拿它给吉凶加减分，只把盘面摆清楚。</div>');
     },
 
     /** 生成整页结果 HTML */
@@ -700,11 +946,15 @@
         '<div class="sec-h"><span class="bar"></span><h2>本命盘</h2><span class="hint">十二宫 · 十四主星 · 四化 · 大限</span></div>' +
         '<div class="tip" style="font-size:13.5px;line-height:1.9">' + lead + '</div>' +
         '<div class="zw-grid">' + cells + mid + '</div>' +
-        '<div class="tip" style="font-size:12.5px;color:var(--ink3);margin-top:10px">格子里的小字是亮度（庙旺得利平陷），右上角是生年四化；带<b>身</b>字的是身宫，命宫用深色边标出。空格子叫「空宫」，传统上借对宫星看。</div>' +
-        starHtml + huaHtml + yunHtml + listHtml +
-        ZW.dataHtml(chartData) +
-        '<div class="tools"><button class="btn ghost" id="zwExplain">让易玄机讲给我听</button>' +
+        '<div class="tip" style="font-size:12.5px;color:var(--ink3);margin-top:10px">格子里的小字是亮度（庙旺得利平陷），右上角是生年四化；带<b>身</b>字的是身宫，命宫用深色边标出。空格子叫「空宫」，传统上借对宫星看。' +
+        '　<a href="javascript:void 0" onclick="var e=document.getElementById(\'zwPlain\');if(e)e.scrollIntoView({behavior:\'smooth\',block:\'start\'});" style="color:var(--qing)">懒得看盘？直接跳到「先说人话」↓</a></div>' +
+        wrapTables(starHtml + huaHtml + yunHtml + listHtml +
+          ZW.reading(chartData) +
+          ZW.dataHtml(chartData)) +
+        '<div class="tools"><button class="btn ghost" id="zwExplain">让易玄机再讲一遍（仅供参考）</button>' +
         '<button class="btn ghost" id="zwCopyData">复制命盘数据</button></div>' +
+        '<div class="tip" style="font-size:12px;color:var(--ink3)">上面「紫微解读（规则直读）」不靠模型，每句标得出出处，断网也有。' +
+        '易玄机这一遍只是把同一份内容讲得顺口些，模型可能说错，一切以规则解读和数据为准。</div>' +
         '<div class="qa-out" id="zwAi"></div>' +
         '<div class="rsec zw-rsec"><h3><span class="dot"></span>这一页的来路</h3>' +
         '<div class="wen" data-lb="来路">排盘用的是开源库 <b>iztro 2.6.5</b>（SylarLong/iztro，MIT 许可），文件就装在本站里，不连外网也能排。易玄机自己加的是白话解释和页面排版。</div>' +
@@ -721,6 +971,18 @@
   var css = '' +
     /* 沿用站内 .wen/.bai 的框，只把「原文」小标签换成按内容走 */
     '.zw-rsec .wen::before{content:attr(data-lb)}' +
+    '.zwtag{display:inline-block;font-size:10px;line-height:1.6;padding:0 5px;border-radius:3px;margin-right:5px;vertical-align:1px;border:1px solid var(--line2);color:var(--ink3);background:rgba(255,253,247,.9);white-space:nowrap}' +
+    '.zwtag.data{color:var(--qing);border-color:var(--line2)}' +
+    '.zwtag.classic{color:var(--jin);border-color:var(--jin2)}' +
+    '.zwtag.tianji{color:var(--zhu);border-color:var(--zhu2)}' +
+    '.zwtag.plain{color:var(--ink2)}' +
+    /* 宫名、干支是短词，别让列宽把「官禄」「己卯」拆成两行；
+       列多的时候（十二宫逐宫五列）整张表在滚动框里横向走，不把页面撑宽 */
+    '.dtwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin-top:10px}' +
+    '.dtwrap>.dt{margin-top:0;min-width:100%}' +
+    '.zw-rsec .dt,#zwOut .dt{font-size:12.5px}' +
+    '.zw-rsec .dt th,.zw-rsec .dt td{padding:6px 7px}' +
+    '.zw-rsec .dt td.k,.zw-rsec .dt td.gz{white-space:nowrap}' +
     '.zw-line+.zw-line{margin-top:6px}' +
     '.zw-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,auto);gap:4px;margin:14px 0;width:100%;box-sizing:border-box}' +
     '.zc,.zm{border:1px solid var(--line2);border-radius:9px;background:rgba(255,253,247,.72);padding:4px 4px;min-width:0;min-height:104px;overflow:hidden;box-sizing:border-box;word-break:break-word}' +

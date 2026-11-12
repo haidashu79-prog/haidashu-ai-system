@@ -206,14 +206,17 @@ public class MainActivity extends android.app.Activity {
         final String[] pages = {"#/home", "#/gua", "#/bazi", "#/ziwei", "#/tianji", "#/qimen", "#/almanac",
                 "#/fengshui", "#/wuxing", "#/classics", "#/learn", "#/memory", "#/ask", "#/admin"};
         final Handler h = new Handler(Looper.getMainLooper());
-        android.util.Log.i("YXJ", "[self] BEGIN pages=" + pages.length);
+        // 每一步给 2600ms：模拟器/低端机上换页 + 排盘常常要 1.5s 以上，
+        // 早前用 900ms 会拍在页面还在加载的半截上，量出来每页都是首页长度。
+        final long STEP = 2600L, HOLD = 2200L;
+        android.util.Log.i("YXJ", "[self] BEGIN pages=" + pages.length + " step=" + STEP);
         for (int i = 0; i < pages.length; i++) {
             final String p = pages[i];
             h.postDelayed(new Runnable() {
                 @Override public void run() {
                     web.evaluateJavascript("location.hash='" + p + "'", null);
                 }
-            }, i * 900L);
+            }, i * STEP);
             h.postDelayed(new Runnable() {
                 @Override public void run() {
                     web.evaluateJavascript(
@@ -222,14 +225,14 @@ public class MainActivity extends android.app.Activity {
                         "return JSON.stringify({p:location.hash,len:v?v.innerHTML.length:-1,kids:v?v.children.length:-1,txt:t});})()",
                         val -> android.util.Log.i("YXJ", "[self] " + val));
                 }
-            }, i * 900L + 650L);
+            }, i * STEP + HOLD);
         }
         h.postDelayed(new Runnable() {
             @Override public void run() {
                 android.util.Log.i("YXJ", "[self] DONE");
                 web.evaluateJavascript("location.hash='#/home'", null);
             }
-        }, pages.length * 900L + 600L);
+        }, pages.length * STEP + 800L);
     }
 
     /** 初始化系统 TTS：中文可用就报 tts=1，没装中文语音包就报 tts=0（网页据此决定提示语） */

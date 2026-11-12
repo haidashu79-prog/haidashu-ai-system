@@ -81,7 +81,12 @@ if [ "$MODE" != "check" ]; then
   [ "$MODE" = "dry" ] && RSYNC_ARGS+=(--dry-run)
 
   echo "──── 同步 $SITE/ → $DIST/ ────"
-  CHANGED=$(rsync "${RSYNC_ARGS[@]}" "$SITE/" "$DIST/" | tee /dev/stderr | wc -l | tr -d ' ')
+  # 不用 tee /dev/stderr（某些沙箱环境禁止写 /dev/stderr，会让 rsync 直接 EPIPE）
+  CHANGELOG=$(mktemp)
+  rsync "${RSYNC_ARGS[@]}" "$SITE/" "$DIST/" > "$CHANGELOG"
+  cat "$CHANGELOG"
+  CHANGED=$(wc -l < "$CHANGELOG" | tr -d ' ')
+  rm -f "$CHANGELOG"
   echo "变动条目: $CHANGED"
 fi
 

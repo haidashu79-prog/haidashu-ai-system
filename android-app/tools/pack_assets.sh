@@ -4,6 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# 打包前先过语法闸门，别把跑不起来的页面装进 APK
+bash tools/check_yixuan.sh
+
 SRC="../dist/cases/yixuan"
 DST="app/src/main/assets/www/cases/yixuan"
 
