@@ -203,7 +203,7 @@ public class MainActivity extends android.app.Activity {
 
     /** 依次打开每个页面，把渲染结果打进 logcat：[self] {"p":"#/bazi","len":1234,"txt":"..."} */
     private void runSelfCheck() {
-        final String[] pages = {"#/home", "#/gua", "#/bazi", "#/ziwei", "#/qimen", "#/almanac",
+        final String[] pages = {"#/home", "#/gua", "#/bazi", "#/ziwei", "#/tianji", "#/qimen", "#/almanac",
                 "#/fengshui", "#/wuxing", "#/classics", "#/learn", "#/memory", "#/ask", "#/admin"};
         final Handler h = new Handler(Looper.getMainLooper());
         android.util.Log.i("YXJ", "[self] BEGIN pages=" + pages.length);

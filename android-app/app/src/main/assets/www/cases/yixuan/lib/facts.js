@@ -477,6 +477,14 @@ window.YXJ = window.YXJ || {};
   function askPromptZW(q, me, fate, zw) {
     if (!zw || !zw.ok) return askPrompt(q, me, fate);
     var L = [], ps = (zw.chart && zw.chart.palaces) || [], b = zw.brief;
+    /* 真实数据出口：把整张盘 + 古籍 + 《天纪》讲义检索结果一起取出来 */
+    var full = null;
+    try {
+      if (window.YXJ && window.YXJ.ZW && window.YXJ.ZW.data) {
+        var dt = new Date();
+        full = window.YXJ.ZW.data(zw.chart, dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate());
+      }
+    } catch (e) { full = null; }
     function palace(name, key) {
       var p = null;
       ps.forEach(function (x) { if (x.name === name || x.name === key) p = x; });
@@ -546,6 +554,14 @@ window.YXJ = window.YXJ || {};
     L.push('【术语一律翻成大白话】凡是「化忌」「空宫」「借对宫」「大限」这类词，后头必须紧跟一句「就是……」，用街坊话把它说破。');
     L.push('【重点要标出来】每段要紧的那句结论，用两个星号夹住；全篇标五到八处，别整段都标。');
     L.push('【篇幅】上面几段讲全，写到八九百字不嫌多。宁可长，不许漏项，不许拿「因人而异」混过去。末尾补一件今天就能照做的小事。');
+    L.push('');
+    L.push('【《天纪》讲义依据】按这张盘的星名从 ' + ((full && full.tianji && full.tianji.total) || 0) +
+      ' 条讲义原话里检索所得，只能译成白话，不许当成对这个人下的结论，也不许替讲义补它没写的话。讲的时候按三合派口径：命宫为本、三方为用，不取飞星派的宫干自化、来因宫那套。');
+    ((full && full.tianji && full.tianji.corpusHits) || []).forEach(function (h) {
+      L.push('「' + h.quote + '」（' + h.book + '／' + h.h3 + '，' + h.t + '，对上：' + h.match.join('、') + '）');
+    });
+    L.push('【盘面数据（精简快照），供核对，不要照抄进答话】');
+    L.push(JSON.stringify((window.YXJ.ZW && window.YXJ.ZW.compact) ? window.YXJ.ZW.compact(full) : (full || { note: zw.note })));
     L.push('');
     L.push('【这一回不许套模板】就着他这句话、他这张盘说，别用放之四海皆准的套话。');
     L.push('直接说人话，像老师傅面对面唠。第一句就把他的事接住，把结论先撂出来，再讲为啥。别拽文言、别排比、别「首先其次」。');

@@ -813,6 +813,7 @@
     var entries = [
       { ic: '命', tt: '生辰八字', dd: '四柱五行、十神大运，看强弱喜忌与调补', h: '#/bazi', a: '#b08d4f', b: '#cfa96a', badge: '常用' },
       { ic: '微', tt: '紫微斗数', dd: '十二宫十四主星、四化大限，开源引擎本机排', h: '#/ziwei', a: '#7a5c9e', b: '#c49ad0', badge: '新' },
+      { ic: '纪', tt: '天纪讲义', dd: '倪海厦《天纪》1848 条原话、24 集索引，按星名查得到', h: '#/tianji', a: '#8a6d3b', b: '#cfa96a' },
       { ic: '遁', tt: '奇门遁甲', dd: '时家排盘，定局九宫，择时择方办事', h: '#/qimen', a: '#a63a2e', b: '#c4574a' },
       { ic: '宅', tt: '风水布局', dd: '八宅八方、流年飞星、现代风水与化解', h: '#/fengshui', a: '#3d8574', b: '#7a9e7e' },
       { ic: '历', tt: '万年历', dd: '干支农历、建除宜忌、冲煞与三神方位', h: '#/almanac', a: '#cfa96a', b: '#7a9e7e' },
@@ -1261,6 +1262,11 @@
       '<div class="tools"><button class="btn" id="zwGo">排 盘</button></div>' +
       '<div class="res" id="zwOut"></div></div>';
   }
+  /* ---- 天纪讲义资料库：全量原话检索 + 讲次索引 ---- */
+  function viewTianji() {
+    return pbar('天纪讲义 · 倪海厦') + '<div class="card">' +
+      (ZW && ZW.libraryHtml ? ZW.libraryHtml() : '<div class="tip">讲义数据没加载上</div>') + '</div>';
+  }
   function renderZiwei() {
     var out = $('zwOut'); if (!out) return;
     track('#/ziwei');
@@ -1271,7 +1277,35 @@
     var t = today(), ds = t.y + '-' + t.m + '-' + t.d;
     try {
       var a = ZW.chart({ y: y, m: m, d: d, h: h, mi: mi, gender: g });
-      out.innerHTML = ZW.html(a, { y: y, m: m, d: d, h: h, mi: mi, gender: g }, ds);
+      /* 真实数据只算一次，页面展示、复制、易玄机白话全都吃这一份 */
+      var chartData = ZW.data(a, ds);
+      out.innerHTML = ZW.html(a, { y: y, m: m, d: d, h: h, mi: mi, gender: g }, ds, chartData);
+
+      /* 白话交给易玄机：把完整数据 + 古籍原文 + 《天纪》讲义一起递过去 */
+      var ex = $('zwExplain');
+      if (ex) ex.onclick = function () {
+        var o = $('zwAi'); if (!o) return;
+        askAI(ZW.explainPrompt(chartData), o, 'general', ex, null, '紫微盘白话', {
+          q: '把这张紫微盘讲成白话', noStyle: true, long: true
+        });
+      };
+      var cp = $('zwCopyData');
+      if (cp) cp.onclick = function () {
+        var txt = JSON.stringify(chartData, null, 2), msg = '命盘数据已复制', bad = '这台设备不让复制';
+        function nativeCopy() {
+          var N = window.YXJNative;
+          if (N && typeof N.copy === 'function') {
+            try { N.copy(txt); toast(msg); return true; } catch (e) { }
+          }
+          return false;
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(function () { toast(msg); }, function () {
+            if (!nativeCopy()) toast(bad);
+          });
+        } else if (!nativeCopy()) toast(bad);
+      };
+
       /* 跟八字页一个路子：排完盘，顺手能把这张盘带去问易玄机 */
       var card = out.querySelector('.card');
       if (card && ZW.brief) {
@@ -2487,6 +2521,7 @@
     gua: { t: '周易起卦', v: viewGua },
     bazi: { t: '生辰八字', v: viewBazi },
     ziwei: { t: '紫微斗数', v: viewZiwei },
+    tianji: { t: '天纪讲义', v: viewTianji },
     qimen: { t: '奇门遁甲', v: viewQimen },
     fengshui: { t: '风水布局', v: viewFengshui },
     almanac: { t: '万年历', v: viewAlmanac },
@@ -2545,6 +2580,7 @@
       }
       renderZiwei();
     }
+    if (h === 'tianji') { if (ZW && ZW.bindLibrary) ZW.bindLibrary(); }
     if (h === 'qimen') {
       $('qmGo').onclick = renderQimen;
       $('qmNow').onclick = function () { var t = today(); $('qmY').value = t.y; $('qmM').value = t.m; $('qmD').value = t.d; $('qmH').value = t.h; $('qmMi').value = t.mi; renderQimen(); };
